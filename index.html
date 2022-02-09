@@ -1,0 +1,237 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+<style>
+td{
+	font-size:11px;
+	padding:10px;
+}
+.ui.card, .ui.cards>.card{
+
+	border-radius: 0rem !important
+	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
+	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
+
+
+}
+/*span{*/
+/*	padding : 10px 0 10px 0;*/
+/*}*/
+th{
+	font-size:11px;
+}
+</style>
+
+
+<script>
+
+var numberWithCommas = function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+var getTimeTo__HHMMSS = function(date){
+	
+	date = date || new Date();
+	//var year = date.getFullYear();
+	//var month = date.getMonth() + 1;
+	//var day = date.getDate();
+	var hour = date.getHours();
+	var minute = date.getMinutes();
+	var second = date.getSeconds();
+
+	//month = month >= 10 ? month : '0' + month;
+	//day = day >= 10 ? day : '0' + day;
+	hour = hour >= 10 ? hour : '0' + hour;
+	minute = minute >= 10 ? minute : '0' + minute;
+	second = second >= 10 ? second : '0' + second;
+	var r = ( hour + minute + second ) * 1;
+
+	return r
+
+}
+
+var getTimeTo__YYYYMMDD = function(date){
+	
+	date = date || new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+//	var hour = date.getHours();
+//	var minute = date.getMinutes();
+//	var second = date.getSeconds();
+
+	month = month >= 10 ? month : '0' + month;
+	day = day >= 10 ? day : '0' + day;
+	//hour = hour >= 10 ? hour : '0' + hour;
+	//minute = minute >= 10 ? minute : '0' + minute;
+	//second = second >= 10 ? second : '0' + second;
+	var r = year + month + day
+
+	return r
+
+}
+
+
+function htmlToElement(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+
+var updateRank = function(){
+		
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , `http://112.144.208.118:8888/getMassTradRank?date=20220209`, true);
+		xhr.onreadystatechange = function(){
+
+			if( xhr.readyState == 4 && xhr.status == 200)
+			{
+
+				var d = JSON.parse( xhr.responseText )
+				window.RankData = d;
+				var _htmlTxt = ""
+				_htmlTxt +=`<table class="ui celled table compact">`			
+				var i = 0,iLen = d.length,io;
+				for(;i<iLen;++i){
+					io = d[ i ];
+					_htmlTxt +=`
+					<tr>
+						<td style="width:150px"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io._id}_end_up_tablet.png" load="lazy" width="150px"></td>
+						<td>${io.nm} / ${ numberWithCommas (io.total_pp )} / ${io.amt} / ${io.cnt}</td>
+					</td>
+					`
+				}
+				
+				_htmlTxt +=`</table>`
+				
+				window._el.id_trad_rank.innerHTML = _htmlTxt
+
+				setTimeout(function(){ updateRank()  },10000)
+			}
+		}
+
+		xhr.send();
+	
+}
+
+
+var upadteMassTradDataInsert = function( o ){
+			
+	if( !window.MassData[ o.cd ] ) window.MassData[ o.cd ] = {	total_pp : 0, cnt : 0,	data : {} }	
+
+	window.MassData[ o.cd ].data[ o._t ] = o._t
+	window.MassData[ o.cd ].total_pp += o.pp
+	window.MassData[ o.cd ].cnt += 1
+
+	var _html = `
+	<div class="card" style="padding: 10px;box-shadow: 0 0px 3px 0 #fff, 0 0 0 3px #fff !important;border-radius: 0rem !important;">
+		<div class="image">
+			<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${o.cd}_end_up_tablet.png" load="lazy" >
+		</div>
+		<div> ${o._id}--${o._t} / ${o.nm} / ${o.amt}  / ${numberWithCommas( o.pp )} </div>
+		<div style="position: absolute; background-color: #ff0000;color: #fff;padding: 5px;min-width: 30px;text-align: center;">${window.MassData[ o.cd ].cnt}</div>
+		<div> ${numberWithCommas( window.MassData[ o.cd ].total_pp )}</div>
+	</div>
+	`
+
+	var new_el = htmlToElement( _html )
+	
+	if( window._el.id_cards.childElementCount > 100 ) window._el.id_cards.lastElementChild.parentNode.removeChild( window._el.id_cards.lastElementChild )
+	window._el.id_cards.insertBefore( new_el,window._el.id_cards.firstChild )			
+
+	setTimeout(function(){
+		upadteMassTradDataInsertWatch()
+	},300)
+			
+}
+upadteMassTradDataInsertWatch = function(){
+
+	if( window._data.length == 0 ) 
+	{
+		return setTimeout(function(){
+				upadteMassTradDataInsertWatch()
+		},1000)
+	}
+	
+	var o = window._data.shift();
+	
+	upadteMassTradDataInsert( o );
+}
+
+
+var updateMassTradData = function(){
+
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , `http://112.144.208.118:8888/getMassTradCheck?date=20220209&lidx=${window.MassDataInfo.id}&limit=100`, true);
+		xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+			updateMassTradData.len = 0
+			updateMassTradData.cnt = 0
+
+            var a =JSON.parse(xhr.responseText);
+			
+
+
+			var  i =0,iLen = a.d.length,io;
+			for(;i<iLen;++i){
+				io = a.d[ i ]
+				window._data.push( io )
+			}
+
+			if( a.nxtId != -1 ) window.MassDataInfo.id = a.nxtId;
+
+			setTimeout(function(){
+				updateMassTradData();	
+			},1000)
+
+		}
+}
+		xhr.send();
+	
+	
+}
+
+
+window.onload = function(){ 
+
+	window._el = {}
+	window._el.id_trad_rank = window.document.getElementById( "trad_rank")
+	window._el.id_cards = window.document.getElementById("cards");
+
+	window.MassData = {};
+	window.MassDataRank = [];
+
+	window._data = [];
+
+	window.RankData = {};
+
+	window.chartData = [];
+	window.chartData_s = [];
+	window.MassDataInfo = {}
+	window.MassDataInfo.id = 0
+	window.stock = {};
+	window.stock_arr = [];
+
+
+	updateMassTradData();
+	upadteMassTradDataInsertWatch();
+	updateRank();
+
+}
+</script>
+<body style="padding:50px">
+<div class="ui grid">
+	<div class="four wide column" >
+		<div class="ui one stackable cards" id="trad_rank"></div>
+	</div>
+	<div class="twelve wide column" >
+		<div class="ui six stackable cards" id="cards"></div>
+	</div>
+</div>
+</body>
