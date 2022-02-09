@@ -1,0 +1,29 @@
+var db_nm = "insightByStock";
+
+var colNm = "<!=COL_NM=!>"
+var data = <!=DATA=!>
+
+var db0 = db.getSiblingDB( db_nm );
+var col__nm = db0.getCollection( colNm );
+
+col__nm.drop();
+
+var _ta = [];
+var s,so;
+for( s in data ){
+	so = data[ s ];
+	so._id = so.cd
+	if( _ta.length == 500 )
+	{
+		col__nm.insertMany( _ta );
+		_ta.length = 0;
+	}
+	else
+	{
+		_ta.push( so );
+	}
+	
+}
+col__nm.insertMany( _ta );
+
+printjson( 1 )

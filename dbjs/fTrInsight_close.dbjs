@@ -1,0 +1,45 @@
+var db_nm = "foreign_trader";
+var col_nm00 = "20220127";
+var col_nm01 = "realTime_insight";
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm00 );
+var col1 = db0.getCollection( col_nm01 );
+
+col1.drop();
+
+var o = {}
+
+var tt = {
+	"0" : "s"
+	, "1" : "b"
+}
+
+col0.find({}).allowDiskUse().forEach(function(d){
+    
+    if( !o[ d.nm ] ) o[ d.nm ]  = {};
+    if( !o[ d.nm ][ "trs" ] ) o[ d.nm ][ "trs" ] = {};
+    if( !o[ d.nm ][ "total" ] ) o[ d.nm ][ "total" ] = { pp : 0, s :0, b : 0 }
+    if( !o[ d.nm ][ "trs" ][ d.tr ] ) o[ d.nm ][ "trs" ][ d.tr ] = { s : 0, b : 0 };
+
+    o[ d.nm ][ "trs" ][ d.tr ][ tt[ d.tt ] ] += d.pp;
+    o[ d.nm ][ "total" ][ tt[ d.tt ] ] += d.pp;
+    o[ d.nm ][ "total" ].pp += d.pp;
+
+    o[ d.nm ].cd = d.cd
+    o[ d.nm ].nm = d.nm
+    //o[ d.nm ].rt = d.rt
+    //o[ d.nm ].ydt = d.ydt
+ })
+
+
+var arr = []
+var s,so
+for( s in o )
+{
+	so = o[ s ];
+	so._id = so.cd
+	col1.insert( so );
+}
+
+printjson( 1 )

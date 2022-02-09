@@ -1,0 +1,14 @@
+var db_nm = "insightByStock";
+var col_nm = "<!=DATE=!>";
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+
+var r = []; 
+//var sort = { "total.b" : -1,"agency[ '기관합계' ].NETBID_TRDVAL" : -1 }
+var sort = { "total.b" : -1 }
+col0.find({}).sort( sort ).limit(100).forEach(function(d){
+	r.push( d );
+})
+ 
+printjson( r )

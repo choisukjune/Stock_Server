@@ -1,0 +1,13 @@
+var db_nm = "foreign_trader";
+var col_nm = "20220127";
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+var r = []; 
+
+col0.find({cd:"323410",tr:"JP모간서울",tt:0}).forEach(function(d){
+	var _ta = [ d._ts, d.p * d.amt ]
+	r.push( _ta )
+})
+    
+printjson( r )

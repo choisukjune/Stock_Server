@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        
+    </body>
+	<div id="test"></div>
+    <script defer src="https://www.gstatic.com/firebasejs/4.6.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/4.6.1/firebase-database.js"></script>
+    <script>
+     window.onload = function(){ 
+		// Initialize Firebase
+        var config = {
+			apiKey: "AIzaSyAtgCcVE48F_MGHPl5HV6zOM0j8iUgts2w",
+			authDomain: "stock-acbde.firebaseapp.com",
+			databaseURL: "https://stock-acbde-default-rtdb.firebaseio.com",
+			projectId: "stock-acbde",
+			storageBucket: "stock-acbde.appspot.com",
+			messagingSenderId: "780289593527",
+			appId: "1:780289593527:web:0ff4cb0f83a1037c6d3d32",
+        };
+        firebase.initializeApp(config);
+
+        var rootRef = firebase.database().ref();
+
+        //1번 uid 비교
+        rootRef.child('users').child('1').once('value', function(data){
+            console.log('1번 :' , data.val());
+        });
+		
+		var a = window.document.getElementById("test")
+        //2번 이메일 찾기
+        rootRef.child('users').orderByChild('name').equalTo('aaaa').on('value', function(data){
+            console.log('2번 :' , data.val());
+			a.innerText = JSON.stringify(data.val(),null,3);
+        });
+
+            //var dbRef = firebase.database().ref().child("object");
+            //dbRef.on('value',snap => demo.innerHTML = snap.val());
+            //dbRef.on('value',snap => {
+            //    preObject.innerText = JSON.stringify(snap.val(),null,3);
+            //});
+
+        //3번 3개만 가져오기
+        rootRef.child('users').limitToFirst(3).once('value', function(data){
+            console.log('3번 :' , JSON.stringify( data.val() ));
+        });
+
+        //4번 이메일 S로 시작하는 유저 가져오기
+        rootRef.child('users').orderByChild('email').startAt('S').endAt('S\uf8ff').once('value', function(data){
+            console.log('4번 :' , data.val());
+        });
+
+        //5번 나이 30미만
+        rootRef.child('users').orderByChild('age').endAt(29).once('value', function(data){
+            console.log('5번 :' , data.val());
+        });
+
+        //6번 나이 30이상
+        rootRef.child('users').orderByChild('age').startAt(30).once('value', function(data){
+            console.log('6번 :' , data.val());
+        });
+
+        //7번 나이 19이상 30이하
+        rootRef.child('users').orderByChild('age').startAt(19).endAt(30).once('value', function(data){
+            console.log('7번 :' , data.val());
+        });
+
+        //8번 나이 19세 도시는 대전
+        rootRef.child('users').orderByChild('age_city').equalTo('19_Daejun').once('value', function(data){
+            console.log('8번 :' , data.val());
+        });
+
+
+
+}
+
+
+    </script>
+	
+</html>

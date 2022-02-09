@@ -1,0 +1,575 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+<style>
+td{
+	font-size:11px;
+	padding:10px;
+}
+.ui.card, .ui.cards>.card{
+
+	border-radius: 0rem !important
+	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
+	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
+
+
+}
+
+</style>
+
+
+<script>
+
+
+/*
+	A simple, lightweight jQuery plugin for creating sortable tables.
+	https://github.com/kylefox/jquery-tablesort
+	Version 0.0.11
+*/
+
+(function($) {
+	$.tablesort = function ($table, settings) {
+		var self = this;
+		this.$table = $table;
+		this.$thead = this.$table.find('thead');
+		this.settings = $.extend({}, $.tablesort.defaults, settings);
+		this.$sortCells = this.$thead.length > 0 ? this.$thead.find('th:not(.no-sort)') : this.$table.find('th:not(.no-sort)');
+		this.$sortCells.on('click.tablesort', function() {
+			self.sort($(this));
+		});
+		this.index = null;
+		this.$th = null;
+		this.direction = null;
+	};
+
+	$.tablesort.prototype = {
+
+		sort: function(th, direction) {
+			var start = new Date(),
+				self = this,
+				table = this.$table,
+				rowsContainer = table.find('tbody').length > 0 ? table.find('tbody') : table,
+				rows = rowsContainer.find('tr').has('td, th'),
+				cells = rows.find(':nth-child(' + (th.index() + 1) + ')').filter('td, th'),
+				sortBy = th.data().sortBy,
+				sortedMap = [];
+
+			var unsortedValues = cells.map(function(idx, cell) {
+				if (sortBy)
+					return (typeof sortBy === 'function') ? sortBy($(th), $(cell), self) : sortBy;
+				return ($(this).data().sortValue != null ? $(this).data().sortValue : $(this).text());
+			});
+			if (unsortedValues.length === 0) return;
+
+			//click on a different column
+			if (this.index !== th.index()) {
+				this.direction = 'asc';
+				this.index = th.index();
+			}
+			else if (direction !== 'asc' && direction !== 'desc')
+				this.direction = this.direction === 'asc' ? 'desc' : 'asc';
+			else
+				this.direction = direction;
+
+			direction = this.direction == 'asc' ? 1 : -1;
+
+			self.$table.trigger('tablesort:start', [self]);
+			self.log("Sorting by " + this.index + ' ' + this.direction);
+
+			// Try to force a browser redraw
+			self.$table.css("display");
+			// Run sorting asynchronously on a timeout to force browser redraw after
+			// `tablesort:start` callback. Also avoids locking up the browser too much.
+			setTimeout(function() {
+				self.$sortCells.removeClass(self.settings.asc + ' ' + self.settings.desc);
+				for (var i = 0, length = unsortedValues.length; i < length; i++)
+				{
+					sortedMap.push({
+						index: i,
+						cell: cells[i],
+						row: rows[i],
+						value: unsortedValues[i]
+					});
+				}
+
+				sortedMap.sort(function(a, b) {
+					return self.settings.compare(a.value, b.value) * direction;
+				});
+
+				$.each(sortedMap, function(i, entry) {
+					rowsContainer.append(entry.row);
+				});
+
+				th.addClass(self.settings[self.direction]);
+
+				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');
+				self.$table.trigger('tablesort:complete', [self]);
+				//Try to force a browser redraw
+				self.$table.css("display");
+			}, unsortedValues.length > 2000 ? 200 : 10);
+		},
+
+		log: function(msg) {
+			if(($.tablesort.DEBUG || this.settings.debug) && console && console.log) {
+				console.log('[tablesort] ' + msg);
+			}
+		},
+
+		destroy: function() {
+			this.$sortCells.off('click.tablesort');
+			this.$table.data('tablesort', null);
+			return null;
+		}
+
+	};
+
+	$.tablesort.DEBUG = false;
+
+	$.tablesort.defaults = {
+		debug: $.tablesort.DEBUG,
+		asc: 'sorted ascending',
+		desc: 'sorted descending',
+		compare: function(a, b) {
+			if (a > b) {
+				return 1;
+			} else if (a < b) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+	};
+
+	$.fn.tablesort = function(settings) {
+		var table, sortable, previous;
+		return this.each(function() {
+			table = $(this);
+			previous = table.data('tablesort');
+			if(previous) {
+				previous.destroy();
+			}
+			table.data('tablesort', new $.tablesort(table, settings));
+		});
+	};
+
+})(window.Zepto || window.jQuery);
+
+var numberWithCommas = function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+var getTimeTo__HHMMSS = function(date){
+	
+	date = date || new Date();
+	//var year = date.getFullYear();
+	//var month = date.getMonth() + 1;
+	//var day = date.getDate();
+	var hour = date.getHours();
+	var minute = date.getMinutes();
+	var second = date.getSeconds();
+
+	//month = month >= 10 ? month : '0' + month;
+	//day = day >= 10 ? day : '0' + day;
+	hour = hour >= 10 ? hour : '0' + hour;
+	minute = minute >= 10 ? minute : '0' + minute;
+	second = second >= 10 ? second : '0' + second;
+	var r = ( hour + minute + second ) * 1;
+
+	return r
+
+}
+
+var updateIndex = function(){
+		
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , "http://112.144.208.118:8887/getIndexInfo", true);
+
+		xhr.onreadystatechange = function() {
+
+			if(xhr.readyState == 4 && xhr.status == 200)
+
+			{
+	//			console.log( xhr.responseText )
+				var d = JSON.parse( xhr.responseText )
+				var _htmlTxt = ""
+				
+				var kospi = d.datas[0];
+				var kosdaq = d.datas[1];
+				
+				_htmlTxt += `<span style=";font-size:15px;">`
+				_htmlTxt += kospi.itemCode + '</span><br>'
+				_htmlTxt += `<span style="font-size:18px;">`
+				_htmlTxt += kospi.closePrice + '</span><br>'
+
+				if( kospi.compareToPreviousClosePrice > 0 ) _htmlTxt += `<span style="color:red;"> ▲ +`
+				else if( kospi.compareToPreviousClosePrice < 0 ) _htmlTxt += `<span style="color:blue;"> ▼ `
+				else if( kospi.compareToPreviousClosePrice == 0 ) _htmlTxt += `<span style="">`
+				
+				_htmlTxt += kospi.compareToPreviousClosePrice
+
+				if( kospi.compareToPreviousClosePrice > 0 ) _htmlTxt += `<span style="color:red;">   - ` + kospi.fluctuationsRatio + "%"
+				else if( kospi.compareToPreviousClosePrice < 0 ) _htmlTxt += `<span style="color:blue;">  + ` + kospi.fluctuationsRatio + "%"
+				else if( kospi.compareToPreviousClosePrice == 0 ) _htmlTxt += `<span style="">`
+
+				_htmlTxt += "</span><br>"
+				_htmlTxt += `<span style="font-size:14px;">` + kospi.localTradedAt + `</span>`;
+				var marketStatus = "장중"
+				if( kospi.marketStatus == "CLOSE"  ) marketStatus = "장마감"
+				_htmlTxt += `<span style="color:#ccc;font-size:14px;">` + marketStatus + `</span>`;
+			
+				window.document.getElementById( "kospi" ).innerHTML = _htmlTxt
+
+				var _htmlTxt = ""
+
+				_htmlTxt += `<span style="color:red;font-size:14px;">`
+				_htmlTxt += kosdaq.itemCode + '</span>'
+				_htmlTxt += `<span style="color:red;font-size:14px;">`
+				_htmlTxt += kosdaq.closePrice + '</span>'
+
+				if( kosdaq.compareToPreviousClosePrice > 0 ) _htmlTxt += `<span style="color:red;"> ▲ +`
+				else if( kosdaq.compareToPreviousClosePrice < 0 ) _htmlTxt += `<span style="color:blue;"> ▼ `
+				else if( kosdaq.compareToPreviousClosePrice == 0 ) _htmlTxt += `<span style="">`
+				
+				_htmlTxt += kosdaq.compareToPreviousClosePrice
+
+				if( kosdaq.compareToPreviousClosePrice > 0 ) _htmlTxt += `<span style="color:red;">   - ` + kosdaq.fluctuationsRatio + "%"
+				else if( kosdaq.compareToPreviousClosePrice < 0 ) _htmlTxt += `<span style="color:blue;">  + ` + kosdaq.fluctuationsRatio + "%"
+				else if( kosdaq.compareToPreviousClosePrice == 0 ) _htmlTxt += `<span style="">`
+
+				_htmlTxt += "</span>"
+				_htmlTxt += `<span style="color:red;font-size:14px;">` + kosdaq.localTradedAt + `</span>`;
+				var marketStatus = "장중"
+				if( kosdaq.marketStatus == "CLOSE"  ) marketStatus = "장마감"
+				_htmlTxt += `<span style="color:red;font-size:14px;">` + marketStatus + `</span>`;
+			
+				window.document.getElementById( "kosdaq" ).innerHTML = _htmlTxt
+
+			}
+
+		}
+
+		xhr.send();
+	
+	
+}
+updateIndex.cnt = 0;
+updateIndex.status = 0;
+
+
+var updateStock = function(){
+		
+		
+
+		var cd = window.stock_arr[ updateStock.cnt ];
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , "http://112.144.208.118:8887/getStockInfo?cd=" + cd, true);
+
+		xhr.onreadystatechange = function() {
+
+			if(xhr.readyState == 4 && xhr.status == 200)
+
+			{
+	//			console.log( xhr.responseText )
+				var d = JSON.parse( xhr.responseText )
+				var _htmlTxt = ""
+				
+				
+
+				var plusMinus = d.datas[0].compareToPreviousClosePrice.replace(/\,/gi,"") * 1
+				
+				
+				if( plusMinus > 0 ) _htmlTxt += `<span style="color:red;font-size:14px;">`
+				else if( plusMinus < 0 ) _htmlTxt += `<span style="color:blue;font-size:14px;">`
+				else if( plusMinus == 0 ) _htmlTxt += `<span style="font-size:14px;">`
+
+				_htmlTxt += d.datas[0].closePrice + '</span>'
+				
+
+				if( plusMinus > 0 ) _htmlTxt += `<span style="color:red;"> ▲ +`
+				else if( plusMinus < 0 ) _htmlTxt += `<span style="color:blue;"> ▼ `
+				else if( plusMinus == 0 ) _htmlTxt += `<span style="">`
+				
+				_htmlTxt += d.datas[0].compareToPreviousClosePrice
+				_htmlTxt += "(" + d.datas[0].fluctuationsRatio + "% )"
+				_htmlTxt += "</span>"
+
+				window.document.getElementById( cd ).innerHTML = _htmlTxt
+				if( updateStock.cnt == window.stock_arr.length - 1 )
+				{
+					console.log("업데이트끝")
+					updateStock.cnt = 0;
+					updateStock.status = 0;
+				}
+				else
+				{
+					++updateStock.cnt;
+					updateStock.status = 1
+					setTimeout(function(){ updateStock()  },300)
+				}
+			}
+
+		}
+
+		xhr.send();
+	
+	
+}
+updateStock.cnt = 0;
+updateStock.status = 0;
+
+window.chartData = [];
+window.charts = {}
+window.onload = function(){ 
+
+	var div00 = window.document.getElementById("div00");
+	var cards = window.document.getElementById("cards");
+	var xhr = new XMLHttpRequest();
+	
+	window.stock = {};
+	window.stock_arr = [];
+    xhr.open("GET" , encodeURI("http://112.144.208.118:8888/stockTest") , true);
+
+    xhr.onreadystatechange = function() {
+
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+            var a =JSON.parse(xhr.responseText);
+
+			var _html =`
+				<table class="ui sortable celled table compact">
+				<thead>
+					<tr>
+					  <th>종목</th>
+					  <th>매도</th>
+					  <th>매수</th>
+					  <th>순매수</th>
+					  <th>거래원</th>
+					</tr>
+				  </thead>
+				  <tbody>
+			`
+	
+			var html = "";
+			var i = 0,iLen = a.length,io;
+			for(;i<iLen;++i){
+				io = a[ i ];
+				window.stock[ io.cd ] = {};
+				if( window.stock_arr.indexOf( io.cd ) == -1 ) window.stock_arr.push( io.cd )
+				_html += "<tr>"
+			
+				_html += "<td style='width:100px;'><span style='font-size:15px;'><img class='chart' src='https://ssl.pstatic.net/imgfinance/chart/mobile/mini/" + io.cd + "_end_up_tablet.png' height='100' loading='lazy'></br>"
+				_html +=  io.nm + "</span>  (" + io.cd + ")<br>"
+				_html += "  <span id='" + io.cd + "'></span>"
+
+				_html += "</td>"
+				
+				_html += "  <td style='color:blue;'  data-sort-value='" + io.total[ "s" ] + "'>" + numberWithCommas( io.total[ "s" ] ) + "</td>"
+				//https://ssl.pstatic.net/imgfinance/chart/mobile/mini/035720_end_up_tablet.png
+				_html += "  <td style='color:red;'  data-sort-value='" + io.total[ "b" ] + "'>" + numberWithCommas( io.total[ "b" ] ) + "</td>"
+				
+				var pp = io.total[ "s" ] + io.total[ "b" ]
+				
+				var _chart_o = {
+					name: io.nm,
+					value: io.total[ "b" ],
+					children: []
+				}
+				
+
+				if( pp > 0 ) _html += "  <td style='color:red;'  data-sort-value='" + pp + "'>" + numberWithCommas( pp )  + "</td>"
+				if( pp == 0 ) _html += "  <td  data-sort-value='" + pp + "'>" + numberWithCommas( pp )  + "</td>"
+				if( pp < 0 ) _html += "  <td style='color:blue;'  data-sort-value='" + pp + "'>" + numberWithCommas( pp )  + "</td>"
+
+				//_html += "  </tr>"
+				//_html += "  <tr>"
+				//_html += `  <td colspan="5">`
+				_html += `  <td>`
+				_html += `  <div class="ui seven stackable cards">`
+				
+				var z,zo
+				for( z in io[ "trs" ] ){
+					zo = io[ "trs" ][ z ];
+					var _html00 = "";
+					_html00 += `<div class="card"  style="padding: 10px;box-shadow: 0 0px 3px 0 <!=COLOR=!>, 0 0 0 3px <!=COLOR=!> !important;border-radius: 0rem !important;">`
+					_html00 += "<span style='color:black'>" + z + "</span>"
+					var _t00 = 0;
+					if( zo[ "s" ] )
+					{
+						_html00 += "<span style='color:blue'>  * 매도 : " + numberWithCommas( zo[ "s" ] ) + "</span>"
+						_t00 = 	zo[ "s" ]
+					}
+					else
+					{
+						_html00 += "<span style='color:blue'>  * 매도 : 0</span>"
+					}
+					
+					var _t01 = 0;
+					if( zo[ "b" ] )
+					{
+						_html00 += "<span style='color:red'>  * 매수 : " + numberWithCommas( zo[ "b" ] ) + "</span>"
+						_t01 = 	zo[ "b" ]
+			
+					}
+					else
+					{
+						_html00 += "<span style='color:red'>  * 매수 : 0</span>"
+					}
+					//_html00 += `<div class="ui divider"></div>`
+					var pp = _t00 + _t01;
+					if( pp > 0 )
+					{
+						_html00 += "<span style='color:red'>  * 순매수 : " + numberWithCommas(pp)  + "</span>"
+						_html00 =_html00.replace(/<!=COLOR=!>/gi,"red")
+					}
+					else if( pp < 0 )
+					{
+						_html00 += "<span style='color:blue'>  * 순매수 : " + numberWithCommas(pp)  + "</span>"	
+						_html00 =_html00.replace(/<!=COLOR=!>/gi,"blue")
+					} 
+					else if( pp == 0 )
+					{
+						_html00 += "<span style='color:grey'>  * 순매수 : " + numberWithCommas(pp)  + "</span>"	
+						_html00 =_html00.replace(/<!=COLOR=!>/gi,"grey")
+					}
+					_html00 += `</div>`
+					_html += _html00;
+					//var __o = {
+					//	name: z,
+					//	value:  zo[ "b" ],
+					//	children: []
+					//}
+					//_chart_o.children.push( __o )
+				}
+				window.chartData.push( _chart_o )
+				_html += `  </div>`
+				_html += "</td>"
+				_html += "</tr>"	
+			}
+			_html += `
+			  </tbody>
+			  <!--tfoot>
+				<tr><th>3 People</th>
+				<th>2 Approved</th>
+				<th></th>
+			  </tr></tfoot-->
+			</table>
+			`
+			html += _html
+			cards.innerHTML = html
+			//file:///C:/Users/Administrator/Desktop/test.html
+			console.log("업데이트시작")
+			//updateStock()
+			updateIndex()
+			if( getTimeTo__HHMMSS() < 153100 )
+			{
+				setInterval(function(){
+					if( !updateStock.status )
+					{
+						console.log("업데이트시작")
+						//updateStock()
+					}
+					else
+					{
+						//console.log( "업데이트중" )
+					}
+				},30000)	
+			}
+			else
+			{
+				console.log( "장마감" )
+			}
+			
+
+			setInterval(function(){ updateIndex()},3000)
+			$('.sortable.table').tablesort();
+			var chartImgs = window.document.getElementsByClassName("chart");
+			
+			setInterval(function(){
+				var k = 0,kLen = chartImgs.length,ko;
+				for(;k<kLen;++k){
+					ko = chartImgs[ k ]
+					var _tsrc = ko.src
+					ko.src = _tsrc.split("?")[0] + "?" + Date.now();
+				}	
+			},60000)
+			
+		}
+		var dom = document.getElementById("container");
+
+		window.charts.chart00 = echarts.init(dom);
+		var app = {};
+
+		var option;
+
+
+
+		option = {
+		grid:{
+			height:1000	
+		},
+		  series: [
+			{
+			type: 'treemap',
+			width: "100%",//dom.offsetWidth,
+			height: "100%",//dom.offsetHeight,
+			
+label: {
+show: true ,
+},
+			breadcrumb : {
+				show : false,
+			},
+			  data: window.chartData
+			}
+		  ]
+
+		};
+		
+		if (option && typeof option === 'object') {
+					window.charts.chart00.setOption(option);
+					window.charts.chart00. showLoading({
+						maskColor: 'rgba(255, 255, 255, 1)'
+					});
+    	
+		}
+		window.charts.chart00.on('rendered', function () {
+					window.charts.chart00.resize();
+			 setTimeout(function(){
+				window.charts.chart00. hideLoading();
+			 },1000)
+		});
+
+	}
+		xhr.send();
+}
+window.onresize = function() {
+		window.charts.chart00.resize();    		
+  };
+</script>
+<body style="padding:50px">
+	
+ <p id="div00">외국인 매매 동향</p>
+
+
+<table>
+	<tr>
+		<td style="width:174px;">
+			<br>
+			<span id="kospi"></span>
+			<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/KOSPI_home.png" class="chart">
+			<span id="kosdaq"></span>
+			<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/KOSDAQ_home.png" class="chart">
+			<br>
+			<br>
+		</td>
+	<td id="container" style="width:100%;height: 100%;border:1px solid #000;">asdfasdf</td>	
+	</tr>	
+
+</table>
+
+<div class="ui three stackable cards" id="cards"></div>
+</body>

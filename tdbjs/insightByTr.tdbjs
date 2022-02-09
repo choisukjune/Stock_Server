@@ -1,0 +1,48 @@
+var db_nm_00 = "foreign_trader";
+var db_nm_01 = "insightByTr";
+
+var col_nm00 = "20220204";
+
+var db0 = db.getSiblingDB( db_nm_00 );
+var db1 = db.getSiblingDB( db_nm_01 );
+
+var col0 = db0.getCollection( col_nm00 );
+var col1 = db1.getCollection( col_nm00 );
+
+col1.drop();
+
+var o = {}
+
+var tt = {
+	"0" : "s"
+	, "1" : "b"
+}
+
+col0.find({}).forEach(function(d){
+    
+    if( !o[ d.tr ] ) o[ d.tr ]  = {};
+    if( !o[ d.tr ][ "sts" ] ) o[ d.tr ][ "sts" ] = {};
+    if( !o[ d.tr ][ "total" ] ) o[ d.tr ][ "total" ] = { pp : 0, s :0, b : 0 }
+    if( !o[ d.tr ][ "sts" ][ d.nm ] ) o[ d.tr ][ "sts" ][ d.nm ] = { s : 0, b : 0, cd : d.cd };
+
+    o[ d.tr ][ "sts" ][ d.nm ][ tt[ d.tt ] ] += d.pp;
+    o[ d.tr ][ "total" ][ tt[ d.tt ] ] += d.pp;
+    o[ d.tr ][ "total" ].pp += d.pp;
+
+    //o[ d.tr ].cd = null
+    o[ d.tr ].nm = d.tr
+    //o[ d.tr ].rt = d.rt
+    //o[ d.tr ].ydt = d.ydt
+ })
+
+
+var arr = []
+var s,so
+for( s in o )
+{
+	so = o[ s ];
+	so._id = so.nm
+	col1.insert( so );
+}
+
+printjson( 1 )

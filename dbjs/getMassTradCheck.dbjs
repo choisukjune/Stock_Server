@@ -1,0 +1,29 @@
+var db_nm = "mass_trad";
+var col_nm = "20220209";
+var lidx = 28364
+var limit = 100
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+
+var r = []; 
+
+var _q = { _id: { $gt : lidx } };
+if( lidx == 0 ) _q = {};
+var _sort = { _id : -1 };
+
+var nextId = lidx
+var total = col0.find().count()
+var a = 0;
+col0.find( _q ).limit(limit).sort( _sort ).forEach(function(d){
+	r.push( d );
+	
+	if( a == 0 )
+	{
+		nextId = d._id
+		++a;
+	}
+	
+})
+ 
+printjson( { total : total, cnt : r.length, d : r.reverse() ,nxtId : nextId} )

@@ -1,0 +1,57 @@
+var db_nm = "mass_trad";
+var db_nm_rank = "mass_trad_rank";
+
+var data = <!=DATA=!>
+var db0 = db.getSiblingDB( db_nm );
+var db1 = db.getSiblingDB( db_nm_rank );
+
+var col_nm = db0.getCollection( "<!=DATE=!>" );
+var col_rank = db1.getCollection( "<!=DATE=!>" );
+
+col_nm.drop();
+col_rank.drop();
+
+var _ta = [];
+var i = 0,iLen = data.length,io;
+for(;i<iLen;++i){
+	io = data[ i ];
+	io._id = NumberInt( i + 1 );
+	
+	_ta.push( io );
+
+	if( _ta.length == 500 )
+	{
+		col_nm.insertMany( _ta );
+		_ta = [];
+	}
+	
+	
+}
+col_nm.insertMany( _ta );
+
+var o = {}
+col_nm.find({}).forEach(function(d){
+	if( !o[ d.cd ] ) o[ d.cd ] = { nm : d.nm, total_pp : 0, amt : 0, cnt : 0, data : [] }
+	o[ d.cd ]._id = d.cd
+	o[ d.cd ].total_pp += d.pp
+	o[ d.cd ].amt += d.amt
+	o[ d.cd ].cnt += 1
+	o[ d.cd ].data.push( { _t : d._t, pp : d.pp, amt : d.amt } )
+})
+
+var _ta = [];
+var a,so
+for( s in o ){
+	so = o[ s ];
+	_ta.push( so );
+	if( _ta.length == 500 )
+	{
+		col_rank.insertMany( _ta );
+		_ta = [];
+	}
+	
+	
+}
+col_rank.insertMany( _ta );
+
+printjson( 1 )

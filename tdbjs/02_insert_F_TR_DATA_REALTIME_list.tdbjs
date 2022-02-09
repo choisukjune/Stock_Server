@@ -1,0 +1,27 @@
+var db_nm = "foreign_trader";
+
+var data = <!=DATA=!>
+var db0 = db.getSiblingDB( db_nm );
+var col__nm = db0.getCollection( "<!=COL_NM=!>" );
+
+col__nm.drop();
+
+var _ta = [];
+var i = 0,iLen = data.length,io;
+for(;i<iLen;++i){
+	io = data[ i ];
+	//io._id = NumberInt( io._id );
+	
+	_ta.push( io );
+
+	if( _ta.length == 500 )
+	{
+		col__nm.insertMany( _ta );
+		_ta = [];
+	}
+	
+	
+}
+col__nm.insertMany( _ta );
+
+printjson( 1 )

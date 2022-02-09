@@ -1,0 +1,78 @@
+var db_nm_00 = "foreign_trader";
+var db_nm_01 = "insightByStock";
+var db_nm_02 = "stock_sise"
+var db_nm_03 = "stock_agency"
+
+var col_nm00 = "20220204";
+//var col_nm01 = "realTime_insight";
+
+var db0 = db.getSiblingDB( db_nm_00 );
+var db1 = db.getSiblingDB( db_nm_01 );
+var db2 = db.getSiblingDB( db_nm_02 );
+var db3 = db.getSiblingDB( db_nm_03 );
+
+var col0 = db0.getCollection( col_nm00 );
+var col1 = db1.getCollection( col_nm00 );
+var col2 = db2.getCollection( col_nm00 );
+var col3 = db3.getCollection( col_nm00 );
+var col4 = db1.getCollection( col_nm00 + "_00" );
+
+col1.drop();
+
+var o = {}
+
+var tt = {
+	"0" : "s"
+	, "1" : "b"
+}
+
+col0.find({}).forEach(function(d){
+
+	if( !o[ d.nm ] ) o[ d.nm ]  = {};
+	if( !o[ d.nm ][ "trs" ] ) o[ d.nm ][ "trs" ] = {};
+	if( !o[ d.nm ][ "total" ] ) o[ d.nm ][ "total" ] = { pp : 0, s :0, b : 0 }
+	if( !o[ d.nm ][ "trs" ][ d.tr ] ) o[ d.nm ][ "trs" ][ d.tr ] = { s : 0, b : 0 };
+
+	o[ d.nm ][ "trs" ][ d.tr ][ tt[ d.tt ] ] += d.pp;
+	o[ d.nm ][ "total" ][ tt[ d.tt ] ] += d.pp;
+	o[ d.nm ][ "total" ].pp += d.pp;
+
+	o[ d.nm ].cd = d.cd
+	o[ d.nm ].nm = d.nm
+
+	//o[ d.nm ].rt = d.rt
+	//o[ d.nm ].ydt = d.ydt
+	
+})
+
+
+var arr = []
+var s,so
+for( s in o )
+{
+	so = o[ s ];
+	so._id = so.cd
+	col1.insert( so );
+}
+
+
+var _so = {};
+col2.find({}).forEach(function(d){
+
+        _so[ d._id ] = d
+})
+
+var _so1 = {};
+col3.find({}).forEach(function(d){
+
+        _so1[ d._id ] = d.data
+})
+
+col1.find({}).forEach(function(d){
+
+	d.fa = _so1[ d.cd ][ "기관합계" ]
+	col4.insert(d)
+	
+})
+
+printjson( 1 )

@@ -1,0 +1,43 @@
+var db_nm = "foreign_trader";
+
+var data = []
+var db0 = db.getSiblingDB( db_nm );
+var col__nm = db0.getCollection( "realTime" );
+
+var _ta = [];
+var i = 0,iLen = data.length,io;
+for(;i<iLen;++i){
+	io = data[ i ];
+	io._t = NumberInt( io._t );
+	if( _ta.length == 500 )
+	{
+		try
+		{
+			col__nm.insertMany( _ta,{ordered:false} );
+			//col__nm.insert( io );
+		}
+		catch(e)
+		{
+			//
+			_ta = []
+			break
+		}
+		_ta = [];
+	}
+	else
+	{
+		_ta.push( io );
+	}
+	
+}
+try
+{
+	col__nm.insertMany( _ta,{ordered:false} );
+	//col__nm.insert( io );
+}
+catch(e)
+{
+	//
+}
+
+printjson( 1 )

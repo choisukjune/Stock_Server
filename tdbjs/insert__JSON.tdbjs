@@ -1,0 +1,25 @@
+var db_nm = "<!=DB_NM=!>";
+var data = <!=DATA=!>
+var colNm = "<!=COL_NM=!>"
+var db0 = db.getSiblingDB( db_nm );
+var col__nm = db0.getCollection( colNm );
+
+var _ta = [];
+var i = 0,iLen = data.length,io;
+for(;i<iLen;++i){
+	io = data[ i ];
+	
+	if( _ta.length == 500 )
+	{
+		col__nm.insertMany( _ta );
+		_ta = [];
+	}
+	else
+	{
+		_ta.push( io );
+	}
+	
+}
+col__nm.insertMany( _ta );
+
+printjson( 1 )
