@@ -116,34 +116,32 @@ console.log( "[ S ] - " + Date.now() );
 
 var _ROOT_PATH = process.cwd();
 
-var target_date = process.argv[3];
-var fileNm = process.argv[2];
+var cd = process.argv[2];
 
 var _forder_root = './data/05/';
-var target_folder = _forder_root + target_date;
-var target_folder_csv = _forder_root + target_date + "/csv/"; 
-var target_folder_json = _forder_root + target_date + "/json/"; 
-var target_folder_bak = _forder_root + target_date + "/bak/"; 
+var target_folder = _forder_root;
+var target_folder_csv = _forder_root + "csv/"; 
+var target_folder_json = _forder_root + "json/"; 
+var target_folder_bak = _forder_root + "bak/"; 
 
 global.target_file_list = fs.readdirSync( target_folder_csv )
 
 
 global._to = {};
 
-var csvToJson = function( fileNm, folderNm ){
+var csvToJson = function( fileNm ){
 	global.arr = [];	
 	if( !fileNm ) return;
 	console.log( fileNm )
-	folderNm = folderNm || target_date
 
 	var filePath = target_folder_csv + fileNm;
 	
-	if( !fs.existsSync( _forder_root + folderNm ) )
+	if( !fs.existsSync( _forder_root ) )
 	{
-		fs.mkdirSync( _forder_root + folderNm );
-		fs.mkdirSync( _forder_root + folderNm + "/csv" );
-		fs.mkdirSync( _forder_root + folderNm + "/json" );
-		fs.mkdirSync( _forder_root + folderNm + "/bak" );
+		fs.mkdirSync( _forder_root);
+		fs.mkdirSync( _forder_root + "/csv" );
+		fs.mkdirSync( _forder_root + "/json" );
+		fs.mkdirSync( _forder_root + "/bak" );
 	}
 
 	console.log( dateFormat_YYMMDD_HHMMSS() )
@@ -210,21 +208,22 @@ var csvToJson = function( fileNm, folderNm ){
 	}	
 	
 	console.log( "[ E ] - " + Date.now() );
+	fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify(global.arr,null,4),{flag :'w'} )	
 
-	if( target_file_list.length - 1 == csvToJson.cnt )
-	{
-		console.log( "end" )
-		fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify(global.arr,null,4),{flag :'w'} )	
-		global.arr = [];
+	//if( target_file_list.length - 1 == csvToJson.cnt )
+	//{
+	//	console.log( "end" )
+	//	
+	//	global.arr = [];
 
-		csvToJson.cnt = 0
-		//logic();
-	}
-	else
-	{
-		++csvToJson.cnt;
-		csvToJson( fileNm, target_date )
-	}
+	//	csvToJson.cnt = 0
+	//	//logic();
+	//}
+	//else
+	//{
+	//	++csvToJson.cnt;
+	//	csvToJson( fileNm )
+	//}
 
 }
 csvToJson.cnt = 0;
@@ -247,4 +246,4 @@ csvToJson.cnt = 0;
 
 //logic();
 
-csvToJson( fileNm, target_date )	
+csvToJson( cd )	

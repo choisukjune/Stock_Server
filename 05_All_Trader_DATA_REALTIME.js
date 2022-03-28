@@ -126,26 +126,48 @@ var _forder_root_01 = 'D:/dev/krx_stock_info/data/sise/';
 var target_folder_json = _forder_root_01 + target_date + "/json/"; 
 //var target_folder_bak = _forder_root + target_date + "/bak/"; 
 
-var _arr = fs.readFileSync( target_folder_json + "cds.json")
+var _arr = fs.readFileSync( "./allStockCode.json")
 	arr = JSON.parse( _arr )
-console.log(arr)
+var startTime = new Date()
 
+var spawn = require('child_process').spawn
 var FN01 = function( cd ){
-	console.log( cd )
-	console.log( arr.length + " / " + FN01.cnt );
-	var command = `05.bat ${cd}`
-	console.log( command )
-	var r = execSync( command );
-	console.log( iconv.decode( r, 'EUC-KR').toString() );
-	++FN01.cnt;
-	if(arr.length - 1 == FN01.cnt )
-	{
-		console.log("end");
-		return;
-	}
-	FN01( arr[ FN01.cnt ] );
+
+	console.log( arr.length + " / " + FN01.cnt + " - " + cd );
+	//var command = `call "c:\\Program Files\\AutoHotkey\\AutoHotkey.exe" 05_make_stock_by_trader.ahk ${cd}`
 	
+	//var r = execSync( command );
+	////console.log( iconv.decode( r, 'EUC-KR').toString() );
+	
+	var cmd = spawn('cmd', ['/c','c:\\Program Files\\AutoHotkey\\AutoHotkey.exe' ,'05_make_stock_by_trader.ahk',cd],{shell:false});
+	cmd.stdout.on('data', function(data) {
+		console.log('stdout: ' + data);
+	});
+	 
+	cmd.stderr.on('data', function(data) {
+		console.log('stderr: ' + data);
+	});
+	 
+	cmd.on('exit', function(code) {
+		console.log('exit: ' + code);
+
+		++FN01.cnt;
+	
+		if(arr.length - 1 == FN01.cnt )
+		{
+			console.log("end");
+			console.log( "startTime : " + startTime )
+			console.log( "endTime : " + new Date() )
+			return;
+		}
+
+		FN01( arr[ FN01.cnt ] );
+	});
+
 }
 FN01.cnt = 0;
 
 FN01( arr[ FN01.cnt ] );
+
+
+ 

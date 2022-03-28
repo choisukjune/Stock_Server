@@ -1,0 +1,14 @@
+var db_nm = "trad_data";
+var col_nm = "data";
+var date = 20220328
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+
+var r = []; 
+var _q = { _t : date }
+var sort = { "pp.tr9" : -1 }
+col0.find( _q ).sort( sort ).limit(100).forEach(function(d){
+	r.push( d );
+})
+ 
+printjson( r )

@@ -213,21 +213,20 @@ var target_folder_bak = _forder_root + target_date + "/bak/";
 
 global.target_file_list = fs.readdirSync( target_folder_json ).reverse();
 
+
+var _tDbjs = {
+	"" : "02_insert_F_TR_DATA_REALTIME",
+	"list" : "02_insert_F_TR_DATA_REALTIME_list",
+	"byTrs" : "02_insert_F_TR_DATA_REALTIME_byTrs",
+}
+
 var JSONtoDb = function( filename ){
 
 	console.log( "[ S ] - " + Date.now() );
 	console.log( filename )
 	var filePath = target_folder_json + filename;
 	
-	if( filename.indexOf( "_list" ) == -1 )
-	{
-		var _tdbjs_nm = "02_insert_F_TR_DATA_REALTIME";	
-	}
-	else
-	{
-		var _tdbjs_nm = "02_insert_F_TR_DATA_REALTIME_list";
-	}
-	
+	var _tdbjs_nm = "02_insert_F_TR_DATA_REALTIME_" + filename.split(".")[0].split("_")[1];
 	
 	var _tQuery = fs.readFileSync( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ).toString();
 	var data = fs.readFileSync( filePath ).toString();

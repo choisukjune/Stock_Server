@@ -1,0 +1,42 @@
+var db_nm = "mass_trad_01";
+var db_nm01 = "mass_trad_rank_01";
+var col_nm = "<!=COL_NM=!>";
+var lidx = <!=LAST_IDX=!>
+var limit = <!=LIMIT=!>
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+
+var db1 = db.getSiblingDB( db_nm01 );
+var col1 = db1.getCollection( col_nm );
+
+
+var r = []; 
+
+var _q = { _id: { $gt : lidx } };
+//var _q = {};
+if( lidx == 0 ) _q = {};
+var _sort = { _id : -1 };
+
+var _o = {};
+
+col1.find().forEach(function(d){
+	_o[ d._id ] = d
+})
+
+var nextId = lidx
+var total = col0.find().count()
+if( total == lidx )
+{
+	nextId = -1;
+}
+
+col0.find( _q ).limit(limit).sort( _sort ).forEach(function(d){
+	
+	if( _o[ d.cd ] ) d.total = _o[ d.cd ];
+	else d.total = null;
+	r.push( d );
+	
+})
+ 
+printjson( { total : total, cnt : r.length, d : r.reverse() ,nxtId : nextId} )

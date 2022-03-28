@@ -107,6 +107,16 @@ var dateFormat_YYMMDD = function( date ){
 	return YYYY + MM + DD;// + H +  M + S;
 };
 
+var dateString_YYYYMMDD = function( str ){
+	
+	var YYYY = str.slice(0,4)
+	var MM = str.slice(4,6)
+	var DD = str.slice(6,8)
+
+	return YYYY + "-" + MM + "-" + DD;
+
+}
+
 var pad = function(n, width){
 	n = n + '';
 	return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
@@ -173,16 +183,22 @@ var csvToJson = function( fileNm, folderNm ){
 15:19:57	'073640	테라사이언스	"2,180"	"4.81%"	"21,937"	체결
 15:19:57	'094940	푸른기술	"9,420"	"1.73%"	"1,449"	체결
 */
-		
+		var toTimestamp = function( str){
+			var dt = Date.parse( str )
+				return dt
+		}
 		var _o ={
-			_t : _d00[ 0 ].replace(/\:/gi,"")
+			_t :  dateString_YYYYMMDD( target_date ) + "T" + _d00[ 0 ]//.replace(/\:/gi,"")
+			//_t :  _d00[ 0 ]//.replace(/\:/gi,"")
 			, cd : _d00[ 1 ].replace(/\'/gi,"")
 			, nm : _d00[ 2 ]
 			, price : _d00[ 3 ].replace(/\,/gi,"") * 1
 			, amt : _d00[ 5 ].replace(/\,/gi,"") * 1
 			, rt : parseFloat( _d00[ 4 ].replace(/\"/gi,"").replace(/\%/gi,"") )
 			, ogText : io
+			, type : 1
 		}
+
 		_o.pp = _o.amt * _o.price
 		_o.ist_dt = dateFormat_Object();
 
@@ -198,13 +214,17 @@ var csvToJson = function( fileNm, folderNm ){
 		console.log( "end" )
 		fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify(global.arr.reverse() ),{flag :'w'} )	
 		
-		var command = "node 06_insert_mass_trns_DATA_REALTIME.js " + target_date;
-		var r = execSync( command );
-		console.log( iconv.decode( r, 'EUC-KR').toString() );
-		
-		global.arr = [];
+		//makeRankData( global.arr, fileNm, function(){
+			var command = "node 06_insert_mass_trns_DATA_REALTIME.js " + target_date;
+			var r = execSync( command );
+			console.log( iconv.decode( r, 'EUC-KR').toString() );
+			
+			global.arr = [];
 
-		csvToJson.cnt = 0
+			csvToJson.cnt = 0	
+		//})
+		
+		
 		//logic();
 	}
 	else
@@ -215,6 +235,32 @@ var csvToJson = function( fileNm, folderNm ){
 
 }
 csvToJson.cnt = 0;
+
+//var makeRankData = function( arr,fileNm ){
+
+//	var  o = {}
+//	var i = 0,iLen = arr.length,io;
+//	for(;i<iLen;++i){
+//		io = arr[ i ];
+//		if( !o[ io.cd ] ) o[ io.cd ] = { nm : io.nm, total_pp : 0, amt : 0, cnt : 0, data : [] }
+//		o[ io.cd ]._id = io.cd
+//		o[ io.cd ].total_pp += io.pp
+//		o[ io.cd ].amt += io.amt
+//		o[ io.cd ].cnt += 1
+//		o[ io.cd ].data.push( { _t : io._t, pp : io.pp, amt : io.amt } )
+//	}
+
+//	var r = [];
+//	var s,so;
+//	for( s in o ){
+//		so = o[ s ];
+//		r.push( so );
+//	}
+//	var _r = r.sort(function(a,b){ return a.pp - b.pp })
+//	fs.writeFileSync( target_folder_json + fileNm + "_rank.json", JSON.stringify( _r,null,4 ),{flag :'w'} )	
+
+//}
+
 
 //var logic = function(){
 //	global.target_file_list = fs.readdirSync( target_folder_csv )

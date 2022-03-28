@@ -182,14 +182,26 @@ var csvToJson = function( fileNm, folderNm ){
 			, s_amt : _d00[ 6 ].replace(/\"/gi,"").replace(/\,/gi,"").replace(/\+/gi,"") * 1
 			, p : _d00[ 7 ].replace(/\"/gi,"").replace(/\,/gi,"") * 1
 			, tt : ""
-			, ydt : _d00[ 8 ].replace(/\"/gi,"").replace(/\,/gi,"") * 1
-			, rt : parseFloat( _d00[ 9 ].replace(/\"/gi,"") )
+			, ydt : _d00[ 9 ].replace(/\"/gi,"").replace(/\,/gi,"") * 1
+			, rt : parseFloat( _d00[ 10 ].replace(/\"/gi,"") )
 			, ogText : io
 		}	
 		}
 		catch( er )
 		{
-			console.log( io)
+//			console.error( er )
+//			console.log( io )
+//console.log( "_d00[ 1  ] : " + _d00[ 1  ] )
+//console.log( "_d00[ 2  ] : " + _d00[ 2  ] )
+//console.log( "_d00[ 3  ] : " + _d00[ 3  ] )
+//console.log( "_d00[ 4  ] : " + _d00[ 4  ] )
+//console.log( "_d00[ 5  ] : " + _d00[ 5  ] )
+//console.log( "_d00[ 6  ] : " + _d00[ 6  ] )
+//console.log( "_d00[ 7  ] : " + _d00[ 7  ] )
+//console.log( "_d00[ 8  ] : " + _d00[ 8  ] )
+//console.log( "_d00[ 9  ] : " + _d00[ 9  ] )
+//console.log( "_d00[ 10 ] : " + _d00[ 10 ] )
+//console.log( "_d00[ 11 ] : " + _d00[ 11 ] )
 
 		}
 		
@@ -260,6 +272,7 @@ csvToJson.cnt = 0;
 var FN01 = function( arr,fileNm ){
 	console.log( "FN01" )
 	var o = {}
+	var o00 = {}
 
 	var tt = {
 	"0" : "s"
@@ -305,33 +318,39 @@ var FN01 = function( arr,fileNm ){
 		o[ io.cd ][ "total" ].pp_amt += io.amt;
 
 		o[ io.cd ].cd = io.cd
-		o[ io.cd ].nm = io.nm
-
-		o[ io.cd ].agency = {};//_o_agencyInfo[ io.cd ]
-		
-		try
-		{
-			o[ io.cd ].sum_fa ={
-				f : o[ io.cd ][ "total" ].pp + io.pp,
-				a : 0,//_o_agencyInfo[ io.cd ][ "기관합계" ].NETBID_TRDVAL,
-				t : o[ io.cd ][ "total" ].pp + io.pp// + _o_agencyInfo[ io.cd ][ "기관합계" ].NETBID_TRDVAL
-			};	
-		}
-		catch(er)
-		{
-			continue;
-		}
-		
-		
-		//debugger;
-		o[ io.cd ].sise = {}//_o_siseInfo[ io.cd ]
-
-		
+		o[ io.cd ].nm = io.nm		
 	}
 	
+	var i = 0, iLen = arr.length,io;
+	for(;i<iLen;++i){
+		io = arr[ i ]
+	
+		if( !o00[ io.tr ] ) o00[ io.tr ]  = {};
+		if( !o00[ io.tr ][ "stocks" ] ) o00[ io.tr ][ "stocks" ] = {};
+		if( !o00[ io.tr ][ "total" ] ) o00[ io.tr ][ "total" ] = { pp : 0, s :0, b : 0,pp_amt:0, s_amt : 0, b_amt : 0 }
+		if( !o00[ io.tr ][ "stocks" ][ io.cd ] )
+		{
+			o00[ io.tr ][ "stocks" ][ io.cd ] = { 
+				s : 0, b : 0, s_amt : 0, b_amt : 0,
+				cd : io.cd, nm : io.nm
+			};	
+		}
+
+		o00[ io.tr ][ "stocks" ][ io.cd ][ tt[ io.tt ] ] += io.pp;
+		o00[ io.tr ][ "stocks" ][ io.cd ][ tt[ io.tt ] + "_amt" ] += io.amt;
+		o00[ io.tr ][ "total" ][ tt[ io.tt ] ] += io.pp;
+		o00[ io.tr ][ "total" ][ tt[ io.tt ] + "_amt" ] += io.amt;
+		o00[ io.tr ][ "total" ].pp += io.pp;
+		o00[ io.tr ][ "total" ].pp_amt += io.amt;
+
+		//o00[ io.tr ].cd = io.cd
+		o00[ io.tr ].nm = io.tr	
+	}
 
 
-	fs.writeFileSync( target_folder_json + target_date + ".json", JSON.stringify(o,null,4),{flag :'w'} )	
+
+	fs.writeFileSync( target_folder_json + target_date + "_bySt.json", JSON.stringify(o,null,4),{flag :'w'} )
+	fs.writeFileSync( target_folder_json + target_date + "_byTr.json", JSON.stringify(o00,null,4),{flag :'w'} )
 
 	
 }

@@ -1,0 +1,66 @@
+var tDb = db.getSiblingDB("insightByStock")
+var insightByStock_avg = db.getSiblingDB("insightByStock_avg")
+
+var cols = tDb.getCollectionNames()
+var inSight_5day = insightByStock_avg.getCollection( "inSight_5day" )
+var tCols = cols.reverse().slice(0,5)
+var i = 0,iLen = tCols.length,io;
+var r = {}
+for(;i<iLen;++i){
+    io = tCols[ i ];
+    print( io )
+    tDb.getCollection( io ).find().forEach(function(d){
+    
+        if( !r[ d.cd ] )
+        {
+            r[ d.cd ] = {
+                start : tCols[ cols.length - 1 ],
+                end : tCols[0],
+                nm : d.nm,
+                cd : d.cd,
+                trds : {}
+            };
+        }
+        var s,so;
+        for( s in d.trs ){
+            so = d.trs[ s ];
+            if( !r[ d.cd ][ "trds" ][ s ] )
+            {
+                r[ d.cd ][ "trds" ][ s ] = {
+                    ppPrice : so.b + so.s,
+                    ppVolume : so.b_amt + so.s_amt,
+                    avgPrice : ( so.b + so.s ) / ( so.b_amt + so.s_amt )
+                };
+            }
+            else
+            {
+                
+                r[ d.cd ][ "trds" ][ s ].ppPrice += ( so.b + so.s )
+                r[ d.cd ][ "trds" ][ s ].ppVolume += so.b_amt + so.s_amt
+                r[ d.cd ][ "trds" ][ s ].avgPrice = r[ d.cd ][ "trds" ][ s ].ppPrice / r[ d.cd ][ "trds" ][ s ].ppVolume
+            };
+                
+        }
+            
+    });
+}
+
+inSight_5day.drop();
+
+var _ta = [];
+var s,so;
+for( s in r ){
+	so = r[ s ];
+	so._id = s
+	if( _ta.length == 500 )
+	{
+		inSight_5day.insertMany( _ta );
+		_ta.length = 0;
+	}
+	else
+	{
+		_ta.push( so );
+	}
+	
+}
+inSight_5day.insertMany( _ta );

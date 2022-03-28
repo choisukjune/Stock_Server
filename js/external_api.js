@@ -179,7 +179,7 @@ var pad = function(n, width){
 		http://localhost:8888/find?brand=varihope&page=1
 	* </code>
 	*/
-	global.server.addRouter("/getNewsByCd",function( req, res ){
+	global.server.addRouter("/getNewsByCdFromDaum",function( req, res ){
 
 		var routerNm = req.url.split("?")[0];
 		var paramsO = paramToObject( req.url );
@@ -193,14 +193,562 @@ var pad = function(n, width){
 		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
 		http.get( url + '/getAllStockInfo?cd=' + paramsO.cd, function(response){
 			response.setEncoding('utf8');
-			response.on('data', function (body) {
 
-				res.end( body.toString("utf-8") )	
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
 			});
 		});
 		
 
 	})
+	/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getCandle5",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
+		http.get( url + '/getCandle5?cd=' + paramsO.cd, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+	/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getTraderRank",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
+		http.get( url + '/getTraderRank?cd=' + paramsO.cd, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+		/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getStockInfoByCd",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
+		http.get( url + '/getStockInfoByCd?cd=' + paramsO.cd, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+
+		/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getWicsData",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		//var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
+		//http.get( url + '/getWicsData?cd=' + paramsO.cd, function(response){
+		http.get( url + '/getWicsData', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+	/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getWicsDataByCd",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
+		http.get( url + '/getWicsDataByCd?cd=' + paramsO.cd, function(response){
+		
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+	})
+			/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/getMarketIndex
+	* </code>
+	*/
+	global.server.addRouter("/getMarketIndex",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		//var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
+		//http.get( url + '/getWicsData?cd=' + paramsO.cd, function(response){
+		http.get( url + '/getMarketIndex', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+			/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/getMarketIndexGlobal
+	* </code>
+	*/
+	global.server.addRouter("/getMarketIndexGlobal",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		//var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
+		//http.get( url + '/getWicsData?cd=' + paramsO.cd, function(response){
+		http.get( url + '/getMarketIndexGlobal', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+	/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getStockSearch",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		debugger;
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol + global.CONST.SERVER.CRWALER.DAUM.host + ":" + global.CONST.SERVER.CRWALER.DAUM.port
+		http.get( url + '/getStockSearch?q=' + paramsO.q, function(response){
+			response.setEncoding('utf8');
+			debugger;
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+
+		/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getNewsByCdFromNaver",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getNewsByCd?cd=' + paramsO.cd, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+				/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getCandleDataByCd",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getCandleDataByCd?cd=' + paramsO.cd + "&startTime=" + paramsO.startTime + "&endTime=" + paramsO.endTime, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+
+					/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getAllStockInfo",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.KRX.protocol + global.CONST.SERVER.CRWALER.KRX.host + ":" + global.CONST.SERVER.CRWALER.KRX.port
+		http.get( url + `/getAllStockInfo`, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+	})
+
 		/**
 	 * 쿼리파일을 실행하는 라우터
 	 * @function
@@ -235,11 +783,15 @@ var pad = function(n, width){
 		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
 		
 		var url = global.CONST.SERVER.API.AUTOH.protocol + global.CONST.SERVER.API.AUTOH.host + ":" + global.CONST.SERVER.API.AUTOH.port
-		http.get( url + '/06?date=' + paramsO.date, function(response){
+		http.get( url + '/06?date=' + paramsO.date + "&type=" +paramsO.type, function(response){
 			response.setEncoding('utf8');
+			var d = "";
+			response.on('end', function () {
+				res.end( d )
+			});
+		
 			response.on('data', function (body) {
-
-				res.end( body.toString("utf-8") )	
+				d += body;
 			});
 		});
 		

@@ -18,11 +18,12 @@ return
 
 F1::
 	
-	winGet, b, ID, [0127] 거래원순간거래량
-	;MouseGetPos,,, win, Control
+	;winGet, b, ID, [0127] 거래원순간거래량
+	MouseGetPos,,, win, Control
 	loop
 	{
-		SendMessage,0x115,7,0,AfxWnd1109,ahk_id %b%
+		;SendMessage,0x115,7,0,Edit4,ahk_id %win%
+		Click,WheelDown,10
 	}
 	
 return

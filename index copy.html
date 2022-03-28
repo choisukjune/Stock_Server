@@ -1,0 +1,620 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+<style>
+td{
+	font-size:11px;
+	padding:10px;
+}
+.ui.card, .ui.cards>.card{
+
+	border-radius: 0rem !important;
+	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important;
+	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important;
+
+
+}
+/*span{*/
+/*	padding : 10px 0 10px 0;*/
+/*}*/
+th{
+	font-size:11px;
+}
+</style>
+
+
+<script>
+
+var numberWithCommas = function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+var getTimeTo__HHMMSS = function(date){
+	
+	date = date || new Date();
+	//var year = date.getFullYear();
+	//var month = date.getMonth() + 1;
+	//var day = date.getDate();
+	var hour = date.getHours();
+	var minute = date.getMinutes();
+	var second = date.getSeconds();
+
+	//month = month >= 10 ? month : '0' + month;
+	//day = day >= 10 ? day : '0' + day;
+	hour = hour >= 10 ? hour : '0' + hour;
+	minute = minute >= 10 ? minute : '0' + minute;
+	second = second >= 10 ? second : '0' + second;
+	var r = ( hour + minute + second ) * 1;
+
+	return r
+
+}
+
+var getTimeTo__YYYYMMDD = function(date){
+	
+	date = date || new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+//	var hour = date.getHours();
+//	var minute = date.getMinutes();
+//	var second = date.getSeconds();
+
+	month = month >= 10 ? month : '0' + month;
+	day = day >= 10 ? day : '0' + day;
+	//hour = hour >= 10 ? hour : '0' + hour;
+	//minute = minute >= 10 ? minute : '0' + minute;
+	//second = second >= 10 ? second : '0' + second;
+	var r = year + month + day
+
+	return r
+
+}
+
+function hex (c) {
+  var s = "0123456789abcdef";
+  var i = parseInt (c);
+  if (i == 0 || isNaN (c))
+    return "00";
+  i = Math.round (Math.min (Math.max (0, i), 255));
+  return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
+}
+
+/* Convert an RGB triplet to a hex string */
+function convertToHex (rgb) {
+  return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
+}
+
+/* Remove '#' in color hex string */
+function trim (s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
+
+/* Convert a hex string to an RGB triplet */
+function convertToRGB (hex) {
+  var color = [];
+  color[0] = parseInt ((trim(hex)).substring (0, 2), 16);
+  color[1] = parseInt ((trim(hex)).substring (2, 4), 16);
+  color[2] = parseInt ((trim(hex)).substring (4, 6), 16);
+  return color;
+}
+
+function generateColor(colorStart,colorEnd,value){
+
+	// The beginning of your gradient
+	var start = convertToRGB (colorStart);    
+
+	// The end of your gradient
+	var end   = convertToRGB (colorEnd);    
+
+	// The number of colors to compute
+	//var len = colorCount;
+
+	//Alpha blending amount
+	var alpha = 0.0;
+
+	alpha = value / 500
+	var c = [];
+	//alpha =value + (1.0/len);
+		
+	c[0] = start[0] * alpha + (1 - alpha) * end[0];
+	c[1] = start[1] * alpha + (1 - alpha) * end[1];
+	c[2] = start[2] * alpha + (1 - alpha) * end[2];
+
+	
+	
+	return convertToHex (c);
+	
+}
+
+// Exemplo de como usar
+
+
+var tmp = generateColor('#FF0000','#599700',200);
+
+
+
+function htmlToElement(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+window.rankData = {};
+var updateRank = function(){
+		
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , `http://112.144.208.118:8888/getMassTradRank?date=20220210`, true);
+		xhr.onreadystatechange = function(){
+
+			if( xhr.readyState == 4 && xhr.status == 200)
+			{
+
+				var d = JSON.parse( xhr.responseText )
+				window.RankData = d;
+				var _htmlTxt = ""
+	
+				var i = 0,iLen = d.length,io;
+				for(;i<iLen;++i){
+					io = d[ i ];
+
+					_htmlTxt =`
+					<tr data-cd-value="${io._id}" id="rank_${io._id}">
+						<td style="width:150px"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io._id}_end_up_tablet.png" load="lazy" width="150px"></td>
+						<td>${io.nm} / ${ numberWithCommas (io.total_pp )} / ${io.amt} / ${io.cnt}</td>
+					</td>
+					`
+					var new_el = htmlToElement( _htmlTxt )
+					var target_el = window.document.getElementById( "rank_" + io._id )
+					if( target_el )
+					{
+						window._el.id_trad_rank.lastElementChild.parentNode.removeChild( target_el )
+						window._el.id_trad_rank.insertBefore( new_el,window._el.id_trad_rank.firstChild )			
+						
+					}
+					else
+					{
+						window._el.id_trad_rank.insertBefore( new_el,window._el.id_trad_rank.firstChild )	
+					}
+					
+					window.rankData[io._id] = io;
+					new_el.addEventListener( "click",function(e){
+						var cd = e.currentTarget.getAttribute("data-cd-value");
+						var title = window.rankData[cd].nm + " ( " + cd + " ) "
+
+						window.barchart_cur = cd;
+						
+						renderBarChart(window.rankData[cd].data,title)
+						getFTrData( cd )
+						getAgcData( cd )
+					})
+				}
+				setTimeout(function(){ updateRank()  },10000)
+			}
+		}
+
+		xhr.send();
+	
+}
+
+
+var upadteMassTradDataInsert = function( o ){
+			
+
+	if( o.total != null )
+	{
+		var total_pp  = o.total.total_pp;
+		var cnt = o.total.cnt
+		if( !window.MassData[ o.cd ] ) window.MassData[ o.cd ] = {	
+			total_pp : o.total.total_pp, cnt : o.total.cnt,	data : o.total.data
+		}	
+
+		window.MassData[ o.cd ].data = o;
+		window.MassData[ o.cd ].total_pp += o.pp
+		window.MassData[ o.cd ].cnt += 1
+	}
+	else
+	{
+		var total_pp  = o,pp;
+		var cnt = 1
+		if( !window.MassData[ o.cd ] ) window.MassData[ o.cd ] = {	
+			total_pp : total_pp, cnt : cnt,data : o
+		}	
+	}
+
+	var color = generateColor('#FF0000','#818181',o.total.cnt)
+	var _html = `
+	<div class="card" style="padding: 10px;box-shadow: 0 0px 3px 0 #fff, 0 0 0 3px #fff !important;border-radius: 0rem !important;" id="mass_${o.cd}" data-cd-value="${o.cd}">
+		<div class="image">
+			<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${o.cd}_end_up_tablet.png" load="lazy" >
+		</div>
+		<div> ${o.nm} <br> ${o._t} <br> ${o.amt}  / ${numberWithCommas( o.pp )} </div>
+		<div style="position: absolute; background-color: #${color};color: #fff;padding: 5px;min-width: 30px;text-align: center;">${cnt}</div>
+		<div> ${numberWithCommas( total_pp )}</div>
+	</div>
+	`
+
+	
+	var new_el = htmlToElement( _html )
+	
+	//if( window._el.id_cards.childElementCount > 100 ) //window._el.id_cards.lastElementChild.parentNode.removeChild( window._el.id_cards.lastElementChild )
+	//window._el.id_cards.insertBefore( new_el,window._el.id_cards.firstChild )	
+
+	var target_el = window.document.getElementById( "mass_" + o.cd )
+	if( target_el )
+	{
+		window._el.id_cards.lastElementChild.parentNode.removeChild( target_el )
+		window._el.id_cards.insertBefore( new_el,window._el.id_cards.firstChild )			
+		
+	}
+	else
+	{
+		window._el.id_cards.insertBefore( new_el,window._el.id_cards.firstChild )	
+	}
+	
+	if( window.barchart_cur == o.cd )
+	{
+		renderBarChartAddData( o.pp,o._t )	
+	}
+
+	new_el.addEventListener( "click",function(e){
+		var cd = e.currentTarget.getAttribute("data-cd-value");
+		window.barchart_cur = cd;
+
+		var title =  window.MassData[ cd ].data.nm + " ( " + cd + " ) "
+		renderBarChart(window.MassData[ cd ].data.total.data,title)
+		getFTrData( cd )
+		getAgcData( cd )
+	})
+
+	setTimeout(function(){
+		upadteMassTradDataInsertWatch()
+	},300)
+			
+}
+upadteMassTradDataInsertWatch = function(){
+
+	if( window._data.length == 0 ) 
+	{
+		return setTimeout(function(){
+				upadteMassTradDataInsertWatch()
+		},1000)
+	}
+	
+	var o = window._data.shift();
+	
+	upadteMassTradDataInsert( o );
+}
+
+
+var updateMassTradData = function(){
+
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , `http://112.144.208.118:8888/getMassTradCheck?date=20220210&lidx=${window.MassDataInfo.id}&limit=100`, true);
+		xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+			updateMassTradData.len = 0
+			updateMassTradData.cnt = 0
+
+            var a =JSON.parse(xhr.responseText);
+			
+
+
+			var  i =0,iLen = a.d.length,io;
+			for(;i<iLen;++i){
+				io = a.d[ i ]
+				window._data.push( io )
+			}
+
+			if( a.nxtId != -1 ) window.MassDataInfo.id = a.nxtId;
+
+			setTimeout(function(){
+				updateMassTradData();	
+			},1000)
+
+		}
+}
+		xhr.send();
+	
+	
+}
+window.barchart = {};
+window.barchart_cur = null;
+var renderBarChart = function( data, title ){
+	var dom = document.getElementById("container");
+	window.barchart = echarts.init(dom);
+	var app = {};
+	
+	var option;
+	
+	var x = []
+	var y = []
+
+	var i = 0,iLen = data.length,io;
+	for(;i<iLen;++i){
+		io = data[ i ]
+		x.push( io._t )
+		y.push( io.pp )
+	}
+	
+	option = {
+		title : { text : title },
+		xAxis: { type: 'category', data: x  },
+		yAxis: { type: 'value' },
+	//	width :dom.offsetWidth + "px",height :dom.offsetHeight + "px",
+		series: [
+				{ width :"100%",height :"100%",	data: y,type: 'bar',showBackground: true,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
+				markPoint: {
+					data: [
+					{ type: 'max', name: 'Max' },
+					{ type: 'min', name: 'Min' }
+					]
+				},
+				markLine: {
+					data: [{ type: 'average', name: 'Avg' }]
+				}
+			}
+		]
+	};
+
+	if (option && typeof option === 'object') {
+		window.barchart.setOption(option);
+		window.barchart.resize();
+	}
+}
+
+var renderBarChartAddData = function( data0, data1 ){
+	var option = window.barchart.getOption();
+
+	option.series[0].data.push(data0)
+	option.xAxis[0].data.push(data1)
+
+	window.barchart.setOption(option);
+}
+var _html_updateStock = function( p ){
+	
+	if( p > 0 )  return "red"
+	else if( p < 0) return "blue"
+	else return "#666"
+}
+var getAgcData = function(cd){
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrStatusByCd?cd=${cd}` ) , true);
+    xhr.onreadystatechange = function() {
+
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+            
+			var a =JSON.parse(xhr.responseText);
+			if( a == null ) return;
+			var _htmlTxt = ""
+			var agency_data = `
+			<table class="ui celled table compact">
+				<thead>
+					<tr>
+						<th> 일자   </th>
+						<th> 현재가격 </th>
+						<th> 거래량  </th>
+						<!--th> "cd"   </th-->
+						<th> 전일비  </th>
+						<th> 등락률   </th>
+						<th> 개인  </th>
+						<th> 외국인  </th>
+						<th> 기관계  </th>
+						<th> 금융투자  </th>
+						<th> 보험  </th>
+						<th> 투신  </th>
+						<th> 기타금융  </th>
+						<th> 은행  </th>
+						<th> 연기금등  </th>
+						<th> 사모펀드 </th>
+						<th> 국가 </th>
+						<th> 기타법인 </th>
+						<th> 내외국인 </th>
+					</tr>
+				</thead>
+				<tbody>
+			`
+			//var i =0,iLen = d.length,io;
+			var i =0,iLen = 7,io;
+			for(;i<iLen;++i){
+				io = a[ i ];
+
+				agency_data += "<tr>"
+				agency_data += "<td>" + io._t + "</td>"  
+				agency_data += "<td>" + io.price + "</td>"  
+				agency_data += "<td>" + io.amt  + "</td>"  
+				//agency_data += "<td>" + io.cd  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.ydt )};'>` + io.ydt + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.rt )};'>` + io.rt   + "</td>"  
+				
+				agency_data += `<td style='color:${_html_updateStock( io.tr1 )};'>` + io.tr1  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr2 )};'>` + io.tr2  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr3 )};'>` + io.tr3  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr4 )};'>` + io.tr4  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr5 )};'>` + io.tr5  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr6 )};'>` + io.tr6  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr7 )};'>` + io.tr7  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr8 )};'>` + io.tr8  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr9 )};'>` + io.tr9  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr10 )};'>` + io.tr10  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr11 )};'>` + io.tr11  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr12 )};'>` + io.tr12  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr13 )};'>` + io.tr13  + "</td>"  
+
+				agency_data += "</tr>"
+			}
+			
+			agency_data += `</tbody></table>`
+			window._el.id_AgcData.innerHTML = agency_data
+		}
+	}
+
+	xhr.send();
+
+}
+
+var getFTrData = function(cd){
+	
+	var xhr = new XMLHttpRequest();
+	
+	window.stock = {};
+	window.stock_arr = [];
+//    xhr.open("GET" , encodeURI("http://112.144.208.118:8888/getInsightByStock?date=" + getTimeTo__YYYYMMDD() ) , true);
+    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getInsightByStockCd?cd=${cd}&date=20220210` ) , true);
+
+    xhr.onreadystatechange = function() {
+
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+            var a =JSON.parse(xhr.responseText);
+			if( a == null ) return;
+			var _html = "";
+		
+			var _tempArr = [];
+			var z,zo;
+			for( z in a[ "trs" ] ){
+				zo = a[ "trs" ][ z ];
+				zo.pp = zo.b + zo.s
+				zo.pp_amt = zo.b_amt + zo.s_amt
+				zo.nm = z;
+				_tempArr.push( zo )
+			}
+
+			_tempArr.sort((a,b) => (a.pp < b.pp) ? 1 : ((b.pp < a.pp) ? -1 : 0))
+
+			var fr_data = `
+			<table class="ui celled table compact">
+				<thead>
+				<tr>
+					<th rowspan="2">외국계증권사</th>
+					<th colspan="3">거래량</th>
+					<th colspan="3">거래대금</th>
+				</tr>
+				<tr>
+					<th>매수</th>
+					<th>매도</th>
+					<th>순매수</th>
+					<th>매수</th>
+					<th>매도</th>
+					<th>순매수</th>
+				</tr>
+				</thead>
+				<tbody>
+			`;
+			var k = 0,kLen = _tempArr.length,ko;
+			for(;k<kLen;++k){
+				ko = _tempArr[ k ]
+					
+				var bgColor = "#ccc";
+				var Color = "#666";
+
+				if( ko.pp > 0 )
+				{
+					bgColor ="red"
+					Color = "#fff"
+				}
+
+				if( ko.pp < 0 )
+				{
+					bgColor ="blue"
+					Color = "#fff"
+				}
+
+				fr_data += `<tr style='background-color:${bgColor};color:${Color};'>`
+				fr_data += `<td>${ko.nm}</td>`
+				fr_data += `<td>${numberWithCommas( ko.b_amt )}</td>`
+				fr_data += `<td>${numberWithCommas( ko.s_amt )}</td>`
+				fr_data += `<td>${numberWithCommas( ko.pp_amt )}</td>`
+				fr_data += `<td>${numberWithCommas( ko.b )}</td>`
+				fr_data += `<td>${numberWithCommas( ko.s )}</td>`
+				fr_data += `<td>${numberWithCommas( ko.pp )}</td>`
+				//fr_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
+
+				fr_data += "</tr>"						
+
+			}
+
+			fr_data += `<tr style='background-color:yellow;color:red;'>`
+			fr_data += `<td>전체</td>`
+			fr_data += `<td>${numberWithCommas( a.total[ "b_amt" ] )}</td>`
+			fr_data += `<td>${numberWithCommas( a.total[ "s_amt" ] )}</td>`
+			fr_data += `<td>${numberWithCommas( a.total.pp_amt )}</td>`
+			fr_data += `<td>${numberWithCommas( a.total[ "b" ] )}</td>`
+			fr_data += `<td>${numberWithCommas( a.total[ "s" ] )}</td>`
+			fr_data += `<td>${numberWithCommas( a.total.pp )}</td>`
+			//fr_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
+			fr_data += "</tr>"	
+			fr_data += "</tbody>"
+			fr_data += "</table>";
+		
+			window._el.id_FtrData.innerHTML = fr_data
+
+			/*
+			var chartImgs = window.document.getElementsByClassName("chart");
+			
+			setInterval(function(){
+				var k = 0,kLen = chartImgs.length,ko;
+				for(;k<kLen;++k){
+					ko = chartImgs[ k ]
+					var _tsrc = ko.src
+					ko.src = _tsrc.split("?")[0] + "?" + Date.now();
+				}	
+			},60000)
+			*/
+		}
+	}
+	xhr.send();
+
+}
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+
+	window._el = {}
+	window._el.id_trad_rank = window.document.getElementById( "trad_rank")
+	window._el.id_cards = window.document.getElementById("cards");
+	window._el.id_FtrData = window.document.getElementById("FtrData");
+	window._el.id_AgcData = window.document.getElementById("AgcData");
+
+	window.MassData = {};
+	window.MassDataRank = [];
+
+	window._data = [];
+
+	window.RankData = {};
+
+	window.chartData = [];
+	window.chartData_s = [];
+	window.MassDataInfo = {}
+	window.MassDataInfo.id = 0
+	window.stock = {};
+	window.stock_arr = [];
+
+
+	updateMassTradData();
+	upadteMassTradDataInsertWatch();
+	updateRank();
+
+	
+})
+</script>
+<body style="padding:50px;overflow:hidden;">
+<div class="ui grid">
+	<div class="sixteen wide column" id="container" style="height:400px"></div>
+	<div class="eight wide column" id="FtrData" style="height:400px"></div>
+	<div class="eight wide column" id="AgcData" style="height:400px"></div>
+	<div class="four wide column" style="overflow-y:scroll;height:500px" >
+		<div class="ui one stackable cards" >
+			<table class="ui celled table compact" id="trad_rank"></table>
+		</div>
+	</div>
+	<div class="twelve wide column" style="overflow-y:scroll;height:500px" >
+		<div class="ui six stackable cards" id="cards"></div>
+	</div>
+</div>
+</body>

@@ -1,27 +1,47 @@
 var db_nm = "mass_trad";
-var col_nm = "20220209";
-var lidx = 28364
+var db_nm01 = "mass_trad_rank";
+var col_nm = "20220211";
+var lidx = 6702
 var limit = 100
 
 var db0 = db.getSiblingDB( db_nm );
 var col0 = db0.getCollection( col_nm );
 
+var db1 = db.getSiblingDB( db_nm01 );
+var col1 = db1.getCollection( col_nm );
+
+
 var r = []; 
 
 var _q = { _id: { $gt : lidx } };
+//var _q = {};
 if( lidx == 0 ) _q = {};
 var _sort = { _id : -1 };
+
+var _o = {};
+
+col1.find().forEach(function(d){
+	_o[ d._id ] = d
+})
 
 var nextId = lidx
 var total = col0.find().count()
 var a = 0;
 col0.find( _q ).limit(limit).sort( _sort ).forEach(function(d){
+	
+	if( _o[ d.cd ] ) d.total = _o[ d.cd ];
+	else d.total = null;
 	r.push( d );
 	
 	if( a == 0 )
 	{
 		nextId = d._id
 		++a;
+	}
+
+	if( total == lidx )
+	{
+		nextId = -1;
 	}
 	
 })
