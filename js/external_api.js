@@ -394,7 +394,8 @@ var pad = function(n, width){
 
 			var d = "";
 			response.on('end', function () {
-				res.end( d )	
+				debugger;
+				res.end( d )
 			});
 	
 			response.on('data', function (body) {

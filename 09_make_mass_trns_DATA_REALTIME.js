@@ -179,18 +179,18 @@ var csvToJson = function(){
 	}	
 	
 	
-	fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify(global.arr.reverse() ),{flag :'w'} )	
+	fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify(global.arr ),{flag :'w'} )	
 	
 	var o = {}
 	var i = 0,iLen = global.arr.reverse().length,io;
 	for(;i<iLen;++i){
 		io = global.arr.reverse()[ i ];
-		if( !o[ io.cd ] ) o[ io.cd ] = { nm : io.nm, total_pp : 0, amt : 0, cnt : 0, data : [] }
+		if( !o[ io.cd ] ) o[ io.cd ] = { nm : io.nm, total_pp : 0, amt : 0, cnt : 0, data : [],p : io.price, rt : io.rt }
 		o[ io.cd ]._id = io.cd
 		o[ io.cd ].total_pp += io.pp
 		o[ io.cd ].amt += io.amt
 		o[ io.cd ].cnt += 1
-		o[ io.cd ].data.push( { _t : io._t, pp : io.pp, amt : io.amt } )
+		o[ io.cd ].data.push( { _t : io._t, pp : io.pp, amt : io.amt, p : io.price, rt : io.rt } )
 	}
 
 	var r = [];
@@ -200,7 +200,7 @@ var csvToJson = function(){
 		r.push( so );
 	}
 	var _r = r.sort(function(a,b){ return a.pp - b.pp })
-	fs.writeFileSync( target_folder_json + fileNm + "_rank.json", JSON.stringify( _r,null,4 ),{flag :'w'} )	
+	fs.writeFileSync( target_folder_json + fileNm + "_rank.json", JSON.stringify( _r.reverse(),null,4 ),{flag :'w'} )	
 
 	if( forders.length -1 == csvToJson.cnt )
 	{

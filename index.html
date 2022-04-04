@@ -230,7 +230,8 @@ var updateRank = function(){
 	
 }
 
-var renderUpdateRank = function(){
+window.wsFns = {};
+window.wsFns.renderUpdateRank = function(){
 	
 	var domId = "tree";
 	var d = window.socketData.updateRank;
@@ -242,40 +243,78 @@ var renderUpdateRank = function(){
 	}
 	
 	//window.treemapChart.showLoading()
-
+	if( d.length == 0 ) return;
 	var chartData = [];
 	d.sort(function(a,b){ return a.total_pp - b.total_pp }).reverse()
 	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	
 	var i =0,iLen = 100,io;
 	for(;i<iLen;++i){
 		io = d[i]
+		
+		if( !window.socketData.renderMassTransInfo_sell[io._id] ) var so00 = 0;
+		var so00 = window.socketData.renderMassTransInfo_sell[io._id].total_pp
+
+		var symbol = "▲"
+		if( io.rt == 0 ) var symbol = "-"
+		if( io.rt < 0 ) var symbol = "▼"
+		debugger;
 		var _o = {
 			name : io.nm
 			,cd : io._id
 			,value : io.total_pp
+			,s : so00
+			,p : io.p
+			,r : io.rt
+			,r_mark : symbol
+			,pp : io.total_pp - so00
 			,children : []
 		}
 		chartData.push( _o )
 	}
 
+	var h = dom.style.height.replace("px") * 1
 	var app = {};
-
+	
 	var option;
 	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
 	var title = nowDate + " - 실시간 대량매수 현황";
 	option = {
-		title : { text : title,textStyle : { fontSize:13 } },
-		grid : { top:0 },
-		series: [
-			{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false,
+		title : { show : false, text : title,textStyle : { fontSize:13 } },
+		grid : { top : 0 },
+	  	series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
 			breadcrumb : { show : false, },
 			width :"100%",
-			//height :"100%",
-			top:20,
+			height :h,
+			top:0,
 			data : chartData,
-			label : { formatter: function (params) { 
-			let arr = [ params.name,echarts.format.addCommas(params.value)];
-			return arr.join('\n');
+			label : { 
+				formatter: function(params){ 
+				let arr = [ 
+					"{title|" + params.name + "}",
+					"{hr|}",
+					"{a|" + echarts.format.addCommas(params.data.p) + " " + params.data.r_mark + echarts.format.addCommas(params.data.r) + "%}",			
+					"{hr|}",
+					"{a|+" + echarts.format.addCommas(params.value) + "}",				
+					"{a|-" + echarts.format.addCommas(params.data.s) + "}",
+					"{hr|}",
+					"{b|" + echarts.format.addCommas(params.data.pp) + "}",
+				];
+				return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
 			}
 			},
 			levels: [{ color: ['pink','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
@@ -307,7 +346,7 @@ var renderUpdateRank = function(){
 
 }
 
-var renderUpdateRank_sell = function(){
+window.wsFns.renderUpdateRank_sell = function(){
 	
 	var domId = "tree_00";
 	var d = window.socketData.updateRank_sell;
@@ -323,39 +362,62 @@ var renderUpdateRank_sell = function(){
 	var chartData = [];
 	d.sort(function(a,b){ return a.total_pp - b.total_pp }).reverse()
 	//var i =0,iLen = window.socketData.updateRank.length,io;
+
 	var i =0,iLen = 100,io;
 	for(;i<iLen;++i){
 		io = d[i]
+
 		var _o = {
 			name : io.nm
 			,cd : io._id
 			,value : io.total_pp
+			//,s : so00.total_pp
+			//,pp : io.total_pp - so00.total_pp
 			,children : []
 		}
 		chartData.push( _o )
 	}
-
+	var h = dom.style.height.replace("px") * 1
 	var app = {};
 
 	var option;
 	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
 	var title = nowDate + " - 실시간 대량매도 현황";
 	option = {
-		title : { text : title,textStyle : { fontSize:13 } },
+		title : { show : false, text : title,textStyle : { fontSize:13 } },
 		grid : { top:0 },
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false,
 			breadcrumb : { show : false, },
 			width :"100%",
-			//height :"100%",
-			top:20,
+			height :h,
+			top:0,
 			data : chartData,
 			label : { formatter: function (params) { 
-			let arr = [ params.name,echarts.format.addCommas(params.value)];
+			let arr = [ "{title|" + params.name + "}",
+				"{hr|}",
+				"{b|-" + echarts.format.addCommas(params.value) + "}",				
+				//"{a|-" + echarts.format.addCommas(params.data.s) + "}",
+				//"{hr|}",
+				//"{b|" + echarts.format.addCommas(params.data.pp) + "}",
+
+			];
 			return arr.join('\n');
 			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
 			},
-			levels: [{ color: ['skyblue','blue'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+			levels: [{ color: ['lightblue','blue'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
 		}
 		]
 	};
@@ -383,59 +445,595 @@ var renderUpdateRank_sell = function(){
 
 }
 
-var renderMassTransInfo_buy = function(){
-	debugger;
+window.wsFns.renderUpdateRank_pp = function(){
+	
+	var domId = "tree_01";
+	
+	var dom = document.getElementById( domId );
+	if( !window.treemapChart_01 )
+	{
+		window.treemapChart_01 = echarts.init(dom);
+		window.treemapChart_01.isEvent = 0;
+	}
+	
+	//window.treemapChart_00.showLoading()
+
+	var chartData = [];
+	
+	//d.sort(function(a,b){ return a.total_pp - b.total_pp }).reverse()
+	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	var s,so;
+	for( s in window.socketData.renderMassTransInfo_buy ){
+		so = window.socketData.renderMassTransInfo_buy[s]
+		if( !window.socketData.renderMassTransInfo_sell[s] ) continue;
+		so00 = window.socketData.renderMassTransInfo_sell[s]
+		if( so.total_pp - so00.total_pp < 0 ) continue;
+		
+		//"EVEN" : {	color:"grey", symbol : "-",},
+		//"RISE" : {	color:"red", symbol : "▲",},
+		//"FALL" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+
+		var symbol = "▲"
+		if( so.rt == 0 ) var symbol = "-"
+		if( so.rt < 0 ) var symbol = "▼"
+
+		var _o = {
+			name : so.nm
+			,cd : so.cd
+			,value : so.total_pp - so00.total_pp
+			,p : so.price
+			,r : so.rt
+			,r_mark : symbol
+			,b : so.total_pp
+			,s : so00.total_pp
+			,children : []
+		}
+		chartData.push( _o )
+	}
+	var h = dom.style.height.replace("px") * 1
+	var app = {};
+
+	var option;
+	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
+	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	option = {
+		title : { show : false, text : title,textStyle : { fontSize:13 } },
+		grid : { top:0 },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			height :h,
+			top:0,
+			data : chartData,
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.p) + " " + params.data.r_mark + echarts.format.addCommas(params.data.r) + "%}",			
+				"{hr|}",
+				"{a|+" + echarts.format.addCommas(params.data.b) + "}",				
+				"{a|-" + echarts.format.addCommas(params.data.s) + "}",
+				"{hr|}",
+				"{b|" + echarts.format.addCommas(params.value) + "}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			levels: [{ color: ['lightgreen','green'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+	window.treemapChart_01.setOption(option);
+	window.treemapChart_01.resize();
+
+	//setTimeout(function(){
+	//	//window.treemapChart_01.hideLoading();
+	//},1000)
+	}
+
+	if( !window.treemapChart_01.isEvent )
+	{
+		window.treemapChart_01.on('click',function(d){
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + d.data.cd
+			a.click();
+			a = null;
+		})
+		window.treemapChart_01.isEvent = 1;
+	}
+
 }
-var renderMassTransInfo_sell = function(){
-	debugger;
+
+window.wsFns.renderUpdateRank_rt = function(){
+	var domId = "rank_rt";
+	
+	var dom = document.getElementById( domId );
+	if( !window.treemapChart_02 )
+	{
+		window.treemapChart_02 = echarts.init(dom);
+		window.treemapChart_02.isEvent = 0;
+	}
+	
+	//window.treemapChart_02.showLoading()
+
+	var _chartData = [];
+	
+	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
+	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	var s,so;
+	for( s in window.socketData.renderMassTransInfo_buy ){
+		so = window.socketData.renderMassTransInfo_buy[s]
+		if( !window.socketData.renderMassTransInfo_sell[s] ) continue;
+		so00 = window.socketData.renderMassTransInfo_sell[s]
+		if( so.total_pp - so00.total_pp < 0 ) continue;
+		
+		//"EVEN" : {	color:"grey", symbol : "-",},
+		//"RISE" : {	color:"red", symbol : "▲",},
+		//"FALL" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+
+		var symbol = "▲"
+		if( so.rt == 0 ) var symbol = "-"
+		if( so.rt < 0 ) var symbol = "▼"
+
+		var _o = {
+			name : so.nm
+			,cd : so.cd
+			,value : 100 + ( so.rt * 0.001)
+			,p : so.price
+			,r : so.rt
+			,r_mark : symbol
+			,b : so.total_pp
+			,s : so00.total_pp
+			,children : []
+		}
+		_chartData.push( _o )
+	}
+	var h = dom.style.height.replace("px") * 1
+	var chartData = _chartData.sort(function(a,b){ return a.r - b.r }).reverse();
+	var app = {};
+
+	var option;
+	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
+	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	option = {
+		title : { show :false, text : title,textStyle : { fontSize:13 } },
+		grid : { top:0 },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			height :h,
+			top:0,
+			data : chartData.slice(0,100),
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.p) + " " + params.data.r_mark + echarts.format.addCommas(params.data.r) + "%}",			
+				"{hr|}",
+				"{a|+" + echarts.format.addCommas(params.data.b) + "}",				
+				"{a|-" + echarts.format.addCommas(params.data.s) + "}",
+				"{hr|}",
+				"{b|" + echarts.format.addCommas(params.data.b - params.data.s) + "}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			levels: [{ color: ['pink','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+	window.treemapChart_02.setOption(option);
+	window.treemapChart_02.resize();
+
+	//setTimeout(function(){
+	//	//window.treemapChart_02.hideLoading();
+	//},1000)
+	}
+
+	if( !window.treemapChart_02.isEvent )
+	{
+		window.treemapChart_02.on('click',function(d){
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + d.data.cd
+			a.click();
+			a = null;
+		})
+		window.treemapChart_02.isEvent = 1;
+	}
+
+	
+
 }
+window.wsFns.renderTradeValueRank = function(){
+	if( window.socketData.renderTradeValueInfo.length == 0 ) return;
+	
+	var domId = "tradeValueTree";
+	
+	var dom = document.getElementById( domId );
+	if( !window.treemapChart_03 )
+	{
+		window.treemapChart_03 = echarts.init(dom);
+		window.treemapChart_03.isEvent = 0;
+	}
+	
+	//window.treemapChart_03.showLoading()
+
+	var _chartData = [];
+	
+	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
+	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,so;
+	for(;i<iLen;++i){
+		so = window.socketData.renderTradeValueInfo[i]
+		
+		var symbol = "▲"
+		if( so.rt == 0 ) 
+		{
+			var symbol = "-"
+		}
+		if( so.rt < 0 ) 
+		{
+			var symbol = "▼"	
+		}
+		
+		
+		var _o = {
+			name : so.nm
+			,cd : so.cd
+			,value : [ so.tradeValue, so.rt ]
+			,price : so.price
+			,rt : so.rt
+			,r_mark : symbol
+			,tradeValue : so.tradeValue
+			,amt : so.amt
+			,children : []
+		}
+		_chartData.push( _o )
+	}
+	var h = dom.style.height.replace("px") * 1
+	var chartData = _chartData.sort(function(a,b){ return a.rt - b.rt }).reverse();
+	var app = {};
+
+	var option;
+	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
+	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	option = {
+
+		title : { show :false, text : title,textStyle : { fontSize:13 } },
+		grid : { top:0 },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			height :h,
+			top:0,
+			data : chartData.slice(0,100),
+//			data : chartData,
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.amt) + "}",
+				"{hr|}",
+				"{b|" + longNumberAddString( params.data.tradeValue) + "}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			visualMin : -30,
+			visualMax : 30,
+			visualDimension : 1,
+			levels: [{ color: ['blue','#ccc','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+	window.treemapChart_03.setOption(option);
+	window.treemapChart_03.resize();
+
+	//setTimeout(function(){ window.treemapChart_03.hideLoading(); },1000)
+	
+	}
+
+	if( !window.treemapChart_03.isEvent )
+	{
+		window.treemapChart_03.on('click',function(d){
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + d.data.cd
+			a.click();
+			a = null;
+		})
+		window.treemapChart_03.isEvent = 1;
+	}
+}
+
+
+window.wsFns.renderTradeValueInfo = function(){
+	debugger;
+	window.wsFns.renderTradeValueRank();
+}
+
+window.wsFns.renderTradeValueInfo_gap = function(){
+	debugger;
+	window.wsFns.renderTradeValueList();
+}
+
+var longNumberAddString = function( n ){
+	var _p = n.toString().length;
+	if( _p == 1 ) return n + "백만"
+	if( _p == 2 ) return ( n * 0.1 ).toFixed(1) + "천만"
+	if( _p >= 3 ) return ( n * 0.01 ).toFixed(1) + "억"
+}
+window.wsFns.renderTradeValueList = function(){
+	console.log( "[ S ] - window.wsFns.renderTradeValueList" )
+	
+	if( window.socketData.renderTradeValueInfo_gap.length == 0 ) return;
+	
+	var domId = "tradeValueTreeGap";
+	
+	var dom = document.getElementById( domId );
+	if( !window.treemapChart_04 )
+	{
+		window.treemapChart_04 = echarts.init(dom);
+		window.treemapChart_04.isEvent = 0;
+	}
+	
+	//window.treemapChart_04.showLoading()
+
+	var _chartData = [];
+	var colors = [];
+	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
+	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	//var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,so;
+	var i = 0,iLen = 50,so;
+	for(;i<iLen;++i){
+		so = window.socketData.renderTradeValueInfo_gap[i]
+		
+		var symbol = "▲"
+		var id = 0
+		if( so.rt == 0 ) 
+		{
+			var symbol = "-"
+			var id = 1
+		}
+		if( so.rt < 0 ) 
+		{
+			var symbol = "▼"	
+			var id = 2
+		}
+
+		var _o = {
+			name : so.nm
+			,cd : so.cd
+			,value : so.tradeValueGap
+			,price : so.price
+			,rt : so.rt
+			,rtChange : so.rtChange
+			,r_mark : symbol
+			,tradeValue : so.tradeValue
+			,tradeValueGap : so.tradeValueGap
+			,amt : so.amt
+			,children : []
+		}
+		_chartData.push( _o )
+	}
+	var h = dom.style.height.replace("px") * 1
+	var chartData = _chartData.sort(function(a,b){ return b.tradeValueGap - a.tradeValueGap });
+	var app = {};
+
+	var option;
+	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
+	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	option = {
+		title : { show :false, text : title,textStyle : { fontSize:13 } },
+		grid : { top:0 },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			height :h,
+			top:0,
+			data : chartData.slice(0,500),
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
+				"{hr|}",
+				"{a|volume:" + echarts.format.addCommas(params.data.amt) + "}",
+				"{a|value:" + echarts.format.addCommas(params.data.tradeValue) + "}",
+				"{hr|}",
+				"{b|" + longNumberAddString( params.value ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			levels: [{ color: [ "pink","red"],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+			, itemStyle : { color :"green" }
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+	window.treemapChart_04.setOption(option);
+	window.treemapChart_04.resize();
+
+	//setTimeout(function(){ window.treemapChart_04.hideLoading(); },1000)
+	
+	}
+
+	if( !window.treemapChart_04.isEvent )
+	{
+		window.treemapChart_04.on('click',function(d){
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + d.data.cd
+			a.click();
+			a = null;
+		})
+		window.treemapChart_04.isEvent = 1;
+	}
+	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
+}
+
+window.wsFns.renderMassTransInfo_buy = function(){
+	//if( Object.keys( window.wsFns.renderMassTransInfo_buy.cur ).keys.length == 0 )
+	//{
+	//	window.wsFns.renderMassTransInfo_buy.prev = window.socketData.renderMassTransInfo_buy
+	//	window.wsFns.renderMassTransInfo_buy.cur = window.socketData.renderMassTransInfo_buy
+	//}
+	//else
+	//{
+		debugger;
+		window.a = window.b
+		window.b = window.socketData.renderMassTransInfo_buy
+	//}
+	window.wsFns.renderMassTransList_buy();
+	
+}
+window.wsFns.renderMassTransInfo_buy.prev = {}
+window.wsFns.renderMassTransInfo_buy.prev._t = ""
+
+window.wsFns.renderMassTransInfo_buy.cur = {}
+window.wsFns.renderMassTransInfo_buy.cur._t = ""
+
+window.wsFns.renderMassTransInfo_sell = function(){
+
+	if( Object.keys( window.wsFns.renderMassTransInfo_sell.cur ).length == 0 )
+	{
+		window.wsFns.renderMassTransInfo_sell.cur = window.socketData.renderMassTransInfo_sell
+		window.wsFns.renderMassTransInfo_sell.prev = window.socketData.renderMassTransInfo_sell
+	}
+	else
+	{
+		window.wsFns.renderMassTransInfo_sell.cur = window.socketData.renderMassTransInfo_sell
+		window.wsFns.renderMassTransInfo_sell.prev = window.wsFns.renderMassTransInfo_sell.cur
+	}
+}
+window.wsFns.renderMassTransInfo_sell.prev = {}
+window.wsFns.renderMassTransInfo_sell.cur = {}
+
+
 
 window.massTransData={}
 window.massTransData.buy = {};
-var renderMassTransList_buy = function(){
 
-	var i = 0,iLen = window.socketData.renderMassTransList_buy.length,io
-	for(;i<iLen;++i){		
-		io = window.socketData.renderMassTransList_buy[ i ];
+window.massTransData.buy.prev = ""
+
+window.wsFns.renderMassTransList_buy = function(){
+	console.log( "[ S ] - window.wsFns.renderMassTransList_buy" )
+	
+
+	var prevData = window.a;
+	var curData = window.b;
+
+	var s,o;
+	for( s in curData )
+	{
+		o = curData[ s ]
+
+	if( !window.massTransData.buy[ o.cd ] ) window.massTransData.buy[ o.cd ] = { cnt : 1 }
+	else ++window.massTransData.buy[ o.cd ].cnt;
 		
-		if( !window.massTransData.buy[ io.cd ] )
-		{
-			window.massTransData.buy[ io.cd ] = { 
-				cnt : 1,
-				_t : io._t,
-				_t00 : io._t
-			}
-		}
-		else
-		{
-			++window.massTransData.buy[ io.cd ].cnt;
-			window.massTransData.buy[ io.cd ]._t00 = io._t
-		}
-
+		//console.log( s )
+		if( o._t != prevData[s]._t ) debugger;
+		if( o.total_pp == prevData[ s ].total_pp ) continue
+		else console.log( "여기당" )
 		var color00 = "red"
-		if( io.rt < 0 ) color00 = "blue"
-		if( io.rt == 0 ) color00 = "gery"
+		if( o.rt < 0 ) color00 = "blue"
+		if( o.rt == 0 ) color00 = "gery"
 
-		var color = generateColor('#FF0000','#cccccc',io.rt)				
+		var color = generateColor('#FF0000','#cccccc',o.rt)				
 		 var _html = `
-		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}" data-cnt-value="${window.massTransData.buy[ io.cd ].cnt}">
-			<div class="content">
-			<div class="right floated meta" style="position: relative;color: #${color};padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;">${window.massTransData.buy[ io.cd ].cnt}</div>
-			<span style="font-size:15px;"> ${io.nm}</span><span style="font-size:11px;">  ${io.cd}</span> 	
-			<div style="font-size:13px;color:${color00}">${numberWithCommas(io.price)} ( ${io.rt}% )</div>
-			<div style="font-size:13px;">value : ${numberWithCommas( io.pp )}</div>
+		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${o.cd}" data-cd-value="${o.cd}" data-nm-value="${o.nm}" data-cnt-value="${window.massTransData.buy[ o.cd ].cnt}">
+			<div class="">
+			<div class="right floated meta" style="position: relative;color: #${color};padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;">${window.massTransData.buy[ o.cd ].cnt}</div>
+			<span style="font-size:15px;"> ${o.nm}</span><span style="font-size:11px;">  ${o.cd}</span> 	
+			<div style="font-size:13px;color:${color00}">${numberWithCommas(o.price)} ( ${o.rt}% )</div>
+			<div style="font-size:13px;">value : ${numberWithCommas( o.pp )}</div>
 			<div style="font-size:11px;">
-		 	f : ${window.massTransData.buy[ io.cd ]._t} / u : ${window.massTransData.buy[ io.cd ]._t00}
-		 	</div>
+			+ ${window.socketData.renderMassTransInfo_buy[ o.cd ].total_pp} / 
+			- ${window.socketData.renderMassTransInfo_sell[ o.cd ].total_pp} / 
+			${window.socketData.renderMassTransInfo_buy[ o.cd ].total_pp - window.socketData.renderMassTransInfo_sell[ o.cd ].total_pp}
+			</div>
+			<div style="font-size:11px;">
+			f : ${window.massTransData.buy[ o.cd ]._t} / u : ${window.massTransData.buy[ o.cd ]._t00}
+			</div>
 			</div>
 
 			<div class="image" style="background-color: #fff/*${color}*/;">
-		 		<!--div style="position: relative;color: #fff;padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;">${window.massTransData.buy[ io.cd ].cnt}</div-->
-		 		<img src="https://t1.daumcdn.net/finance/chart/kr/stock/d/A${io.cd}.png" style="" load="lazy">
+				<!--div style="position: relative;color: #fff;padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;">${window.massTransData.buy[ o.cd ].cnt}</div-->
+				<img src="https://t1.daumcdn.net/finance/chart/kr/stock/d/A${o.cd}.png" style="" load="lazy">
 				
-		 	</div>
+			</div>
 			<!--div class="description">
-			<div style="font-size:11px;padding-top:10px;"> volume : ${io.amt} / value : ${numberWithCommas( io.pp )}</div>
+			<div style="font-size:11px;padding-top:10px;"> volume : ${o.amt} / value : ${numberWithCommas( o.pp )}</div>
 			</div-->
 			</div>
 			
@@ -444,37 +1042,45 @@ var renderMassTransList_buy = function(){
 		
 
 		var new_el = htmlToElement( _html )
+		var target_el = window.document.getElementById( "mass_b_00_" + o.cd )
 		
-
-		var target_el = window.document.getElementById( "mass_b_00_" + io.cd )
 		if( target_el )
 		{
 			window._el.id_mass_b_s.removeChild( target_el )
-			window._el.id_mass_b_s.insertBefore( new_el,window._el.id_mass_b_s.firstChild )			
-			
+			window._el.id_mass_b_s.insertBefore( new_el,window._el.id_mass_b_s.firstChild )
 		}
 		else
 		{
+			if( window._el.id_mass_b_s.childElementCount == 10 )
+			{
+				window._el.id_mass_b_s.removeChild( window._el.id_mass_b_s.lastChild )		
+			}
 			window._el.id_mass_b_s.insertBefore( new_el,window._el.id_mass_b_s.firstChild )	
 		}
-
+		
 		new_el.addEventListener( "click",function(e){
-			
-			debugger;
-			
-			
-		})	
-	}
 
+		var cd = e.currentTarget.getAttribute( "data-cd-value" );
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = "/html/candle.html?cd=" + cd
+		a.click();
+		a = null;
 		
-		
+		})
+
+	}
 	
+	console.log( "[ E ] - window.wsFns.renderMassTransList_buy" )
 }
+window.wsFns.renderMassTransList_buy.cnt = 0;
+window.wsFns.renderMassTransList_buy.isProcessing = 0;
 
 window.treemapChart00 = {};
 window.treemapChart00.isEvent = 0;
 window.treemapChart00.isReq = 0;
 var updateRankWics = function(){
+
 		if( window.treemapChart00.isReq )
 		{
 			console.log( "requesting! - wait - 5sec." )
@@ -655,7 +1261,7 @@ var insertWicsStockData = function( o ){
 
 }
 
-var getMarketIndex = function( cbFunction ){
+window.wsFns.getMarketIndex = function( cbFunction ){
 		
 	var xhr = new XMLHttpRequest();
 	
@@ -667,7 +1273,7 @@ var getMarketIndex = function( cbFunction ){
 			
 			var d = JSON.parse( xhr.responseText )
 			window.socketData.MarketIndex = d;
-			renderMarketIndex()
+			window.wsFns.renderMarketIndex()
 			cbFunction();
 			
 		}
@@ -677,7 +1283,7 @@ var getMarketIndex = function( cbFunction ){
 
 }
 
-var renderMarketIndex = function(){
+window.wsFns.renderMarketIndex = function(){
 	//window._el.id_market_index.innerHTML = "";
 	var status = {
 		//"EVEN" : {	color:"grey", symbol : "-",},
@@ -713,7 +1319,7 @@ var renderMarketIndex = function(){
 	window._el.id_market_index.innerHTML = _html
 }
 
-var getMarketIndexGlobal = function(){
+window.wsFns.getMarketIndexGlobal = function(){
 		
 		var xhr = new XMLHttpRequest();
 		
@@ -722,11 +1328,12 @@ var getMarketIndexGlobal = function(){
 			
 			if( xhr.readyState == 4 && xhr.status == 200)
 			{
+				debugger;
 				
 				var d = JSON.parse( xhr.responseText )
 				window.socketData.MarketIndexGlobal = d;
 				//window._el.id_market_index.innerHTML = "";
-				renderMarketIndexGlobal();
+				window.wsFns.renderMarketIndexGlobal();
 				
 			}
 		}
@@ -734,7 +1341,7 @@ var getMarketIndexGlobal = function(){
 		xhr.send();
 	
 	}
-var renderMarketIndexGlobal = function(){
+window.wsFns.renderMarketIndexGlobal = function(){
 	var status = {
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
 		"RISING" : {	color:"red", symbol : "▲",},
@@ -2269,6 +2876,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_wics_stocks = window.document.getElementById( "wics_stocks" )
 	window._el.id_market_index = window.document.getElementById( "market_index" )
 	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
+	window._el.id_rank_rt = window.document.getElementById( "rank_rt" )
 
 	window._el.id_menu_00 = window.document.getElementById("menu_00");
 	window._el.id_menu_01 = window.document.getElementById("menu_01");
@@ -2307,7 +2915,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	//updateRank();
 	updateRankWics();
-	getMarketIndex( function(){ getMarketIndexGlobal(); } );
+	window.wsFns.getMarketIndex( function(){ window.wsFns.getMarketIndexGlobal(); } );
 	//updateRank_s();
 	//updateMassTradData();
 	//updateMassTradData_s();
@@ -2403,9 +3011,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		console.log("데이터를 서버에 전송해봅시다.");
 		
 		//서버에 socket 요청;
-		window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransList_buy" } ) )
-		window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_buy" } ) )
-		window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransInfo_buy" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransInfo_sell" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "makeMassTransList_buy", param : window.massTransData.buy.offset } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransList_buy" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_buy" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
+		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) )
 	};
 
 	window.ws.onmessage = function(e) {
@@ -2413,30 +3026,56 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		var reader = new FileReader();
 		reader.onload = function() {
 
-			var d = JSON.parse( reader.result ) 
-			console.log( d.type + " - " + d.nm )
-			debugger;
-			window.socketData[ d.nm ] = JSON.parse( d.d )
-			console.log( d.func );
-			eval( d.func )
+			try
+			{
+				var d = JSON.parse( reader.result ) 
+				//console.log( d.type + " - " + d.nm )
+				window.socketData[ d.nm ] = JSON.parse( d.d )
+				console.log( d.func );
+				var p = null;
+				if( d.p !== null || !d.p ) p = d.p = null
+				window.wsFns[ d.func ]( p )	
+			}
+			catch( er )
+			{
+				debugger;
+			}
+			
 		}
 		reader.readAsText(e.data);
 
 	};
 
-	window.ws.onclose = function(event) {
-	if (event.wasClean) {
-		console.log(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
-	} else {
-		// 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
-		// event.code가 1006이 됩니다.
-		console.log('[close] 커넥션이 죽었습니다.');
-	}
+	window.ws.onclose = function(event){
+		if (event.wasClean) {
+			console.log(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
+		} else {
+			// 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
+			// event.code가 1006이 됩니다.
+			console.log('[close] 커넥션이 죽었습니다.');
+			console.log('--커낵션을다시 연결합니다.');
+			setTimeout(function(){ window.ws = new WebSocket("ws://112.144.208.118:8888/index.html"); },5000)
+		}
 	};
 
-	window.ws.onerror = function(error) {
-	console.log(`[error] ${error.message}`);
-	};
+	window.ws.onerror = function(error) { console.log(`[error] ${error.message}`); };
+
+	window.interval = {}
+	window.interval.renderUpdateRank_pp = setInterval(function(){
+		if( !window.socketData.renderMassTransInfo_sell ) return;
+		if( !window.socketData.renderMassTransInfo_buy ) return;
+		window.wsFns.renderUpdateRank_pp()
+	},7000)
+	//window.interval.renderUpdateRank_rt = setInterval(function(){
+	//	if( !window.socketData.renderMassTransInfo_sell ) return;
+	//	if( !window.socketData.renderMassTransInfo_buy ) return;
+	//	window.wsFns.renderUpdateRank_rt()
+	//},7000)
+	//window.interval.renderMassTransList_buy = setInterval(function(){
+	//	if( !window.socketData.renderMassTransInfo_sell ) return;
+	//	if( !window.socketData.renderMassTransInfo_buy ) return;
+	//	window.wsFns.renderMassTransList_buy()
+	//},7000)
 })
 </script>
 
@@ -2456,13 +3095,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 				<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 			</div>
-			<div class="sixteen wide column" id="tree" style="text-align:center;height:300px;"></div>
-			<div class="sixteen wide column" id="tree_00" style="text-align:center;height:300px;"></div>
 			<div class="sixteen wide column">
 				<div class="ui grid">
-					<div class="ui five cards" id="mass_b_s"></div>
+					<div class="ui ten cards" id="mass_b_s"></div>
 				</div>
-			</div>
+			</div>			
+			<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:400px;padding:0px;"></div>
+			<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>
+			
+			<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
+			
+			<!-- <div class="five wide column" id="tree" style="text-align:center;height:900px;padding:0px;"></div> -->
+			
+			<!-- <div class="five wide column" id="tree_00" style="text-align:center;height:900px;padding:0px;"></div> -->
+			
+			<!--div class="sixteen wide column" id="rank_rt" style="text-align:center;height:1200px;padding:0px;"></div-->
+			
+			<!--div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:900px;padding:0px;"></div-->
+			
 			<div class="sixteen wide column">
 				<div class="ui grid">
 					<div class="sixteen wide column">

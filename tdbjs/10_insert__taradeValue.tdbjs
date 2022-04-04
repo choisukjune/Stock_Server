@@ -1,0 +1,29 @@
+var db_nm = "trad_value";
+
+var data = <!=DATA=!>
+var date = "<!=DATE=!>"
+var db0 = db.getSiblingDB( db_nm );
+
+var col_nm = db0.getCollection( "data" );
+
+
+col_nm.remove( { _d : date * 1 } );
+
+var _ta = [];
+var i = 0,iLen = data.length,io;
+for(;i<iLen;++i){
+	io = data[ i ];
+	io._id = date + "_" + io.cd
+	io._d = date * 1
+	_ta.push( io );
+	
+	if( _ta.length == 500 )
+	{
+		col_nm.insertMany( _ta );
+		_ta = [];
+	}
+	
+	
+}
+col_nm.insertMany( _ta );
+printjson( 1 )

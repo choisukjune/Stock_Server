@@ -1,5 +1,5 @@
 var db_nm = "insightByStock";
-var col_nm = "20220328";
+var col_nm = "20220404";
 
 var db0 = db.getSiblingDB( db_nm );
 var col0 = db0.getCollection( col_nm );

@@ -273,9 +273,45 @@ global.server = http.createServer(function(req, res){
 	return;
 
 })
-
-
 //--------------------------------------------------;
+//--------------------------------------------------;
+//--------------------------------------------------;
+//--------------------------------------------------;
+//--------------------------------------------------;
+//--------------------------------------------------;
+
+
+var curDateTime = function(){
+	var a = new Date()
+	return a.getFullYear()
+	+ String( a.getMonth() + 1 ).padStart(2, '0')
+	+ String( a.getDate() ).padStart(2, '0')
+	//+ String( a.getHours() ).padStart(2, '0')
+	//+ String( a.getMinutes() ).padStart(2, '0')
+	//+ String( a.getSeconds() ).padStart(2, '0');
+}
+var getTimeTo__HHMMSS = function(date){
+	
+	date = date || new Date();
+	//var year = date.getFullYear();
+	//var month = date.getMonth() + 1;
+	//var day = date.getDate();
+	var hour = date.getHours();
+	var minute = date.getMinutes();
+	var second = date.getSeconds();
+
+	//month = month >= 10 ? month : '0' + month;
+	//day = day >= 10 ? day : '0' + day;
+	hour = hour >= 10 ? hour + "" : '0' + hour;
+	minute = minute >= 10 ? minute + "" : '0' + minute;
+	second = second >= 10 ? second + "" : '0' + second;
+	var r = ( hour + minute + second ) * 1;
+
+	return r
+
+}
+
+
 //--------------------------------------------------;
 //--------------------------------------------------;
 //--------------------------------------------------;
@@ -294,7 +330,9 @@ global.wss.on('connection', function connection( ws ) {
 		if( _m.type = "execFunc" )
 		{
 			console.log( _m.funcNm )
-			global.wsFuns[ _m.funcNm ]();
+			var p = null;
+			if( _m.param ) p = _m.param
+			global.wsFuns[ _m.funcNm ]( p );
 		}
 	});
 	ws.on('close', function close() {
@@ -303,9 +341,22 @@ global.wss.on('connection', function connection( ws ) {
 	//var r = {	type : "connection", data : id };
 //global.ws.send( JSON.stringify( r ) );
 });
+global.ws.boradCastMessage = function( o ){
+	var s,so;
+	for( s in global.ws.clients )
+	{
+		so = global.ws.clients[ s ];
+		so.send( JSON.stringify( o ), { binary : true } )
+		//so.send( JSON.stringify( o ) )
+	}
+}
+
 
 global.wsFuns = {}
 global.wsFuns.MarketIndex =function(){
+	
+	console.log( "[ S ] - global.wsFuns.MarketIndex" )
+
 	var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
 	http.get( url + '/getMarketIndex', function(response){
 		response.setEncoding('utf8');
@@ -316,10 +367,12 @@ global.wsFuns.MarketIndex =function(){
 			var r = {
 				type : "data",
 				nm : "MarketIndex",
-				func : "renderMarketIndex(d)",
-				d : d
+				func : "renderMarketIndex",
+				d : d,
+				p : null
 			}
 			global.ws.boradCastMessage( r )
+			console.log( "[ E ] - global.wsFuns.MarketIndex" )
 		});
 
 		response.on('data', function (body) {
@@ -329,6 +382,9 @@ global.wsFuns.MarketIndex =function(){
 }
 
 global.wsFuns.MarketIndexGlobal =function(){
+	
+	console.log( "[ S ] - global.wsFuns.MarketIndexGlobal" )
+
 	var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
 		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
 		+ global.CONST.SERVER.CRWALER.NAVER.port
@@ -337,14 +393,18 @@ global.wsFuns.MarketIndexGlobal =function(){
 
 		var d = "";
 		response.on('end', function () {
-			//res.end( d )
+			
 			var r = {
 				type : "data",
 				nm : "MarketIndexGlobal",
-				func : "renderMarketIndexGlobal(d)",
-				d : d
+				func : "renderMarketIndexGlobal",
+				d : d,
+				p : null
+				
 			}
 			global.ws.boradCastMessage( r )
+
+			console.log( "[ E ] - global.wsFuns.MarketIndexGlobal" )
 		});
 
 		response.on('data', function (body) {
@@ -352,106 +412,174 @@ global.wsFuns.MarketIndexGlobal =function(){
 		});
 	});
 }
-var curDateTime = function(){
-	var a = new Date()
-	return a.getFullYear()
-	+ String( a.getMonth() + 1 ).padStart(2, '0')
-	+ String( a.getDate() ).padStart(2, '0')
-	//+ String( a.getHours() ).padStart(2, '0')
-	//+ String( a.getMinutes() ).padStart(2, '0')
-	//+ String( a.getSeconds() ).padStart(2, '0');
-}
+
 global.wsFuns.updateRank_buy =function(){
 
-	var curDate = curDateTime();
-	if( curDate < 153300 )
+	var curDate = getTimeTo__HHMMSS();
+	if( curDate > 153300 )
 	{
 		global.ws.clearIntervals.updateRank_buy()
-		return;		
+		//return;		
 	}
 	var tForderPath = "./data/realTime/mass_trans_buy/json/"
 	var _d = fs.readFileSync( tForderPath + "mass_trans_buy_rank.json" ).toString();
-	
+	var d = JSON.parse( _d )
+
+		d = d.sort(function(a,b){ return b.total_pp - a.total_pp })
+		d = d.slice(0,100)
 	var r = {
 		type : "data",
 		nm : "updateRank",
-		func : "renderUpdateRank()",
-		d : _d
+		func : "renderUpdateRank",
+		d : JSON.stringify( d ),
+		p : null
 	}
 	global.ws.boradCastMessage( r )
 }
 
 global.wsFuns.updateRank_sell =function(){
 
-	var curDate = curDateTime();
-	if( curDate < 153300 )
+	var curDate = getTimeTo__HHMMSS();
+	if( curDate > 153300 )
 	{
 		global.ws.clearIntervals.updateRank_sell()
-		return;
+		//return;
 	}
 	var tForderPath = "./data/realTime/mass_trans_sell/json/"
 	var _d = fs.readFileSync( tForderPath + "mass_trans_sell_rank.json" ).toString();
+
+	var d = JSON.parse( _d )
+		d = d.sort(function(a,b){ return b.total_pp - a.total_pp })
+		d = d.slice(0,100)
 	
 	var r = {
 		type : "data",
 		nm : "updateRank_sell",
-		func : "renderUpdateRank_sell()",
-		d : _d
+		func : "renderUpdateRank_sell",
+		d : JSON.stringify( d ),
+		p : null
 	}
 	global.ws.boradCastMessage( r )
 }
 
 //--------------------------------------------------;
 //--------------------------------------------------;
+
+global.data = {};
+global.data.MassTransList_buy = {};
+global.data.MassTransList_buy.lastIdx = {};
+global.data.MassTransList_buy.data = [];
+
+global.data.mass_realTimeData_buy = {}
+global.data.mass_realTimeData_buy.prev = {}
+global.data.mass_realTimeData_buy.cur = {}
+
+global.data.mass_realTimeData_sell = {}
+global.data.mass_realTimeData_sell.prev = {}
+global.data.mass_realTimeData_sell.cur = {}
+
+
+global.data.renderTradeValueInfo_gap = {}
+global.data.renderTradeValueInfo_gap.prev = []
+global.data.renderTradeValueInfo_gap.cur = []
+
+
+
+global.wsFuns.makeMassTransList_buy = function( cbFcuntion ){
+	console.log( "[ S ] - global.wsFuns.makeMassTransList_buy")
+	var curDate = getTimeTo__HHMMSS();
+	if( curDate > 153300 )
+	{
+		global.ws.clearIntervals.makeMassTransList_buy()
+		//return;
+	}
+	global.data.MassTransList_buy.isProcessing = 1;
+	var tForderPath = "./data/realTime/mass_trans_buy/json/"
+	var _d = fs.readFileSync( tForderPath + "mass_trans_buy.json" ).toString();	
+	var d = JSON.parse( _d );
+
+	var limit = d.length - global.data.MassTransList_buy.lastIdx;
+	if( global.data.MassTransList_buy.lastIdx == -1 ) limit = 10
+	
+	if( limit == 0 )
+	{
+		console.log( "data not update!" )
+	}
+	else
+	{
+		var data = [];
+		var i = 0,iLen = d.length,io;
+		for(;i<iLen;++i){
+			io = d[ i ];
+			
+			if( i == limit )
+			{
+				break;
+			}
+
+			global.data.MassTransList_buy.data.push( io );
+			
+		}
+		global.data.MassTransList_buy.lastIdx = d.length
+		global.data.MassTransList_buy.isProcessing = 0
+	}
+	
+	console.log( "[ E ] - global.wsFuns.makeMassTransList_buy")
+}
+global.data.MassTransList_buy.lastIdx = -1;
+
 
 
 global.wsFuns.renderMassTransList_buy = function(){
-	var curDate = curDateTime();
-	if( curDate < 153300 )
+	var curDate = getTimeTo__HHMMSS();
+	if( curDate > 153300 )
 	{
-		global.ws.clearIntervals.updateRank_sell()
+		global.ws.clearIntervals.renderMassTransList_buy()
 		return;
 	}
-	var tForderPath = "./data/realTime/mass_trans_buy/json/"
-	var _d = fs.readFileSync( tForderPath + "mass_trans_buy.json" ).toString();
+	if( global.data.MassTransList_buy.data.length == 0 )
+	{
+		console.log( "더이상보낼데이터가 없음! - 갱신실행" )
+		return;
+	}
 	
-	var d = JSON.parse( _d );
+	var sendData = global.data.MassTransList_buy.data.pop();
+	
 
-	var sendData = [];
-	var i = 0,iLen = d.length,io;
-	for(;i<iLen;++i){
-		io = d[ i ];
-		if( i == 0 ) global.wsFuns.renderMassTransList_buy.lastIdx = io._id
-		if( io._id == global.wsFuns.renderMassTransList_buy.lastIdx - 50 )
-		{
-			break;
+	//if( !global.data.mass_realTimeData_buy.prev[ sendData.cd ] ) return;
+	//console.log( "data!" )
+	//var prevData = global.data.mass_realTimeData_buy.prev[ sendData.cd ].total_pp
+	//var curData = global.data.mass_realTimeData_buy.cur[ sendData.cd ].total_pp
+	//console.log( prevData + " - " + curData)
+
+		var r = {
+			type : "data",
+			nm : "renderMassTransList_buy",
+			func : "renderMassTransList_buy",
+			d : JSON.stringify( sendData ),
+			p : null
 		}
-		sendData.push( io );
 		
-	}
+		global.ws.boradCastMessage( r )		
 
-	var r = {
-		type : "data",
-		nm : "renderMassTransList_buy",
-		func : "renderMassTransList_buy()",
-		d : JSON.stringify( sendData )
-	}
-	global.ws.boradCastMessage( r )
 }
-global.wsFuns.renderMassTransList_buy.lastIdx = -1;
 
 
 global.wsFuns.renderMassTransInfo_buy = function(){
-	var curDate = curDateTime();
-	if( curDate < 153300 )
+	var curDate = getTimeTo__HHMMSS();
+	debugger;
+	if( curDate > 153300 )
 	{
 		global.ws.clearIntervals.renderMassTransInfo_buy()
-		return;
+		//return;
 	}
 	var tForderPath = "./data/realTime/mass_trans_buy/json/"
 	var _d = fs.readFileSync( tForderPath + "mass_trans_buy.json" ).toString();
 	
 	var d = JSON.parse( _d );
+
+	global.data.mass_realTimeData_buy.prev = global.data.mass_realTimeData_buy.cur
+	global.data.mass_realTimeData_buy.cur = d
 
 	var sendData = {};
 	var i = 0,iLen = d.length,io;
@@ -471,18 +599,19 @@ global.wsFuns.renderMassTransInfo_buy = function(){
 	var r = {
 		type : "data",
 		nm : "renderMassTransInfo_buy",
-		func : "renderMassTransInfo_buy()",
-		d : JSON.stringify( sendData )
+		func : "renderMassTransInfo_buy",
+		d : JSON.stringify( sendData ),
+		p : null
 	}
 	global.ws.boradCastMessage( r )
 }
 
 global.wsFuns.renderMassTransInfo_sell = function(){
-	var curDate = curDateTime();
-	if( curDate < 153300 )
+	var curDate = getTimeTo__HHMMSS();
+	if( curDate > 153300 )
 	{
 		global.ws.clearIntervals.renderMassTransInfo_sell()
-		return;
+		//return;
 	}
 	var tForderPath = "./data/realTime/mass_trans_sell/json/"
 	var _d = fs.readFileSync( tForderPath + "mass_trans_sell.json" ).toString();
@@ -507,10 +636,88 @@ global.wsFuns.renderMassTransInfo_sell = function(){
 	var r = {
 		type : "data",
 		nm : "renderMassTransInfo_sell",
-		func : "renderMassTransInfo_sell()",
-		d : JSON.stringify( sendData )
+		func : "renderMassTransInfo_sell",
+		d : JSON.stringify( sendData ),
+		p : null
+
 	}
 	global.ws.boradCastMessage( r )
+}
+
+global.wsFuns.renderTradeValueInfo_gap = function(){
+	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo_gap" )
+	var curDate = getTimeTo__HHMMSS();
+
+	if( curDate > 153300 )
+	{
+		//global.ws.clearIntervals.renderTradeValueInfo_gap()
+		//return;
+	}
+	var tForderPath = "./data/realTime/tradeValue/json/"
+	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
+	
+	var d = JSON.parse( _d );
+
+	global.data.renderTradeValueInfo_gap.prev = global.data.renderTradeValueInfo_gap.cur
+	global.data.renderTradeValueInfo_gap.cur = d
+	
+	var prev = global.data.renderTradeValueInfo_gap.prev
+	var cur = global.data.renderTradeValueInfo_gap.cur
+	debugger;
+	if( prev.length == 0 || cur.length == 0 )
+	{
+		console.log( "not yet prev Data" )
+		return;
+	}
+
+	var data = [];
+
+	var i = 0,iLen = cur.length,io,io00;
+	for(;i<iLen;++i){
+		io = cur[ i ];
+		io00 = prev[ i ];
+		if( io.tradeValue - io00.tradeValue > 0 )
+		{
+			io.tradeValueGap = io.tradeValue - io00.tradeValue
+			io.rtChange = io.rt - io00.rt
+			data.push( io )
+
+		}
+	}
+	
+	var r = {
+		type : "data",
+		nm : "renderTradeValueInfo_gap",
+		func : "renderTradeValueInfo_gap",
+		d : JSON.stringify( data ),
+		p : null
+	}
+	global.ws.boradCastMessage( r )
+	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
+}
+
+
+global.wsFuns.renderTradeValueInfo = function(){
+	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo" )
+	var curDate = getTimeTo__HHMMSS();
+
+	if( curDate > 153300 )
+	{
+		//global.ws.clearIntervals.renderTradeValueInfo()
+		//return;
+	}
+	var tForderPath = "./data/realTime/tradeValue/json/"
+	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
+	
+	var r = {
+		type : "data",
+		nm : "renderTradeValueInfo",
+		func : "renderTradeValueInfo",
+		d : _d,
+		p : null
+	}
+	global.ws.boradCastMessage( r )
+	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
 }
 
 //--------------------------------------------------;
@@ -519,12 +726,15 @@ global.wsFuns.renderMassTransInfo_sell = function(){
 
 global.ws.intervals = {}
 global.ws.intervals.MarketIndex 		= setInterval(global.wsFuns.MarketIndex,5000);
-//global.ws.intervals.MarketIndexGlobal	 = setInterval(global.wsFuns.MarketIndexGlobal,5000);
-global.ws.intervals.updateRank_buy		= setInterval(global.wsFuns.updateRank_buy,30000);
-global.ws.intervals.updateRank_sell		= setInterval(global.wsFuns.updateRank_sell,30000);
-global.ws.intervals.renderMassTransList_buy		= setInterval(global.wsFuns.renderMassTransList_buy,30000);
-global.ws.intervals.renderMassTransInfo_buy		= setInterval(global.wsFuns.renderMassTransInfo_buy,30000);
-global.ws.intervals.renderMassTransInfo_sell		= setInterval(global.wsFuns.renderMassTransInfo_sell,30000);
+global.ws.intervals.MarketIndexGlobal	 = setInterval(global.wsFuns.MarketIndexGlobal,5000);
+//global.ws.intervals.updateRank_buy		= setInterval(global.wsFuns.updateRank_buy,30000);
+//global.ws.intervals.updateRank_sell		= setInterval(global.wsFuns.updateRank_sell,30000);
+//global.ws.intervals.renderMassTransList_buy		= setInterval(global.wsFuns.renderMassTransList_buy,500);
+//global.ws.intervals.renderMassTransInfo_buy		= setInterval(global.wsFuns.renderMassTransInfo_buy,30000);
+//global.ws.intervals.renderMassTransInfo_sell		= setInterval(global.wsFuns.renderMassTransInfo_sell,30000);
+//global.ws.intervals.makeMassTransList_buy		= setInterval( global.wsFuns.makeMassTransList_buy ,7000);
+global.ws.intervals.renderTradeValueInfo		= setInterval( global.wsFuns.renderTradeValueInfo ,7000);
+global.ws.intervals.renderTradeValueInfo_gap		= setInterval( global.wsFuns.renderTradeValueInfo_gap ,7000);
 
 global.ws.clearIntervals = {}
 global.ws.clearIntervals.MarketIndex 		= function(){ clearInterval( global.ws.intervals.MarketIndex ) };
@@ -534,16 +744,9 @@ global.ws.clearIntervals.updateRank_sell 		= function(){ clearInterval( global.w
 global.ws.clearIntervals.renderMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransList_buy ) };
 global.ws.clearIntervals.renderMassTransInfo_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransInfo_buy ) };
 global.ws.clearIntervals.renderMassTransInfo_sell 	= function(){ clearInterval( global.ws.intervals.renderMassTransInfo_sell ) };
-
-global.ws.boradCastMessage = function( o ){
-	var s,so;
-	for( s in global.ws.clients )
-	{
-		so = global.ws.clients[ s ];
-		so.send( JSON.stringify( o ), { binary : true } )
-		//so.send( JSON.stringify( o ) )
-	}
-}
+global.ws.clearIntervals.makeMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.makeMassTransList_buy ) };
+global.ws.clearIntervals.renderTradeValueInfo 	= function(){ clearInterval( global.ws.intervals.renderTradeValueInfo ) };
+global.ws.clearIntervals.renderTradeValueInfo_gap 	= function(){ clearInterval( global.ws.intervals.renderTradeValueInfo_gap ) };
 
 //--------------------------------------------------;
 //--------------------------------------------------;
