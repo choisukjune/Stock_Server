@@ -133,7 +133,7 @@ var csvToJson = function(){
 
 	if( param ) return csvToJson_close();
 
-	global.arr = [];	
+	global.o = {};	
 
 	var fileNm  = "tradeValue";
 
@@ -169,13 +169,14 @@ var csvToJson = function(){
 4	'016790	현대사료	"97,300"	▼	"-19,500"	"-16.70"	"2,820,374"	""	"45.86%"	"382,966"
 5	'249420	일동제약	"65,500"	▼	"-2,700"	"-3.96"	"4,568,794"	"78.56"	"17.71%"	"302,896"
 6	'011700	한신기계	"8,470"	▲	"230"	"+2.79"	"32,725,842"	"774.55"	"100.87%"	"294,378"
-*/
+*/		
+		var cd = _d00[ 1 ].replace(/\'/gi,"");
+		if( !global.o[ cd ] ) global.o[ io.cd ] = {};
 
-		var _o ={
-			_id : i
-			, _t :  dateString_YYYYMMDD( target_date ) + "T" + nowTime//.replace(/\:/gi,"")
+		global.o[ cd ] ={
+			_t :  dateString_YYYYMMDD( target_date ) + "T" + nowTime//.replace(/\:/gi,"")
 			//_t :  _d00[ 0 ]//.replace(/\:/gi,"")
-			, cd : _d00[ 1 ].replace(/\'/gi,"")
+			, cd : cd
 			, nm : _d00[ 2 ]
 			, prevChange : _d00[ 5 ] * 1
 			, prevChange_reg : _d00[ 8 ] * 1
@@ -186,15 +187,11 @@ var csvToJson = function(){
 			, rt : parseFloat( _d00[ 6 ].replace("%","") )
 			, ogText : io
 		}
-		_o.dt = dateFormat_Object();
-
-		global.arr.push( _o )
-		
-		
+		global.o[ cd ].dt = dateFormat_Object();		
 	}	
 	
 	
-	fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify(global.arr ),{flag :'w'} )	
+	fs.writeFileSync( target_folder_json + fileNm + ".json", JSON.stringify( global.o ),{flag :'w'} )	
 	console.log( "[ E ] - " + fileNm + " - " + dateFormat_YYMMDD_HHMMSS() )
 }
 csvToJson.cnt = 0;

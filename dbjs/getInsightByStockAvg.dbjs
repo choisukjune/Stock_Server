@@ -1,6 +1,6 @@
 var db_nm = "insightByStock_avg";
 var col_nm = "inSight_5day";
-var cd = "016790"
+var cd = "126600"
 
 var db0 = db.getSiblingDB( db_nm );
 var col0 = db0.getCollection( col_nm );

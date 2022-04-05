@@ -672,15 +672,18 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 
 	var data = [];
 
-	var i = 0,iLen = cur.length,io,io00;
-	for(;i<iLen;++i){
-		io = cur[ i ];
-		io00 = prev[ i ];
-		if( io.tradeValue - io00.tradeValue > 0 )
+	var s,so,so00;
+	for( s in cur ){
+		so = cur[ s ];
+		so00 = prev[ s ];
+		if( so.tradeValue - so00.tradeValue > 0 )
 		{
-			io.tradeValueGap = io.tradeValue - io00.tradeValue
-			io.rtChange = io.rt - io00.rt
-			data.push( io )
+			so.tradeValueGap = so.tradeValue - so00.tradeValue
+			so.curRt = so.rt
+			so.prevRt = so00.rt
+			so.rtChange = so.rt - so00.rt
+
+			data.push( so )
 
 		}
 	}
@@ -708,12 +711,21 @@ global.wsFuns.renderTradeValueInfo = function(){
 	}
 	var tForderPath = "./data/realTime/tradeValue/json/"
 	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
-	
+	var d = JSON.parse( _d );
+
+	var data = [];
+
+	var s,so;
+	for( s in d ){
+		so = d[ s ];
+		data.push( so )
+	}
+
 	var r = {
 		type : "data",
 		nm : "renderTradeValueInfo",
 		func : "renderTradeValueInfo",
-		d : _d,
+		d : JSON.stringify( data ),
 		p : null
 	}
 	global.ws.boradCastMessage( r )
