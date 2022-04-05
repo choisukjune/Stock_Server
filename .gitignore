@@ -11,4 +11,3 @@ dbjs/
 _cmd.exe
 package-lock.json
 *.bak
-*.dbjs
