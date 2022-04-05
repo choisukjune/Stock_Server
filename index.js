@@ -815,7 +815,7 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 	for( s in cur ){
 		so = cur[ s ];
 		so00 = prev[ s ];
-		if( !so.tradeValue || !so00.tradeValue ) contiune;
+		if( !so.tradeValue || !so00.tradeValue ) continue;
 		if( so.tradeValue - so00.tradeValue > 0 )
 		{
 			so.tradeValueGap = so.tradeValue - so00.tradeValue
