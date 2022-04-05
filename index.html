@@ -882,7 +882,7 @@ window.wsFns.renderTradeValueList = function(){
 				//"{hr|}",
 				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
 				"{hr|}",
-				"{a|volume:" + echarts.format.addCommas(params.data.amt) + " / value:" + echarts.format.addCommas(params.data.tradeValue) + "}",
+				"{a|volume:" + echarts.format.addCommas(params.data.amt) + " / value:" + longNumberAddString(params.data.tradeValue) + "}",
 				"{a|curRt:" + echarts.format.addCommas(params.data.curRt) + " / prevRt:" + echarts.format.addCommas(params.data.prevRt) + "}",
 				"{hr|}",
 				"{b|" + longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
@@ -3102,7 +3102,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				<div class="ui grid">
 					<div class="ui ten cards" id="mass_b_s"></div>
 				</div>
-			</div>			
+			</div>		
+			<div class="sixteen wide column">
+				<div class="ui eight cards" id="market_index"></div>		
+			</div>
 			<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div>
 			<!-- <div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div> -->
 			
@@ -3119,7 +3122,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			<div class="sixteen wide column">
 				<div class="ui grid">
 					<div class="sixteen wide column">
-						<div class="ui eight cards" id="market_index"></div>
+						<!-- <div class="ui eight cards" id="market_index"></div> -->
 						<div class="ui ten cards" id="market_index_1"></div>
 					</div>
 				</div>
