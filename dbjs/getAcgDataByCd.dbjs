@@ -1,8 +1,8 @@
 var db_nm = "trad_data";
 var col_nm = "data";
-var cd = "373220"
-var start = 20211004
-var end = 20220404
+var cd = "016790"
+var start = 20211005
+var end = 20220405
 
 var db0 = db.getSiblingDB( db_nm );
 var col0 = db0.getCollection( col_nm );

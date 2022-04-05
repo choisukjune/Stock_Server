@@ -704,7 +704,7 @@ window.wsFns.renderTradeValueRank = function(){
 		var _o = {
 			name : so.nm
 			,cd : so.cd
-			,value : [ so.tradeValue, so.rt ]
+			,value : so.rt
 			,price : so.price
 			,rt : so.rt
 			,r_mark : symbol
@@ -760,7 +760,7 @@ window.wsFns.renderTradeValueRank = function(){
 			},
 			visualMin : -30,
 			visualMax : 30,
-			visualDimension : 1,
+			//visualDimension : 1,
 			levels: [{ color: ['blue','#ccc','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
 		}
 		]
@@ -846,7 +846,7 @@ window.wsFns.renderTradeValueList = function(){
 		var _o = {
 			name : so.nm
 			,cd : so.cd
-			,value : [ so.tradeValue, so.rt ]
+			,value : [ so.tradeValueGap, so.rt ]
 			,price : so.price
 			,rt : so.rt
 			,rtChange : so.rtChange
@@ -883,7 +883,7 @@ window.wsFns.renderTradeValueList = function(){
 				"{a|volume:" + echarts.format.addCommas(params.data.amt) + "}",
 				"{a|value:" + echarts.format.addCommas(params.data.tradeValue) + "}",
 				"{hr|}",
-				"{b|" + longNumberAddString( params.value ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
+				"{b|" + longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
 
 			];
 			return arr.join('\n');
