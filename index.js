@@ -828,7 +828,7 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 		p : null
 	}
 	global.ws.boradCastMessage( r )
-	global.wsFns.insertTradeValueInfo_gap( r.d )
+	global.wsFuns.insertTradeValueInfo_gap( r.d )
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
 }
 
