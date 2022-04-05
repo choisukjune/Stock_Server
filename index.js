@@ -12,6 +12,13 @@ var http = require('http');
 var path = require('path');
 var WebSocket = require('ws');
 
+var url = require('url');
+
+var execSync = require('child_process').execSync;
+var iconv = require( "iconv-lite" );
+var spawn = require('child_process').spawn;
+
+
 //-------------------------------------------------------;
 // VARIABLE;
 //-------------------------------------------------------;
