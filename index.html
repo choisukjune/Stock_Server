@@ -1072,111 +1072,137 @@ window.treemapChart00.isEvent = 0;
 window.treemapChart00.isReq = 0;
 var updateRankWics = function(){
 
-		if( window.treemapChart00.isReq )
-		{
-			console.log( "requesting! - wait - 5sec." )
-			return setTimeout(function(){ 
-				updateRankWics();
-			},5000)
-
-		}
 		var xhr = new XMLHttpRequest();
 		
 		xhr.open("GET" , `http://112.144.208.118:8888/getWicsData`, true);
-		window.treemapChart00.isReq = 1;
 		xhr.onreadystatechange = function(){
 			
 			if( xhr.readyState == 4 && xhr.status == 200)
 			{
 				
 				var d = JSON.parse( xhr.responseText )
-
-				if( d.data.length == 0 )
-				{
-					window.treemapChart00.isReq = 0;
-					console.log( "Data Updateing! - wait - 5sec." )
-					return setTimeout(function(){ 
-								updateRank()  
-					},5000)
-				}
-				window.treemapChart00.isReq = 0;
-				var curTime = getTimeTo__HHMMSS();
-				
-				if( curTime < 153000 && curTime > 900000 ){
-					var isMarketClose = 0
-				}
-				else
-				{
-					var isMarketClose = 1
-				}
-				console.log( "current Time : " + curTime + " / market Close : " + isMarketClose )
-				if( d.data.length == 0 ) return;
-
-				var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
-				var title = nowDate + " - 실시간 업종 현황";
-				if( !isMarketClose ) title += "( 장마감 )" 
-				
-				var _htmlTxt = `
-				<div style="color:#666;font-size:12px;text-align:left;">
-				${title}
-				</div>
-				<table class="ui celled table compact">
-					<thead>
-						<tr>
-							<th> 업종( wics )   </th>
-							<th> 거래대금 </th>
-							<th> 증감률  </th>
-						</tr>
-					</thead>
-					<tbody>
-				`
-				var i =0,iLen = d.data.length,io,io00;
-
-				for(;i<iLen;++i){
-
-					io = d.data[ i ];
-
-					_htmlTxt += "<tr class='wics_data' style='cursor:pointer;' data-cd-value='" + io.sectorCode + "'>";
-					_htmlTxt += "<td>" + io.sectorName + "(" + io.sectorCode + ")</td>";  
-					_htmlTxt += "<td>" + numberWithCommas( io.accTradePrice ) + "</td>";
-					_htmlTxt += "<td>" + ( io.changeRate * 100 ).toFixed(2)  + "%</td>";  
-					_htmlTxt += "</tr>"
-				}
-				
-				_htmlTxt += `</tbody></table>`
-					
-				
-				window._el.id_tree_wics.innerHTML = _htmlTxt
-				
-				var trs = window.document.getElementsByClassName( "wics_data" );
-
-				var i = 0,iLen = trs.length,io;
-				for(;i<iLen;++i){
-					io = trs[ i ];
-					io.addEventListener("click",function(e){
-						var cd = e.currentTarget.getAttribute( "data-cd-value" );
-						getWicsDataByCd( cd )
-					})
-				}
-
-				
-				// if( isMarketClose ){
-				// 	console.log( "data-reload!" )
-				// 	return setTimeout(function(){ 
-				// 		updateRankWics()  
-				// 	},5000)	
-				// }
-				// else
-				// {
-				// 	console.log( "장마감" )
-				// }
-				
+				renderTreemapWics( d.data )
+								
 			}
 		}
 
 		xhr.send();
 	
 }
+
+var renderTreemapWics = function( d ){
+	
+	console.log( "[ S ] - renderTreemapWics" )
+	
+	if( d.length == 0 ) return;
+	
+	var domId = "wicsTree";
+	
+	var dom = document.getElementById( domId );
+	if( !window.treemapChart_wics )
+	{
+		window.treemapChart_wics = echarts.init(dom);
+		window.treemapChart_wics.isEvent = 0;
+	}
+	
+	//window.treemapChart_wics.showLoading()
+	
+	var _chartData = [];
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[i]
+		
+		var symbol = "▲"
+		if( io.rt == 0 ) var symbol = "-"
+		if( io.rt < 0 ) var symbol = "▼"
+		
+		var _o = {
+			name : io.sectorName
+			, cd : io.sectorCode
+			, value : [ io.accPrice, io.changeRate ]
+			, accPrice : io.accPrice
+			, accVolume : io.accVolume
+			, changeRate : io.changeRate
+			, children : []
+		}
+		_chartData.push( _o )
+	}
+
+	var h = dom.style.height.replace("px") * 1
+	
+	var app = {};
+
+	var option;
+	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
+	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	option = {
+		title : { show :false, text : title,textStyle : { fontSize:13 } },
+		grid : { top:0 },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			height :h,
+			top:0,
+			data : _chartData,
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				//"{hr|}",
+//				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
+//				"{hr|}",
+//				"{a|volume:" + echarts.format.addCommas(params.data.amt) + " / value:" + longNumberAddString(params.data.tradeValue) + "}",
+//				"{a|curRt:" + echarts.format.addCommas(params.data.curRt) + " / prevRt:" + echarts.format.addCommas(params.data.prevRt) + "}",
+//				"{hr|}",
+//				"{b|" + longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			visualMin : -1,
+			visualMax : 1,
+			visualDimension : 1,
+			levels: [{ color: ['blue','#999','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+	window.treemapChart_wics.setOption(option);
+	window.treemapChart_wics.resize();
+
+	//setTimeout(function(){ window.treemapChart_wics.hideLoading(); },1000)
+	
+	}
+
+	if( !window.treemapChart_wics.isEvent )
+	{
+		window.treemapChart_wics.on('click',function(d){
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + d.data.cd
+			a.click();
+			a = null;
+		})
+		window.treemapChart_wics.isEvent = 1;
+	}
+	console.log( "[ E ] - renderTreemapWics" )
+
+
+}
+
 
 var getWicsDataByCd = function( cd ){
 		
