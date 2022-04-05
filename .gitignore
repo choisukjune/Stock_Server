@@ -3,7 +3,7 @@ data/
 DataBase/0/
 log/
 node_modules/
-dbjs/
+dbjs/*
 
 # files
 *.dbjs
