@@ -898,7 +898,7 @@ global.ws.clearIntervals.renderTradeValueInfo_gap 	= function(){ clearInterval( 
 //--------------------------------------------------;
 
 
-global.wsFns.insertTradeValueInfo_gap = function( d ){
+global.wsFuns.insertTradeValueInfo_gap = function( d ){
 	console.log( "[ S ] - global.wsFns.insertTradeValueInfo_gap" )
 	var _tdbjs_nm = "insertTradeValueInfo_gap";
 	console.log( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ); 
