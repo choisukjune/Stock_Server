@@ -790,7 +790,7 @@ window.wsFns.renderTradeValueRank = function(){
 
 window.wsFns.renderTradeValueInfo = function(){
 	debugger;
-	//window.wsFns.renderTradeValueRank();
+	window.wsFns.renderTradeValueRank();
 }
 
 window.wsFns.renderTradeValueInfo_gap = function(){
@@ -3065,11 +3065,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.ws.onerror = function(error) { console.log(`[error] ${error.message}`); };
 
 	window.interval = {}
-	window.interval.renderUpdateRank_pp = setInterval(function(){
-		if( !window.socketData.renderMassTransInfo_sell ) return;
-		if( !window.socketData.renderMassTransInfo_buy ) return;
-		window.wsFns.renderUpdateRank_pp()
-	},7000)
+	//window.interval.renderUpdateRank_pp = setInterval(function(){
+	//	if( !window.socketData.renderMassTransInfo_sell ) return;
+	//	if( !window.socketData.renderMassTransInfo_buy ) return;
+	//	window.wsFns.renderUpdateRank_pp()
+	//},7000)
 	//window.interval.renderUpdateRank_rt = setInterval(function(){
 	//	if( !window.socketData.renderMassTransInfo_sell ) return;
 	//	if( !window.socketData.renderMassTransInfo_buy ) return;
@@ -3085,20 +3085,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <body style="padding:50px;">
 	<div class="ui grid">
-		<div class="sixteen wide column" style="padding: 20px;">
+		<div class="eight wide column" style="padding: 20px;">
 			<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
 			<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
 			<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
 			<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span>
 		</div>
 
-		<div class="sixteen wide column" style="padding: 20px;" id="search_wrap">
+		<div class="eight wide column" style="padding: 20px;" id="search_wrap">
 				<div class="ui fluid icon input">
 					<input type="text" placeholder="Search a very wide input..." id="search">
 					<i class="search icon"></i>
 				</div>
 				<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
-			</div>
+		</div>
 			<div class="sixteen wide column">
 				<div class="ui grid">
 					<div class="ui ten cards" id="mass_b_s"></div>
@@ -3118,7 +3118,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					
 			</div>
 			<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div>
-			<!-- <div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div> -->
+			<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>
 			
 			<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
 			
