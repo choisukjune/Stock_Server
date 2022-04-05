@@ -815,17 +815,25 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 	for( s in cur ){
 		so = cur[ s ];
 		so00 = prev[ s ];
-		if( !so.tradeValue || !so00.tradeValue ) continue;
-		if( so.tradeValue - so00.tradeValue > 0 )
+		try
 		{
-			so.tradeValueGap = so.tradeValue - so00.tradeValue
-			so.curRt = so.rt
-			so.prevRt = so00.rt
-			so.rtChange = so.rt - so00.rt
+			if( !so || !so00 ) continue;
+			if( so.tradeValue - so00.tradeValue > 0 )
+			{
+				so.tradeValueGap = so.tradeValue - so00.tradeValue
+				so.curRt = so.rt
+				so.prevRt = so00.rt
+				so.rtChange = so.rt - so00.rt
 
-			data.push( so )
+				data.push( so )
 
+			}
 		}
+		catch( er )
+		{
+			debugger;
+		}
+
 	}
 	
 	var r = {
