@@ -6,7 +6,7 @@ node_modules/
 dbjs/
 
 # files
-
+*.dbjs
 *.result
 _cmd.exe
 package-lock.json
