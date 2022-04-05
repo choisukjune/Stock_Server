@@ -1,19 +1,20 @@
 var db_nm = "trade_value_gap";
 
 var data = <!=DATA=!>
+var date = "<!=DATE=!>"
 var db0 = db.getSiblingDB( db_nm );
 
-var col_nm = db0.getCollection( "<!=DATE=!>" );
+var col_nm = db0.getCollection( date );
 
 
-col_nm.drop();
+//col_nm.drop();
 
 var _ta = [];
 var i = 0,iLen = data.length,io;
 for(;i<iLen;++i){
 	io = data[ i ];
-	io._id = NumberInt( io._t + "_" + io.cd );
-	
+	io._id = io._t + "_" + io.cd;
+	io._dt = date * 1
 	_ta.push( io );
 
 	if( _ta.length == 500 )

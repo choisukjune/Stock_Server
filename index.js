@@ -815,6 +815,7 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 	for( s in cur ){
 		so = cur[ s ];
 		so00 = prev[ s ];
+		if( !so.tradeValue || !so00.tradeValue ) contiune;
 		if( so.tradeValue - so00.tradeValue > 0 )
 		{
 			so.tradeValueGap = so.tradeValue - so00.tradeValue
@@ -920,7 +921,7 @@ global.wsFuns.insertTradeValueInfo_gap = function( d ){
 	}
 
 	var query = _tQuery
-				.replace( "<!=DATA=!>", iconv.decode( r, 'EUC-KR').toString() )
+				.replace( "<!=DATA=!>", d )
 				.replace( "<!=DATE=!>", dateFormat_YYMMDD() );
 
 	var dbjs_nm = "insertTradeValueInfo_gap.dbjs";
