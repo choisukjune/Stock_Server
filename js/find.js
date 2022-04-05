@@ -1965,11 +1965,11 @@ var pad = function(n, width){
 		http://localhost:8888/find?brand=varihope&page=1
 	* </code>
 	*/
-	global.server.addRouter("/getInterestStock",function( req, res ){
+	global.server.addRouter("/getInterestStockByDate",function( req, res ){
 		
 		var routerNm = req.url.split("?")[0];
 		var paramsO = paramToObject( req.url );
-		var _tdbjs_nm = "getInterestStock";
+		var _tdbjs_nm = "getInterestStockByDate";
 				
 
 		res.statusCode = 200;
@@ -2010,7 +2010,7 @@ var pad = function(n, width){
 			//.replace( "<!=CD=!>", paramsO.cd )
 			//.replace( "<!=LIMIT=!>", limit );
 			
-		var dbjs_nm = "getInterestStock.dbjs";
+		var dbjs_nm = "getInterestStockByDate.dbjs";
 
 		var FILE_PATH = DBJS_DIRECTORY_PATH + dbjs_nm;
 		

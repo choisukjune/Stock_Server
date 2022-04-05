@@ -63,7 +63,7 @@ FileAppend, %clipboard%, .\data\realTime\tradeValue\csv\tradeValue.txt
 
 sleep,500
 
-;Run, %comspec% /c node D:\dev\stock_temp_server\07_make_mass_trns_DATA_REALTIME.js %Param1%,,hide
+;Run, %comspec% /c node .\07_make_mass_trns_DATA_REALTIME.js %Param1%,,hide
 
 sleep,3000
 
