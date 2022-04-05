@@ -1370,11 +1370,11 @@ window.wsFns.renderMarketIndexGlobal = function(){
 	var s,so;
 	for( s in window.socketData.MarketIndexGlobal ){
 		so = window.socketData.MarketIndexGlobal[ s ];
-		
-			var i = 0,iLen = so.length,io;
+		if( s != "USA ") continue
+		var i = 0,iLen = so.length,io;
 		for(;i<iLen;++i){
 			io = so[ i ];
-			//var color = generateColor('#FF0000','#cccccc',o.rt)				
+			//var color = generateColor('#FF0000','#cccccc',o.rt)		
 			var name = ""
 			if( io.stockEndType == "futures") name = io.futuresName;
 			else name = io.indexName;
@@ -1403,7 +1403,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 			}
 			
 			var new_el = htmlToElement( _html )
-			window._el.id_market_index_1.appendChild( new_el )	
+			window._el.id_market_index.appendChild( new_el )	
 				
 		}
 		
