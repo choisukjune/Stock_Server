@@ -918,8 +918,9 @@ global.wsFuns.insertTradeValueInfo_gap = function( d ){
 		console.log( routerNm + " - DBJS File Not Found! - " + err );
 		res.end("{ sucess : 0, data : null }");
 	}
+
 	var query = _tQuery
-				.replace( "<!=DATA=!>", d )
+				.replace( "<!=DATA=!>", iconv.decode( r, 'EUC-KR').toString() )
 				.replace( "<!=DATE=!>", dateFormat_YYMMDD() );
 
 	var dbjs_nm = "insertTradeValueInfo_gap.dbjs";
