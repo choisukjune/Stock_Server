@@ -677,9 +677,8 @@ window.wsFns.renderTradeValueRank = function(){
 	{
 		window.treemapChart_03 = echarts.init(dom);
 		window.treemapChart_03.isEvent = 0;
+		window.treemapChart_03.showLoading();
 	}
-	
-	//window.treemapChart_03.showLoading()
 
 	var _chartData = [];
 	
@@ -699,8 +698,6 @@ window.wsFns.renderTradeValueRank = function(){
 		{
 			var symbol = "▼"	
 		}
-		
-		
 		var _o = {
 			name : so.nm
 			,cd : so.cd
@@ -714,13 +711,13 @@ window.wsFns.renderTradeValueRank = function(){
 		}
 		_chartData.push( _o )
 	}
-	var h = dom.style.height.replace("px") * 1
+	var h = dom.style.height.replace("px") * 1 - 0
 	var chartData = _chartData.sort(function(a,b){ return a.rt - b.rt }).reverse();
 	var app = {};
 
 	var option;
 	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
-	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	var title = nowDate + " - 실시간 거래대금";
 	option = {
 
 		title : { show :false, text : title,textStyle : { fontSize:13 } },
@@ -731,16 +728,15 @@ window.wsFns.renderTradeValueRank = function(){
 			width :"100%",
 			height :h,
 			top:0,
-			data : chartData.slice(0,100),
+			data : chartData.slice(0,300),
 //			data : chartData,
 			label : { formatter: function (params) { 
 			let arr = [ "{title|" + params.name + "}",
 				"{hr|}",
 				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
 				"{hr|}",
-				"{a|" + echarts.format.addCommas(params.data.amt) + "}",
-				"{hr|}",
 				"{b|" + longNumberAddString( params.data.tradeValue) + "}",
+				//"{a|" + echarts.format.addCommas(params.data.amt) + "}",
 
 			];
 			return arr.join('\n');
@@ -767,15 +763,13 @@ window.wsFns.renderTradeValueRank = function(){
 	};
 
 	if( option && typeof option === 'object' ){
-	window.treemapChart_03.setOption(option);
-	window.treemapChart_03.resize();
-
-	//setTimeout(function(){ window.treemapChart_03.hideLoading(); },1000)
-	
+		window.treemapChart_03.setOption(option);
+		window.treemapChart_03.resize();	
 	}
 
 	if( !window.treemapChart_03.isEvent )
 	{
+		setTimeout(function(){ window.treemapChart_03.hideLoading(); },1000)
 		window.treemapChart_03.on('click',function(d){
 			var a = window.document.createElement( "a" );
 			a.target = "_blank";
@@ -1107,6 +1101,8 @@ var renderTreemapWics = function( d ){
 	
 	//window.treemapChart_wics.showLoading()
 	
+	var min = 0;
+	var max = 0;
 	var _chartData = [];
 	var i = 0,iLen = d.length,io;
 	for(;i<iLen;++i){
@@ -1116,25 +1112,28 @@ var renderTreemapWics = function( d ){
 		if( io.rt == 0 ) var symbol = "-"
 		if( io.rt < 0 ) var symbol = "▼"
 		
+		if( min > io.changeRate ) min = io.changeRate;
+		if( max < io.changeRate ) max = io.changeRate;
+
 		var _o = {
 			name : io.sectorName
 			, cd : io.sectorCode
-			, value : [ io.accPrice, io.changeRate ]
-			, accPrice : io.accPrice
-			, accVolume : io.accVolume
+			, value : [ io.changeRate + 30, io.changeRate ]
+			, accTradePrice : io.accTradePrice
+			, accTradeVolume : io.accTradeVolume
 			, changeRate : io.changeRate
 			, children : []
 		}
 		_chartData.push( _o )
 	}
 
-	var h = dom.style.height.replace("px") * 1
+	var h = dom.style.height.replace("px") * 1 - 0
 	
 	var app = {};
 
 	var option;
 	var nowDate = getTimeTo__YYYYMMDD_HHMMSS()
-	var title = nowDate + " - 실시간 대량거래 누적순매수 현황";
+	var title = nowDate + " - WICS 업종별 현황";
 	option = {
 		title : { show :false, text : title,textStyle : { fontSize:13 } },
 		grid : { top:0 },
@@ -1147,14 +1146,11 @@ var renderTreemapWics = function( d ){
 			data : _chartData,
 			label : { formatter: function (params) { 
 			let arr = [ "{title|" + params.name + "}",
-				//"{hr|}",
-//				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
-//				"{hr|}",
-//				"{a|volume:" + echarts.format.addCommas(params.data.amt) + " / value:" + longNumberAddString(params.data.tradeValue) + "}",
-//				"{a|curRt:" + echarts.format.addCommas(params.data.curRt) + " / prevRt:" + echarts.format.addCommas(params.data.prevRt) + "}",
-//				"{hr|}",
-//				"{b|" + longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
-
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.accTradePrice) + "}",
+				"{a|" + echarts.format.addCommas(params.data.accTradeVolume) + "}",			
+				"{hr|}",
+				"{b|" + ( params.data.changeRate * 100 ).toFixed(2) + "%}",
 			];
 			return arr.join('\n');
 			}
@@ -1171,8 +1167,8 @@ var renderTreemapWics = function( d ){
 				}
 			}
 			},
-			visualMin : -1,
-			visualMax : 1,
+			visualMin : min,
+			visualMax : max,
 			visualDimension : 1,
 			levels: [{ color: ['blue','#999','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
 		}
@@ -1190,11 +1186,9 @@ var renderTreemapWics = function( d ){
 	if( !window.treemapChart_wics.isEvent )
 	{
 		window.treemapChart_wics.on('click',function(d){
-			var a = window.document.createElement( "a" );
-			a.target = "_blank";
-			a.href = "/html/candle.html?cd=" + d.data.cd
-			a.click();
-			a = null;
+			
+			getWicsDataByCd( d.data.cd );
+			
 		})
 		window.treemapChart_wics.isEvent = 1;
 	}
@@ -1317,7 +1311,7 @@ window.wsFns.renderMarketIndex = function(){
 			<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.stockName}">
 				<div class="content">
 					<span style="font-size:15px;"> ${io.symbolCode}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span> 	
-					<div style="font-size:16px;color:${status[ io.compareToPreviousPrice.name ].color}">${numberWithCommas(io.closePrice)} <br>
+					<div style="font-size:16px;color:${status[ io.compareToPreviousPrice.name ].color}">${numberWithCommas(io.closePrice)} 
 						<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 					</div>
 				</div>
@@ -2900,6 +2894,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_menu_01 = window.document.getElementById("menu_01");
 	window._el.id_menu_02 = window.document.getElementById("menu_02");
 	window._el.id_menu_03 = window.document.getElementById("menu_03");
+	window._el.id_menu_04 = window.document.getElementById("menu_04");
 
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
@@ -2986,6 +2981,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		a.click();
 	});
 
+	window._el.id_menu_04.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/wics업종별현황.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
 	window._el.id_search.addEventListener('keyup', function(e){
@@ -3049,6 +3051,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
 		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
 		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) )
+		window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) )
 	};
 
 	window.ws.onmessage = function(e) {
@@ -3115,9 +3118,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
 			<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
 			<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
-			<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span>
+			<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span> | 
+			<span id="menu_04" style="cursor:pointer;">wics업종별현황</span>
 		</div>
-
 		<div class="eight wide column" style="padding: 20px;" id="search_wrap">
 				<div class="ui fluid icon input">
 					<input type="text" placeholder="Search a very wide input..." id="search">
@@ -3125,53 +3128,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 				<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 		</div>
-			<div class="sixteen wide column">
-				<div class="ui grid">
-					<div class="ui ten cards" id="mass_b_s"></div>
-				</div>
-			</div>		
-			<div class="sixteen wide column">
-				<div class="ui grid">
-					<div class="six wide column">
-						<div class="ui two cards" id="market_index"></div>
-					</div>
-					<div class="ten wide column">
-						<div class="ui five cards" id="market_index_1"></div>
-					</div>
-
-				</div>
-	
-					
-			</div>
-			<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div>
-			<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>
-			
-			<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
-			
-			<!-- <div class="five wide column" id="tree" style="text-align:center;height:900px;padding:0px;"></div> -->
-			
-			<!-- <div class="five wide column" id="tree_00" style="text-align:center;height:900px;padding:0px;"></div> -->
-			
-			<!--div class="sixteen wide column" id="rank_rt" style="text-align:center;height:1200px;padding:0px;"></div-->
-			
-			<!--div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:900px;padding:0px;"></div-->
-			
-			<!-- <div class="sixteen wide column"> -->
-			<!-- 	<div class="ui grid"> -->
-			<!-- 		<div class="sixteen wide column"> -->
-			<!-- 			<!-- <div class="ui eight cards" id="market_index"></div> -->
-			<!-- 			<div class="ui ten cards" id="market_index_1"></div> -->
-			<!-- 		</div> -->
-			<!-- 	</div> -->
-			<!-- </div> -->
-			<div class="sixteen wide column">
+		<div class="sixteen wide column">
 			<div class="ui grid">
-				<div class="four wide column" id="tree_wics" style=""></div>
-				<div class="twelve wide column" id="" style="">
+				<div class="sixteen wide column" id="market_index_title" style="">
+				국내외증시
+				</div>
+				<div class="six wide column">
+					<div class="ui two cards" id="market_index"></div>
+				</div>
+				<div class="ten wide column">
+					<div class="ui five cards" id="market_index_1"></div>
+				</div>
+			</div>
+		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="tradeValueTree_title" style="">
+				실시간거래대금 및 등락률 현황
+				</div>
+				<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:800px;padding:0px;"></div>		
+			</div>
+		</div>
+		<!--div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div-->
+		
+		<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
+		
+		<!-- <div class="five wide column" id="tree" style="text-align:center;height:900px;padding:0px;"></div> -->
+		
+		<!-- <div class="five wide column" id="tree_00" style="text-align:center;height:900px;padding:0px;"></div> -->
+		
+		<!--div class="sixteen wide column" id="rank_rt" style="text-align:center;height:1200px;padding:0px;"></div-->
+		
+		<!--div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:900px;padding:0px;"></div-->
+		
+		<!-- <div class="sixteen wide column"> -->
+		<!-- 	<div class="ui grid"> -->
+		<!-- 		<div class="sixteen wide column"> -->
+		<!-- 			<!-- <div class="ui eight cards" id="market_index"></div> -->
+		<!-- 			<div class="ui ten cards" id="market_index_1"></div> -->
+		<!-- 		</div> -->
+		<!-- 	</div> -->
+		<!-- </div> -->
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="eight wide column" id="wicsTree" style="height:900px;padding:0px;"></div>
+				<div class="eight wide column" id="" style="">
 					<div class="ui five cards" id="wics_stocks"></div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </body>

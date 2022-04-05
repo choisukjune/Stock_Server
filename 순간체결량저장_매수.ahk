@@ -55,15 +55,15 @@ Param1 := A_Args[1]
 
 	sleep,5
 
-	FileDelete, D:\dev\stock_temp_server\data\06\%Param1%\csv\%Param1%.txt
+	FileDelete, .\data\06\%Param1%\csv\%Param1%.txt
 
 	sleep,5
 
-	FileAppend, %clipboard%, D:\dev\stock_temp_server\data\06\%Param1%\csv\%Param1%.txt
+	FileAppend, %clipboard%, .\data\06\%Param1%\csv\%Param1%.txt
 
 	sleep,500
 
-	Run, %comspec% /c node D:\dev\stock_temp_server\06_make_mass_trns_DATA_REALTIME.js %Param1%,,hide
+	Run, %comspec% /c node 06_make_mass_trns_DATA_REALTIME.js %Param1%,,hide
 
 	sleep,10000
 
