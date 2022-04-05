@@ -4,7 +4,7 @@
 ::@echo %DATE% %TIME% - %%i
 call "c:\Program Files\AutoHotkey\AutoHotkey.exe" 10_taradeValue_realTime.ahk
 call node 10_make__taradeValue.js
-timeout 15 > NUL
-call 10.bat
+::timeout 15 > NUL
+::call 10.bat
 ::)
 cmd /c

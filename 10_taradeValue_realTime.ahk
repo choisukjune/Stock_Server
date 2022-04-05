@@ -55,11 +55,11 @@ ClipWait
 
 sleep,5
 
-FileDelete, D:\dev\stock_temp_server\data\realTime\tradeValue\csv\tradeValue.txt
+FileDelete, .\data\realTime\tradeValue\csv\tradeValue.txt
 
 sleep,5
 
-FileAppend, %clipboard%, D:\dev\stock_temp_server\data\realTime\tradeValue\csv\tradeValue.txt
+FileAppend, %clipboard%, .\data\realTime\tradeValue\csv\tradeValue.txt
 
 sleep,500
 

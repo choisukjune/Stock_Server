@@ -144,36 +144,30 @@ var getTimeTo__YYYY_MM_DD = function(date){
 
 }
 
-function hex (c) {
-  var s = "0123456789abcdef";
-  var i = parseInt (c);
-  if (i == 0 || isNaN (c))
-    return "00";
-  i = Math.round (Math.min (Math.max (0, i), 255));
-  return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
+var hex = function(c) {
+	var s = "0123456789abcdef";
+	var i = parseInt (c);
+	if (i == 0 || isNaN (c))
+	return "00";
+	i = Math.round (Math.min (Math.max (0, i), 255));
+	return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
 }
 
-/* Convert an RGB triplet to a hex string */
-function convertToHex (rgb) {
+var convertToHex = function(rgb) {
   return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
 }
 
-/* Remove '#' in color hex string */
-function trim (s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
+var trim = function(s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
 
-/* Convert a hex string to an RGB triplet */
-function convertToRGB (hex) {
+var convertToRGB = function(hex) {
   var color = [];
   color[0] = parseInt ((trim(hex)).substring (0, 2), 16);
   color[1] = parseInt ((trim(hex)).substring (2, 4), 16);
   color[2] = parseInt ((trim(hex)).substring (4, 6), 16);
   return color;
 }
-window.MassTrd = {}
-window.MassTrd.maxCnt = {};
-window.MassTrd.maxCnt.b = 0;
-window.MassTrd.maxCnt.s = 0;
-function generateColor(colorStart,colorEnd,value){
+
+var generateColor = function(colorStart,colorEnd,value){
 
 	// The beginning of your gradient
 	var start = convertToRGB (colorStart);    
@@ -195,8 +189,6 @@ function generateColor(colorStart,colorEnd,value){
 	c[1] = start[1] * alpha + (1 - alpha) * end[1];
 	c[2] = start[2] * alpha + (1 - alpha) * end[2];
 
-	
-	
 	return convertToHex (c);
 	
 }
@@ -210,27 +202,25 @@ var htmlToElement = function( html ){
 
 var updateRank = function(){
 
-		var xhr = new XMLHttpRequest();
-		
-		
-		xhr.open("GET" , `http://112.144.208.118:8888/getMassTradRank_b?date=${window.date.curDate}`, true);
-		xhr.onreadystatechange = function(){
-			
-			if( xhr.readyState == 4 && xhr.status == 200)
-			{
-				
-				var d = JSON.parse( xhr.responseText )
-				window.socketData.updateRank = d
-				renderUpdateRank();
-				
-			}
-		}
+	var xhr = new XMLHttpRequest();
 
-		xhr.send();
-	
+	xhr.open("GET" , `http://112.144.208.118:8888/getMassTradRank_b?date=${window.date.curDate}`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.updateRank = d
+			renderUpdateRank();
+		}
+	}
+
+	xhr.send();
+
 }
 
 window.wsFns = {};
+
 window.wsFns.renderUpdateRank = function(){
 	
 	var domId = "tree";
@@ -247,7 +237,6 @@ window.wsFns.renderUpdateRank = function(){
 	var chartData = [];
 	d.sort(function(a,b){ return a.total_pp - b.total_pp }).reverse()
 	//var i =0,iLen = window.socketData.updateRank.length,io;
-	
 	
 	var i =0,iLen = 100,io;
 	for(;i<iLen;++i){
@@ -323,12 +312,12 @@ window.wsFns.renderUpdateRank = function(){
 	};
 
 	if( option && typeof option === 'object' ){
-	window.treemapChart.setOption(option);
-	window.treemapChart.resize();
+		window.treemapChart.setOption(option);
+		window.treemapChart.resize();
 
-	//setTimeout(function(){
-	//	//window.treemapChart.hideLoading();
-	//},1000)
+		//setTimeout(function(){
+		//	//window.treemapChart.hideLoading();
+		//},1000)
 	}
 	
 	if( !window.treemapChart.isEvent )
@@ -342,8 +331,6 @@ window.wsFns.renderUpdateRank = function(){
 		})
 		window.treemapChart.isEvent = 1;
 	}
-		
-
 }
 
 window.wsFns.renderUpdateRank_sell = function(){
@@ -859,7 +846,7 @@ window.wsFns.renderTradeValueList = function(){
 		var _o = {
 			name : so.nm
 			,cd : so.cd
-			,value : so.tradeValueGap
+			,value : [ so.tradeValue, so.rt ]
 			,price : so.price
 			,rt : so.rt
 			,rtChange : so.rtChange
@@ -914,8 +901,10 @@ window.wsFns.renderTradeValueList = function(){
 				}
 			}
 			},
-			levels: [{ color: [ "pink","red"],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
-			, itemStyle : { color :"green" }
+			visualMin : -30,
+			visualMax : 30,
+			visualDimension : 1,
+			levels: [{ color: ['blue','#ccc','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
 		}
 		]
 	};
@@ -2057,10 +2046,6 @@ var renderBarChart = function( cd, title ){
 
 				
 				var option;
-				
-
-
-
 				var candlex = ["09:00:00.0","09:05:00.0","09:10:00.0","09:15:00.0","09:20:00.0","09:25:00.0","09:30:00.0","09:35:00.0","09:40:00.0","09:45:00.0","09:50:00.0","09:55:00.0","10:00:00.0","10:05:00.0","10:10:00.0","10:15:00.0","10:20:00.0","10:25:00.0","10:30:00.0","10:35:00.0","10:40:00.0","10:45:00.0","10:50:00.0","10:55:00.0","11:00:00.0","11:05:00.0","11:10:00.0","11:15:00.0","11:20:00.0","11:25:00.0","11:30:00.0","11:35:00.0","11:40:00.0","11:45:00.0","11:50:00.0","11:55:00.0","12:00:00.0","12:05:00.0","12:10:00.0","12:15:00.0","12:20:00.0","12:25:00.0","12:30:00.0","12:35:00.0","12:40:00.0","12:45:00.0","12:50:00.0","12:55:00.0","13:00:00.0","13:05:00.0","13:10:00.0","13:15:00.0","13:20:00.0","13:25:00.0","13:30:00.0","13:35:00.0","13:40:00.0","13:45:00.0","13:50:00.0","13:55:00.0","14:00:00.0","14:05:00.0","14:10:00.0","14:15:00.0","14:20:00.0","14:25:00.0","14:30:00.0","14:35:00.0","14:40:00.0","14:45:00.0","14:50:00.0","14:55:00.0","15:00:00.0","15:05:00.0","15:10:00.0","15:15:00.0","15:30:00.0",]
 
 				var i = 0,iLen = renderBarChart.arr1.length,io;
@@ -2852,8 +2837,12 @@ var insertChart00 = function( cd ){
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-	window.info = {}
-	window.info.html = "index"
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
 
 	window._el = {}
 	window._el.id_mass_b_rank = window.document.getElementById( "mass_b_rank")
@@ -2883,6 +2872,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_menu_02 = window.document.getElementById("menu_02");
 	window._el.id_menu_03 = window.document.getElementById("menu_03");
 
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+
+
 	window.MassData = {};
 	window.MassData.b = {};
 	window.MassData.s = {};
@@ -2894,13 +2890,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._data.b = [];
 	window._data.s = [];
 
-	window.RankData = {};
-	window.RankData.b = {};
-	window.RankData.s = {};
-
-	window.chartData = [];
-	window.chartData_s = [];
-	
 	window.MassDataInfo = {}
 	window.MassDataInfo.b = 0
 	window.MassDataInfo.s = 0
@@ -2909,9 +2898,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.stock_arr = [];
 
 	window.date = {}
-	
 	window.date.curDate = getTimeTo__YYYYMMDD();
 	window.date.curDateWidhDash = getTimeTo__YYYY_MM_DD();
+
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+
+
 
 	//updateRank();
 	updateRankWics();
@@ -2922,9 +2919,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//upadteMassTradDataInsertWatch();
 	//upadteMassTradDataInsertWatch_s();
 
-	document.addEventListener('click',function(e){
-		window._el.id_searchResult.style.display = "none";
-	});
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+
+
+	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
 
 	window._el.id_menu_00.addEventListener('click',function(e){
 		var a = window.document.createElement( "a" );
@@ -2953,9 +2956,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		a.href = `/html/외국계증권사매매동향.html?date=${window.date.curDate}`;
 		a.click();
 	});
-	window.addEventListener('resize', function(e){
-		window.treemapChart.resize();
-	}, true);
+
+	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
 	window._el.id_search.addEventListener('keyup', function(e){
 	
@@ -2977,8 +2979,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 						var a = window.document.createElement( "a" );
 						a.target = "_blank";
 						a.href = "/html/candle.html?cd=" + cd
-						a.click();
-						
+						a.click();					
 					}
 					else if( d.length > 1 )
 					{

@@ -211,9 +211,9 @@ var excuteFile = function(){
 	var command = `10.bat`
 	var r = execSync( command ).toString();
 	
-	//setTimeout(function(){
-	//	excuteFile();
-	//},30000)
+	setTimeout(function(){
+		excuteFile();
+	},15000)
 
 	console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
 	
