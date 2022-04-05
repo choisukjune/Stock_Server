@@ -1,6 +1,6 @@
 var db_nm = "insightByStock";
 var col_nm = "20220405";
-var cd = "035720";
+var cd = "056090";
 
 
 var db0 = db.getSiblingDB( db_nm );

@@ -1943,7 +1943,7 @@ var pad = function(n, width){
 		res.end(  r  )
 
 	});
-		/**
+	/**
 	 * 쿼리파일을 실행하는 라우터
 	 * @function
 	 * @param {http.ClientRequest} req
@@ -1962,88 +1962,64 @@ var pad = function(n, width){
 	*
 	* @example
 	* <code>
-		http://localhost:8888/wsTest?d=aaaaa
+		http://localhost:8888/find?brand=varihope&page=1
 	* </code>
 	*/
-	global.server.addRouter("/wsTest",function( req, res ){
-	
+	global.server.addRouter("/getInterestStock",function( req, res ){
+		
 		var routerNm = req.url.split("?")[0];
 		var paramsO = paramToObject( req.url );
-		//var _tdbjs_nm = "getTrdData";
+		var _tdbjs_nm = "getInterestStock";
 				
 
-		// res.statusCode = 200;
-		// res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
-		// res.setHeader( "Access-Control-Allow-Origin", "*" );
-		// res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
-		// res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'})
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'})
 		
-		// console.log( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ); 
+		console.log( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ); 
 		
-		// try
-		// {
-		// 	var _tQuery = fs.readFileSync( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ).toString();
-		// }
-		// catch( err )
-		// {
-		// 	console.log( routerNm + " - DBJS File Not Found! - " + err );
-		// 	res.end("{ sucess : 0, data : null }");
-		// }
-
-		// if( paramsO.date )
-		// {
-		// 	var date = paramsO.date;
-		// }
-		// else
-		// {
-		// 	var date = dateFormat_YYMMDD();
-		// }
-		
-			
-		// var lidx = 0;
-		// if( paramsO.lidx ) lidx = paramsO.lidx;
-		// var limit = 100;
-		// if( paramsO.limit ) limit = paramsO.limit;
-		// var query = _tQuery
-		// 	.replace( "<!=DATE=!>", date)
-		// 	.replace( "<!=SORT=!>", paramsO.sort)
-		// 	//.replace( "<!=CD=!>", paramsO.cd )
-		// 	//.replace( "<!=LIMIT=!>", limit );
-			
-		// var dbjs_nm = "getTrdData.dbjs";
-
-		// var FILE_PATH = DBJS_DIRECTORY_PATH + dbjs_nm;
-		
-		// //console.log( FILE_PATH )
-
-		// fs.writeFileSync( DBJS_DIRECTORY_PATH + dbjs_nm , query, { flag : "w" } );
-		// var r = exec_query_DB( dbjs_nm )
-
-		/*
-		global.wss = new WebSocket.Server({ server : global.server });
-		global.ws = {};
-		global.ws.clients = {};
-		global.wss.on('connection', function connection( ws ) {
-
-		ws.on('message', function incoming( message ){
-			console.log('received: %s', message);
-		});
-		ws.on('close', function close() {
-			console.log('disconnected SOCKET - PORT : 5000');
-		});
-		//var r = {	type : "connection", data : id };
-		//global.ws.send( JSON.stringify( r ) );
-		});
-		*/
-		var s,so;
-		for( s in global.ws.clients )
+		try
 		{
-			so = global.ws.clients[ s ];
-			//so.send( paramsO.d, { binary : true } )
-			so.send( paramsO.d )
+			var _tQuery = fs.readFileSync( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ).toString();
+		}
+		catch( err )
+		{
+			console.log( routerNm + " - DBJS File Not Found! - " + err );
+			res.end("{ sucess : 0, data : null }");
 		}
 
-		res.end( "1" )
+		if( paramsO.date )
+		{
+			var date = paramsO.date;
+		}
+		else
+		{
+			var date = dateFormat_YYMMDD();
+		}
+		
+			
+		var lidx = 0;
+		if( paramsO.lidx ) lidx = paramsO.lidx;
+		var limit = 100;
+		if( paramsO.limit ) limit = paramsO.limit;
+		var query = _tQuery
+			.replace( "<!=DATE=!>", date)
+			//.replace( "<!=SORT=!>", paramsO.sort)
+			//.replace( "<!=CD=!>", paramsO.cd )
+			//.replace( "<!=LIMIT=!>", limit );
+			
+		var dbjs_nm = "getInterestStock.dbjs";
+
+		var FILE_PATH = DBJS_DIRECTORY_PATH + dbjs_nm;
+		
+		//console.log( FILE_PATH )
+
+		fs.writeFileSync( DBJS_DIRECTORY_PATH + dbjs_nm , query, { flag : "w" } );
+		var r = exec_query_DB( dbjs_nm )
+
+		res.end(  r  )
 
 	});
 })();

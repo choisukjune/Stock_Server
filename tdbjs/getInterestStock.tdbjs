@@ -1,0 +1,34 @@
+var date = <!=DATE=!>
+
+var db_nm = "trad_data";
+var col_nm = "data";
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+
+var r = []; 
+var q = {}
+    q._t = date;
+var p = {}
+    p = {
+	nm : 1,
+	"pp.tr1" : 1,
+	"pp.tr2" : 1,
+	"pp.tr3" : 1
+
+    }
+var sort = { "pp.tr1" : 1 }
+col0.find(q,p).sort( sort ).forEach(function(d){
+	if( d.pp.tr1 >= 0 ) return;
+	if( d.pp.tr2 <= 0 ) return;
+
+	d.gap = d.pp.tr2 - d.pp.tr1
+	if( d.gap <= 0 ) return;
+	r.push( d );
+})
+r.sort(function(a,b){ return b.gap - a.gap })
+var _r = {
+	cnt : r.length,
+	data : r
+}
+printjson( _r )
