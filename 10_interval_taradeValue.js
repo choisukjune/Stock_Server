@@ -207,17 +207,13 @@ var _ROOT_PATH = process.cwd();
 var excuteFile = function(){
 
 	console.log( "[ S ] - " + dateFormat_YYMMDD_HHMMSS() );
-	
+
 	var command = `10.bat`
 	var r = execSync( command ).toString();
 	
-	setTimeout(function(){
-		excuteFile();
-	},15000)
+	setTimeout(function(){ excuteFile(); },15000)
 
 	console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
-	
-
 }
 
 

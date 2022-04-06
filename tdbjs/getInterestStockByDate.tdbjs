@@ -12,6 +12,7 @@ var q = {}
 var p = {}
     p = {
 	nm : 1,
+	cd : 1,
 	"pp.tr1" : 1,
 	"pp.tr2" : 1,
 	"pp.tr3" : 1

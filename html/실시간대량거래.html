@@ -2939,7 +2939,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 	//updateRank();
-	updateRankWics();
+	//updateRankWics();
 	window.wsFns.getMarketIndex( function(){ window.wsFns.getMarketIndexGlobal(); } );
 	//updateRank_s();
 	//updateMassTradData();
@@ -3136,15 +3136,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-		<div class="sixteen wide column">
+		<div class="eight wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="tradeValueTree_title" style="">
-				실시간거래대금 및 등락률 현황 TOP100
+				실시간거래대금갭
+				</div>
+				<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div>		
+			</div>
+		</div>
+		<div class="eight wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="tradeValueTree_title" style="">
+				실시간등락률
 				</div>
 				<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:800px;padding:0px;"></div>		
 			</div>
 		</div>
-		<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div>
+
 		
 		<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
 		
@@ -3164,13 +3172,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<!-- 		</div> -->
 		<!-- 	</div> -->
 		<!-- </div> -->
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="eight wide column" id="wicsTree" style="height:900px;padding:0px;"></div>
-				<div class="eight wide column" id="" style="">
-					<div class="ui five cards" id="wics_stocks"></div>
-				</div>
-			</div>
-		</div>
+		<!-- <div class="sixteen wide column"> -->
+		<!-- 	<div class="ui grid"> -->
+		<!-- 		<div class="eight wide column" id="wicsTree" style="height:900px;padding:0px;"></div> -->
+		<!-- 		<div class="eight wide column" id="" style=""> -->
+		<!-- 			<div class="ui five cards" id="wics_stocks"></div> -->
+		<!-- 		</div> -->
+		<!-- 	</div> -->
+		<!-- </div> -->
 	</div>
 </body>

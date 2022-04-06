@@ -802,7 +802,7 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 	
 	var prev = global.data.renderTradeValueInfo_gap.prev
 	var cur = global.data.renderTradeValueInfo_gap.cur
-	debugger;
+
 	if( prev.length == 0 || cur.length == 0 )
 	{
 		console.log( "not yet prev Data" )
@@ -810,7 +810,7 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 	}
 
 	var data = [];
-
+	
 	var s,so,so00;
 	for( s in cur ){
 		so = cur[ s ];

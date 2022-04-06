@@ -178,7 +178,7 @@ var csvToJson = function(){
 			//_t :  _d00[ 0 ]//.replace(/\:/gi,"")
 			, cd : cd
 			, nm : _d00[ 2 ]
-			, prevChange : _d00[ 5 ] * 1
+			, prevChange : _d00[ 5 ].replace(/\,/gi,"") * 1
 			, prevChange_reg : _d00[ 8 ] * 1
 			, price : _d00[ 3 ].replace(/\,/gi,"") * 1
 			, amt : _d00[ 7 ].replace(/\,/gi,"") * 1

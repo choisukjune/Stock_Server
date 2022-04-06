@@ -45,7 +45,7 @@ FileCreateDir .\data\realTime\tradeValue\csv
 FileCreateDir .\data\realTime\tradeValue\json
 FileCreateDir .\data\realTime\tradeValue\bak
 
-ControlClick, AfxWnd11015 , ahk_id %b%, ,R
+ControlClick, x200 y200 , ahk_id %b%, ,R
 
 sleep,5
 

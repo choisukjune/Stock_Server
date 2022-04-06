@@ -202,19 +202,35 @@ var htmlToElement = function( html ){
 
 
 
+var paramToObject = function(){
+	
+	var r =  window.location.search.replace("?","");
+	var a = r.split("&");
+	var o = {};
+	var i = 0,iLen = a.length,io;
+	
+	for(;i<iLen;++i){
+		io = a[ i ];
+		var _ta = io.split( "=" );
+		o[ _ta[0] ] = _ta[ 1 ];
+	}
+	console.log( o )
+	return o;
+};
 
 
 var getInterestStockByDate = function(){
 
+	var params = paramToObject();
 	var xhr = new XMLHttpRequest();
 
-	xhr.open("GET" , `http://112.144.208.118:8888/getInterestStockByDate?date=${window.date.curDate}`, true);
+	xhr.open("GET" , `http://112.144.208.118:8888/getInterestStockByDate?date=${params.date}`, true);
 	xhr.onreadystatechange = function(){
 		
 		if( xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText )
-			console.log( d )
+			renderInterestStockByDate( d.data )
 		}
 	}
 
@@ -222,7 +238,93 @@ var getInterestStockByDate = function(){
 
 }
 
+var renderInterestStockByDate = function( d ){
+	
+	console.log( "[ S ] - renderInterestStockByDate" )
+	
+	var _html = "";
+//	var i = 0,iLen = d.length,io;
+	var i = 0,iLen = 100,io;
+	for(;i<iLen;++i){
+		io = d[ i ]
+		var curData = window.socketData.renderTradeValueInfo_object[ io.cd ]
+		var color00 = "red"
+		var symbol = "▲"
+		if( curData.rt < 0 ) 
+		{
+			color00 = "blue"	
+			var symbol = "▼"
+		}
+		if( curData.rt == 0 )
+		{
+			color00 = "gery"	
+			var symbol = "-"
+		}
 
+		var color = generateColor('#FF0000','#cccccc',io.gap)				
+		 _html += `
+		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">
+			
+			<div class="">
+
+			<!--div class="right floated meta" style="position: relative;color: #${color};padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;">${curData.price}( ${ ( curData.rt ).toFixed(2)}</div-->
+			<span style="font-size:15px;"> ${io.nm}</span><span style="font-size:11px;">  ${io.cd}</span> 	
+				<div style="font-size:16px;color:${color00}">${numberWithCommas(curData.price)} 
+					<span style="font-size:12px;color:${color00}">${symbol} ${numberWithCommas( curData.prevChange )}( ${ ( curData.rt ).toFixed(2)}% )</span><br>
+					<span style="font-size:12px;color:${color00}">${longNumberAddString( curData.tradeValue ) }</span>
+				</div>
+			<div style="font-size:11px;">
+			개인   : ${longNumberAddString( io.pp.tr1 )} | 외국인 : ${longNumberAddString( io.pp.tr2 )} | 기관계 : ${longNumberAddString( io.pp.tr3 )}
+			</div>
+			</div>
+
+			<div class="image" style="background-color: #fff/*${color}*/;">
+				<div style="position: relative;color: #fff;padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;"></div>
+				<img src="https://t1.daumcdn.net/finance/chart/kr/stock/d/A${io.cd}.png" style="" load="lazy">
+				
+			</div>
+			<!--div class="description">
+			</div-->
+
+			</div>
+			
+		 </div>
+		`
+		
+
+		//var new_el = htmlToElement( _html )
+		////window._el.id_interest.insertBefore( new_el,window._el.id_interest.firstChild )	
+		//window._el.id_interest.appendChild( new_el )	
+		
+		//new_el.addEventListener( "click",function(e){
+
+		//	var cd = e.currentTarget.getAttribute( "data-cd-value" );
+		//	var a = window.document.createElement( "a" );
+		//	a.target = "_blank";
+		//	a.href = "/html/candle.html?cd=" + cd
+		//	a.click();
+		//	a = null;
+		
+		//})
+
+	}
+	window._el.id_interest.innerHTML = _html
+	
+	window._el.id_interest.addEventListener( "click",function(e){
+		debugger;
+		var cd = e.currentTarget.getAttribute( "data-cd-value" );
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = "/html/candle.html?cd=" + cd
+		a.click();
+		a = null;
+
+	})
+	
+	console.log( "[ E ] - window.wsFns.renderMassTransList_buy" )
+
+
+}
 
 
 
@@ -837,13 +939,23 @@ window.wsFns.renderTradeValueRank = function(){
 
 
 window.wsFns.renderTradeValueInfo = function(){
-	debugger;
-	window.wsFns.renderTradeValueRank();
+	window.socketData.renderTradeValueInfo_object = {};
+
+	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,io
+	for(;i<iLen;++i){
+		io = window.socketData.renderTradeValueInfo[ i ];
+		if( !window.socketData.renderTradeValueInfo_object[ io.cd ] ) window.socketData.renderTradeValueInfo_object[ io.cd ] = {};
+		window.socketData.renderTradeValueInfo_object[ io.cd ] = io;
+	}
+
+	getInterestStockByDate();
+	//debugger;
+	//window.wsFns.renderTradeValueRank();
 }
 
 window.wsFns.renderTradeValueInfo_gap = function(){
-	debugger;
-	window.wsFns.renderTradeValueList();
+	//debugger;
+	//window.wsFns.renderTradeValueList();
 }
 
 var longNumberAddString = function( n ){
@@ -2943,6 +3055,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_market_index = window.document.getElementById( "market_index" )
 	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
 	window._el.id_rank_rt = window.document.getElementById( "rank_rt" )
+	window._el.id_interest = window.document.getElementById( "interest" )
 
 	window._el.id_menu_00 = window.document.getElementById("menu_00");
 	window._el.id_menu_01 = window.document.getElementById("menu_01");
@@ -2987,14 +3100,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-	//updateRank();
-	updateRankWics();
-	window.wsFns.getMarketIndex( function(){ window.wsFns.getMarketIndexGlobal(); } );
-	//updateRank_s();
-	//updateMassTradData();
-	//updateMassTradData_s();
-	//upadteMassTradDataInsertWatch();
-	//upadteMassTradDataInsertWatch_s();
+	//getInterestStockByDate();
 
 
 	//-------------------------------------------------------;
@@ -3097,6 +3203,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
 		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
 		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) )
+		window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) )
 	};
 
 	window.ws.onmessage = function(e) {
@@ -3187,37 +3294,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		</div>
 		<div class="sixteen wide column">
 			<div class="ui grid">
-				<div class="sixteen wide column" id="tradeValueTree_title" style="">
-				실시간거래대금 및 등락률 현황 TOP100
-				</div>
-				<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:800px;padding:0px;"></div>		
-			</div>
-		</div>
-		<div class="sixteen wide column" id="tradeValueTreeGap" style="text-align:center;height:800px;padding:0px;"></div>
-		
-		<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
-		
-		<!-- <div class="five wide column" id="tree" style="text-align:center;height:900px;padding:0px;"></div> -->
-		
-		<!-- <div class="five wide column" id="tree_00" style="text-align:center;height:900px;padding:0px;"></div> -->
-		
-		<!--div class="sixteen wide column" id="rank_rt" style="text-align:center;height:1200px;padding:0px;"></div-->
-		
-		<!--div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:900px;padding:0px;"></div-->
-		
-		<!-- <div class="sixteen wide column"> -->
-		<!-- 	<div class="ui grid"> -->
-		<!-- 		<div class="sixteen wide column"> -->
-		<!-- 			<!-- <div class="ui eight cards" id="market_index"></div> -->
-		<!-- 			<div class="ui ten cards" id="market_index_1"></div> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
-		<!-- </div> -->
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="eight wide column" id="wicsTree" style="height:900px;padding:0px;"></div>
-				<div class="eight wide column" id="" style="">
-					<div class="ui five cards" id="wics_stocks"></div>
+				<div class="sixteen wide column" id="" style="">
+					<div class="ui six cards" id="interest"></div>
 				</div>
 			</div>
 		</div>
