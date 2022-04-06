@@ -204,14 +204,13 @@ var htmlToElement = function( html ){
 var getTradeValueByCd = function( cd ){
 	var xhr = new XMLHttpRequest();
 
-	xhr.open("GET" , `http://112.144.208.118:8888/getMassTradRank_b?date=${window.date.curDate}`, true);
+	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${cd}`, true);
 	xhr.onreadystatechange = function(){
 		
 		if( xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText )
-			window.socketData.updateRank = d
-			renderUpdateRank();
+			renderTradeValueByCd( d.data )
 		}
 	}
 
@@ -221,170 +220,136 @@ var getTradeValueByCd = function( cd ){
 window.barchart = {};
 window.barchart_cur = null;
 
-var renderBarChart = function( cd, title ){
-		var dom = document.getElementById("container");
+var renderTradeValueByCd = function( d ){
+		
+		var dom = document.getElementById("tradeValueByCd");
 		window.barchart = echarts.init(dom);
+		
 		var app = {};
+		
 		window.barchart.showLoading()
-		getRankByCD_b( cd,window.date.curDate, function(d00){
-	
-		var d1 = []
-		var d2 = []
-				
-		title += ` - 매수금액 : ${numberWithCommas( d00.total_pp )}`
-		renderBarChart.arr1 = [];
-		renderBarChart.arr2 = [];
+		
+		var d00 = []
+		var d01 = []
+		var xAis = []
 
-		if( d00 != null ) renderBarChart.arr1 = d00.data
+		var i = 0,iLen = d.length,io;
+		for(;i<iLen;++i){
+			io = d[ i ]
 
-			getRankByCD_s( cd,window.date.curDate, function(d01){
+			d00.push( io.price );
+			d01.push( { value: 200, itemStyle: {   color: '#a90000' } } );
+			xAis.push( io._t );
+		}
+		
+		var option = {
+			//title : { text : title },
+			tooltip: {
+			trigger: 'axis',
+			axisPointer: { type: 'cross' },
+			borderWidth: 1,
+			borderColor: '#ccc',
+			padding: 10,
+			//grid:[{
+			//	left : "10%"
+			//},{ left : "40%" }],
+			textStyle: { color: '#000'  },
+			position: function (pos, params, el, elRect, size) {
+			  const obj = {
+				top: 10
+			  };
+			  obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+			  return obj;
+			}
+			// extraCssText: 'width: 170px'
+		  },
+		  //  toolbox: {
+		  //  feature: {
+		  //    dataZoom: {
+		  //      yAxisIndex: 'none'
+		  //    },
+		  //    restore: {},
+		  //    saveAsImage: {}
+		  //  }
+		  //},
+				xAxis: [
+					{ type: 'time',scale:true,min: window.date.curDateWidhDash + "T09:00:00",max: window.date.curDateWidhDash + "T15:30:00"  },
+					//{  data: candlex,
+					//boundaryGap : false,
+					//axisLin : { onZero : true }, 
+					//min:"2022-02-15T09:00:00",max:"2022-02-15T15:30:00"  }
+				],
+				yAxis: [
+				{ type: 'value', splitArea: {show: true },splitLine: { show: false } },
+				{ scale: true, splitArea: {show: false },splitLine: { show: false } }
+				],
+		  //dataZoom: [
+		  //  {
+		  //    show: true,
+		  //    realtime: true,
+		  //    start: 0,
+		  //    end: 100,
+		  //    xAxisIndex: [0, 1]
+		  //  },
+		  //  {
+		  //    type: 'inside',
+		  //    realtime: true,
+		  //    start: 0,
+		  //    end: 100,
+		  //    xAxisIndex: [0, 1]
+		  //  }
+		  //],
+			//	width :dom.offsetWidth + "px",height :dom.offsetHeight + "px",
+				series: [
+						{ width :"100%",height :"100%",	data: d00,type: 'bar',large:true,//,barWidth:30//,showBackground: true//,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
+						//markPoint: {
+						//	data: [
+						//	{ type: 'max', name: 'Max' },
+						//	{ type: 'min', name: 'Min' }
+						//	]
+						//},
+						//markLine: {
+						//	data: [{ type: 'average', name: 'Avg' }]
+						//},
+						//itemStyle : { color : 'red' }
+					}
+					,{
+						 name: 'Day',
+						  type: 'line',
+						  //xAxisIndex: 1, 
+						  yAxisIndex: 1,
+						  data: d01,
+							markPoint: {
+								data: [
+								{ type: 'max', name: 'Max' },
+								{ type: 'min', name: 'Min' }
+								]
+							},
+						  //itemStyle : { opacity:0.3 },
+						  //tooltip: {
+							//formatter: function (param) {
+							//  param = param[0];
+							//  return [
+							//	'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+							//	'Open: ' + param.data[0] + '<br/>',
+							//	'Close: ' + param.data[1] + '<br/>',
+							//	'Lowest: ' + param.data[2] + '<br/>',
+							//	'Highest: ' + param.data[3] + '<br/>'
+							//  ].join('');
+							//}
+							//}
+					}
+				]
+			};
+
+		if (option && typeof option === 'object') {
 			
-			if( d01 != null ) renderBarChart.arr2 = d01.data
-			title += ` / 매도금액 : ${numberWithCommas( d01.total_pp )}`
-				getCandle5( cd, function(d){
+			window.barchart.setOption(option);
 
-				
-				var option;
-				var candlex = ["09:00:00.0","09:05:00.0","09:10:00.0","09:15:00.0","09:20:00.0","09:25:00.0","09:30:00.0","09:35:00.0","09:40:00.0","09:45:00.0","09:50:00.0","09:55:00.0","10:00:00.0","10:05:00.0","10:10:00.0","10:15:00.0","10:20:00.0","10:25:00.0","10:30:00.0","10:35:00.0","10:40:00.0","10:45:00.0","10:50:00.0","10:55:00.0","11:00:00.0","11:05:00.0","11:10:00.0","11:15:00.0","11:20:00.0","11:25:00.0","11:30:00.0","11:35:00.0","11:40:00.0","11:45:00.0","11:50:00.0","11:55:00.0","12:00:00.0","12:05:00.0","12:10:00.0","12:15:00.0","12:20:00.0","12:25:00.0","12:30:00.0","12:35:00.0","12:40:00.0","12:45:00.0","12:50:00.0","12:55:00.0","13:00:00.0","13:05:00.0","13:10:00.0","13:15:00.0","13:20:00.0","13:25:00.0","13:30:00.0","13:35:00.0","13:40:00.0","13:45:00.0","13:50:00.0","13:55:00.0","14:00:00.0","14:05:00.0","14:10:00.0","14:15:00.0","14:20:00.0","14:25:00.0","14:30:00.0","14:35:00.0","14:40:00.0","14:45:00.0","14:50:00.0","14:55:00.0","15:00:00.0","15:05:00.0","15:10:00.0","15:15:00.0","15:30:00.0",]
+			window.barchart.resize();
+			window.barchart.hideLoading()
+		}
 
-				var i = 0,iLen = renderBarChart.arr1.length,io;
-				for(;i<iLen;++i){
-					io = renderBarChart.arr1[ i ]
-					//x.push( io._t )
-					d1.push( [ io._t, io.pp ] )
-				}
-
-				var i = 0,iLen = renderBarChart.arr2.length,io;
-				for(;i<iLen;++i){
-					io = renderBarChart.arr2[ i ]
-					//x.push( io._t )
-					d2.push( [ io._t, io.pp ] )
-				}
-				
-				option = {
-					title : { text : title },
-					tooltip: {
-				trigger: 'axis',
-				axisPointer: { type: 'cross' },
-				borderWidth: 1,
-				borderColor: '#ccc',
-				padding: 10,
-				//grid:[{
-				//	left : "10%"
-				//},{ left : "40%" }],
-				textStyle: { color: '#000'  },
-				position: function (pos, params, el, elRect, size) {
-				  const obj = {
-					top: 10
-				  };
-				  obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-				  return obj;
-				}
-				// extraCssText: 'width: 170px'
-			  },
-			//		  toolbox: {
-			  //  feature: {
-			  //    dataZoom: {
-			  //      yAxisIndex: 'none'
-			  //    },
-			  //    restore: {},
-			  //    saveAsImage: {}
-			  //  }
-			  //},
-					xAxis: [
-						{ type: 'time',scale:true,min: window.date.curDateWidhDash + "T09:00:00",max: window.date.curDateWidhDash + "T15:30:00"  },
-						//{  data: candlex,
-						//boundaryGap : false,
-						//axisLin : { onZero : true }, 
-						//min:"2022-02-15T09:00:00",max:"2022-02-15T15:30:00"  }
-					],
-					yAxis: [
-					{ type: 'value', splitArea: {show: true },splitLine: { show: false } },
-					{ scale: true, splitArea: {show: false },splitLine: { show: false } }
-					],
-			  //dataZoom: [
-			  //  {
-			  //    show: true,
-			  //    realtime: true,
-			  //    start: 0,
-			  //    end: 100,
-			  //    xAxisIndex: [0, 1]
-			  //  },
-			  //  {
-			  //    type: 'inside',
-			  //    realtime: true,
-			  //    start: 0,
-			  //    end: 100,
-			  //    xAxisIndex: [0, 1]
-			  //  }
-			  //],
-				//	width :dom.offsetWidth + "px",height :dom.offsetHeight + "px",
-					series: [
-							{ width :"100%",height :"100%",	data: d1,type: 'bar',large:true,//,barWidth:30//,showBackground: true//,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
-							//markPoint: {
-							//	data: [
-							//	{ type: 'max', name: 'Max' },
-							//	{ type: 'min', name: 'Min' }
-							//	]
-							//},
-							//markLine: {
-							//	data: [{ type: 'average', name: 'Avg' }]
-							//},
-							//itemStyle : { color : 'red' }
-						}
-						,{ width :"100%",height :"100%",	data: d2,type: 'bar',large:true,//,showBackground: true//,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
-							//markPoint: {
-							//	data: [
-							//	{ type: 'max', name: 'Max' },
-							//	{ type: 'min', name: 'Min' }
-							//	]
-							//},
-							//markLine: {
-							//	data: [{ type: 'average', name: 'Avg' }]
-							//},
-							//itemStyle : { color : 'blue' }
-						}
-						,
-						{
-							 name: 'Day',
-							  type: 'line',
-							  //xAxisIndex: 1, 
-							  yAxisIndex: 1,
-							  data: d,
-								markPoint: {
-									data: [
-									{ type: 'max', name: 'Max' },
-									{ type: 'min', name: 'Min' }
-									]
-								},
-							  //itemStyle : { opacity:0.3 },
-							  //tooltip: {
-								//formatter: function (param) {
-								//  param = param[0];
-								//  return [
-								//	'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
-								//	'Open: ' + param.data[0] + '<br/>',
-								//	'Close: ' + param.data[1] + '<br/>',
-								//	'Lowest: ' + param.data[2] + '<br/>',
-								//	'Highest: ' + param.data[3] + '<br/>'
-								//  ].join('');
-								//}
-								//}
-						}
-					]
-				};
-
-				if (option && typeof option === 'object') {
-					
-					window.barchart.setOption(option);
-
-					window.barchart.resize();
-					window.barchart.hideLoading()
-				}
-			})
-		})
-	})
-	
 	
 }
 
@@ -3327,6 +3292,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="tradeValueByCd_title" style="">
+				국내외증시
+				</div>
+				<div class="sixteen wide column" id="tradeValueByCd"></div>
+			</div>
+		</div>
+
 		<div class="eight wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="tradeValueTree_title" style="">
