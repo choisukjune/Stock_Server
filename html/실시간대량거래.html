@@ -932,11 +932,13 @@ window.wsFns.renderTradeValueRank = function(){
 	if( !window.treemapChart_03.isEvent )
 	{
 		window.treemapChart_03.on('click',function(d){
-			var a = window.document.createElement( "a" );
-			a.target = "_blank";
-			a.href = "/html/candle.html?cd=" + d.data.cd
-			a.click();
-			a = null;
+			getTradeValueByCd( d.data.cd )
+//			var a = window.document.createElement( "a" );
+//			a.target = "_blank";
+//			a.href = "/html/candle.html?cd=" + d.data.cd
+//			a.click();
+//			a = null;
+
 		})
 		window.treemapChart_03.isEvent = 1;
 	}
@@ -1077,11 +1079,12 @@ window.wsFns.renderTradeValueList = function(){
 	if( !window.treemapChart_04.isEvent )
 	{
 		window.treemapChart_04.on('click',function(d){
-			var a = window.document.createElement( "a" );
-			a.target = "_blank";
-			a.href = "/html/candle.html?cd=" + d.data.cd
-			a.click();
-			a = null;
+			getTradeValueByCd( d.data.cd )
+//			var a = window.document.createElement( "a" );
+//			a.target = "_blank";
+//			a.href = "/html/candle.html?cd=" + d.data.cd
+//			a.click();
+//			a = null;
 		})
 		window.treemapChart_04.isEvent = 1;
 	}
