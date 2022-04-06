@@ -201,16 +201,16 @@ var htmlToElement = function( html ){
 }
 
 
-var getTradeValueByCd = function( cd ){
+var getTradeValueByCd = function( data ){
 	var xhr = new XMLHttpRequest();
-
-	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${cd}`, true);
+	debugger;
+	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${data.cd}&date=20220406`, true);
 	xhr.onreadystatechange = function(){
 		
 		if( xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText )
-			renderTradeValueByCd( d.data )
+			renderTradeValueByCd( d.data, data )
 		}
 	}
 
@@ -220,7 +220,7 @@ var getTradeValueByCd = function( cd ){
 window.barchart = {};
 window.barchart_cur = null;
 
-var renderTradeValueByCd = function( d ){
+var renderTradeValueByCd = function( d, p ){
 		
 		var dom = document.getElementById("tradeValueByCd");
 		window.barchart = echarts.init(dom);
@@ -238,29 +238,35 @@ var renderTradeValueByCd = function( d ){
 			io = d[ i ]
 
 			d00.push( io.price );
-			d01.push( { value: 200, itemStyle: {   color: '#a90000' } } );
+			var color = 0
+			if( io.rtChange > 0 ) var color = 1
+			if( io.rtChange < 0 ) var color = -1
+			d01.push( [ io._t, io.tradeValueGap, color] );
 			xAis.push( io._t );
 		}
-		
+		var h = dom.style.height.replace("px") * 1
+		var title = p.name
 		var option = {
-			//title : { text : title },
+			title : { text : title },
+			height : h,
+			//width : "100%",
 			tooltip: {
-			trigger: 'axis',
-			axisPointer: { type: 'cross' },
-			borderWidth: 1,
-			borderColor: '#ccc',
-			padding: 10,
-			//grid:[{
-			//	left : "10%"
-			//},{ left : "40%" }],
-			textStyle: { color: '#000'  },
-			position: function (pos, params, el, elRect, size) {
-			  const obj = {
-				top: 10
-			  };
-			  obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-			  return obj;
-			}
+				trigger: 'axis',
+				axisPointer: { type: 'cross' },
+				borderWidth: 1,
+				borderColor: '#ccc',
+				padding: 10,
+				//grid:[{
+				//	left : "10%"
+				//},{ left : "40%" }],
+				textStyle: { color: '#000'  },
+				position: function (pos, params, el, elRect, size) {
+				  const obj = {
+					top: 10
+				  };
+				obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+				return obj;
+				}
 			// extraCssText: 'width: 170px'
 		  },
 		  //  toolbox: {
@@ -272,75 +278,71 @@ var renderTradeValueByCd = function( d ){
 		  //    saveAsImage: {}
 		  //  }
 		  //},
-				xAxis: [
-					{ type: 'time',scale:true,min: window.date.curDateWidhDash + "T09:00:00",max: window.date.curDateWidhDash + "T15:30:00"  },
-					//{  data: candlex,
-					//boundaryGap : false,
-					//axisLin : { onZero : true }, 
-					//min:"2022-02-15T09:00:00",max:"2022-02-15T15:30:00"  }
+				xAxis: [ 
+					{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true },	min: 'dataMin',	max: 'dataMax'	}
 				],
 				yAxis: [
-				{ type: 'value', splitArea: {show: true },splitLine: { show: false } },
-				{ scale: true, splitArea: {show: false },splitLine: { show: false } }
+					{ scale: true, splitArea: {show: true },splitLine: { show: false } },
+					{ scale: true, splitArea: {show: false },splitLine: { show: false } }
 				],
-		  //dataZoom: [
-		  //  {
-		  //    show: true,
-		  //    realtime: true,
-		  //    start: 0,
-		  //    end: 100,
-		  //    xAxisIndex: [0, 1]
-		  //  },
-		  //  {
-		  //    type: 'inside',
-		  //    realtime: true,
-		  //    start: 0,
-		  //    end: 100,
-		  //    xAxisIndex: [0, 1]
-		  //  }
-		  //],
-			//	width :dom.offsetWidth + "px",height :dom.offsetHeight + "px",
-				series: [
-						{ width :"100%",height :"100%",	data: d00,type: 'bar',large:true,//,barWidth:30//,showBackground: true//,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
-						//markPoint: {
-						//	data: [
-						//	{ type: 'max', name: 'Max' },
-						//	{ type: 'min', name: 'Min' }
-						//	]
-						//},
-						//markLine: {
-						//	data: [{ type: 'average', name: 'Avg' }]
-						//},
-						//itemStyle : { color : 'red' }
-					}
-					,{
-						 name: 'Day',
-						  type: 'line',
-						  //xAxisIndex: 1, 
-						  yAxisIndex: 1,
-						  data: d01,
-							markPoint: {
-								data: [
-								{ type: 'max', name: 'Max' },
-								{ type: 'min', name: 'Min' }
-								]
-							},
-						  //itemStyle : { opacity:0.3 },
-						  //tooltip: {
-							//formatter: function (param) {
-							//  param = param[0];
-							//  return [
-							//	'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
-							//	'Open: ' + param.data[0] + '<br/>',
-							//	'Close: ' + param.data[1] + '<br/>',
-							//	'Lowest: ' + param.data[2] + '<br/>',
-							//	'Highest: ' + param.data[3] + '<br/>'
-							//  ].join('');
-							//}
-							//}
-					}
+		  dataZoom: [
+		    //{
+		    //  show: true,
+		    //  realtime: true,
+		    //  start: 0,
+		    //  end: 100,
+		    //  xAxisIndex: [0, 1]
+		    //},
+		    {
+		      type: 'inside',
+		      //realtime: true,
+		      //start: 0,
+		      //end: 100,
+		      //xAxisIndex: [0, 1]
+		    }
+		  ],
+		  grid: { left: '4%', right: '4%'},
+		  visualMap : {
+				type : "piecewise",
+				precision : true,
+				show :false,seriesIndex : 0,dimention:2,maxOpen : true,
+				pieces : [
+					{ value : 1, color :"red"},
+					{ value : -1, color :"blue", opacity : 0.5 },
+					{ value : 0, color :"grey", opacity : 0.3 }
 				]
-			};
+			},
+	
+			series: [
+				{ 
+					name : "Volume",
+					//width :"100%",height :"100%",
+					data: d01,type: 'bar', xAxisIndex: 0, yAxisIndex: 1, zlevel : 1,
+					//showBackground: true,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
+					markPoint: {
+						data: [
+							{ type: 'max', name: 'Max' },
+							{ type: 'min', name: 'Min' }
+						]
+					},
+					markLine: {
+						data: [{ type: 'average', name: 'Avg' }]
+					},
+					itemStyle : { color : 'red' }
+				},
+				{
+					name: 'Price', type: 'line', xAxisIndex: 0, yAxisIndex: 0, data: d00, zlevel : 0,
+					showSymbol : false, smooth :true, areaStyle : { opacity : 0.2 },
+					markPoint: {
+						data: [
+							{ type: 'max', name: 'Max' },
+							{ type: 'min', name: 'Min' }
+						]
+					},
+					lineStyle : { width : 1 }
+				}
+			]
+		};
 
 		if (option && typeof option === 'object') {
 			
@@ -932,7 +934,7 @@ window.wsFns.renderTradeValueRank = function(){
 	if( !window.treemapChart_03.isEvent )
 	{
 		window.treemapChart_03.on('click',function(d){
-			getTradeValueByCd( d.data.cd )
+			getTradeValueByCd( d.data )
 //			var a = window.document.createElement( "a" );
 //			a.target = "_blank";
 //			a.href = "/html/candle.html?cd=" + d.data.cd
@@ -3099,7 +3101,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	//updateRank();
 	//updateRankWics();
-	getTradeValueByCd();
 	window.wsFns.getMarketIndex( function(){ window.wsFns.getMarketIndexGlobal(); } );
 	//updateRank_s();
 	//updateMassTradData();
@@ -3301,7 +3302,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				<div class="sixteen wide column" id="tradeValueByCd_title" style="">
 				국내외증시
 				</div>
-				<div class="sixteen wide column" id="tradeValueByCd"></div>
+				<div class="sixteen wide column" id="tradeValueByCd" style="height:700px;"></div>
 			</div>
 		</div>
 

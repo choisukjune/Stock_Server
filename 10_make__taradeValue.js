@@ -62,7 +62,7 @@ var dateFormat_HHMMSS = function( date ){
 	var M = pad( date.getMinutes(), 2 );
 	var S = pad( date.getSeconds(), 2 );
 
-	return (H +  M + S) * 1;
+	return H + ":" +  M + ":" + S
 };
 
 var dateFormat_Object = function( date ){

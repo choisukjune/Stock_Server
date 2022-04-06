@@ -599,7 +599,7 @@
         "SECT_TP_NM": "관리종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "15,259,653"
+        "LIST_SHRS": "15,411,979"
     },
     "104700": {
         "ISU_CD": "KR7104700000",
@@ -725,7 +725,7 @@
         "SECT_TP_NM": "관리종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "1,000",
-        "LIST_SHRS": "12,334,250"
+        "LIST_SHRS": "12,834,250"
     },
     "106190": {
         "ISU_CD": "KR7106190002",
@@ -5877,7 +5877,7 @@
         "SECT_TP_NM": "중견기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "31,814,222"
+        "LIST_SHRS": "31,859,922"
     },
     "217330": {
         "ISU_CD": "KR7217330000",
@@ -6885,7 +6885,7 @@
         "SECT_TP_NM": "투자주의환기종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "17,585,505"
+        "LIST_SHRS": "17,706,967"
     },
     "238090": {
         "ISU_CD": "KR7238090005",
@@ -8481,7 +8481,7 @@
         "SECT_TP_NM": "기술성장기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "56,686,211"
+        "LIST_SHRS": "56,755,461"
     },
     "277070": {
         "ISU_CD": "KR7277070009",
@@ -9354,9 +9354,9 @@
     "298870": {
         "ISU_CD": "KR7298870007",
         "ISU_SRT_CD": "298870",
-        "ISU_NM": "케이티비네트워크",
-        "ISU_ABBRV": "케이티비네트워크",
-        "ISU_ENG_NM": "KTBnetwork Co., Ltd",
+        "ISU_NM": "다올인베스트먼트",
+        "ISU_ABBRV": "다올인베스트먼트",
+        "ISU_ENG_NM": "Daol Investment",
         "LIST_DD": "2021/12/16",
         "MKT_TP_NM": "KOSDAQ",
         "SECUGRP_NM": "주권",
@@ -12711,6 +12711,20 @@
         "PARVAL": "100",
         "LIST_SHRS": "5,410,000"
     },
+    "413600": {
+        "ISU_CD": "KR7413600008",
+        "ISU_SRT_CD": "413600",
+        "ISU_NM": "키움제6호기업인수목적",
+        "ISU_ABBRV": "키움제6호스팩",
+        "ISU_ENG_NM": "Kiwoom No.6 Special Purpose Acquisition Company",
+        "LIST_DD": "2022/04/07",
+        "MKT_TP_NM": "KOSDAQ",
+        "SECUGRP_NM": "주권",
+        "SECT_TP_NM": "SPAC(소속부없음)",
+        "KIND_STKCERT_TP_NM": "보통주",
+        "PARVAL": "100",
+        "LIST_SHRS": "3,430,000"
+    },
     "413630": {
         "ISU_CD": "KR7413630005",
         "ISU_SRT_CD": "413630",
@@ -12975,7 +12989,7 @@
         "SECT_TP_NM": "투자주의환기종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "0",
-        "LIST_SHRS": "64,745,050"
+        "LIST_SHRS": "64,920,050"
     },
     "950170": {
         "ISU_CD": "KR8392080006",
@@ -16169,6 +16183,20 @@
         "PARVAL": "500",
         "LIST_SHRS": "16,876,561"
     },
+    "030210": {
+        "ISU_CD": "KR7030210009",
+        "ISU_SRT_CD": "030210",
+        "ISU_NM": "다올투자증권보통주",
+        "ISU_ABBRV": "다올투자증권",
+        "ISU_ENG_NM": "Daol Investment & Securities",
+        "LIST_DD": "1996/11/19",
+        "MKT_TP_NM": "KOSPI",
+        "SECUGRP_NM": "주권",
+        "SECT_TP_NM": "",
+        "KIND_STKCERT_TP_NM": "보통주",
+        "PARVAL": "5,000",
+        "LIST_SHRS": "60,314,092"
+    },
     "023590": {
         "ISU_CD": "KR7023590003",
         "ISU_SRT_CD": "023590",
@@ -16839,7 +16867,7 @@
         "SECT_TP_NM": "",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "21,224,823"
+        "LIST_SHRS": "21,842,836"
     },
     "024890": {
         "ISU_CD": "KR7024890006",
@@ -28811,20 +28839,6 @@
         "PARVAL": "100",
         "LIST_SHRS": "83,178,127"
     },
-    "041590": {
-        "ISU_CD": "KR7041590001",
-        "ISU_SRT_CD": "041590",
-        "ISU_NM": "플래스크",
-        "ISU_ABBRV": "플래스크",
-        "ISU_ENG_NM": "Flask",
-        "LIST_DD": "2002/11/01",
-        "MKT_TP_NM": "KOSDAQ",
-        "SECUGRP_NM": "주권",
-        "SECT_TP_NM": "중견기업부",
-        "KIND_STKCERT_TP_NM": "보통주",
-        "PARVAL": "500",
-        "LIST_SHRS": "121,433,730"
-    },
     "044060": {
         "ISU_CD": "KR7044060002",
         "ISU_SRT_CD": "044060",
@@ -28837,7 +28851,7 @@
         "SECT_TP_NM": "벤처기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "14,914,320"
+        "LIST_SHRS": "15,039,996"
     },
     "004910": {
         "ISU_CD": "KR7004910006",
@@ -30014,20 +30028,6 @@
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "5,000",
         "LIST_SHRS": "261,111,808"
-    },
-    "030210": {
-        "ISU_CD": "KR7030210009",
-        "ISU_SRT_CD": "030210",
-        "ISU_NM": "다올투자증권보통주",
-        "ISU_ABBRV": "다올투자증권",
-        "ISU_ENG_NM": "Daol Investment & Securities",
-        "LIST_DD": "1996/11/19",
-        "MKT_TP_NM": "KOSPI",
-        "SECUGRP_NM": "주권",
-        "SECT_TP_NM": "",
-        "KIND_STKCERT_TP_NM": "보통주",
-        "PARVAL": "5,000",
-        "LIST_SHRS": "60,314,092"
     },
     "060370": {
         "ISU_CD": "KR7060370004",
@@ -31810,9 +31810,9 @@
     "058430": {
         "ISU_CD": "KR7058430000",
         "ISU_SRT_CD": "058430",
-        "ISU_NM": "포스코강판보통주",
-        "ISU_ABBRV": "포스코강판",
-        "ISU_ENG_NM": "POSCO COATED & COLOR STEEL",
+        "ISU_NM": "포스코스틸리온보통주",
+        "ISU_ABBRV": "포스코스틸리온",
+        "ISU_ENG_NM": "POSCO STEELEON",
         "LIST_DD": "2002/08/16",
         "MKT_TP_NM": "KOSPI",
         "SECUGRP_NM": "주권",
@@ -32030,6 +32030,20 @@
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
         "LIST_SHRS": "6,000,000"
+    },
+    "041590": {
+        "ISU_CD": "KR7041590001",
+        "ISU_SRT_CD": "041590",
+        "ISU_NM": "플래스크",
+        "ISU_ABBRV": "플래스크",
+        "ISU_ENG_NM": "Flask",
+        "LIST_DD": "2002/11/01",
+        "MKT_TP_NM": "KOSDAQ",
+        "SECUGRP_NM": "주권",
+        "SECT_TP_NM": "중견기업부",
+        "KIND_STKCERT_TP_NM": "보통주",
+        "PARVAL": "500",
+        "LIST_SHRS": "121,433,730"
     },
     "075130": {
         "ISU_CD": "KR7075130005",
@@ -33724,20 +33738,6 @@
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
         "LIST_SHRS": "28,269,988"
-    },
-    "066110": {
-        "ISU_CD": "KR7066110008",
-        "ISU_SRT_CD": "066110",
-        "ISU_NM": "한프",
-        "ISU_ABBRV": "한프",
-        "ISU_ENG_NM": "HANP INC",
-        "LIST_DD": "2002/07/16",
-        "MKT_TP_NM": "KOSDAQ",
-        "SECUGRP_NM": "주권",
-        "SECT_TP_NM": "투자주의환기종목(소속부없음)",
-        "KIND_STKCERT_TP_NM": "보통주",
-        "PARVAL": "500",
-        "LIST_SHRS": "76,844,272"
     },
     "000885": {
         "ISU_CD": "KR7000881003",
