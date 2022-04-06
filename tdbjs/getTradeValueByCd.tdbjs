@@ -1,0 +1,24 @@
+var date = "<!=DATE=!>";
+var cd = "<!=CD=!>";
+
+var db_nm = "trade_value_gap";
+var col_nm = date;
+
+var db0 = db.getSiblingDB( db_nm );
+var col0 = db0.getCollection( col_nm );
+
+var r = []; 
+var q = {}
+    q.cd = cd;
+var p = {}
+var sort = { "_t" : 1 }
+
+col0.find(q,p).sort( sort ).forEach(function(d){
+	r.push( d );
+})
+
+var _r = {
+	cnt : r.length,
+	data : r
+}
+printjson( _r )
