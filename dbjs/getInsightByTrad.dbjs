@@ -1,5 +1,5 @@
 var db_nm = "insightByTrad";
-var col_nm = "20220405";
+var col_nm = "20220406";
 
 var db0 = db.getSiblingDB( db_nm );
 var col0 = db0.getCollection( col_nm );
