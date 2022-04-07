@@ -1059,13 +1059,16 @@ var updateStock = function( cd ){
 				
 						<div class="sixteen wide column" style="">
 							<span style='font-size:12px;padding:10px 0px;'>${ d.name } ( ${ d.symbolCode } ) - ${d.market}</span>  
-							<span style="color:${color};font-size:24px;font-weight:bold;">  ${numberWithCommas( d.tradePrice )}</span>
-							<span style="color:${color};"> ${symbol} ${numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span></br>
-							<span style="font-size:12px;">  거래량 : ${numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) <br> 거래대금 ${numberWithCommas( d.accTradePrice )} </span>
+							<span style="color:${color};font-size:18px;font-weight:bold;">  ${numberWithCommas( d.tradePrice )}</span>
+							<span style="color:${color};"> ${symbol} ${numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span>
+							<span style="font-size:12px;">  거래량 : ${numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% )  거래대금 ${numberWithCommas( d.accTradePrice )} </span>
 						</div>
 						
 					</div>
 				</div>
+				`
+				
+				var _htmlTxt_info =`
 				<div class="sixteen wide column" style="">
 				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/day/${cd}_end.png"  style="width:-webkit-fill-available;"></div>
 				</div>
@@ -1116,7 +1119,8 @@ var updateStock = function( cd ){
 				`
 				
 				
-				window._el.id_stockInfo.innerHTML = _htmlTxt
+				window._el.id_stockInfo_basic.innerHTML = _htmlTxt
+				window._el.id_stockInfo_more.innerHTML = _htmlTxt_info
 				//window._el.id_summaray_stockInfo.innerHTML = `<span style="font-size:11px;">${d.companySummary}</span>`
 			
 			}
@@ -1485,7 +1489,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_search = window.document.getElementById("search");
 	window._el.id_searchResult = window.document.getElementById("searchResult");
 	window._el.id_summaray_stockInfo = window.document.getElementById("summaray_stockInfo" );
-	window._el.id_stockInfo = window.document.getElementById("stockInfo");
+	window._el.id_stockInfo_basic = window.document.getElementById("stockInfo_basic");
+	window._el.id_stockInfo_more = window.document.getElementById("stockInfo_more");
 	window._el.id_search_wrap = window.document.getElementById("search_wrap");
 	window._el.id_wrap = window.document.getElementById("wrap");
 
@@ -1670,12 +1675,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	</div>
 			
 	<div class="sixteen wide column" id="container" style="height: 400px;"></div>
+			<div class="sixteen wide column" style="">
+				<div class="ui grid" id="id_stockInfo_basic"></div>
+			</div>
 	<div class="five wide column" style="height: 500px;">
 		<div class="ui grid">
-			
 			<div class="sixteen wide column" style="">
-				<div class="ui grid" id="stockInfo">
-				</div>
+				<div class="ui grid" id="id_stockInfo_more"></div>
 			</div>
 			<div class="sixteen wide column" id="trd_data" style="/*height: 500px;*/"></div>
 			<div class="sixteen wide column" id="FtrData" style="/*height: 500px;*/"></div>
