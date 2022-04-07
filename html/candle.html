@@ -409,13 +409,13 @@ var getFTrData = function(cd){
 					}
 
 					fr_data += `<tr style='background-color:${bgColor};color:${Color};'>`
-					fr_data += `<td>${ko.nm}</td>`
-					fr_data += `<td>${numberWithCommas( ko.b_amt )}</td>`
-					fr_data += `<td>${numberWithCommas( ko.s_amt )}</td>`
-					fr_data += `<td>${numberWithCommas( ko.pp_amt )}</td>`
-					fr_data += `<td>${numberWithCommas( ko.b )}</td>`
-					fr_data += `<td>${numberWithCommas( ko.s )}</td>`
-					fr_data += `<td>${numberWithCommas( ko.pp )}</td>`
+					fr_data += `<td style="font-size:12px;">${ko.nm}</td>`
+					fr_data += `<td style="font-size:12px;">${numberWithCommas( ko.b_amt )}</td>`
+					fr_data += `<td style="font-size:12px;">${numberWithCommas( ko.s_amt )}</td>`
+					fr_data += `<td style="font-size:12px;">${numberWithCommas( ko.pp_amt )}</td>`
+					fr_data += `<td style="font-size:12px;">${numberWithCommas( ko.b )}</td>`
+					fr_data += `<td style="font-size:12px;">${numberWithCommas( ko.s )}</td>`
+					fr_data += `<td style="font-size:12px;">${numberWithCommas( ko.pp )}</td>`
 					//fr_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
 
 					fr_data += "</tr>"						
@@ -423,13 +423,13 @@ var getFTrData = function(cd){
 				}
 
 				fr_data += `<tr style='background-color:yellow;color:red;'>`
-				fr_data += `<td>전체</td>`
-				fr_data += `<td>${numberWithCommas( a.total[ "b_amt" ] )}</td>`
-				fr_data += `<td>${numberWithCommas( a.total[ "s_amt" ] )}</td>`
-				fr_data += `<td>${numberWithCommas( a.total.pp_amt )}</td>`
-				fr_data += `<td>${numberWithCommas( a.total[ "b" ] )}</td>`
-				fr_data += `<td>${numberWithCommas( a.total[ "s" ] )}</td>`
-				fr_data += `<td>${numberWithCommas( a.total.pp )}</td>`
+				fr_data += `<td style="font-size:12px;">전체</td>`
+				fr_data += `<td style="font-size:12px;">${numberWithCommas( a.total[ "b_amt" ] )}</td>`
+				fr_data += `<td style="font-size:12px;">${numberWithCommas( a.total[ "s_amt" ] )}</td>`
+				fr_data += `<td style="font-size:12px;">${numberWithCommas( a.total.pp_amt )}</td>`
+				fr_data += `<td style="font-size:12px;">${numberWithCommas( a.total[ "b" ] )}</td>`
+				fr_data += `<td style="font-size:12px;">${numberWithCommas( a.total[ "s" ] )}</td>`
+				fr_data += `<td style="font-size:12px;">${numberWithCommas( a.total.pp )}</td>`
 				//fr_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
 				fr_data += "</tr>"	
 				fr_data += "</tbody>"
