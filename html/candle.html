@@ -650,7 +650,7 @@ var rawData = data
   window.charts.candle00.setOption(
     (option = {
       animation: false,
-      legend: { top: 10, left: 'center',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
+      legend: { top: 10, left: 'right',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
@@ -686,8 +686,8 @@ var rawData = data
         ]
       },
       grid: [
-        { left: '7%', right: '7%', height: '60%' },
-        { left: '7%', right: '7%', top: '80%', height: '16%'   }
+        { left: '4%', right: '4%', height: '60%' },
+        { left: '4%', right: '4%', top: '80%', height: '16%'   }
       ],
       xAxis: [
         {
@@ -1053,11 +1053,8 @@ var updateStock = function( cd ){
 				var _htmlTxt = `
 				<div class="sixteen wide column" style="">
 					<div class="ui grid">
-						<div class="sixteen wide column" style="">
+						<div class="sixteen wide column" style="text-align:center;">
 							<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span></br>
-						</div>
-				
-						<div class="sixteen wide column" style="">
 							<span style='font-size:12px;padding:10px 0px;'>${ d.name } ( ${ d.symbolCode } ) - ${d.market}</span>  
 							<span style="color:${color};font-size:18px;font-weight:bold;">  ${numberWithCommas( d.tradePrice )}</span>
 							<span style="color:${color};"> ${symbol} ${numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span>
@@ -1673,11 +1670,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		</div>
 		<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 	</div>
-			
+	<div class="sixteen wide column" style="" id="stockInfo_basic"></div>
 	<div class="sixteen wide column" id="container" style="height: 400px;"></div>
-			<div class="sixteen wide column" style="">
-				<div class="ui grid" id="stockInfo_basic"></div>
-			</div>
 	<div class="five wide column" style="height: 500px;">
 		<div class="ui grid">
 			<div class="sixteen wide column" style="">
