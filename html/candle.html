@@ -463,7 +463,7 @@ var imageOnError = function( img ){
 	return true;
 }
 
-var updateNews = function( cd ){
+var updateNewsFromDaum = function( cd ){
 		
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET" , "http://112.144.208.118:8888/getNewsByCdFromDaum?cd=" + cd, true);
@@ -474,7 +474,8 @@ var updateNews = function( cd ){
 				var d = JSON.parse( xhr.responseText )
 				var _htmlTxt = `<div class="ui grid" style="padding:0px 0 0px 0;">`
 				
-				var i = 0,iLen = d.data.length,io;
+				//var i = 0,iLen = d.data.length,io;
+				var i = 0,iLen = 5,io;
 				for(;i<iLen;++i){
 					io = d.data[ i ]
 					var a = ""
@@ -528,7 +529,8 @@ var updateNewsFromNaver = function( cd ){
 				var d = JSON.parse( xhr.responseText )
 				var _htmlTxt = `<div class="ui grid" style="padding:0px 0 0px 0;">`
 				
-				var i = 0,iLen = d.length,io;
+				//var i = 0,iLen = d.length,io;
+				var i = 0,iLen = 5,io;
 				for(;i<iLen;++i){
 					io = d[ i ].items[0]
 					var a = ""
@@ -1571,7 +1573,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	getFTrData( window.params.cd )
 	getInsightByStockAvgCd( window.params.cd )
 	updateNewsFromNaver( window.params.cd )
-	updateNews( window.params.cd )
+	updateNewsFromDaum( window.params.cd )
 	getAllStockInfo();
 	getTrdRank( window.params.cd )
 	
