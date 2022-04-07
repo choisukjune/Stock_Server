@@ -1488,28 +1488,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_menu_04 = window.document.getElementById("menu_04");
 	window._el.id_menu_05 = window.document.getElementById("menu_05");
 
-
-	window.MassData = {};
-	window.MassData.b = {};
-	window.MassData.s = {};
-
-	window.MassDataRank = [];
-
-	window._data = {};
-	window._data.b = [];
-	window._data.s = [];
-
-	window.RankData = {};
-	window.RankData.b = {};
-	window.RankData.s = {};
-
-	window.chartData = [];
-	window.chartData_s = [];
-	
-	window.MassDataInfo = {}
-	window.MassDataInfo.b = 0
-	window.MassDataInfo.s = 0
-
 	window.stock = {};
 	window.stock_arr = [];
 
@@ -1523,17 +1501,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.charts.candle00 = {};
 
 	window.date = {}
-	
+	window.date.curDate = getTimeTo__YYYYMMDD();
+	window.date.curDateWidhDash = getTimeTo__YYYY_MM_DD();	
+
 	var _date = new Date();
 	var _hour = _date.getHours();
 	if( _hour < 9 )
 	{
 		window.date.cur = getTimeTo__YYYYMMDD_berfore_day(null,1)
-		window.date.curBefore3month = getTimeTo__YYYYMMDD_berfore_month( new Date( getTimeTo__YYYY_MM_DD_berfore_day( null, 1) ), 6 )
+		window.date.curBefore3month = getTimeTo__YYYYMMDD_berfore_month( new Date( getTimeTo__YYYY_MM_DD_berfore_day( null, 1) ), 9 )
 	}
 	else
 	{
-		window.date.curBefore3month = getTimeTo__YYYYMMDD_berfore_month( null, 6 )
+		window.date.curBefore3month = getTimeTo__YYYYMMDD_berfore_month( null, 9 )
 		window.date.cur = getTimeTo__YYYYMMDD();
 	}
 	
@@ -1584,12 +1564,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	});
 
 
-//	updateRank();
-//	updateRank_s();
-	//updateMassTradData();
-	//updateMassTradData_s();
-	//upadteMassTradDataInsertWatch();
-	//upadteMassTradDataInsertWatch_s();
 	window.params = paramToObject();
 	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur )
 	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur)
@@ -1652,11 +1626,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			
 			}	
 		}
-		
-
-		
-		
-		
+	
 	});
 	// window._el.id_search.addEventListener('change', function(e){
 	// 	// debugger;
@@ -1691,7 +1661,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 	</div>
 			
-	<div class="sixteen wide column" id="container" style="height: 500px;"></div>
+	<div class="sixteen wide column" id="container" style="height: 400px;"></div>
 	<div class="five wide column" style="height: 500px;">
 		<div class="ui grid">
 			
