@@ -2957,12 +2957,10 @@ var makeSearchList = function( arr ){
 			
 			window._el.id_searchResult.innerHTML = "";				
 			//candleChart 페이지로이동시킴;
-			window.barChart.curCd = cd;
-			getTradeValueByCd();
-			//var a = window.document.createElement( "a" );
-			//a.target = "_blank";
-			//a.href = "/html/candle.html?cd=" + cd
-			//a.click();
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + cd
+			a.click();
 		})
 	}
 	//window._el.id_searchResult.innerHTML = html
@@ -3149,7 +3147,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_search_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
 
 	window._el.id_searchResult = window.document.getElementById("searchResult");
-	window._el.id_searchResult_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
+	window._el.id_searchResult_tradeValueBarchart = window.document.getElementById("searchResult_tradeValueBarchart");
 
 	window._el.id_stockInfo = window.document.getElementById("stockInfo");
 	window._el.id_search_wrap = window.document.getElementById("search_wrap");
