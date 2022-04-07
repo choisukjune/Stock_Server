@@ -2955,7 +2955,8 @@ var makeSearchList = function( arr ){
 			
 			var cd = e.currentTarget.getAttribute("data-cd-value");
 			
-			window._el.id_searchResult.innerHTML = "";				
+			window._el.id_searchResult.innerHTML = "";
+			window._el.id_searchResult.style.display = "block";		
 			//candleChart 페이지로이동시킴;
 			var a = window.document.createElement( "a" );
 			a.target = "_blank";
@@ -2999,7 +3000,8 @@ var makeSearchList_tradeValueBarchart = function( arr ){
 			
 			var cd = e.currentTarget.getAttribute("data-cd-value");
 			
-			window._el.id_searchResult_tradeValueBarchart.innerHTML = "";				
+			window._el.id_search_tradeValueBarchart.style.display = "none"
+			window._el.id_search_tradeValueBarchart.innerHTML = "";		
 			//candleChart 페이지로이동시킴;
 			window.barChart.curCd = cd;
 			getTradeValueByCd();
