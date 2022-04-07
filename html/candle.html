@@ -650,7 +650,7 @@ var rawData = data
   window.charts.candle00.setOption(
     (option = {
       animation: false,
-      legend: { top: 10, left: 'right',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
+      legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
@@ -1066,9 +1066,9 @@ var updateStock = function( cd ){
 				`
 				
 				var _htmlTxt_info =`
-				<div class="sixteen wide column" style="">
+				<!--div class="sixteen wide column" style="">
 				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/day/${cd}_end.png"  style="width:-webkit-fill-available;"></div>
-				</div>
+				</div-->
 				<div class="sixteen wide column" style="">
 				<span style='font-size:12px;color:#666;'>종목정보</span></br>
 				<table class="ui celled table compact">
