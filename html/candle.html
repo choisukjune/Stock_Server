@@ -1481,6 +1481,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_search_wrap = window.document.getElementById("search_wrap");
 	window._el.id_wrap = window.document.getElementById("wrap");
 
+	window._el.id_menu_00 = window.document.getElementById("menu_00");
+	window._el.id_menu_01 = window.document.getElementById("menu_01");
+	window._el.id_menu_02 = window.document.getElementById("menu_02");
+	window._el.id_menu_03 = window.document.getElementById("menu_03");
+	window._el.id_menu_04 = window.document.getElementById("menu_04");
+	window._el.id_menu_05 = window.document.getElementById("menu_05");
+
+
 	window.MassData = {};
 	window.MassData.b = {};
 	window.MassData.s = {};
@@ -1530,6 +1538,50 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 	
 	window._el.id_news.style.height = window._el.id_wrap.offsetHeight + "px";
+
+	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
+
+	window._el.id_menu_00.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/실시간대량거래.html`;
+		a.click();
+	});
+
+	window._el.id_menu_01.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/기관거래원별.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
+	window._el.id_menu_02.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/외국계거래원별.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
+	window._el.id_menu_03.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/외국계증권사매매동향.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
+	window._el.id_menu_04.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/wics업종별현황.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
+	window._el.id_menu_05.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/관심종목.html?date=${window.date.curDate}`;
+		a.click();
+	});
 
 
 //	updateRank();
