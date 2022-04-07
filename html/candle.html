@@ -1053,17 +1053,17 @@ var updateStock = function( cd ){
 				var _htmlTxt = `
 				<div class="sixteen wide column" style="">
 					<div class="ui grid">
-						<div class="five wide column" style="">
+						<div class="sixteen wide column" style="">
 							<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span></br>
-							<span style='font-size:13px;padding:10px 0px;'>${ d.name } ( ${ d.symbolCode } ) - ${d.market}</span>  
 						</div>
-						<div class="six wide column" style="">
-							<span style="color:${color};font-size:24px;font-weight:bold;">  ${numberWithCommas( d.tradePrice )}</span><br>
+				
+						<div class="sixteen wide column" style="">
+							<span style='font-size:12px;padding:10px 0px;'>${ d.name } ( ${ d.symbolCode } ) - ${d.market}</span>  
+							<span style="color:${color};font-size:24px;font-weight:bold;">  ${numberWithCommas( d.tradePrice )}</span>
 							<span style="color:${color};"> ${symbol} ${numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span></br>
-						</div>
-						<div class="five wide column" style="">
 							<span style="font-size:12px;">  거래량 : ${numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) <br> 거래대금 ${numberWithCommas( d.accTradePrice )} </span>
 						</div>
+						
 					</div>
 				</div>
 				<div class="sixteen wide column" style="">
