@@ -2968,6 +2968,53 @@ var makeSearchList = function( arr ){
 	//window._el.id_searchResult.innerHTML = html
 }
 
+
+var makeSearchList_tradeValueBarchart = function( arr ){
+
+	window._el.id_searchResult_tradeValueBarchart.style.width = window._el.id_search__tradeValueBarchart.offsetWidth + "px";
+	window._el.id_searchResult_tradeValueBarchart.style.display = "block";
+	window._el.id_searchResult_tradeValueBarchart.innerHTML = "";
+
+	var html = ""
+	var i =0,iLen =arr.length,io;
+	for(;i<iLen;++i){
+		io = arr[ i ];
+		html = `
+		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}">(${io.displayedCode}) - ${io.koreanName}</div>
+		`
+	
+
+		var new_el = htmlToElement( html )
+		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
+		if( target_el )
+		{
+			window._el.id_searchResult_tradeValueBarchart.lastElementChild.parentNode.removeChild( target_el )
+			window._el.id_searchResult_tradeValueBarchart.insertBefore( new_el,window._el.id_searchResult_tradeValueBarchart.firstChild )			
+			
+		}
+		else
+		{
+			window._el.id_searchResult_tradeValueBarchart.insertBefore( new_el,window._el.id_searchResult_tradeValueBarchart.firstChild )	
+		}
+
+		new_el.addEventListener( "click",function(e){
+			
+			var cd = e.currentTarget.getAttribute("data-cd-value");
+			
+			window._el.id_searchResult_tradeValueBarchart.innerHTML = "";				
+			//candleChart 페이지로이동시킴;
+			window.barChart.curCd = cd;
+			getTradeValueByCd();
+			//var a = window.document.createElement( "a" );
+			//a.target = "_blank";
+			//a.href = "/html/candle.html?cd=" + cd
+			//a.click();
+		})
+	}
+	//window._el.id_searchResult_tradeValueBarchart.innerHTML = html
+}
+
+
 var getFtrdDataByCd = function(cd,date,cbFunction){
 	var xhr = new XMLHttpRequest();
 
@@ -3097,8 +3144,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_trd_data = window.document.getElementById("trd_data");
 	window._el.id_realTimeChart = window.document.getElementById("realTimeChart");
 	window._el.id_totalTradPrice = window.document.getElementById("totalTradPrice");
+
 	window._el.id_search = window.document.getElementById("search");
+	window._el.id_search_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
+
 	window._el.id_searchResult = window.document.getElementById("searchResult");
+	window._el.id_searchResult_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
+
 	window._el.id_stockInfo = window.document.getElementById("stockInfo");
 	window._el.id_search_wrap = window.document.getElementById("search_wrap");
 	window._el.id_tree_wics = window.document.getElementById( "tree_wics" )
@@ -3216,12 +3268,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 						window._el.id_searchResult.innerHTML = "";
 						var cd = d[0].displayedCode;				
 						//candleChart 페이지로이동시킴;
-						window.barChart.curCd = cd;
-						getTradeValueByCd();
-						//var a = window.document.createElement( "a" );
-						//a.target = "_blank";
-						//a.href = "/html/candle.html?cd=" + cd
-						//a.click();					
+						var a = window.document.createElement( "a" );
+						a.target = "_blank";
+						a.href = "/html/candle.html?cd=" + cd
+						a.click();					
 					}
 					else if( d.length > 1 )
 					{
@@ -3241,6 +3291,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					else
 					{
 						makeSearchList(d)	
+					}
+				});
+			
+			}	
+		}
+	})
+	window._el.id_search_tradeValueBarchart.addEventListener('keyup', function(e){
+	
+		if( e.currentTarget.value == "" )
+		{
+			window._el.id_search_tradeValueBarchart.style.display = "none"
+			window._el.id_search_tradeValueBarchart.innerHTML = "";
+		}
+		else
+		{
+			if (window.event.keyCode == 13) {
+				searchStock( e.currentTarget.value,function(d){
+					if(d.length == 1 )
+					{
+						window._el.id_search_tradeValueBarchart.style.display = "none"
+						window._el.id_search_tradeValueBarchart.innerHTML = "";
+						var cd = d[0].displayedCode;				
+						//candleChart 페이지로이동시킴;
+						window.barChart.curCd = cd;
+						getTradeValueByCd();
+						//var a = window.document.createElement( "a" );
+						//a.target = "_blank";
+						//a.href = "/html/candle.html?cd=" + cd
+						//a.click();					
+					}
+					else if( d.length > 1 )
+					{
+						makeSearchList_tradeValueBarchart(d)
+					}
+
+				});
+			}
+			else
+			{
+				searchStock( e.currentTarget.value,function(d){
+					if( d.length == 0)
+					{
+						window._el.id_search_tradeValueBarchart.style.display = "none"
+						window._el.id_search_tradeValueBarchart.innerHTML = "";
+					}
+					else
+					{
+						makeSearchList_tradeValueBarchart(d)	
 					}
 				});
 			
@@ -3353,11 +3451,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
+		<div class="sixteen wide column" style="padding: 20px;" id="search_wrap_tradeValueBarchart">
+				<div class="ui fluid icon input">
+					<input type="text" placeholder="Search a very wide input..." id="search_tradeValueBarchart">
+					<i class="search icon"></i>
+				</div>
+				<div class="ui list" id="searchResult_tradeValueBarchart" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+		</div>
 		<div class="sixteen wide column">
 			<div class="ui grid">
-				<div class="sixteen wide column" id="tradeValueByCd_title" style="">
-				국내외증시
-				</div>
 				<div class="sixteen wide column" id="tradeValueByCd" style="height:400px;"></div>
 			</div>
 		</div>
