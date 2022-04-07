@@ -1167,7 +1167,7 @@ var getAcgDataByCd = function( cd,start,end){
 							<th> 은행  </th>
 							<th> 연기금등  </th>
 							<th> 사모펀드 </th>
-							<th> 국가 </th>
+							<!--th> 국가 </th-->
 							<th> 기타법인 </th>
 							<th> 내외국인 </th>
 						</tr>
@@ -1209,7 +1209,7 @@ var getAcgDataByCd = function( cd,start,end){
 					agency_data += `<td style='color:${_html_updateStock( io.tr8 )};'>`	  + longNumberAddString( io.tr8  )  + "</td>"  
 					agency_data += `<td style='color:${_html_updateStock( io.tr9 )};'>`	  + longNumberAddString( io.tr9  )  + "</td>"  
 					agency_data += `<td style='color:${_html_updateStock( io.tr10 )};'>`  + longNumberAddString( io.tr10 )  + "</td>"  
-					agency_data += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
+//					agency_data += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
 					agency_data += `<td style='color:${_html_updateStock( io.tr12 )};'>`  + longNumberAddString( io.tr12 )  + "</td>"  
 					agency_data += `<td style='color:${_html_updateStock( io.tr13 )};'>`  + longNumberAddString( io.tr13 )  + "</td>"  
 
@@ -1285,6 +1285,7 @@ var getInsightByStockAvgCd = function( cd ){
 	
 }
 var longNumberAddString = function( n ){
+	if( n == 0 ) return "-";
 	var _p = n.toString().length;
 	if( _p == 1 ) return n + "백만"
 	if( _p == 2 ) return ( n * 0.1 ).toFixed(1) + "천만"
