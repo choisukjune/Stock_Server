@@ -1285,6 +1285,12 @@ var getInsightByStockAvgCd = function( cd ){
 	
 	
 }
+var longNumberAddString = function( n ){
+	var _p = n.toString().length;
+	if( _p == 1 ) return n + "백만"
+	if( _p == 2 ) return ( n * 0.1 ).toFixed(1) + "천만"
+	if( _p >= 3 ) return ( n * 0.01 ).toFixed(1) + "억"
+}
 
 var getAcgDataByCd_50 = function(){
 		
@@ -1370,19 +1376,19 @@ var getAcgDataByCd_50 = function(){
 		//agency_data += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
 		//agency_data += `<td style='color:${_html_updateStock( io00.rt )};'>` + io00.rt   + "</td>"  
 		
-		agency_data += `<td style='color:${_html_updateStock( r02.tr1 )};'>` +  r02.tr1  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr2 )};'>` +  r02.tr2  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr3 )};'>` +  r02.tr3  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr4 )};'>` +  r02.tr4  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr5 )};'>` +  r02.tr5  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr6 )};'>` +  r02.tr6  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr7 )};'>` +  r02.tr7  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr8 )};'>` +  r02.tr8  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr9 )};'>` +  r02.tr9  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr10 )};'>` + r02.tr10  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr11 )};'>` + r02.tr11  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr12 )};'>` + r02.tr12  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r02.tr13 )};'>` + r02.tr13  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr1 ) };'>` + longNumberAddString( r02.tr1  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr2 ) };'>` + longNumberAddString( r02.tr2  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr3 ) };'>` + longNumberAddString( r02.tr3  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr4 ) };'>` + longNumberAddString( r02.tr4  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr5 ) };'>` + longNumberAddString( r02.tr5  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr6 ) };'>` + longNumberAddString( r02.tr6  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr7 ) };'>` + longNumberAddString( r02.tr7  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr8 ) };'>` + longNumberAddString( r02.tr8  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr9 ) };'>` + longNumberAddString( r02.tr9  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr10) };'>` + longNumberAddString( r02.tr10 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr11) };'>` + longNumberAddString( r02.tr11 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr12) };'>` + longNumberAddString( r02.tr12 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r02.tr13) };'>` + longNumberAddString( r02.tr13 )  + "</td>"  
 
 		agency_data += "</tr>"
 	
@@ -1394,19 +1400,19 @@ var getAcgDataByCd_50 = function(){
 		//agency_data += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
 		//agency_data += `<td style='color:${_html_updateStock( io00.rt )};'>` + io00.rt   + "</td>"  
 		
-		agency_data += `<td style='color:${_html_updateStock( r01.tr1 )};'>` +  r01.tr1  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr2 )};'>` +  r01.tr2  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr3 )};'>` +  r01.tr3  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr4 )};'>` +  r01.tr4  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr5 )};'>` +  r01.tr5  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr6 )};'>` +  r01.tr6  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr7 )};'>` +  r01.tr7  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr8 )};'>` +  r01.tr8  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr9 )};'>` +  r01.tr9  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr10 )};'>` + r01.tr10  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr11 )};'>` + r01.tr11  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr12 )};'>` + r01.tr12  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r01.tr13 )};'>` + r01.tr13  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr1 )};'>` +  longNumberAddString( r01.tr1  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr2 )};'>` +  longNumberAddString( r01.tr2  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr3 )};'>` +  longNumberAddString( r01.tr3  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr4 )};'>` +  longNumberAddString( r01.tr4  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr5 )};'>` +  longNumberAddString( r01.tr5  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr6 )};'>` +  longNumberAddString( r01.tr6  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr7 )};'>` +  longNumberAddString( r01.tr7  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr8 )};'>` +  longNumberAddString( r01.tr8  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr9 )};'>` +  longNumberAddString( r01.tr9  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr10 )};'>` + longNumberAddString( r01.tr10 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr11 )};'>` + longNumberAddString( r01.tr11 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr12 )};'>` + longNumberAddString( r01.tr12 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r01.tr13 )};'>` + longNumberAddString( r01.tr13 )  + "</td>"  
 
 		agency_data += "</tr>"
 
@@ -1419,19 +1425,19 @@ var getAcgDataByCd_50 = function(){
 		//agency_data += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
 		//agency_data += `<td style='color:${_html_updateStock( io00.rt )};'>` + io00.rt   + "</td>"  
 		
-		agency_data += `<td style='color:${_html_updateStock( r00.tr1 )};'>` +  r00.tr1  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr2 )};'>` +  r00.tr2  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr3 )};'>` +  r00.tr3  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr4 )};'>` +  r00.tr4  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr5 )};'>` +  r00.tr5  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr6 )};'>` +  r00.tr6  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr7 )};'>` +  r00.tr7  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr8 )};'>` +  r00.tr8  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr9 )};'>` +  r00.tr9  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr10 )};'>` + r00.tr10  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr11 )};'>` + r00.tr11  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr12 )};'>` + r00.tr12  + "</td>"  
-		agency_data += `<td style='color:${_html_updateStock( r00.tr13 )};'>` + r00.tr13  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr1 )};'>` +  longNumberAddString( r00.tr1  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr2 )};'>` +  longNumberAddString( r00.tr2  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr3 )};'>` +  longNumberAddString( r00.tr3  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr4 )};'>` +  longNumberAddString( r00.tr4  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr5 )};'>` +  longNumberAddString( r00.tr5  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr6 )};'>` +  longNumberAddString( r00.tr6  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr7 )};'>` +  longNumberAddString( r00.tr7  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr8 )};'>` +  longNumberAddString( r00.tr8  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr9 )};'>` +  longNumberAddString( r00.tr9  ) + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr10 )};'>` + longNumberAddString( r00.tr10 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr11 )};'>` + longNumberAddString( r00.tr11 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr12 )};'>` + longNumberAddString( r00.tr12 )  + "</td>"  
+		agency_data += `<td style='color:${_html_updateStock( r00.tr13 )};'>` + longNumberAddString( r00.tr13 )  + "</td>"  
 
 		agency_data += "</tr>"
 		agency_data += `</tbody></table>`
