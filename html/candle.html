@@ -1623,16 +1623,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <body style="padding:20px;">
 <div class="ui grid" style="padding: 10px;" id="wrap">
+	<div class="eight wide column" style="padding: 20px;">
+		<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
+		<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
+		<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
+		<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span> | 
+		<span id="menu_04" style="cursor:pointer;">wics업종별현황</span> |
+		<span id="menu_05" style="cursor:pointer;">관심종목</span>
+	</div>
+	<div class="eight wide column" style="padding: 20px;" id="search_wrap">
+		<div class="ui fluid icon input">
+			<input type="text" placeholder="Search a very wide input..." id="search">
+			<i class="search icon"></i>
+		</div>
+		<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+	</div>
+			
 	<div class="sixteen wide column" id="container" style="height: 500px;"></div>
 	<div class="five wide column" style="height: 500px;">
 		<div class="ui grid">
-			<div class="sixteen wide column" style="padding: 20px;" id="search_wrap">
-				<div class="ui fluid icon input">
-					<input type="text" placeholder="Search a very wide input..." id="search">
-					<i class="search icon"></i>
-				</div>
-				<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
-			</div>
 			
 			<div class="sixteen wide column" style="">
 				<div class="ui grid" id="stockInfo">
