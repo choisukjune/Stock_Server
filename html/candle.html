@@ -1041,42 +1041,41 @@ var updateStock = function( cd ){
 						<div class="sixteen wide column" style="">
 							<span style="font-size:11px;">${d.companySummary}</span>
 						</div>
+						<div class="sixteen wide column" style="">
+							<table class="ui celled table compact">
+								<tbody>
+									<tr>
+										<td style="width:50%;">전일종가 <br> ${window.UTIL.Number.numberWithCommas( d.prevClosingPrice )}</td>
+										<td style="width:50%;">전일거래량 <br> ${window.UTIL.Number.numberWithCommas( d.prevAccTradeVolume )}</td>
+									</tr>
+									<tr>
+										<td>거래금 <br> ${window.UTIL.Number.numberWithCommas( d.accTradePrice )}</td>
+										<td>시가 <br> ${window.UTIL.Number.numberWithCommas( d.openingPrice )}</td>
+									</tr>
+									<tr>
+										<td>고가 <br> ${window.UTIL.Number.numberWithCommas( d.highPrice )}</td>
+										<td>저가 <br> ${window.UTIL.Number.numberWithCommas( d.lowPrice )}</td>
+									</tr>
+									<tr>
+										<td>시가총액 <br> ${window.UTIL.Number.numberWithCommas( d.marketCap )}( ${d.marketCapRank}위 )</td>
+										<td>외국인비율 <br> ${d.foreignRatio}%( ${d.prevForeignRatio}% )</td>
+									</tr>
+									<tr>
+										<td>EPS <br> ${window.UTIL.Number.numberWithCommas( d.eps )}원</td>
+										<td>BPS <br> ${window.UTIL.Number.numberWithCommas( d.bps )}원</td>
+									</tr>
+									<tr>
+										<td>PBR <br> ${d.pbr}배</td>
+										<td>PER <br> ${d.per}배</td>
+									</tr>
+								<tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 				<!--div class="sixteen wide column" style="">
 				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/day/${cd}_end.png"  style="width:-webkit-fill-available;"></div>
 				</div-->
-				<div class="sixteen wide column" style="">
-				<table class="ui celled table compact">
-					<tbody>
-						<tr>
-							<td style="width:50%;">전일종가 <br> ${window.UTIL.Number.numberWithCommas( d.prevClosingPrice )}</td>
-							<td style="width:50%;">전일거래량 <br> ${window.UTIL.Number.numberWithCommas( d.prevAccTradeVolume )}</td>
-						</tr>
-						<tr>
-							<td>거래금 <br> ${window.UTIL.Number.numberWithCommas( d.accTradePrice )}</td>
-							<td>시가 <br> ${window.UTIL.Number.numberWithCommas( d.openingPrice )}</td>
-						</tr>
-						<tr>
-							<td>고가 <br> ${window.UTIL.Number.numberWithCommas( d.highPrice )}</td>
-							<td>저가 <br> ${window.UTIL.Number.numberWithCommas( d.lowPrice )}</td>
-						</tr>
-						<tr>
-							<td>시가총액 <br> ${window.UTIL.Number.numberWithCommas( d.marketCap )}( ${d.marketCapRank}위 )</td>
-							<td>외국인비율 <br> ${d.foreignRatio}%( ${d.prevForeignRatio}% )</td>
-						</tr>
-						<tr>
-							<td>EPS <br> ${window.UTIL.Number.numberWithCommas( d.eps )}원</td>
-							<td>BPS <br> ${window.UTIL.Number.numberWithCommas( d.bps )}원</td>
-						</tr>
-						<tr>
-							<td>PBR <br> ${d.pbr}배</td>
-							<td>PER <br> ${d.per}배</td>
-						</tr>
-					<tbody>
-				</table>
-				</div>
-				</div>
 				`
 				
 				
