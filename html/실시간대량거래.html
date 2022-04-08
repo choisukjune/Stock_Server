@@ -542,7 +542,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 	var s,so;
 	for( s in window.socketData.MarketIndexGlobal ){
 		so = window.socketData.MarketIndexGlobal[ s ];
-		//if( s != "USA") continue
+		if( s != "USA") continue
 		var i = 0,iLen = so.length,io;
 		for(;i<iLen;++i){
 			io = so[ i ];
@@ -919,11 +919,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				<div class="sixteen wide column" id="market_index_title" style="">
 				국내외증시
 				</div>
-				<div class="six wide column">
+				<div class="sixteen wide column">
 					<div class="ui two cards" id="market_index"></div>
-				</div>
-				<div class="ten wide column">
-					<div class="ui six cards" id="market_index_1"></div>
 				</div>
 			</div>
 		</div>
