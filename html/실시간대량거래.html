@@ -630,18 +630,18 @@ var searchStock = function(q,cbFunction){
 		{
 			var d = JSON.parse( xhr.responseText );
 			console.log( d.suggestItems );
-			cbFunction(d.suggestItems, cbFunction)
+			cbFunction(d.suggestItems)
 		}
 
 	}
 	xhr.send();
 }
 
-var makeSearchList = function( arr, cbFunction ){
+var makeSearchList = function( arr, tDom, cb ){
 
-	window._el.id_search_result.style.width = window._el.id_search.offsetWidth + "px";
-	window._el.id_search_result.style.display = "block";
-	window._el.id_search_result.innerHTML = "";
+	tDom.style.width = tDom.parentElement.children[0].children[0].offsetWidth + "px";
+	tDom.style.display = "block";
+	tDom.innerHTML = "";
 
 	var html = ""
 	var i =0,iLen =arr.length,io;
@@ -656,33 +656,30 @@ var makeSearchList = function( arr, cbFunction ){
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
 		{
-			window._el.id_search_result.lastElementChild.parentNode.removeChild( target_el )
-			window._el.id_search_result.insertBefore( new_el,window._el.id_search_result.firstChild )			
+			tDom.lastElementChild.parentNode.removeChild( target_el )
+			tDom.insertBefore( new_el,tDom.firstChild )			
 			
 		}
 		else
 		{
-			window._el.id_search_result.insertBefore( new_el,window._el.id_search_result.firstChild )	
+			tDom.insertBefore( new_el,tDom.firstChild )	
 		}
 
 		new_el.addEventListener( "click",function(e){
 			
 			var cd = e.currentTarget.getAttribute("data-cd-value");
 			
-			window._el.id_search_result.innerHTML = "";
-			window._el.id_search_result.style.display = "none";		
+			tDom.innerHTML = "";
+			tDom.style.display = "none";		
 			//candleChart 페이지로이동시킴;
-			var a = window.document.createElement( "a" );
-			a.target = "_blank";
-			a.href = "/html/candle.html?cd=" + cd
-			a.click();
+			cb( cd )
 		})
 	}
-	//window._el.id_search_result.innerHTML = html
+	//tDom.innerHTML = html
 }
 
 
-var makeSearchList_tradeValueBarchart = function( arr ){
+var makeSearchList_tradeValueBarchart = function( arr, tDom ){
 
 	window._el.id_search_tradeValueBarchart_result.style.width = window._el.id_search_tradeValueBarchart.offsetWidth + "px";
 	window._el.id_search_tradeValueBarchart_result.style.display = "block";
@@ -793,7 +790,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		menu_00 : `/html/실시간대량거래.html`,
 		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
 		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
-		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`
+		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
+		candle : `/html/candle.html?cd=`
 	};
 	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
 	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
@@ -827,7 +825,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else if( d.length > 1 )
 					{
-						makeSearchList(d)
+						makeSearchList(d,e.currentTarget,function(){
+							window.UTIL.Link.a( url + cd, "_blank")
+						})
 					}
 
 				});
@@ -842,7 +842,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else
 					{
-						makeSearchList(d)	
+						makeSearchList(d,e.currentTarget,function(){
+								window.UTIL.Link.a( url + cd, "_blank")
+						})	
 					}
 				});
 			
@@ -875,7 +877,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else if( d.length > 1 )
 					{
-						makeSearchList_tradeValueBarchart(d)
+						makeSearchList(d,e.currentTarget,function(){
+							window.barChart.curCd = cd;
+							getTradeValueByCd();
+						})
 					}
 
 				});
@@ -890,7 +895,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else
 					{
-						makeSearchList_tradeValueBarchart(d)	
+						makeSearchList(d,e.currentTarget,function(){
+							window.barChart.curCd = cd;
+							getTradeValueByCd();
+						})	
 					}
 				});
 			
