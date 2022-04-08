@@ -618,21 +618,17 @@ window.wsFns.renderMarketIndexGlobal = function(){
 }
 
 var searchStock = function(q,cbFunction){
-	console.log( q )
-	var xhr = new XMLHttpRequest();
 
-	//http://112.144.208.118:8888/getCandleDataByCd?cd=510007&startTime=20220201&endTime=20220214
+	var xhr = new XMLHttpRequest();
 	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q}`, true);
 
 	xhr.onreadystatechange = function() {
-
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText );
 			console.log( d.suggestItems );
 			cbFunction(d.suggestItems, cbFunction)
 		}
-
 	}
 	xhr.send();
 }
@@ -804,7 +800,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
 	window._el.id_search.addEventListener('keyup', function(e){
-	
+		deubgger;	
 		if( e.currentTarget.value == "" )
 		{
 			window._el.id_search_result.style.display = "none"
@@ -812,7 +808,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 		else
 		{
-			if (window.event.keyCode == 13) {
+			if( window.event.keyCode == 13 ){
 				searchStock( e.currentTarget.value,function(d){
 					if(d.length == 1 )
 					{
@@ -825,6 +821,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 						a.href = "/html/candle.html?cd=" + cd
 						a.click();					
 					}
+					else( d.length == 0)
+					{
+						window._el.id_search_result.style.display = "none"
+						window._el.id_search_result.innerHTML = "";
+					}
+			
 					else if( d.length > 1 )
 					{
 						makeSearchList(d)
@@ -832,21 +834,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 				});
 			}
-			else
-			{
-				searchStock( e.currentTarget.value,function(d){
-					if( d.length == 0)
-					{
-						window._el.id_search_result.style.display = "none"
-						window._el.id_search_result.innerHTML = "";
-					}
-					else
-					{
-						makeSearchList(d)	
-					}
-				});
-			
-			}	
 		}
 	})
 	window._el.id_search_tradeValueBarchart.addEventListener('keyup', function(e){
