@@ -26,64 +26,12 @@ th{
 
 
 
-var hex = function(c) {
-	var s = "0123456789abcdef";
-	var i = parseInt (c);
-	if (i == 0 || isNaN (c))
-	return "00";
-	i = Math.round (Math.min (Math.max (0, i), 255));
-	return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
-}
 
-var convertToHex = function(rgb) {
-  return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
-}
 
-var trim = function(s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
-
-var convertToRGB = function(hex) {
-  var color = [];
-  color[0] = parseInt ((trim(hex)).substring (0, 2), 16);
-  color[1] = parseInt ((trim(hex)).substring (2, 4), 16);
-  color[2] = parseInt ((trim(hex)).substring (4, 6), 16);
-  return color;
-}
-
-var generateColor = function(colorStart,colorEnd,value){
-
-	// The beginning of your gradient
-	var start = convertToRGB (colorStart);    
-
-	// The end of your gradient
-	var end   = convertToRGB (colorEnd);    
-
-	// The number of colors to compute
-	//var len = colorCount;
-
-	//Alpha blending amount
-	var alpha = 0.0;
-
-	alpha = value / 30//window.MassTrd.maxCnt
-	var c = [];
-	//alpha =value + (1.0/len);
-		
-	c[0] = start[0] * alpha + (1 - alpha) * end[0];
-	c[1] = start[1] * alpha + (1 - alpha) * end[1];
-	c[2] = start[2] * alpha + (1 - alpha) * end[2];
-
-	return convertToHex (c);
-	
-}
-
-var htmlToElement = function( html ){
-    var template = document.createElement('template');
-    html = html.trim(); // Never return a text node of whitespace as the result
-    template.innerHTML = html;
-    return template.content.firstChild;
-}
 
 window.barChart = {};
 window.barChart.curCd = null;
+
 var getTradeValueByCd = function(){
 	if( window.barChart.curCd == null ) return;
 	var xhr = new XMLHttpRequest();
@@ -1050,7 +998,7 @@ window.wsFns.renderMassTransList_buy = function(){
 		if( o.rt < 0 ) color00 = "blue"
 		if( o.rt == 0 ) color00 = "gery"
 
-		var color = generateColor('#FF0000','#cccccc',o.rt)				
+		var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
 		 var _html = `
 		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${o.cd}" data-cd-value="${o.cd}" data-nm-value="${o.nm}" data-cnt-value="${window.massTransData.buy[ o.cd ].cnt}">
 			<div class="">
@@ -1082,7 +1030,7 @@ window.wsFns.renderMassTransList_buy = function(){
 		`
 		
 
-		var new_el = htmlToElement( _html )
+		var new_el = window.UTIL.Html.htmlToElement( _html )
 		var target_el = window.document.getElementById( "mass_b_00_" + o.cd )
 		
 		if( target_el )
@@ -1289,7 +1237,7 @@ var insertWicsStockData = function( o ){
 		"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
 	
-	//var color = generateColor('#FF0000','#cccccc',o.rt)				
+	//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
 	 var _html = `
 		 <div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${o.symbolCode}" data-cd-value="${o.symbolCode.replace("A","")}" data-nm-value="${o.name}">
 			<div class="content">
@@ -1307,7 +1255,7 @@ var insertWicsStockData = function( o ){
 		 </div>
 		`
 
-		var new_el = htmlToElement( _html )
+		var new_el = window.UTIL.Html.htmlToElement( _html )
 		
 
 
@@ -1361,7 +1309,7 @@ window.wsFns.renderMarketIndex = function(){
 	var i = 0,iLen = window.socketData.MarketIndex.datas.length,io;
 	for(;i<iLen;++i){
 		io = window.socketData.MarketIndex.datas[ i ];
-		//var color = generateColor('#FF0000','#cccccc',o.rt)				
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
 		_html += `
 			<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.stockName}">
 				<div class="content">
@@ -1379,7 +1327,7 @@ window.wsFns.renderMarketIndex = function(){
 			</div>
 			`
 
-			//var new_el = htmlToElement( _html )
+			//var new_el = window.UTIL.Html.htmlToElement( _html )
 			//window._el.id_market_index.appendChild( new_el )
 	}
 	window._el.id_market_index.innerHTML = _html
@@ -1419,7 +1367,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 	// for(;i<iLen;++i){
 	// 	io = window.socketData.MarketIndexGlobal.north_america.data[ i ];
 		
-	// 	//var color = generateColor('#FF0000','#cccccc',o.rt)				
+	// 	//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
 	// 	var _html = `
 	// 		<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.name}">
 	// 			<div class="content">
@@ -1437,7 +1385,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 	// 		</div>
 	// 		`
 
-	// 		var new_el = htmlToElement( _html )
+	// 		var new_el = window.UTIL.Html.htmlToElement( _html )
 	// 		window._el.id_market_index.appendChild( new_el )	
 	// }
 
@@ -1449,7 +1397,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 		var i = 0,iLen = so.length,io;
 		for(;i<iLen;++i){
 			io = so[ i ];
-			//var color = generateColor('#FF0000','#cccccc',o.rt)		
+			//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
 			var name = ""
 			//if( io.stockEndType != "futures") continue;
 			if( io.stockEndType == "futures") name = io.futuresName;
@@ -1478,7 +1426,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 				debugger;
 			}
 			
-			//var new_el = htmlToElement( _html )
+			//var new_el = window.UTIL.Html.htmlToElement( _html )
 			//window._el.id_market_index.appendChild( new_el )	
 				
 		}
@@ -1600,7 +1548,7 @@ var upadteMassTradDataInsert00 = function( o ){
 	}
 	else
 	{
-		var color = generateColor('#FF0000','#cccccc',o.rt)				
+		var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
 		 var _html = `
 		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${o.cd}" data-cd-value="${o.cd}" data-nm-value="${o.nm}" data-cnt-value="${window.massStorckCnt.b[ o.cd ].cnt}">
 			<div class="content">
@@ -1644,7 +1592,7 @@ var upadteMassTradDataInsert00 = function( o ){
 		//</tr>
 		//`
 
-		var new_el = htmlToElement( _html )
+		var new_el = window.UTIL.Html.htmlToElement( _html )
 		
 
 
@@ -1731,7 +1679,7 @@ var upadteMassTradDataInsert = function( o ){
 	}
 	
 
-	var color = generateColor('#FF0000','#cccccc',1)				
+	var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',1)				
 	
 
 	/*
@@ -1759,7 +1707,7 @@ var upadteMassTradDataInsert = function( o ){
 	
 
 	
-	var new_el = htmlToElement( _html )
+	var new_el = window.UTIL.Html.htmlToElement( _html )
 	
 	//if( window._el.id_mass_b.childElementCount > 100 ) //window._el.id_mass_b.lastElementChild.parentNode.removeChild( window._el.id_mass_b.lastElementChild )
 	//window._el.id_mass_b.insertBefore( new_el,window._el.id_mass_b.firstChild )	
@@ -1884,11 +1832,11 @@ var upadteMassTradDataInsert_s = function( o ){
 	{
 		if( o.total.cnt == null	)
 		{
-			var color = generateColor('#0072df','#cccccc',1)				
+			var color = window.UTIL.Color.generateColor('#0072df','#cccccc',1)				
 		}
 		else
 		{
-			var color = generateColor('#0072df','#cccccc',o.total.cnt)				
+			var color = window.UTIL.Color.generateColor('#0072df','#cccccc',o.total.cnt)				
 		}
 
 	}
@@ -1922,7 +1870,7 @@ var upadteMassTradDataInsert_s = function( o ){
 	
 
 	
-	var new_el = htmlToElement( _html )
+	var new_el = window.UTIL.Html.htmlToElement( _html )
 	
 	//if( window._el.id_mass_s.childElementCount > 100 ) //window._el.id_mass_s.lastElementChild.parentNode.removeChild( window._el.id_mass_s.lastElementChild )
 	//window._el.id_mass_s.insertBefore( new_el,window._el.id_mass_s.firstChild )	
@@ -2778,7 +2726,7 @@ var makeSearchList = function( arr ){
 		`
 	
 
-		var new_el = htmlToElement( html )
+		var new_el = window.UTIL.Html.htmlToElement( html )
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
 		{
@@ -2823,7 +2771,7 @@ var makeSearchList_tradeValueBarchart = function( arr ){
 		`
 	
 
-		var new_el = htmlToElement( html )
+		var new_el = window.UTIL.Html.htmlToElement( html )
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
 		{

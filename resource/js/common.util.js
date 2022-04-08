@@ -126,3 +126,74 @@ window.UTIL.Date.getTimeTo__YYYY_MM_DD = function(date){
 	return r
 
 }
+
+
+
+window.UTIL.Color = {};
+/*
+ *
+ */
+window.UTIL.Color.hex = function(c) {
+	var s = "0123456789abcdef";
+	var i = parseInt (c);
+	if (i == 0 || isNaN (c))
+	return "00";
+	i = Math.round (Math.min (Math.max (0, i), 255));
+	return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
+}
+/*
+ *
+ */
+window.UTIL.Color.convertToHex = function(rgb) {
+  return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
+}
+/*
+ *
+ */
+window.UTIL.Color.trim = function(s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
+/*
+ *
+ */
+window.UTIL.Color.convertToRGB = function(hex) {
+  var color = [];
+  color[0] = parseInt ((window.UTIL.Color.trim(hex)).substring (0, 2), 16);
+  color[1] = parseInt ((window.UTIL.Color.trim(hex)).substring (2, 4), 16);
+  color[2] = parseInt ((window.UTIL.Color.trim(hex)).substring (4, 6), 16);
+  return color;
+}
+/*
+ *
+ */
+window.UTIL.Color.generateColor = function(colorStart,colorEnd,value){
+
+	// The beginning of your gradient
+	var start = convertToRGB (colorStart);    
+
+	// The end of your gradient
+	var end   = convertToRGB (colorEnd);    
+
+	// The number of colors to compute
+	//var len = colorCount;
+
+	//Alpha blending amount
+	var alpha = 0.0;
+
+	alpha = value / 30//window.MassTrd.maxCnt
+	var c = [];
+	//alpha =value + (1.0/len);
+		
+	c[0] = start[0] * alpha + (1 - alpha) * end[0];
+	c[1] = start[1] * alpha + (1 - alpha) * end[1];
+	c[2] = start[2] * alpha + (1 - alpha) * end[2];
+
+	return convertToHex (c);
+	
+}
+
+window.UTIL.Html = {};
+window.UTIL.Html.htmlToElement = function( html ){
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
