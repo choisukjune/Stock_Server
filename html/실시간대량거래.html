@@ -789,22 +789,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		menu_00 : `/html/실시간대량거래.html`,
 		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
 		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
-		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`
+		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
+		candle :  `/html/candle.html?cd=`
 	};
 	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
 	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
 	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
 	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-
+	
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
-	window._el.id_search.addEventListener('keyup', function(e){
 
+	var evt_search_stock = function( e, dom, cbFunction ){
 		if( e.currentTarget.value == "" )
 		{
-			window._el.id_search_result.style.display = "none"
-			window._el.id_search_result.innerHTML = "";
+			dom.style.display = "none"
+			dom.innerHTML = "";
 		}
 		else
 		{
@@ -812,21 +813,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				searchStock( e.currentTarget.value,function(d){
 					if(d.length == 1 )
 					{
-						window._el.id_search_result.style.display = "none"
-						window._el.id_search_result.innerHTML = "";
+						dom.style.display = "none"
+						dom.innerHTML = "";
+
 						var cd = d[0].displayedCode;				
-						//candleChart 페이지로이동시킴;
-						var a = window.document.createElement( "a" );
-						a.target = "_blank";
-						a.href = "/html/candle.html?cd=" + cd
-						a.click();					
+						cbFunction(cd);
 					}
-					else if( d.length == 0)
+				});
+			}
+			else
+			{
+				searchStock( e.currentTarget.value,function(d){
+					if( d.length == 0)
 					{
-						window._el.id_search_result.style.display = "none"
-						window._el.id_search_result.innerHTML = "";
+						dom.style.display = "none"
+						dom.innerHTML = "";
 					}
-			
 					else if( d.length > 1 )
 					{
 						makeSearchList(d)
@@ -835,54 +837,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				});
 			}
 		}
-	})
-	window._el.id_search_tradeValueBarchart.addEventListener('keyup', function(e){
-	
-		if( e.currentTarget.value == "" )
-		{
-			window._el.id_search_tradeValueBarchart_result.style.display = "none"
-			window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-		}
-		else
-		{
-			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget.value,function(d){
-					if(d.length == 1 )
-					{
-						window._el.id_search_tradeValueBarchart_result.style.display = "none"
-						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-						var cd = d[0].displayedCode;				
-						//candleChart 페이지로이동시킴;
-						window.barChart.curCd = cd;
-						getTradeValueByCd();
-						//var a = window.document.createElement( "a" );
-						//a.target = "_blank";
-						//a.href = "/html/candle.html?cd=" + cd
-						//a.click();					
-					}
-					else if( d.length > 1 )
-					{
-						makeSearchList_tradeValueBarchart(d)
-					}
+	}
 
-				});
-			}
-			else
-			{
-				searchStock( e.currentTarget.value,function(d){
-					if( d.length == 0)
-					{
-						window._el.id_search_tradeValueBarchart_result.style.display = "none"
-						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-					}
-					else
-					{
-						makeSearchList_tradeValueBarchart(d)	
-					}
-				});
-			
-			}	
-		}
+	window._el.id_search.addEventListener('keyup', function(e){
+		evt_search_stock( e, window._el.id_search_result, function(cd){
+			window.UTIL.Link.a( urls.candle + cd ,"_blank")
+		});
+	})
+
+	window._el.id_search_tradeValueBarchart.addEventListener('keyup', function(e){
+		evt_search_stock( e, window._el.id_search_tradeValueBarchart_result, function(cd){
+			window.barChart.curCd = cd;
+			getTradeValueByCd( cd );
+		});
 	})
 	window.ws = new WebSocket("ws://112.144.208.118:8888/index.html");
 
