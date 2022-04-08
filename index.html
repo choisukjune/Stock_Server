@@ -461,12 +461,18 @@ window.wsFns.renderMarketIndex = function(){
 		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
 
+	var display;
 	var i = 0,iLen = window.socketData.MarketIndex.datas.length,io;
 	for(;i<iLen;++i){
 		io = window.socketData.MarketIndex.datas[ i ];
-		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
+
+		if( io.marketStatus == "CLOSE") display = "block"
+		else display = "none"
+	
 		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.stockName}">`
 		var _html01 = `
+					<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
 				<div class="content">
 					<span style="font-size:15px;"> ${io.symbolCode}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span> 	
 					<div style="font-size:16px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)} 
@@ -475,7 +481,7 @@ window.wsFns.renderMarketIndex = function(){
 				</div>
 				
 				<div class="image" style="padding: 5px;background-color: #fff/*red*/;">
-					<img src="https://ssl.pstatic.net/imgfinance/chart/main/${io.symbolCode}.png?sidcode=${Date.now()}" style="" load="lazy">
+					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/day/${io.symbolCode}_end_up.png?sidcode=${Date.now()}" style="" load="lazy">
 				</div>
 
 				<!--div class="description"></div-->
@@ -560,7 +566,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 				</div>
 				
 				<div class="image" style="padding: 5px;background-color: #fff/*red*/;">
-					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/day/${io.reutersCode}_end_up.png" style="" load="lazy">
+					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/day/${io.reutersCode}_end_up.png?sidcode=${Date.now()}" style="" load="lazy">
 				</div>
 
 				<!--div class="description"></div-->
