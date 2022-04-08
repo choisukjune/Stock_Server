@@ -62,10 +62,26 @@ var renderTradeValueByCd = function( d ){
 
 	var lineColor = "red";
 	var origin = "start";
+	var areaStyle = [
+		{
+			offset : 0,	color : lineColor
+		},
+		{
+			offset : 0.9,color : "white"
+		}
+	]
 	if( _p.rt < 0 )
 	{
 		lineColor = "blue";
 		origin = "end";
+		areaSyle = [
+			{
+				offset : 0.9,	color : lineColor
+			},
+			{
+				offset : 0,color : "white"
+			}
+		]
 	}
 	if( _p.rt == 0 ) lineColor = "orange";
 
@@ -134,19 +150,9 @@ var renderTradeValueByCd = function( d ){
 			{
 			name: 'Price', type: 'line', xAxisIndex: 0, yAxisIndex: 0, data: d00, zlevel : 0,
 			showSymbol : false, smooth :true, areaStyle : { opacity : 0.4, 
-			color:new echarts.graphic.LinearGradient(0,0,0,1,[
-			{
-			offset : 0,
-			color : lineColor
+			color:new echarts.graphic.LinearGradient(0,0,0,1,areaStyle),
+			origin : origin
 			},
-			{
-				offset : 0.9,
-				color : "white"
-				}
-
-				]),
-				origin : origin
-				},
 				//markPoint: {
 				//	data: [
 				//		{ type: 'max', name: 'Max' },
