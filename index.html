@@ -486,7 +486,7 @@ window.wsFns.renderMarketIndex = function(){
 
 
 			var new_el = window.UTIL.Html.htmlToElement( _html )
-			var target_el = window.document.getElementById( "market_index_" + io.displayedCode )
+			var target_el = window.document.getElementById( "market_index_" + io.symbolCode )
 			if( target_el )
 			{
 				window._el.id_market_index.lastElementChild.parentNode.removeChild( target_el )
@@ -560,7 +560,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 			</div>
 			`	
 			var new_el = window.UTIL.Html.htmlToElement( _html )
-			var target_el = window.document.getElementById( "market_index_" + io.displayedCode )
+			var target_el = window.document.getElementById( "market_index_" + io.reutersCode )
 			if( target_el )
 			{
 				window._el.id_market_index.lastElementChild.parentNode.removeChild( target_el )
