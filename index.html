@@ -545,7 +545,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 			//if( io.stockEndType != "futures") continue;
 
 			if( io.marketStatus == "CLOSE") display = "block"
-			else( io.marketStatus == "CLOSE") display = "none"
+			else display = "none"
 
 			if( io.stockEndType == "futures") name = io.futuresName;
 			else name = io.indexName;
