@@ -1,9 +1,9 @@
 window.UTIL = {}
 
 window.UTIL.Link = {}
-window.UTIL.Link.a_blank = function( url ){
+window.UTIL.Link.a = function( url, target ){
 	var a = window.document.createElement( "a" );
-	a.target = "_blank";
+	a.target = target;
 	a.href = url;
 	a.click();
 	return;
