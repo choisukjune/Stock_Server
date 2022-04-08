@@ -273,10 +273,11 @@ var renderTradeValueByCd = function( d ){
 				borderColor: '#ccc',
 				padding: 10,
 				formatter : function(d){
-					debugger;
+					//debugger;
 					 var r = ""
-						r += "Price :" + d[0].value[1] + "<br>"
-						r += "Price :" + d[1].value + "<br>"
+						r += d[0].name + "<br>"
+						r += "거래대금갭 :" + longNumberAddString( d[0].value[1] ) + "<br>"
+						r += "주가 :" + numberWithCommas( d[1].value ) + "<br>"
 					return r;
 				},
 				//grid:[{
