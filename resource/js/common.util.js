@@ -1,5 +1,5 @@
-(function(){
-	var test = function(){
-		console.log( "test ")
-	}
-})()
+window.UTIL = {}
+
+var numberWithCommas = function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
