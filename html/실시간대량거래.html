@@ -826,7 +826,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else if( d.length > 1 )
 					{
-						makeSearchList(d,tDom,function(){
+						makeSearchList(d,tDom,function(cd){
 							window.UTIL.Link.a( urls.candle + cd, "_blank")
 						})
 					}
@@ -843,7 +843,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else
 					{
-						makeSearchList(d,tDom,function(){
+						makeSearchList(d,tDom,function(cd){
 								window.UTIL.Link.a( urls.candle + cd, "_blank")
 						})	
 					}
@@ -878,7 +878,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else if( d.length > 1 )
 					{
-						makeSearchList(d,tDom,function(){
+						makeSearchList(d,tDom,function(cd){
 							window.barChart.curCd = cd;
 							getTradeValueByCd();
 						})
@@ -896,7 +896,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else
 					{
-						makeSearchList(d,tDom,function(){
+						makeSearchList(d,tDom,function(cd){
 							window.barChart.curCd = cd;
 							getTradeValueByCd();
 						})	
