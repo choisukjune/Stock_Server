@@ -9,6 +9,27 @@ window.UTIL.Link.a = function( url, target ){
 	return;
 }
 
+window.UTIL.Url = {}
+/*
+ *
+ */
+window.UTIL.Url.paramToObject = function(){
+	
+	var r =  window.location.search.replace("?","");
+	var a = r.split("&");
+	var o = {};
+	var i = 0,iLen = a.length,io;
+	
+	for(;i<iLen;++i){
+		io = a[ i ];
+		var _ta = io.split( "=" );
+		o[ _ta[0] ] = _ta[ 1 ];
+	}
+	console.log( o )
+	return o;
+};
+
+
 window.UTIL.Number = {}
 /*
  *

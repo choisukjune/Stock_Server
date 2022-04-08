@@ -902,22 +902,6 @@ function search(keyword, data) {
 }
 
 
-var paramToObject = function(){
-	
-	var r =  window.location.search.replace("?","");
-	var a = r.split("&");
-	var o = {};
-	var i = 0,iLen = a.length,io;
-	
-	for(;i<iLen;++i){
-		io = a[ i ];
-		var _ta = io.split( "=" );
-		o[ _ta[0] ] = _ta[ 1 ];
-	}
-	console.log( o )
-	return o;
-};
-
 var getTrdRank = function(cd){
 	
 	var xhr = new XMLHttpRequest();
@@ -1447,6 +1431,7 @@ var getTimeTo__YYYY_MM_DD = function(date){
 window.addEventListener('DOMContentLoaded', (event) => {
 
 	window._el = {}
+	window._el.id_wrap = window.document.getElementById("wrap");
 	window._el.id_mass_b_rank = window.document.getElementById( "mass_b_rank")
 	window._el.id_mass_s_rank = window.document.getElementById( "mass_s_rank")
 	window._el.id_mass_s = window.document.getElementById("mass_s");
@@ -1464,7 +1449,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_stockInfo_basic = window.document.getElementById("stockInfo_basic");
 	window._el.id_stockInfo_more = window.document.getElementById("stockInfo_more");
 	window._el.id_search_wrap = window.document.getElementById("search_wrap");
-	window._el.id_wrap = window.document.getElementById("wrap");
+
 
 	window._el.id_menu_00 = window.document.getElementById("menu_00");
 	window._el.id_menu_01 = window.document.getElementById("menu_01");
@@ -1472,6 +1457,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_menu_03 = window.document.getElementById("menu_03");
 	window._el.id_menu_04 = window.document.getElementById("menu_04");
 	window._el.id_menu_05 = window.document.getElementById("menu_05");
+
+	window._el.id_news.style.height = window._el.id_wrap.offsetHeight + "px";
 
 	window.stock = {};
 	window.stock_arr = [];
@@ -1502,54 +1489,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		window.date.cur = getTimeTo__YYYYMMDD();
 	}
 	
-	window._el.id_news.style.height = window._el.id_wrap.offsetHeight + "px";
+	window.params = window.UTIL.Url.paramToObject();
 
-	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
+	var urls = {
+		menu_00 : `/html/실시간대량거래.html`,
+		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
+		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
+		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
+		candle : `/html/candle.html?cd=`
+	};
 
-	window._el.id_menu_00.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/실시간대량거래.html`;
-		a.click();
-	});
-
-	window._el.id_menu_01.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/기관거래원별.html?date=${window.date.curDate}`;
-		a.click();
-	});
-
-	window._el.id_menu_02.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/외국계거래원별.html?date=${window.date.curDate}`;
-		a.click();
-	});
-
-	window._el.id_menu_03.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/외국계증권사매매동향.html?date=${window.date.curDate}`;
-		a.click();
-	});
-
-	window._el.id_menu_04.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/wics업종별현황.html?date=${window.date.curDate}`;
-		a.click();
-	});
-
-	window._el.id_menu_05.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/관심종목.html?date=${window.date.curDate}`;
-		a.click();
-	});
+	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
+	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
+	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
+	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
 
 
-	window.params = paramToObject();
 	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur )
 	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur)
 	//getAgcData(( window.params.cd )
@@ -1559,12 +1514,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	updateNewsFromDaum( window.params.cd )
 	getAllStockInfo();
 	getTrdRank( window.params.cd )
-	
 	updateStock( window.params.cd )
 	
-	document.addEventListener('click',function(e){
-		window._el.id_searchResult.style.display = "none";
-	});
+	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
 
 	window._el.id_search.addEventListener('keyup', function(e){
 		if( e.currentTarget.value == "" )
