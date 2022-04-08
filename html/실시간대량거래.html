@@ -797,114 +797,6 @@ var makeSearchList_tradeValueBarchart = function( arr ){
 	//window._el.id_searchResult_tradeValueBarchart.innerHTML = html
 }
 
-
-var getFtrdDataByCd = function(cd,date,cbFunction){
-	var xhr = new XMLHttpRequest();
-
-	//http://112.144.208.118:8888/getCandleDataByCd?cd=510007&startTime=20220201&endTime=20220214
-	xhr.open("GET" , `http://112.144.208.118:8888/getFtrdDataByCd?cd=${cd}&date=${date}`, true);
-
-	xhr.onreadystatechange = function() {
-
-		if(xhr.readyState == 4 && xhr.status == 200)
-		{
-			var d = JSON.parse( xhr.responseText );
-			
-			cbFunction(d)
-		}
-
-	}
-	xhr.send();
-}
-window.scatterchart = {};
-window.scatterchart_cur = null;
-var renderScatterChart = function( cd, title ){
-		if( window.scatterchart.dispose ) window.scatterchart.dispose()
-		var dom = document.getElementById("scatter");
-		window.scatterchart = echarts.init(dom);
-		var app = {};
-		window.scatterchart.showLoading()
-		getFtrdDataByCd( cd,window.date.curDate, function(d){
-		var chartData = [];
-		var legendData = [];
-		var _o = {  
-			name: 'Female', type: 'scatter',  emphasis: { focus: 'series' },
-			data: [],
-			markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
-			markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
-		}
-		
-		var _to = {}
-		var i = 0,iLen = d.length,io
-		for(;i<iLen;++i){
-			io = d[ i ];
-			if( !_to[ io.tr ] ) _to[ io.tr ] = []
-			var amt = io.amt;
-			if( io.tt == 0 ) var amt = io.amt;
-			_to[ io.tr ].push( [  "2022-02-22T"+ io.ogText.split("\t")[0],amt ] )
-		}
-		var s,so
-		for( s in _to )
-		{
-			so = _to[ s ]
-			legendData.push( s );
-			_o = {  
-				name: s, type: 'scatter',  emphasis: { focus: 'series' },
-				data: so,
-				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
-				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
-			}
-			chartData.push( _o )
-		}
-
-		option = {
-			  title: {
-				text: '외국계증권사 매수/매도 분포',
-//				subtext: 'Data from: Heinz 2003'
-			  },
-			  grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },
-			  tooltip: {
-				// trigger: 'axis',
-				showDelay: 0,
-				formatter: function (params) {
-				  if (params.value.length > 1) {
-					return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + params.value[1] );
-				  } else {
-					return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  params.value );
-				  }
-				},
-				axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
-			  },
-			  toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
-			  brush: {},
-			  legend: {	data: legendData,left: 'center',bottom: 0 },
-			  xAxis: [
-				{ type: 'time',min:"2022-02-22T09:00:00",max:"2022-02-22T15:30:00", scale: true, splitLine: { show: false  }}
-			 ],
-			  yAxis: [
-				{  type: 'value', scale: true, splitLine: { show: false  } }
-			  ],
-			  series: chartData
-			};
-	
-			if (option && typeof option === 'object') {
-				window.scatterchart.setOption(option);
-
-				window.scatterchart.resize();
-				window.scatterchart.hideLoading()
-			}
-	})
-}
-
-var insertChart00 = function( cd ){
-	window._el.id_realTimeChart.innerHTML = "";
-	var _htmlTxt = `
-	<img src="https://ssl.pstatic.net/imgfinance/chart/item/candle/day/${cd}.png">`
-	//https://ssl.pstatic.net/imgfinance/chart/item/candle/day/373220.png?sidcode=1646279022129
-	window._el.id_realTimeChart.innerHTML = _htmlTxt
-	return;
-}
-
 window.addEventListener('DOMContentLoaded', (event) => {
 
 
@@ -915,18 +807,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 
 	window._el = {}
-	window._el.id_mass_b_rank = window.document.getElementById( "mass_b_rank")
-	window._el.id_mass_s_rank = window.document.getElementById( "mass_s_rank")
-	window._el.id_mass_s = window.document.getElementById("mass_s");
-	window._el.id_mass_b = window.document.getElementById("mass_b");
-	window._el.id_FtrData = window.document.getElementById("FtrData");
-	window._el.id_AgcData = window.document.getElementById("AgcData");
-	window._el.id_news = window.document.getElementById("news");
-	window._el.id_chart00 = window.document.getElementById("chart00");
-	window._el.id_mass_b_s = window.document.getElementById("mass_b_s");
-	window._el.id_trd_data = window.document.getElementById("trd_data");
-	window._el.id_realTimeChart = window.document.getElementById("realTimeChart");
-	window._el.id_totalTradPrice = window.document.getElementById("totalTradPrice");
 
 	window._el.id_search = window.document.getElementById("search");
 	window._el.id_search_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
@@ -935,12 +815,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_searchResult_tradeValueBarchart = window.document.getElementById("searchResult_tradeValueBarchart");
 
 	window._el.id_stockInfo = window.document.getElementById("stockInfo");
-	window._el.id_search_wrap = window.document.getElementById("search_wrap");
-	window._el.id_tree_wics = window.document.getElementById( "tree_wics" )
-	window._el.id_wics_stocks = window.document.getElementById( "wics_stocks" )
+	
 	window._el.id_market_index = window.document.getElementById( "market_index" )
 	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
-	window._el.id_rank_rt = window.document.getElementById( "rank_rt" )
+
 
 	window._el.id_menu_00 = window.document.getElementById("menu_00");
 	window._el.id_menu_01 = window.document.getElementById("menu_01");
@@ -954,23 +832,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 
 
-	window.MassData = {};
-	window.MassData.b = {};
-	window.MassData.s = {};
-
-	window.MassDataRank = [];
-
 	window.socketData = {}
-	window._data = {};
-	window._data.b = [];
-	window._data.s = [];
-
-	window.MassDataInfo = {}
-	window.MassDataInfo.b = 0
-	window.MassDataInfo.s = 0
-
-	window.stock = {};
-	window.stock_arr = [];
 
 	window.date = {}
 	window.date.curDate = window.UTIL.Date.getTimeTo__YYYYMMDD();
@@ -983,17 +845,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 
-
-
-	//updateRank();
-	//updateRankWics();
 	window.wsFns.getMarketIndex( function(){ window.wsFns.getMarketIndexGlobal(); } );
-	//updateRank_s();
-	//updateMassTradData();
-	//updateMassTradData_s();
-	//upadteMassTradDataInsertWatch();
-	//upadteMassTradDataInsertWatch_s();
-
 
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
@@ -1257,33 +1109,5 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				<div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>		
 			</div>
 		</div>
-
-		
-		<!-- <div class="six wide column" id="tree_01" style="text-align:center;height:900px;padding:0px;"></div> -->
-		
-		<!-- <div class="five wide column" id="tree" style="text-align:center;height:900px;padding:0px;"></div> -->
-		
-		<!-- <div class="five wide column" id="tree_00" style="text-align:center;height:900px;padding:0px;"></div> -->
-		
-		<!--div class="sixteen wide column" id="rank_rt" style="text-align:center;height:1200px;padding:0px;"></div-->
-		
-		<!--div class="sixteen wide column" id="tradeValueTree" style="text-align:center;height:900px;padding:0px;"></div-->
-		
-		<!-- <div class="sixteen wide column"> -->
-		<!-- 	<div class="ui grid"> -->
-		<!-- 		<div class="sixteen wide column"> -->
-		<!-- 			<!-- <div class="ui eight cards" id="market_index"></div> -->
-		<!-- 			<div class="ui ten cards" id="market_index_1"></div> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
-		<!-- </div> -->
-		<!-- <div class="sixteen wide column"> -->
-		<!-- 	<div class="ui grid"> -->
-		<!-- 		<div class="eight wide column" id="wicsTree" style="height:900px;padding:0px;"></div> -->
-		<!-- 		<div class="eight wide column" id="" style=""> -->
-		<!-- 			<div class="ui five cards" id="wics_stocks"></div> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
-		<!-- </div> -->
 	</div>
 </body>
