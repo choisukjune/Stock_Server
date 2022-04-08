@@ -451,8 +451,8 @@ var updateNewsFromDaum = function( cd ){
 				var d = JSON.parse( xhr.responseText )
 				var _htmlTxt = `<div class="ui grid" style="padding:0px 0 0px 0;">`
 				
-				//var i = 0,iLen = d.data.length,io;
-				var i = 0,iLen = 5,io;
+				var i = 0,iLen = d.data.length,io;
+				//var i = 0,iLen = 5,io;
 				for(;i<iLen;++i){
 					io = d.data[ i ]
 					var a = ""
@@ -506,8 +506,8 @@ var updateNewsFromNaver = function( cd ){
 				var d = JSON.parse( xhr.responseText )
 				var _htmlTxt = `<div class="ui grid" style="padding:0px 0 0px 0;">`
 				
-				//var i = 0,iLen = d.length,io;
-				var i = 0,iLen = 5,io;
+				var i = 0,iLen = d.length,io;
+				//var i = 0,iLen = 5,io;
 				for(;i<iLen;++i){
 					io = d[ i ].items[0]
 					var a = ""
@@ -1647,7 +1647,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 	</div>
 
-	<div class="three wide column" style="overflow-y:auto;">
+	<div class="three wide column" style="overflow-y:auto;height:100%;">
 		<div class="ui grid">
 			<div class="sixteen wide column" style="" id="stockInfo_basic"></div>
 			<div class="sixteen wide column" id="trd_data" style="/*height: 500px;*/"></div>
@@ -1655,18 +1655,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	</div>
 	
 
-	<div class="ten wide column" style="overflow-y:auto;">
+	<div class="ten wide column" style="overflow-y:auto;height:100%;">
 		<div class="ui grid">
 			<div class="sixteen wide column" style="" id="stockInfo_more"></div>
-			<div class="sixteen wide column" id="container" style="height: 800px"></div>
-			<div class="sixteen wide column" id="FtrData" style="/*height: 500px;*/"></div>
-			<div class="sixteen wide column" id="AgcData_50" style="/*height: 500px;*/"></div>
-			<div class="sixteen wide column" id="AgcData" style="/*height: 500px;*/"></div>
-			<div class="sixteen wide column" id="avgData" style="/*height: 500px;*/"></div>
+			<div class="ten wide column" style="overflow-y:auto;">
+				<div class="ui grid">
+					<div class="sixteen wide column" id="container" style="height: 800px"></div>
+					<div class="sixteen wide column" id="FtrData" style="/*height: 500px;*/"></div>
+					<div class="sixteen wide column" id="AgcData_50" style="/*height: 500px;*/"></div>
+					<div class="sixteen wide column" id="AgcData" style="/*height: 500px;*/"></div>
+					<div class="sixteen wide column" id="avgData" style="/*height: 500px;*/"></div>	
+				</div>
+			</div>
+			
 		</div>
 	</div>
 
-	<div class="three wide column" id="news" style="overflow-y:auto;"></div>	
+	<div class="three wide column" id="news" style="overflow-y:auto;height:100%;"></div>	
 
 </div>
 </body>
