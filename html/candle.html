@@ -1,29 +1,10 @@
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<link rel="stylesheet" href="../resource/css/common.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
-<style>
-td{
-	font-size:11px;
-	padding:10px;
-}
-.ui.card, .ui.cards>.card{
-
-	border-radius: 0rem !important;
-	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important;
-	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important;
-
-
-}
-/*span{*/
-/*	padding : 10px 0 10px 0;*/
-/*}*/
-th{
-	font-size:11px;
-}
-</style>
-
+<script type="text/javascript" src="../resource/js/common.util.js"></script>
 
 <script>
 
@@ -406,12 +387,12 @@ var getFTrData = function(cd){
 
 					fr_data += `<tr style='background-color:${bgColor};color:${Color};'>`
 					fr_data += `<td style="font-size:10px;">${ko.nm}</td>`
-					fr_data += `<td style="font-size:10px;">${numberWithCommas( ko.b_amt )}</td>`
-					fr_data += `<td style="font-size:10px;">${numberWithCommas( ko.s_amt )}</td>`
-					fr_data += `<td style="font-size:10px;">${numberWithCommas( ko.pp_amt )}</td>`
-					fr_data += `<td style="font-size:10px;">${numberWithCommas( ko.b )}</td>`
-					fr_data += `<td style="font-size:10px;">${numberWithCommas( ko.s )}</td>`
-					fr_data += `<td style="font-size:10px;">${numberWithCommas( ko.pp )}</td>`
+					fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( ko.b_amt )}</td>`
+					fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( ko.s_amt )}</td>`
+					fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( ko.pp_amt )}</td>`
+					fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( ko.b )}</td>`
+					fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( ko.s )}</td>`
+					fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( ko.pp )}</td>`
 					//fr_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
 
 					fr_data += "</tr>"						
@@ -420,12 +401,12 @@ var getFTrData = function(cd){
 
 				fr_data += `<tr style='background-color:yellow;color:red;'>`
 				fr_data += `<td style="font-size:10px;">전체</td>`
-				fr_data += `<td style="font-size:10px;">${numberWithCommas( a.total[ "b_amt" ] )}</td>`
-				fr_data += `<td style="font-size:10px;">${numberWithCommas( a.total[ "s_amt" ] )}</td>`
-				fr_data += `<td style="font-size:10px;">${numberWithCommas( a.total.pp_amt )}</td>`
-				fr_data += `<td style="font-size:10px;">${numberWithCommas( a.total[ "b" ] )}</td>`
-				fr_data += `<td style="font-size:10px;">${numberWithCommas( a.total[ "s" ] )}</td>`
-				fr_data += `<td style="font-size:10px;">${numberWithCommas( a.total.pp )}</td>`
+				fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( a.total[ "b_amt" ] )}</td>`
+				fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( a.total[ "s_amt" ] )}</td>`
+				fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( a.total.pp_amt )}</td>`
+				fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( a.total[ "b" ] )}</td>`
+				fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( a.total[ "s" ] )}</td>`
+				fr_data += `<td style="font-size:10px;">${window.UTIL.Number.numberWithCommas( a.total.pp )}</td>`
 				//fr_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
 				fr_data += "</tr>"	
 				fr_data += "</tbody>"
@@ -984,9 +965,9 @@ var getTrdRank = function(cd){
 
 					fr_data += `<tr>`
 					fr_data += `<td>${ko.traderName}</td>`
-					fr_data += `<td style="color:${ko.bidAccTradeVolume > 0 ? "red" : ko.bidAccTradeVolume == 0 ? "#666" : ""}">${numberWithCommas( ko.bidAccTradeVolume )}</td>`
-					fr_data += `<td style="color:${ko.askAccTradeVolume > 0 ? "blue" : ko.askAccTradeVolume == 0 ? "#666" : ""}">${numberWithCommas( ko.askAccTradeVolume )}</td>`
-					fr_data += `<td style="color:${ko.netSales > 0 ? "red" : ko.netSales < 0 ? "blue" : ko.netSales == 0 ? "#666" : ""}">${numberWithCommas( ko.netSales )}</td>`
+					fr_data += `<td style="color:${ko.bidAccTradeVolume > 0 ? "red" : ko.bidAccTradeVolume == 0 ? "#666" : ""}">${window.UTIL.Number.numberWithCommas( ko.bidAccTradeVolume )}</td>`
+					fr_data += `<td style="color:${ko.askAccTradeVolume > 0 ? "blue" : ko.askAccTradeVolume == 0 ? "#666" : ""}">${window.UTIL.Number.numberWithCommas( ko.askAccTradeVolume )}</td>`
+					fr_data += `<td style="color:${ko.netSales > 0 ? "red" : ko.netSales < 0 ? "blue" : ko.netSales == 0 ? "#666" : ""}">${window.UTIL.Number.numberWithCommas( ko.netSales )}</td>`
 					fr_data += "</tr>"						
 
 				}
@@ -1053,9 +1034,9 @@ var updateStock = function( cd ){
 							<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span></br>
 							<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span><br>
 							<span style='font-size:12px;padding:10px 0px;'>( ${ d.symbolCode } ) - ${d.market} </span><br>
-							<span style="color:${color};font-size:18px;font-weight:bold;">  ${numberWithCommas( d.tradePrice )}</span> 
-							<span style="color:${color};"> ${symbol} ${numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span><br>
-							<span style="font-size:12px;">  거래량 : ${numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) <br>거래대금 ${numberWithCommas( d.accTradePrice )} </span>  
+							<span style="color:${color};font-size:18px;font-weight:bold;">  ${window.UTIL.Number.numberWithCommas( d.tradePrice )}</span> 
+							<span style="color:${color};"> ${symbol} ${window.UTIL.Number.numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span><br>
+							<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) <br>거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 						</div>
 						<div class="sixteen wide column" style="">
 							<span style="font-size:11px;">${d.companySummary}</span>
@@ -1071,24 +1052,24 @@ var updateStock = function( cd ){
 				<table class="ui celled table compact">
 					<tbody>
 						<tr>
-							<td style="width:50%;">전일종가 <br> ${numberWithCommas( d.prevClosingPrice )}</td>
-							<td style="width:50%;">전일거래량 <br> ${numberWithCommas( d.prevAccTradeVolume )}</td>
+							<td style="width:50%;">전일종가 <br> ${window.UTIL.Number.numberWithCommas( d.prevClosingPrice )}</td>
+							<td style="width:50%;">전일거래량 <br> ${window.UTIL.Number.numberWithCommas( d.prevAccTradeVolume )}</td>
 						</tr>
 						<tr>
-							<td>거래금 <br> ${numberWithCommas( d.accTradePrice )}</td>
-							<td>시가 <br> ${numberWithCommas( d.openingPrice )}</td>
+							<td>거래금 <br> ${window.UTIL.Number.numberWithCommas( d.accTradePrice )}</td>
+							<td>시가 <br> ${window.UTIL.Number.numberWithCommas( d.openingPrice )}</td>
 						</tr>
 						<tr>
-							<td>고가 <br> ${numberWithCommas( d.highPrice )}</td>
-							<td>저가 <br> ${numberWithCommas( d.lowPrice )}</td>
+							<td>고가 <br> ${window.UTIL.Number.numberWithCommas( d.highPrice )}</td>
+							<td>저가 <br> ${window.UTIL.Number.numberWithCommas( d.lowPrice )}</td>
 						</tr>
 						<tr>
-							<td>시가총액 <br> ${numberWithCommas( d.marketCap )}( ${d.marketCapRank}위 )</td>
+							<td>시가총액 <br> ${window.UTIL.Number.numberWithCommas( d.marketCap )}( ${d.marketCapRank}위 )</td>
 							<td>외국인비율 <br> ${d.foreignRatio}%( ${d.prevForeignRatio}% )</td>
 						</tr>
 						<tr>
-							<td>EPS <br> ${numberWithCommas( d.eps )}원</td>
-							<td>BPS <br> ${numberWithCommas( d.bps )}원</td>
+							<td>EPS <br> ${window.UTIL.Number.numberWithCommas( d.eps )}원</td>
+							<td>BPS <br> ${window.UTIL.Number.numberWithCommas( d.bps )}원</td>
 						</tr>
 						<tr>
 							<td>PBR <br> ${d.pbr}배</td>
@@ -1245,10 +1226,10 @@ var getInsightByStockAvgCd = function( cd ){
 				
 					avg_data += "<tr>" 
 					avg_data += `<td style='color:#000'>` + s  + "</td>"  
-					avg_data += `<td style='color:${_html_updateStock( so.sum_b )};'>` + numberWithCommas( so.sum_b )   + "</td>"  
-					avg_data += `<td style='color:${_html_updateStock( so.sum_s )};'>` + numberWithCommas(so.sum_s )  + "</td>"  
-					avg_data += `<td style='color:${_html_updateStock( so.ppPrice )};'>` + numberWithCommas( so.ppPrice )  + "</td>"  
-					avg_data += `<td style='color:${_html_updateStock( so.avgPrice )};'>` + numberWithCommas( so.avgPrice.toFixed(2) )  + "</td>"  
+					avg_data += `<td style='color:${_html_updateStock( so.sum_b )};'>` + window.UTIL.Number.numberWithCommas( so.sum_b )   + "</td>"  
+					avg_data += `<td style='color:${_html_updateStock( so.sum_s )};'>` + window.UTIL.Number.numberWithCommas(so.sum_s )  + "</td>"  
+					avg_data += `<td style='color:${_html_updateStock( so.ppPrice )};'>` + window.UTIL.Number.numberWithCommas( so.ppPrice )  + "</td>"  
+					avg_data += `<td style='color:${_html_updateStock( so.avgPrice )};'>` + window.UTIL.Number.numberWithCommas( so.avgPrice.toFixed(2) )  + "</td>"  
 					
 
 					avg_data += "</tr>"
@@ -1672,7 +1653,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		</div>
 	</div>
 
-	
 	<div class="nine wide column" style="">
 		<div class="ui grid">
 				
