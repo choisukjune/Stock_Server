@@ -630,7 +630,7 @@ var searchStock = function(q,cbFunction){
 		{
 			var d = JSON.parse( xhr.responseText );
 			console.log( d.suggestItems );
-			cbFunction(d.suggestItems,q,cb)
+			cbFunction(d.suggestItems,q)
 		}
 
 	}
@@ -811,7 +811,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		else
 		{
 			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget,function(d){
+				searchStock( e.currentTarget,function(d,tDom){
 					if(d.length == 1 )
 					{
 						window._el.id_search_result.style.display = "none"
@@ -834,7 +834,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			}
 			else
 			{
-				searchStock( e.currentTarget,function(d){
+				searchStock( e.currentTarget,function(d,tDom){
 					if( d.length == 0)
 					{
 						window._el.id_search_result.style.display = "none"
@@ -861,7 +861,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		else
 		{
 			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget,function(d){
+				searchStock( e.currentTarget,function(d,tDom){
 					if(d.length == 1 )
 					{
 						window._el.id_search_tradeValueBarchart_result.style.display = "none"
@@ -877,7 +877,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else if( d.length > 1 )
 					{
-						makeSearchList(d,e.currentTarget,function(){
+						makeSearchList(d,tDom,function(){
 							window.barChart.curCd = cd;
 							getTradeValueByCd();
 						})
