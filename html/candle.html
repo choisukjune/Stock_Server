@@ -671,8 +671,8 @@ var rawData = data
           type: 'category',
           data: data.categoryData,
           boundaryGap: false,
-          axisLine: { onZero: false },
-          splitLine: { show: true },
+          axisLine: { onZero: true },
+          //splitLine: { show: true },
           min: 'dataMin',
           max: 'dataMax',
           axisPointer: {
@@ -1640,7 +1640,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 	</div>
 
-	<div class="three wide column" style="" id="stockInfo_basic"></div>
+	<div class="three wide column">
+		<div class="ui grid">
+			<div class="sixteen wide column" style="" id="stockInfo_basic"></div>
+			<div class="sixteen wide column" id="trd_data" style="/*height: 500px;*/"></div>
+		</div>
+	</div>
+	
 	<div class="ten wide column" id="container" style="height: 800px"></div>
 	<div class="three wide column" id="news" style="/*overflow-y:scroll;*/"></div>	
 
@@ -1648,7 +1654,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<div class="ui grid">
 			<div class="sixteen wide column" id="stockInfo_more" style="" ></div>
 			<div class="sixteen wide column" id="FtrData" style="/*height: 500px;*/"></div>
-			<div class="sixteen wide column" id="trd_data" style="/*height: 500px;*/"></div>
 		</div>
 	</div>
 
