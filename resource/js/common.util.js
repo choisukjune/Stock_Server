@@ -7,6 +7,13 @@ window.UTIL.Number.numberWithCommas = function(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+window.UTIL.Number.longNumberAddString = function( n ){
+	var _p = n.toString().length;
+	if( _p == 1 ) return n + "백만"
+	if( _p == 2 ) return ( n * 0.1 ).toFixed(1) + "천만"
+	if( _p >= 3 ) return ( n * 0.01 ).toFixed(1) + "억"
+}
+
 
 window.UTIL.Date = {}
 
