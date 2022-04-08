@@ -14,12 +14,22 @@ td{
 th{
 	font-size:11px;
 }
+/* width */
 .column::-webkit-scrollbar {
-width: 10px;
+  width: 10px;
 }
-.column::-webkit-scrollbar-thumb {
-background-color: #2f3542;
-}
+
+/* Track */
 .column::-webkit-scrollbar-track {
-background-color: grey;
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.column::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.column::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
