@@ -283,12 +283,6 @@ window.wsFns.renderTradeValueRank = function(){
 		window.treemapChart_03.on('click',function(d){
 			window.barChart.curCd = d.data.cd;
 			getTradeValueByCd()
-//			var a = window.document.createElement( "a" );
-//			a.target = "_blank";
-//			a.href = "/html/candle.html?cd=" + d.data.cd
-//			a.click();
-//			a = null;
-
 		})
 		window.treemapChart_03.isEvent = 1;
 	}
@@ -436,27 +430,6 @@ window.wsFns.renderTradeValueList = function(){
 	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
 }
 
-
-var updateRankWics = function(){
-
-		var xhr = new XMLHttpRequest();
-		
-		xhr.open("GET" , `http://112.144.208.118:8888/getWicsData`, true);
-		xhr.onreadystatechange = function(){
-			
-			if( xhr.readyState == 4 && xhr.status == 200)
-			{
-				
-				var d = JSON.parse( xhr.responseText )
-				renderTreemapWics( d.data )
-								
-			}
-		}
-
-		xhr.send();
-	
-}
-
 window.wsFns.getMarketIndex = function( cbFunction ){
 		
 	var xhr = new XMLHttpRequest();
@@ -545,32 +518,6 @@ window.wsFns.renderMarketIndexGlobal = function(){
 		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
 
-	// var i = 0,iLen = window.socketData.MarketIndexGlobal.north_america.data.length,io;
-	// for(;i<iLen;++i){
-	// 	io = window.socketData.MarketIndexGlobal.north_america.data[ i ];
-		
-	// 	//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)				
-	// 	var _html = `
-	// 		<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.name}">
-	// 			<div class="content">
-	// 				<span style="font-size:15px;"> ${io.name}</span><!--span style="font-size:11px;">  ${io.countryName}</span--> 	
-	// 				<div style="font-size:16px;color:${status[ io.change ].color}">${window.UTIL.Number.numberWithCommas(io.tradePrice)}<br>
-	// 					<span style="font-size:12px;color:${status[ io.change ].color}">${status[ io.change ].symbol} ${io.changePrice}( ${status[ io.change ].mark}${ (( io.changePrice / io.tradePrice ) * 100 ).toFixed(2)}% )</span>
-	// 				</div>
-	// 			</div>
-				
-	// 			<div class="image" style="padding: 5px;background-color: #fff/*red*/;">
-	// 				<img src="https://t1.daumcdn.net/finance/chart/us/stock/d/${io.symbolCode.split(".")[1]}.png" style="" load="lazy">
-	// 			</div>
-
-	// 			<!--div class="description"></div-->
-	// 		</div>
-	// 		`
-
-	// 		var new_el = window.UTIL.Html.htmlToElement( _html )
-	// 		window._el.id_market_index.appendChild( new_el )	
-	// }
-
 	var _html = "";
 	var s,so;
 	for( s in window.socketData.MarketIndexGlobal ){
@@ -620,8 +567,6 @@ window.wsFns.renderMarketIndexGlobal = function(){
 var searchStock = function(q,cbFunction){
 
 	var xhr = new XMLHttpRequest();
-
-	//http://112.144.208.118:8888/getCandleDataByCd?cd=510007&startTime=20220201&endTime=20220214
 	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
 
 	xhr.onreadystatechange = function() {
@@ -629,7 +574,6 @@ var searchStock = function(q,cbFunction){
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText );
-			console.log( d.suggestItems );
 			cbFunction(d.suggestItems,q)
 		}
 
@@ -649,10 +593,8 @@ var makeSearchList = function( arr, tDom, cb ){
 	for(;i<iLen;++i){
 		io = arr[ i ];
 		html = `
-		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}">(${io.displayedCode}) - ${io.koreanName}</div>
+		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}" style="cursor:pointer;">(${io.displayedCode}) - ${io.koreanName}</div>
 		`
-	
-
 		var new_el = window.UTIL.Html.htmlToElement( html )
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
@@ -679,52 +621,6 @@ var makeSearchList = function( arr, tDom, cb ){
 	//resultDom.innerHTML = html
 }
 
-
-var makeSearchList_tradeValueBarchart = function( arr, tDom ){
-
-	window._el.id_search_tradeValueBarchart_result.style.width = window._el.id_search_tradeValueBarchart.offsetWidth + "px";
-	window._el.id_search_tradeValueBarchart_result.style.display = "block";
-	window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-
-	var html = ""
-	var i =0,iLen =arr.length,io;
-	for(;i<iLen;++i){
-		io = arr[ i ];
-		html = `
-		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}" style="cursor:pointer;">(${io.displayedCode}) - ${io.koreanName}</div>
-		`
-	
-
-		var new_el = window.UTIL.Html.htmlToElement( html )
-		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
-		if( target_el )
-		{
-			window._el.id_search_tradeValueBarchart_result.lastElementChild.parentNode.removeChild( target_el )
-			window._el.id_search_tradeValueBarchart_result.insertBefore( new_el,window._el.id_search_tradeValueBarchart_result.firstChild )			
-			
-		}
-		else
-		{
-			window._el.id_search_tradeValueBarchart_result.insertBefore( new_el,window._el.id_search_tradeValueBarchart_result.firstChild )	
-		}
-
-		new_el.addEventListener( "click",function(e){
-			
-			var cd = e.currentTarget.getAttribute("data-cd-value");
-			
-			window._el.id_search_tradeValueBarchart_result.style.display = "none"
-			window._el.id_search_tradeValueBarchart_result.innerHTML = "";		
-			//candleChart 페이지로이동시킴;
-			window.barChart.curCd = cd;
-			getTradeValueByCd();
-			//var a = window.document.createElement( "a" );
-			//a.target = "_blank";
-			//a.href = "/html/candle.html?cd=" + cd
-			//a.click();
-		})
-	}
-	//window._el.id_search_tradeValueBarchart_result.innerHTML = html
-}
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
@@ -794,6 +690,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
 		candle : `/html/candle.html?cd=`
 	};
+
 	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
 	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
 	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
@@ -819,10 +716,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 						window._el.id_search_result.innerHTML = "";
 						var cd = d[0].displayedCode;				
 						//candleChart 페이지로이동시킴;
-						var a = window.document.createElement( "a" );
-						a.target = "_blank";
-						a.href = "/html/candle.html?cd=" + cd
-						a.click();					
+						window.UTIL.Link.a( urls.candle + cd, "_blank")					
 					}
 					else if( d.length > 1 )
 					{
@@ -868,13 +762,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 						window._el.id_search_tradeValueBarchart_result.style.display = "none"
 						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
 						var cd = d[0].displayedCode;				
-						//candleChart 페이지로이동시킴;
 						window.barChart.curCd = cd;
-						getTradeValueByCd();
-						//var a = window.document.createElement( "a" );
-						//a.target = "_blank";
-						//a.href = "/html/candle.html?cd=" + cd
-						//a.click();					
+						getTradeValueByCd();				
 					}
 					else if( d.length > 1 )
 					{
