@@ -790,10 +790,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
 
 	var urls = {
-		menu_00 : "/html/실시간대량거래.html",
-		menu_01 : "/html/기관거래원별.html?date=${window.date.curDate}",
-		menu_02 : "/html/외국계거래원별.html?date=${window.date.curDate}",
-		menu_03 : "/html/외국계증권사매매동향.html?date=${window.date.curDate}"
+		menu_00 : `/html/실시간대량거래.html`,
+		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
+		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
+		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`
 	};
 	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
 	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
