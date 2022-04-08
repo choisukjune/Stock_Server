@@ -761,9 +761,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
-	
 	window.barChart = {};
 	window.barChart.curCd = null;
+
 
 	window.socketData = {}
 
@@ -789,11 +789,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
 
-	window._el.id_menu_00.addEventListener('click',window.UTIL.Link.a_blank( `/html/실시간대량거래.html` ) )
-	window._el.id_menu_01.addEventListener('click',window.UTIL.Link.a_blank( `/html/기관거래원별.html?date=${window.date.curDate}` ) )
-	window._el.id_menu_02.addEventListener('click',window.UTIL.Link.a_blank( `/html/외국계거래원별.html?date=${window.date.curDate}` ) )
-	window._el.id_menu_03.addEventListener('click',window.UTIL.Link.a_blank( `/html/외국계증권사매매동향.html?date=${window.date.curDate}` ) )
-	window._el.id_menu_04.addEventListener('click',window.UTIL.Link.a_blank( `/html/실시간대량거래.html` ) )
+	window._el.id_menu_00.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/실시간대량거래.html`;
+		a.click();
+	});
+
+	window._el.id_menu_01.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/기관거래원별.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
+	window._el.id_menu_02.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/외국계거래원별.html?date=${window.date.curDate}`;
+		a.click();
+	});
+
+	window._el.id_menu_03.addEventListener('click',function(e){
+		var a = window.document.createElement( "a" );
+		a.target = "_blank";
+		a.href = `/html/외국계증권사매매동향.html?date=${window.date.curDate}`;
+		a.click();
+	});
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
