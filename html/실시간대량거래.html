@@ -273,7 +273,7 @@ var renderTradeValueByCd = function( d ){
 				borderColor: '#ccc',
 				padding: 10,
 				formatter : function(d){
-
+					debugger;
 					 var r = ""
 						r += "Price :" + d[0].value[1] + "<br>"
 						r += "Price :" + d[1].value + "<br>"
@@ -283,13 +283,7 @@ var renderTradeValueByCd = function( d ){
 				//	left : "10%"
 				//},{ left : "40%" }],
 				textStyle: { color: '#000'  },
-				position: function (pos, params, el, elRect, size) {
-				  const obj = {
-					top: 10
-				  };
-				obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-				return obj;
-				}
+				position: [ 200, 10 ]
 			// extraCssText: 'width: 170px'
 		  },
 		  //  toolbox: {
