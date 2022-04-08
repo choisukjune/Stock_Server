@@ -1,31 +1,13 @@
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<link rel="stylesheet" href="../resource/css/common.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
 <script type="text/javascript" src="../resource/js/common.util.js"></script>
-<style>
-td{
-	font-size:11px;
-	padding:10px;
-}
-.ui.card, .ui.cards>.card{
-	border-radius: 0rem !important;
-	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important;
-	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important;
-}
-.ui.card>:first-child, .ui.cards>.card>:first-child {
-    border-radius: 0rem 0rem 0 0!important;
-    border-top: none!important;
-}
-th{
-	font-size:11px;
-}
-</style>
-
 
 <script>
 
-window.barChart = {};
-window.barChart.curCd = null;
 
 var getTradeValueByCd = function(){
 	if( window.barChart.curCd == null ) return;
@@ -635,57 +617,6 @@ window.wsFns.renderMarketIndexGlobal = function(){
 	}
 }
 
-
-var getCandle5 = function(cd,cbFunction){
-
-		var xhr = new XMLHttpRequest();
-
-		xhr.open("GET" , `http://112.144.208.118:8888/getCandle5?cd=${cd}`, true);
-		xhr.onreadystatechange = function(){
-
-			if( xhr.readyState == 4 && xhr.status == 200)
-			{
-
-				var d = JSON.parse( xhr.responseText )
-				/*
-				candleAccTradePrice: 4178940
-candleAccTradeVolume: 2358
-candleTime: "2022-02-10 11:30:00.0"
-change: null
-changePrice: null
-changeRate: null
-date: "2022-02-10"
-highPrice: 1775
-lowPrice: 1770
-openingPrice: 1775
-symbolCode: "KR7012800009"
-timestamp: 1644460205658
-tradePrice: 1770
-tradeTime: "113450"
-				
-				*/
-				//var _o = {
-				//	cate : [],
-				//	value : []
-
-				//} 
-				var arr = [];
-				var i = 0,iLen = d.length,io;
-				for(;i<iLen;++i){
-					io = d[ i ];
-					if( io.date != window.date.curDateWidhDash) continue;
-					//_o.cate.push(io.candleTime.replace("2022-02-15 ","") )
-					//_o.value.push([io.openingPrice, io.tradePrice, io.lowPrice, io.highPrice ])
-					arr.push([ io.candleTime,io.tradePrice ])
-				}
-				cbFunction( arr )
-			}
-		}
-
-		xhr.send();
-	
-}
-
 var searchStock = function(q,cbFunction){
 	console.log( q )
 	var xhr = new XMLHttpRequest();
@@ -830,7 +761,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
-
+	
+	window.barChart = {};
+	window.barChart.curCd = null;
 
 	window.socketData = {}
 
@@ -856,33 +789,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
 
-	window._el.id_menu_00.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/실시간대량거래.html`;
-		a.click();
-	});
-
-	window._el.id_menu_01.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/기관거래원별.html?date=${window.date.curDate}`;
-		a.click();
-	});
-
-	window._el.id_menu_02.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/외국계거래원별.html?date=${window.date.curDate}`;
-		a.click();
-	});
-
-	window._el.id_menu_03.addEventListener('click',function(e){
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = `/html/외국계증권사매매동향.html?date=${window.date.curDate}`;
-		a.click();
-	});
+	window._el.id_menu_00.addEventListener('click',window.UTIL.Link.a_blank( `/html/실시간대량거래.html` ) )
+	window._el.id_menu_01.addEventListener('click',window.UTIL.Link.a_blank( `/html/기관거래원별.html?date=${window.date.curDate}` ) )
+	window._el.id_menu_02.addEventListener('click',window.UTIL.Link.a_blank( `/html/외국계거래원별.html?date=${window.date.curDate}` ) )
+	window._el.id_menu_03.addEventListener('click',window.UTIL.Link.a_blank( `/html/외국계증권사매매동향.html?date=${window.date.curDate}` ) )
+	window._el.id_menu_04.addEventListener('click',window.UTIL.Link.a_blank( `/html/실시간대량거래.html` ) )
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 

@@ -1,4 +1,14 @@
 window.UTIL = {}
+
+window.UTIL.Link = {}
+window.UTIL.Link.a_blank = function( url ){
+	var a = window.document.createElement( "a" );
+	a.target = "_blank";
+	a.href = url;
+	a.click();
+	return;
+}
+
 window.UTIL.Number = {}
 /*
  *
