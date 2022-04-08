@@ -640,7 +640,7 @@ var searchStock = function(q,cbFunction){
 var makeSearchList = function( arr, tDom, cb ){
 	
 	var resultDom = tDom.parentElement.parentElement.children[1];
-	resultDom.style.width = tDom.parentElement.children[0].children[0].offsetWidth + "px";
+	resultDom.style.width = tDom.offsetWidth + "px";
 	resultDom.style.display = "block";
 	resultDom.innerHTML = "";
 
