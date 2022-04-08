@@ -260,7 +260,7 @@ var renderTradeValueByCd = function( d ){
 
 		var lineColor = "red";
 		if( _p.rt < 0 ) lineColor = "blue";
-		if( _p.rt == 0 ) lineColor = "#ccc";
+		if( _p.rt == 0 ) lineColor = "orange";
 		var subTitle = `${echarts.format.addCommas( _p.price )} ${symbol} ${echarts.format.addCommas( _p.prevChange )}(${_p.rt}%) - 거래대금 : ${longNumberAddString( _p.tradeValue )}`
 		var option = {
 			title : { text : title, subtext : subTitle, left : 'center',},
