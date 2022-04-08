@@ -630,18 +630,18 @@ var searchStock = function(q,cbFunction){
 		{
 			var d = JSON.parse( xhr.responseText );
 			console.log( d.suggestItems );
-			cbFunction(d.suggestItems)
+			cbFunction(d.suggestItems, cbFunction)
 		}
 
 	}
 	xhr.send();
 }
 
-var makeSearchList = function( arr ){
+var makeSearchList = function( arr, cbFunction ){
 
-	window._el.id_searchResult.style.width = window._el.id_search.offsetWidth + "px";
-	window._el.id_searchResult.style.display = "block";
-	window._el.id_searchResult.innerHTML = "";
+	window._el.id_search_result.style.width = window._el.id_search.offsetWidth + "px";
+	window._el.id_search_result.style.display = "block";
+	window._el.id_search_result.innerHTML = "";
 
 	var html = ""
 	var i =0,iLen =arr.length,io;
@@ -656,21 +656,21 @@ var makeSearchList = function( arr ){
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
 		{
-			window._el.id_searchResult.lastElementChild.parentNode.removeChild( target_el )
-			window._el.id_searchResult.insertBefore( new_el,window._el.id_searchResult.firstChild )			
+			window._el.id_search_result.lastElementChild.parentNode.removeChild( target_el )
+			window._el.id_search_result.insertBefore( new_el,window._el.id_search_result.firstChild )			
 			
 		}
 		else
 		{
-			window._el.id_searchResult.insertBefore( new_el,window._el.id_searchResult.firstChild )	
+			window._el.id_search_result.insertBefore( new_el,window._el.id_search_result.firstChild )	
 		}
 
 		new_el.addEventListener( "click",function(e){
 			
 			var cd = e.currentTarget.getAttribute("data-cd-value");
 			
-			window._el.id_searchResult.innerHTML = "";
-			window._el.id_searchResult.style.display = "none";		
+			window._el.id_search_result.innerHTML = "";
+			window._el.id_search_result.style.display = "none";		
 			//candleChart 페이지로이동시킴;
 			var a = window.document.createElement( "a" );
 			a.target = "_blank";
@@ -678,15 +678,15 @@ var makeSearchList = function( arr ){
 			a.click();
 		})
 	}
-	//window._el.id_searchResult.innerHTML = html
+	//window._el.id_search_result.innerHTML = html
 }
 
 
 var makeSearchList_tradeValueBarchart = function( arr ){
 
-	window._el.id_searchResult_tradeValueBarchart.style.width = window._el.id_search_tradeValueBarchart.offsetWidth + "px";
-	window._el.id_searchResult_tradeValueBarchart.style.display = "block";
-	window._el.id_searchResult_tradeValueBarchart.innerHTML = "";
+	window._el.id_search_tradeValueBarchart_result.style.width = window._el.id_search_tradeValueBarchart.offsetWidth + "px";
+	window._el.id_search_tradeValueBarchart_result.style.display = "block";
+	window._el.id_search_tradeValueBarchart_result.innerHTML = "";
 
 	var html = ""
 	var i =0,iLen =arr.length,io;
@@ -701,21 +701,21 @@ var makeSearchList_tradeValueBarchart = function( arr ){
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
 		{
-			window._el.id_searchResult_tradeValueBarchart.lastElementChild.parentNode.removeChild( target_el )
-			window._el.id_searchResult_tradeValueBarchart.insertBefore( new_el,window._el.id_searchResult_tradeValueBarchart.firstChild )			
+			window._el.id_search_tradeValueBarchart_result.lastElementChild.parentNode.removeChild( target_el )
+			window._el.id_search_tradeValueBarchart_result.insertBefore( new_el,window._el.id_search_tradeValueBarchart_result.firstChild )			
 			
 		}
 		else
 		{
-			window._el.id_searchResult_tradeValueBarchart.insertBefore( new_el,window._el.id_searchResult_tradeValueBarchart.firstChild )	
+			window._el.id_search_tradeValueBarchart_result.insertBefore( new_el,window._el.id_search_tradeValueBarchart_result.firstChild )	
 		}
 
 		new_el.addEventListener( "click",function(e){
 			
 			var cd = e.currentTarget.getAttribute("data-cd-value");
 			
-			window._el.id_searchResult_tradeValueBarchart.style.display = "none"
-			window._el.id_searchResult_tradeValueBarchart.innerHTML = "";		
+			window._el.id_search_tradeValueBarchart_result.style.display = "none"
+			window._el.id_search_tradeValueBarchart_result.innerHTML = "";		
 			//candleChart 페이지로이동시킴;
 			window.barChart.curCd = cd;
 			getTradeValueByCd();
@@ -725,7 +725,7 @@ var makeSearchList_tradeValueBarchart = function( arr ){
 			//a.click();
 		})
 	}
-	//window._el.id_searchResult_tradeValueBarchart.innerHTML = html
+	//window._el.id_search_tradeValueBarchart_result.innerHTML = html
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -740,10 +740,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el = {}
 
 	window._el.id_search = window.document.getElementById("search");
-	window._el.id_search_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
+	window._el.id_search_result = window.document.getElementById("search_result");
 
-	window._el.id_searchResult = window.document.getElementById("searchResult");
-	window._el.id_searchResult_tradeValueBarchart = window.document.getElementById("searchResult_tradeValueBarchart");
+	window._el.id_search_tradeValueBarchart = window.document.getElementById("search_tradeValueBarchart");
+	window._el.id_search_tradeValueBarchart_result = window.document.getElementById("search_tradeValueBarchart_result");
 
 	window._el.id_stockInfo = window.document.getElementById("stockInfo");
 	
@@ -787,7 +787,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 
 
-	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
+	window.document.addEventListener('click',function(e){ window._el.id_search_result.style.display = "none"; });
 
 	var urls = {
 		menu_00 : `/html/실시간대량거래.html`,
@@ -807,8 +807,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	
 		if( e.currentTarget.value == "" )
 		{
-			window._el.id_searchResult.style.display = "none"
-			window._el.id_searchResult.innerHTML = "";
+			window._el.id_search_result.style.display = "none"
+			window._el.id_search_result.innerHTML = "";
 		}
 		else
 		{
@@ -816,8 +816,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				searchStock( e.currentTarget.value,function(d){
 					if(d.length == 1 )
 					{
-						window._el.id_searchResult.style.display = "none"
-						window._el.id_searchResult.innerHTML = "";
+						window._el.id_search_result.style.display = "none"
+						window._el.id_search_result.innerHTML = "";
 						var cd = d[0].displayedCode;				
 						//candleChart 페이지로이동시킴;
 						var a = window.document.createElement( "a" );
@@ -837,8 +837,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				searchStock( e.currentTarget.value,function(d){
 					if( d.length == 0)
 					{
-						window._el.id_searchResult.style.display = "none"
-						window._el.id_searchResult.innerHTML = "";
+						window._el.id_search_result.style.display = "none"
+						window._el.id_search_result.innerHTML = "";
 					}
 					else
 					{
@@ -853,8 +853,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	
 		if( e.currentTarget.value == "" )
 		{
-			window._el.id_searchResult_tradeValueBarchart.style.display = "none"
-			window._el.id_searchResult_tradeValueBarchart.innerHTML = "";
+			window._el.id_search_tradeValueBarchart_result.style.display = "none"
+			window._el.id_search_tradeValueBarchart_result.innerHTML = "";
 		}
 		else
 		{
@@ -862,8 +862,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				searchStock( e.currentTarget.value,function(d){
 					if(d.length == 1 )
 					{
-						window._el.id_searchResult_tradeValueBarchart.style.display = "none"
-						window._el.id_searchResult_tradeValueBarchart.innerHTML = "";
+						window._el.id_search_tradeValueBarchart_result.style.display = "none"
+						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
 						var cd = d[0].displayedCode;				
 						//candleChart 페이지로이동시킴;
 						window.barChart.curCd = cd;
@@ -885,8 +885,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				searchStock( e.currentTarget.value,function(d){
 					if( d.length == 0)
 					{
-						window._el.id_searchResult_tradeValueBarchart.style.display = "none"
-						window._el.id_searchResult_tradeValueBarchart.innerHTML = "";
+						window._el.id_search_tradeValueBarchart_result.style.display = "none"
+						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
 					}
 					else
 					{
@@ -983,12 +983,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
 			<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span>
 		</div>
-		<div class="eight wide column" style="padding: 20px;" id="search_wrap">
+		<div class="eight wide column" style="padding: 20px;">
 				<div class="ui fluid icon input">
 					<input type="text" placeholder="Search a very wide input..." id="search">
 					<i class="search icon"></i>
 				</div>
-				<div class="ui list" id="searchResult" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+				<div class="ui list" id="search_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 		</div>
 		<div class="sixteen wide column">
 			<div class="ui grid">
@@ -1003,12 +1003,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-		<div class="sixteen wide column" style="padding: 20px;" id="search_wrap_tradeValueBarchart">
+		<div class="sixteen wide column" style="padding: 20px;">
 				<div class="ui fluid icon input">
 					<input type="text" placeholder="Search a very wide input..." id="search_tradeValueBarchart">
 					<i class="search icon"></i>
 				</div>
-				<div class="ui list" id="searchResult_tradeValueBarchart" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+				<div class="ui list" id="search_tradeValueBarchart_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 		</div>
 		<div class="sixteen wide column">
 			<div class="ui grid">
