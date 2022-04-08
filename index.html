@@ -546,7 +546,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 			else name = io.indexName;
 			var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="market_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
 			var _html01 =`
-				<div>test</div>
+				<div style="background-color:#ff0000;position:absolute;width:10%%;height:100%"></div>
 				<div class="">
 					<span style="font-size:13px;"> ${name}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span> 	
 					<div style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}<br>
