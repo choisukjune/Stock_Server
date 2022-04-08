@@ -61,7 +61,12 @@ var renderTradeValueByCd = function( d ){
 	var title = `${_p.nm} - ${_p.cd }`
 
 	var lineColor = "red";
-	if( _p.rt < 0 ) lineColor = "blue";
+	var origin = "start";
+	if( _p.rt < 0 )
+	{
+		lineColor = "blue";
+		origin = "end";
+	}
 	if( _p.rt == 0 ) lineColor = "orange";
 
 	var subTitle = `${echarts.format.addCommas( _p.price )} ${symbol} ${echarts.format.addCommas( _p.prevChange )}(${_p.rt}%) - 거래대금 : ${window.UTIL.Number.longNumberAddString( _p.tradeValue )}`
@@ -105,7 +110,8 @@ var renderTradeValueByCd = function( d ){
 					{ value : 1, color :"red"},
 					{ value : -1, color :"blue", opacity : 0.5 },
 					{ value : 0, color :"orange", opacity : 0.5 }
-				]
+				],
+				origin : origin
 			},
 		],
 		series: [
