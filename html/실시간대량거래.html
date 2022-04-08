@@ -627,7 +627,7 @@ var searchStock = function(q, dom,cbFunction){
 		{
 			var d = JSON.parse( xhr.responseText );
 			console.log( d.suggestItems );
-			cbFunction(d.suggestItems, dom, cbFunction)
+			makeSearchList(d.suggestItems, dom, cbFunction)
 		}
 	}
 	xhr.send();
