@@ -638,10 +638,11 @@ var searchStock = function(q,cbFunction){
 }
 
 var makeSearchList = function( arr, tDom, cb ){
-
-	tDom.style.width = tDom.parentElement.children[0].children[0].offsetWidth + "px";
-	tDom.style.display = "block";
-	tDom.innerHTML = "";
+	
+	var resultDom = tDom.parentElement.parentElement.children[1];
+	resultDom.style.width = tDom.parentElement.children[0].children[0].offsetWidth + "px";
+	resultDom.style.display = "block";
+	resultDom.innerHTML = "";
 
 	var html = ""
 	var i =0,iLen =arr.length,io;
@@ -656,26 +657,26 @@ var makeSearchList = function( arr, tDom, cb ){
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
 		if( target_el )
 		{
-			tDom.lastElementChild.parentNode.removeChild( target_el )
-			tDom.insertBefore( new_el,tDom.firstChild )			
+			resultDom.lastElementChild.parentNode.removeChild( target_el )
+			resultDom.insertBefore( new_el,resultDom.firstChild )			
 			
 		}
 		else
 		{
-			tDom.insertBefore( new_el,tDom.firstChild )	
+			resultDom.insertBefore( new_el,resultDom.firstChild )	
 		}
 
 		new_el.addEventListener( "click",function(e){
 			
 			var cd = e.currentTarget.getAttribute("data-cd-value");
 			
-			tDom.innerHTML = "";
-			tDom.style.display = "none";		
+			resultDom.innerHTML = "";
+			resultDom.style.display = "none";		
 			//candleChart 페이지로이동시킴;
 			cb( cd )
 		})
 	}
-	//tDom.innerHTML = html
+	//resultDom.innerHTML = html
 }
 
 
