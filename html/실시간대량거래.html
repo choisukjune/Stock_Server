@@ -622,7 +622,7 @@ var searchStock = function(q,cbFunction){
 	var xhr = new XMLHttpRequest();
 
 	//http://112.144.208.118:8888/getCandleDataByCd?cd=510007&startTime=20220201&endTime=20220214
-	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q}`, true);
+	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
 
 	xhr.onreadystatechange = function() {
 
@@ -630,7 +630,7 @@ var searchStock = function(q,cbFunction){
 		{
 			var d = JSON.parse( xhr.responseText );
 			console.log( d.suggestItems );
-			cbFunction(d.suggestItems)
+			cbFunction(d.suggestItems,q,cb)
 		}
 
 	}
@@ -811,7 +811,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		else
 		{
 			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget.value,function(d){
+				searchStock( e.currentTarget,function(d){
 					if(d.length == 1 )
 					{
 						window._el.id_search_result.style.display = "none"
@@ -825,7 +825,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else if( d.length > 1 )
 					{
-						makeSearchList(d,e.currentTarget,function(){
+						makeSearchList(d,tDom,function(){
 							window.UTIL.Link.a( url + cd, "_blank")
 						})
 					}
@@ -834,7 +834,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			}
 			else
 			{
-				searchStock( e.currentTarget.value,function(d){
+				searchStock( e.currentTarget,function(d){
 					if( d.length == 0)
 					{
 						window._el.id_search_result.style.display = "none"
@@ -842,7 +842,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else
 					{
-						makeSearchList(d,e.currentTarget,function(){
+						makeSearchList(d,tDom,function(){
 								window.UTIL.Link.a( url + cd, "_blank")
 						})	
 					}
@@ -861,7 +861,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		else
 		{
 			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget.value,function(d){
+				searchStock( e.currentTarget,function(d){
 					if(d.length == 1 )
 					{
 						window._el.id_search_tradeValueBarchart_result.style.display = "none"
@@ -887,7 +887,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			}
 			else
 			{
-				searchStock( e.currentTarget.value,function(d){
+				searchStock( e.currentTarget,function(d,tDom){
 					if( d.length == 0)
 					{
 						window._el.id_search_tradeValueBarchart_result.style.display = "none"
@@ -895,7 +895,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					}
 					else
 					{
-						makeSearchList(d,e.currentTarget,function(){
+						makeSearchList(d,tDom,function(){
 							window.barChart.curCd = cd;
 							getTradeValueByCd();
 						})	
