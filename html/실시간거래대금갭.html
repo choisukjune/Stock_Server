@@ -183,26 +183,30 @@ window.wsFns.renderTradeValueRank = function(){
 	
 	var display;
 	var status_key;
-	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,io;
+
+	var d = window.socketData.renderTradeValueInfo.sort(function(a,b){ return a.tradeValue - b.tradeValue })
+
+	var i = 0,iLen = d.length,io;
 	var rowCheck = 0;
 
 	for(;i<iLen;++i){
-		io = window.socketData.renderTradeValueInfo[ i ];
+		io = d[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
 		status_key = "RISING"
 		if( io.rt == 0 ) status_key = "UNCHANGED"
 		if( io.rt < 0 ) status_key = "FALLING"
 
-		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:165px;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		var _html00 = `<div class="card" style="padding: 0px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
 			<div class="content" style="font-size:11px;">
-			${ io._t }<br>
-			${ io.nm }( ${ io.cd } )<br>
-			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt }% )<br>
-			${ io.tradeValue }
+			<span style="font-size:13px;">${ io.nm }</span><br>
+			<span style="font-size:11px;">( ${ io.cd } )</span><br>
+			<span style="font-size:11px;color:${ status[ status_key ].color };">${ window.UTIL.Number.numberWithCommas( io.price ) } </span>
+			<span style="font-size:11px;color:${ status[ status_key ].color };">${ status[ status_key ].symbol } ${ window.UTIL.Number.numberWithCommas( io.prevChange ) }( ${ io.rt }% )</span><br>
+			<span style="font-size:11px;">${ window.UTIL.Number.longNumberAddString( io.tradeValue ) }</span>
 			</div>
-		`
+			`
 		var _html02 = `</div>`
 
 		//window._el.id_trade_value.appendChild( new_el )
