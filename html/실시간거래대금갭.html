@@ -278,6 +278,7 @@ window.wsFns.renderTradeValueList = function(){
 			</div>
 		`
 		if( !window.document.getElementById( "trade_value_history_" + io.cd ) )	_html01 += `<div class="ui ten cards" id="trade_value_history_${io.cd}"></div>`
+		else _html01 += window.document.getElementById( "trade_value_history_" + io.cd ).innerHTML;
 
 		var _html02 = `</div>`
 
