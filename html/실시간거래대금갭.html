@@ -180,24 +180,28 @@ window.wsFns.renderTradeValueRank = function(){
 		"FALLING" : {	color:"blue", symbol : "▼",},
 		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
-
+	
 	var display;
+	var status_key;
 	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,io;
+	var rowCheck = 0;
+
 	for(;i<iLen;++i){
 		io = window.socketData.renderTradeValueInfo[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
-		var _html00 = `<tr id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		status_key = "RISING"
+		if( io.rt == 0 ) status_key = "UNCHANGED"
+		if( io.rt < 0 ) status_key = "FALLING"
+
+		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:165px;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
-			<td>${ io._t }</td>
-			<td>${ io.nm }</td>
-			<td>${ io.cd }</td>
-			<td>${ io.prevChange }</td>
-			<td>${ io.price }</td>
-			<td>${ io.rt }</td>
-			<td>${ io.tradeCalue }</td>
+			${ io._t }<br>
+			${ io.nm }( ${ io.cd } )<br>
+			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt } )<br>
+			${ io.tradeValue }
 		`
-		var _html02 =`</tr>`
+		var html02 = `</div>`
 
 		//window._el.id_trade_value.appendChild( new_el )
 
@@ -220,7 +224,7 @@ window.wsFns.renderTradeValueRank = function(){
 
 
 window.wsFns.renderTradeValueInfo = function(){
-	//window.wsFns.renderTradeValueRank();
+	window.wsFns.renderTradeValueRank();
 }
 
 window.wsFns.renderTradeValueInfo_gap = function(){
@@ -241,22 +245,24 @@ window.wsFns.renderTradeValueList = function(){
 	}
 
 	var display;
+	var status_key;
 	var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,io;
 	for(;i<iLen;++i){
 		io = window.socketData.renderTradeValueInfo_gap[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
-		var _html00 = `<tr class="blink" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		status_key = "RISING"
+		if( io.rt == 0 ) status_key = "UNCHANGED"
+		if( io.rt < 0 ) status_key = "FALLING"
+
+		var _html00 = `<div class="card blink" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:165px;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
-			<td>${ io._t }</td>
-			<td>${ io.nm }</td>
-			<td>${ io.cd }</td>
-			<td>${ io.prevChange }</td>
-			<td>${ io.price }</td>
-			<td>${ io.rt }</td>
-			<td>${ io.tradeCalue }</td>
+			${ io._t }<br>
+			${ io.nm }( ${ io.cd } )<br>
+			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt } )<br>
+			${ io.tradeValue }
 		`
-		var _html02 =`</tr>`
+		var html02 = `</div>`
 
 		//window._el.id_trade_value.appendChild( new_el )
 
