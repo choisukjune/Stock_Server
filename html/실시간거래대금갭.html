@@ -260,7 +260,7 @@ window.wsFns.renderTradeValueList = function(){
 		io = window.socketData.renderTradeValueInfo_gap[ i ];
 		
 
-//		if( io.rtChange <= 0 ) continue;
+		if( io.rtChange <= 0 ) continue;
 		if( io.tradeValueGap <= 50 ) continue;
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
@@ -272,7 +272,7 @@ window.wsFns.renderTradeValueList = function(){
 		if( io.rtChange == 0 ) status_key00 = "UNCHANGED"
 		if( io.rtChange < 0 ) status_key00 = "FALLING"
 
-		var _html00 = `<div class="card blink_${status_key}" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		var _html00 = `<div class="card blink_${status_key}" style="padding: 0px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
 			<div class="content" style="font-size:11px;">
 			${ io._t }<br>
@@ -281,7 +281,7 @@ window.wsFns.renderTradeValueList = function(){
 			${ io.tradeValue } / ${ io.tradeValueGap } / ${io.rtChange.toFixed(2)}%
 			</div>
 			<div class="image" style="padding: 5px;background-color: #fff;min-height:90px;">
-				<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.cd}_interest.png?${Date.now()}" style="" load="lazy">
+				<img src="https://t1.daumcdn.net/finance/chart/kr/stock/d/A${io.cd}.png?${Date.now()}" style="" load="lazy">
 			</div>
 		`
 		var _html02 = `</div>`
