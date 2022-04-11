@@ -280,10 +280,10 @@ window.wsFns.renderTradeValueList = function(){
 			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt }% )<br>
 			${ io.tradeValue } / ${ io.tradeValueGap } / ${io.rtChange.toFixed(2)}%
 			</div>
+			<div class="image" style="padding: 5px;background-color: #fff;min-height:90px;">
+				<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.cd}_interest.png?${Date.now()}" style="" load="lazy">
+			</div>
 		`
-		if( !window.document.getElementById( "trade_value_history_" + io.cd ) )	_html01 += `<div class="ui ten cards" id="trade_value_history_${io.cd}"></div>`
-		else _html01 += window.document.getElementById( "trade_value_history_" + io.cd ).outerHTML;
-
 		var _html02 = `</div>`
 
 		//window._el.id_trade_value.appendChild( new_el )
@@ -302,10 +302,8 @@ window.wsFns.renderTradeValueList = function(){
 		{
 			window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
 		}
-
-		var new_el = window.UTIL.Html.htmlToElement( `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;background-color:${ status[ status_key00 ].color };"></div>` )
-		window.document.getElementById( "trade_value_history_" + io.cd ).appendChild( new_el )
-
+		
+	
 	}
 	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
 }
