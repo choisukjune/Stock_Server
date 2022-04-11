@@ -260,13 +260,17 @@ window.wsFns.renderTradeValueList = function(){
 		io = window.socketData.renderTradeValueInfo_gap[ i ];
 		
 
-		if( io.rtChange <= 0 ) continue;
+//		if( io.rtChange <= 0 ) continue;
 		if( io.tradeValueGap <= 50 ) continue;
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
 		status_key = "RISING"
 		if( io.rt == 0 ) status_key = "UNCHANGED"
 		if( io.rt < 0 ) status_key = "FALLING"
+
+		status_key00 = "RISING"
+		if( io.rtChange == 0 ) status_key00 = "UNCHANGED"
+		if( io.rtChange < 0 ) status_key00 = "FALLING"
 
 		var _html00 = `<div class="card blink_${status_key}" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
@@ -278,7 +282,7 @@ window.wsFns.renderTradeValueList = function(){
 			</div>
 		`
 		if( !window.document.getElementById( "trade_value_history_" + io.cd ) )	_html01 += `<div class="ui ten cards" id="trade_value_history_${io.cd}"></div>`
-		else _html01 += window.document.getElementById( "trade_value_history_" + io.cd ).parentElement.innerHTML;
+		else _html01 += window.document.getElementById( "trade_value_history_" + io.cd ).outerHTML;
 
 		var _html02 = `</div>`
 
@@ -299,7 +303,7 @@ window.wsFns.renderTradeValueList = function(){
 			window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
 		}
 
-		var new_el = window.UTIL.Html.htmlToElement( `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;background-color:${ status[ status_key ].color };"></div>` )
+		var new_el = window.UTIL.Html.htmlToElement( `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;background-color:${ status[ status_key00 ].color };"></div>` )
 		window.document.getElementById( "trade_value_history_" + io.cd ).appendChild( new_el )
 
 	}
