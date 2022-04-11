@@ -200,8 +200,8 @@ window.wsFns.renderTradeValueRank = function(){
 		var _html00 = `<div class="card" style="padding: 0px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
 			<div class="content" style="font-size:11px;">
-			<span style="font-size:13px;">${ io.nm }</span>
-			<span style="font-size:11px;">( ${ io.cd } )</span>
+			<span style="font-size:13px;">${ io.nm }</span><br>
+			<span style="font-size:11px;">( ${ io.cd } )</span><br>
 			<span style="font-size:11px;color:${ status[ status_key ].color };">${ window.UTIL.Number.numberWithCommas( io.price ) } </span>
 			<span style="font-size:11px;color:${ status[ status_key ].color };">${ status[ status_key ].symbol } ${ window.UTIL.Number.numberWithCommas( io.prevChange ) }( ${ io.rt }% )</span>
 			<span style="font-size:11px;">${ window.UTIL.Number.longNumberAddString( io.tradeValue ) }</span>
@@ -805,7 +805,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<div class="sixteen wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column">
-					<div class="ui five cards" id="trade_value"></div>
+					<div class="ui ten cards" id="trade_value"></div>
 				</div>
 			</div>
 		</div>
