@@ -33,3 +33,9 @@ th{
 .column::-webkit-scrollbar-thumb:hover {
   background: #ccc; 
 }
+
+.c-transition { 
+    background-color:#000;
+    transition-property:background-color;
+    transition-duration:2.5s;
+}
