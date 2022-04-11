@@ -242,8 +242,9 @@ window.wsFns.renderTradeValueList = function(){
 	console.log( "[ S ] - window.wsFns.renderTradeValueList" )
 	
 	if( window.socketData.renderTradeValueInfo_gap.length == 0 ) return;
-	
-	//window._el.id_trade_value.innerHTML = "";
+
+	window._el.id_trade_value.innerHTML = "";
+
 	var status = {
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
 		"RISING" : {	color:"red", symbol : "▲",},
@@ -253,14 +254,15 @@ window.wsFns.renderTradeValueList = function(){
 
 	var display;
 	var status_key;
-	var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,io;
+
+	var d = window.socketData.renderTradeValueInfo_gap.sort(function(a,b){ return a.tradeValueGap - b.tradeValueGap })
+
+	var i = 0,iLen = d.length,io;
 	for(;i<iLen;++i){
 		
 
-		io = window.socketData.renderTradeValueInfo_gap[ i ];
+		io = d[ i ];
 		
-
-		if( io.rtChange <= 0 ) continue;
 		if( io.tradeValueGap <= 50 ) continue;
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
@@ -279,9 +281,6 @@ window.wsFns.renderTradeValueList = function(){
 			${ io.nm }( ${ io.cd } )<br>
 			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt }% )<br>
 			${ io.tradeValue } / ${ io.tradeValueGap } / ${io.rtChange.toFixed(2)}%
-			</div>
-			<div class="image" style="padding: 5px;background-color: #fff;min-height:90px;">
-				<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.cd}_end_up_tablet.png?${Date.now()}" style="" load="lazy">
 			</div>
 			`
 		var _html02 = `</div>`
