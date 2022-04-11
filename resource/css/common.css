@@ -34,11 +34,33 @@ th{
   background: #ccc; 
 }
 
-.blink {
+.blink_FALLING {
     -webkit-animation: blink 0.5s linear /*infinite*/;
 } 
-@-webkit-keyframes blink {
+@-webkit-keyframes blink_FALLING {
     0% { background-color: red; }
+/*    33% { background-color: yellow; }*/
+/*    66% { background-color: blue; }*/
+/*    100% { background-color: green; }*/
+/*    from { background-color: red;}
+    to {background-color: green;}  */
+}
+.blink_RISING {
+    -webkit-animation: blink 0.5s linear /*infinite*/;
+} 
+@-webkit-keyframes blink_RISING {
+    0% { background-color: blue; }
+/*    33% { background-color: yellow; }*/
+/*    66% { background-color: blue; }*/
+/*    100% { background-color: green; }*/
+/*    from { background-color: red;}
+    to {background-color: green;}  */
+}
+.blink_UNCHANGED {
+    -webkit-animation: blink 0.5s linear /*infinite*/;
+} 
+@-webkit-keyframes blink_UNCHANGED {
+    0% { background-color: #ccc; }
 /*    33% { background-color: yellow; }*/
 /*    66% { background-color: blue; }*/
 /*    100% { background-color: green; }*/
