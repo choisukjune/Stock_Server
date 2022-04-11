@@ -38,7 +38,7 @@ th{
     -webkit-animation: blink_FALLING 2.5s linear /*infinite*/;
 } 
 @-webkit-keyframes blink_FALLING {
-    0% { background-color: red; }
+    0% { background-color: blue; }
 /*    33% { background-color: yellow; }*/
 /*    66% { background-color: blue; }*/
 /*    100% { background-color: green; }*/
@@ -49,7 +49,7 @@ th{
     -webkit-animation: blink_RISING 2.5s linear /*infinite*/;
 } 
 @-webkit-keyframes blink_RISING {
-    0% { background-color: blue; }
+    0% { background-color: red; }
 /*    33% { background-color: yellow; }*/
 /*    66% { background-color: blue; }*/
 /*    100% { background-color: green; }*/

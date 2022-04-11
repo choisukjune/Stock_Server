@@ -293,7 +293,7 @@ window.wsFns.renderTradeValueList = function(){
 		}
 		else
 		{
-			window._el.id_trade_value.appendChild( new_el )	
+			window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
 		}
 	}
 	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
