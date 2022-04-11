@@ -835,11 +835,7 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 		}
 
 	}
-	//if( data.length > 0 )
-	//{
-	//	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
-	//	return;	
-	//}
+	
 	var r = {
 		type : "data",
 		nm : "renderTradeValueInfo_gap",
@@ -885,13 +881,46 @@ global.wsFuns.renderTradeValueInfo = function(){
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
 }
 
+global.wsFuns.ExchangeIndex =function(){
+	
+	console.log( "[ S ] - global.wsFuns.ExchangeIndex" )
+
+	var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
+		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
+		+ global.CONST.SERVER.CRWALER.NAVER.port
+	http.get( url + '/getMarketIndexGlobal', function(response){
+		response.setEncoding('utf8');
+
+		var d = "";
+		response.on('end', function () {
+			
+			var r = {
+				type : "data",
+				nm : "ExchangeIndex",
+				func : "renderExchangeIndex",
+				d : d,
+				p : null
+				
+			}
+			global.ws.boradCastMessage( r )
+
+			console.log( "[ E ] - global.wsFuns.ExchangeIndex" )
+		});
+
+		response.on('data', function (body) {
+			d += body;
+		});
+	});
+}
+
 //--------------------------------------------------;
 //--------------------------------------------------;
 
 
 global.ws.intervals = {}
-global.ws.intervals.MarketIndex 		= setInterval(global.wsFuns.MarketIndex,5000);
-global.ws.intervals.MarketIndexGlobal	 = setInterval(global.wsFuns.MarketIndexGlobal,5000);
+global.ws.intervals.MarketIndex 		= setInterval(global.wsFuns.MarketIndex,30000);
+global.ws.intervals.MarketIndexGlobal	 = setInterval(global.wsFuns.MarketIndexGlobal,30000);
+global.ws.intervals.ExchangeIndex	 = setInterval(global.wsFuns.ExchangeIndex,30000);
 //global.ws.intervals.updateRank_buy		= setInterval(global.wsFuns.updateRank_buy,30000);
 //global.ws.intervals.updateRank_sell		= setInterval(global.wsFuns.updateRank_sell,30000);
 //global.ws.intervals.renderMassTransList_buy		= setInterval(global.wsFuns.renderMassTransList_buy,500);
@@ -904,6 +933,7 @@ global.ws.intervals.renderTradeValueInfo_gap		= setInterval( global.wsFuns.rende
 global.ws.clearIntervals = {}
 global.ws.clearIntervals.MarketIndex 		= function(){ clearInterval( global.ws.intervals.MarketIndex ) };
 //global.ws.clearIntervals.MarketIndexGlobal 	= function(){ clearInterval( global.ws.intervals.MarketIndexGlobal ) };
+global.ws.clearIntervals.ExchangeIndex 	= function(){ clearInterval( global.ws.intervals.ExchangeIndex ) };
 global.ws.clearIntervals.updateRank_buy 		= function(){ clearInterval( global.ws.intervals.updateRank_buy ) };
 global.ws.clearIntervals.updateRank_sell 		= function(){ clearInterval( global.ws.intervals.updateRank_sell ) };
 global.ws.clearIntervals.renderMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransList_buy ) };
