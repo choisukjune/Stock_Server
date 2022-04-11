@@ -246,7 +246,7 @@ window.wsFns.renderTradeValueList = function(){
 		io = window.socketData.renderTradeValueInfo_gap[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
-		var _html00 = `<tr class="c-transition" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		var _html00 = `<tr class="blink" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
 			<td>${ io._t }</td>
 			<td>${ io.nm }</td>

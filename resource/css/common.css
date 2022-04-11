@@ -34,8 +34,14 @@ th{
   background: #ccc; 
 }
 
-.c-transition { 
-    background-color:#000;
-    transition-property:background-color;
-    transition-duration:2.5s;
+.blink {
+    -webkit-animation: blink 1s linear /*infinite*/;
+} 
+@-webkit-keyframes blink {
+    0% { background-color: red; }
+    33% { background-color: yellow; }
+    66% { background-color: blue; }
+    100% { background-color: green; }
+/*    from { background-color: red;}
+    to {background-color: green;}  */
 }
