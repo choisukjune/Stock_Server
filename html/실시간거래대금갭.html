@@ -298,7 +298,7 @@ window.wsFns.renderTradeValueList = function(){
 			window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
 		}
 
-		var new_el = window.UTIL.Html.htmlToElement( `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;backgound-color:${ status[ status_key ].color };"></div>` )
+		var new_el = window.UTIL.Html.htmlToElement( `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;background-color:${ status[ status_key ].color };"></div>` )
 		window.document.getElementById( "trade_value_history_" + io.cd ).appendChild( new_el )
 
 	}
