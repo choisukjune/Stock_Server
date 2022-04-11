@@ -228,7 +228,7 @@ window.wsFns.renderTradeValueRank = function(){
 window.wsFns.renderTradeValueInfo = function(){
 	if( !window.wsFns.renderTradeValueInfo.isList )
 	{
-		window.wsFns.renderTradeValueRank();
+		//window.wsFns.renderTradeValueRank();
 		window.wsFns.renderTradeValueInfo.isList = 1;	
 	}
 	
@@ -274,7 +274,7 @@ window.wsFns.renderTradeValueList = function(){
 			${ io._t }<br>
 			${ io.nm }( ${ io.cd } )<br>
 			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt }% )<br>
-			${ io.tradeValue } / ${ io.tradeValueGap } / ${io.rtChange}%
+			${ io.tradeValue } / ${ io.tradeValueGap } / ${io.rtChange.toFixed(2)}%
 			</div>
 		`
 		var _html02 = `</div>`
