@@ -255,7 +255,13 @@ window.wsFns.renderTradeValueList = function(){
 	var status_key;
 	var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,io;
 	for(;i<iLen;++i){
+		
+
 		io = window.socketData.renderTradeValueInfo_gap[ i ];
+		
+
+		if( io.rtChange <= 0 ) continue;
+		if( io.tradeValueGap <= 50 ) continue;
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
 
 		status_key = "RISING"
@@ -275,26 +281,20 @@ window.wsFns.renderTradeValueList = function(){
 
 		//window._el.id_trade_value.appendChild( new_el )
 
-		
-		setTimeout(function(){
-		
-			var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
-			var target_el = window.document.getElementById( "trade_value_" + io.cd )
-			if( target_el )
-			{
-				window._el.id_trade_value.lastElementChild.parentNode.removeChild( target_el )
-				window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
-				//target_el.innerHTML = _html01
-				
-			}
-			else
-			{
-				window._el.id_trade_value.appendChild( new_el )	
-			}
-	
-		},500)
 
-		
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "trade_value_" + io.cd )
+		if( target_el )
+		{
+			window._el.id_trade_value.lastElementChild.parentNode.removeChild( target_el )
+			window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
+			//target_el.innerHTML = _html01
+			
+		}
+		else
+		{
+			window._el.id_trade_value.appendChild( new_el )	
+		}
 	}
 	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
 }
