@@ -835,7 +835,11 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 		}
 
 	}
-	
+	//if( data.length > 0 )
+	//{
+	//	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
+	//	return;	
+	//}
 	var r = {
 		type : "data",
 		nm : "renderTradeValueInfo_gap",
