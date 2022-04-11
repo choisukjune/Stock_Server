@@ -275,20 +275,26 @@ window.wsFns.renderTradeValueList = function(){
 
 		//window._el.id_trade_value.appendChild( new_el )
 
+		
+		setTimeout(function(){
+		
+			var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+			var target_el = window.document.getElementById( "trade_value_" + io.cd )
+			if( target_el )
+			{
+				window._el.id_trade_value.lastElementChild.parentNode.removeChild( target_el )
+				window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
+				//target_el.innerHTML = _html01
+				
+			}
+			else
+			{
+				window._el.id_trade_value.appendChild( new_el )	
+			}
+	
+		},500)
 
-		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
-		var target_el = window.document.getElementById( "trade_value_" + io.cd )
-		if( target_el )
-		{
-			window._el.id_trade_value.lastElementChild.parentNode.removeChild( target_el )
-			window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
-			//target_el.innerHTML = _html01
-			
-		}
-		else
-		{
-			window._el.id_trade_value.appendChild( new_el )	
-		}
+		
 	}
 	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
 }
