@@ -199,6 +199,9 @@ window.wsFns.renderTradeValueRank = function(){
 
 		var _html00 = `<div class="card" style="padding: 0px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
+			<div class="image" style="padding: 5px;background-color: #fff;min-height:90px;">
+				<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.cd}_end_up_tablet.png?${Date.now()}" style="" load="lazy">
+			</div>
 			<div class="content" style="font-size:11px;">
 			<span style="font-size:11px;">${ io.nm }</span> - 
 			<span style="font-size:11px;">( ${ io.cd } )</span><br>
@@ -280,9 +283,6 @@ window.wsFns.renderTradeValueList = function(){
 
 		var _html00 = `<div class="card" style="padding: 0px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
-			<div class="image" style="padding: 5px;background-color: #fff;min-height:90px;">
-				<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.cd}_end_up_tablet.png?${Date.now()}" style="" load="lazy">
-			</div>
 			<div class="content" style="font-size:11px;">
 			<span style="font-size:13px;">${ io.nm }</span><br>
 			<span style="font-size:11px;">( ${ io.cd } )</span><br>
