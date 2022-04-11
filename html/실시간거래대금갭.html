@@ -232,130 +232,48 @@ window.wsFns.renderTradeValueList = function(){
 	
 	if( window.socketData.renderTradeValueInfo_gap.length == 0 ) return;
 	
-	var domId = "tradeValueTreeGap";
-	
-	var dom = document.getElementById( domId );
-	if( !window.treemapChart_04 )
-	{
-		window.treemapChart_04 = echarts.init(dom);
-		window.treemapChart_04.isEvent = 0;
+	//window._el.id_trade_value.innerHTML = "";
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
-	
-	//window.treemapChart_04.showLoading()
 
-	var _chartData = [];
-	var colors = [];
-	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
-	//var i =0,iLen = window.socketData.updateRank.length,io;
-	
-	//var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,so;
-	var i = 0,iLen = 50,so;
+	var display;
+	var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,io;
 	for(;i<iLen;++i){
-		so = window.socketData.renderTradeValueInfo_gap[i]
-		
-		var symbol = "▲"
-		var id = 0
-		if( so.rt == 0 ) 
+		io = window.socketData.renderTradeValueInfo_gap[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
+
+		var _html00 = `<tr id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		var _html01 = `
+			<td>${ io._t }</td>
+			<td>${ io.nm }</td>
+			<td>${ io.cd }</td>
+			<td>${ io.prevChange }</td>
+			<td>${ io.price }</td>
+			<td>${ io.rt }</td>
+			<td>${ io.tradeCalue }</td>
+		`
+		var _html02 =`</tr>`
+
+		//window._el.id_trade_value.appendChild( new_el )
+
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "trade_value_" + io.cd )
+		if( target_el )
 		{
-			var symbol = "-"
-			var id = 1
+			//window._el.id_trade_value.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
+			target_el.innerHTML = _html01
+			
 		}
-		if( so.rt < 0 ) 
+		else
 		{
-			var symbol = "▼"	
-			var id = 2
+			window._el.id_trade_value.appendChild( new_el )	
 		}
-
-		var _o = {
-			name : so.nm
-			,cd : so.cd
-			,value : [ so.tradeValueGap, so.rtChange ]
-			,price : so.price
-			,rt : so.rt
-			,rtChange : so.rtChange
-			,curRt : so.curRt
-			,prevRt : so.prevRt
-			,r_mark : symbol
-			,tradeValue : so.tradeValue
-			,tradeValueGap : so.tradeValueGap
-			,amt : so.amt
-			,children : []
-		}
-		_chartData.push( _o )
-	}
-	var h = dom.style.height.replace("px") * 1
-	var chartData = _chartData.sort(function(a,b){ return b.tradeValueGap - a.tradeValueGap });
-	var app = {};
-
-	var option;
-	var nowDate = window.UTIL.Date.getTimeTo__YYYYMMDD_HHMMSS()
-	var title = "실시간 거래대금갭 - " + nowDate;
-	var subTitle = nowDate;
-	option = {
-		title : { show :true, text : title,textStyle : { fontSize:12 } },
-		grid : { top:10,bottom : 0 },
-		height : h,
-		series: [
-			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
-			breadcrumb : { show : false, },
-			width :"100%",
-			//height :h,
-			//top:0,
-			data : chartData,
-			label : { formatter: function (params) { 
-			let arr = [ "{title|" + params.name + "}",
-				//"{hr|}",
-				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
-				"{hr|}",
-				"{a|volume:" + echarts.format.addCommas(params.data.amt) + " / value:" + window.UTIL.Number.longNumberAddString(params.data.tradeValue) + "}",
-				"{a|curRt:" + echarts.format.addCommas(params.data.curRt) + " / prevRt:" + echarts.format.addCommas(params.data.prevRt) + "}",
-				"{hr|}",
-				"{b|" + window.UTIL.Number.longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
-
-			];
-			return arr.join('\n');
-			}
-			, rich : {
-				title : { fontSize: 14 },
-				a : { fontSize: 9 },
-				b : { fontSize: 12 },
-				hr : { 
-					width : "100%",
-					borderColor : "rgba(255,255,255,0.0)",
-					borderWidth : 0.5,
-					height : 0,
-					lineHeight : 10,
-				}
-			}
-			},
-			visualMin : -1,
-			visualMax : 1,
-			visualDimension : 1,
-			levels: [{ color: ['blue','#999','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
-		}
-		]
-	};
-
-	if( option && typeof option === 'object' ){
-	window.treemapChart_04.setOption(option);
-	window.treemapChart_04.resize();
-
-	//setTimeout(function(){ window.treemapChart_04.hideLoading(); },1000)
-	
-	}
-
-	if( !window.treemapChart_04.isEvent )
-	{
-		window.treemapChart_04.on('click',function(d){
-			window.barChart.curCd = d.data.cd
-			getTradeValueByCd()
-//			var a = window.document.createElement( "a" );
-//			a.target = "_blank";
-//			a.href = "/html/candle.html?cd=" + d.data.cd
-//			a.click();
-//			a = null;
-		})
-		window.treemapChart_04.isEvent = 1;
 	}
 	console.log( "[ E ] - window.wsFns.renderTradeValueList" )
 }
