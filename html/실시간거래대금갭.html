@@ -200,7 +200,7 @@ window.wsFns.renderTradeValueRank = function(){
 			${ io._t }<br>
 			${ io.nm }( ${ io.cd } )<br>
 			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt }% )<br>
-			${ io.tradeValue } / ${ io.tradeValueGap } = ${ io.tradeValueGap / io.tradeValue }%
+			${ io.tradeValue }
 			</div>
 		`
 		var _html02 = `</div>`
@@ -226,9 +226,14 @@ window.wsFns.renderTradeValueRank = function(){
 
 
 window.wsFns.renderTradeValueInfo = function(){
-	window.wsFns.renderTradeValueRank();
+	if( !window.wsFns.renderTradeValueInfo.isList )
+	{
+		window.wsFns.renderTradeValueRank();
+		window.wsFns.renderTradeValueInfo.isList = 1;	
+	}
+	
 }
-
+window.wsFns.renderTradeValueInfo.isList = 0;
 window.wsFns.renderTradeValueInfo_gap = function(){
 	window.wsFns.renderTradeValueList();
 }
@@ -259,10 +264,12 @@ window.wsFns.renderTradeValueList = function(){
 
 		var _html00 = `<div class="card blink" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:165px;" id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
 		var _html01 = `
+			<div class="content">
 			${ io._t }<br>
 			${ io.nm }( ${ io.cd } )<br>
-			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt } )<br>
-			${ io.tradeValue }
+			${ io.price } ${ status[ status_key ].symbol } ${ io.prevChange }( ${ io.rt }% )<br>
+			${ io.tradeValue } / ${ io.tradeValueGap } = ${ io.tradeValueGap / io.tradeValue }%
+			</div>
 		`
 		var _html02 = `</div>`
 
