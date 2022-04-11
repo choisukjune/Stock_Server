@@ -35,7 +35,7 @@ th{
 }
 
 .blink {
-    -webkit-animation: blink 1s linear /*infinite*/;
+    -webkit-animation: blink 0.5s linear /*infinite*/;
 } 
 @-webkit-keyframes blink {
     0% { background-color: red; }
