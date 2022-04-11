@@ -61,7 +61,12 @@ var renderTradeValueByCd = function( d ){
 	var title = `${_p.nm} - ${_p.cd }`
 
 	var lineColor = "red";
-	if( _p.rt < 0 ) lineColor = "blue";
+	var origin = "start";
+	if( _p.rt < 0 )
+	{
+		lineColor = "blue";
+		origin = "end";
+	}
 	if( _p.rt == 0 ) lineColor = "orange";
 
 	var subTitle = `${echarts.format.addCommas( _p.price )} ${symbol} ${echarts.format.addCommas( _p.prevChange )}(${_p.rt}%) - 거래대금 : ${window.UTIL.Number.longNumberAddString( _p.tradeValue )}`
@@ -105,7 +110,7 @@ var renderTradeValueByCd = function( d ){
 					{ value : 1, color :"red"},
 					{ value : -1, color :"blue", opacity : 0.5 },
 					{ value : 0, color :"orange", opacity : 0.5 }
-				]
+				],
 			},
 		],
 		series: [
@@ -130,18 +135,15 @@ var renderTradeValueByCd = function( d ){
 			name: 'Price', type: 'line', xAxisIndex: 0, yAxisIndex: 0, data: d00, zlevel : 0,
 			showSymbol : false, smooth :true, areaStyle : { opacity : 0.4, 
 			color:new echarts.graphic.LinearGradient(0,0,0,1,[
-			{
-			offset : 0,
-			color : lineColor
-			},
-			{
-				offset : 0.9,
-				color : "white"
-				}
-
-				]),
-				origin:"auto"
+				{
+					offset : 0,	color : lineColor
 				},
+				{
+					offset : 0.9,color : "white"
+				}
+			]),
+			//origin : origin
+			},
 				//markPoint: {
 				//	data: [
 				//		{ type: 'max', name: 'Max' },
@@ -171,120 +173,48 @@ var renderTradeValueByCd = function( d ){
 window.wsFns = {};
 
 window.wsFns.renderTradeValueRank = function(){
-	if( window.socketData.renderTradeValueInfo.length == 0 ) return;
-	
-	var domId = "tradeValueTree";
-	
-	var dom = document.getElementById( domId );
-	if( !window.treemapChart_03 )
-	{
-		window.treemapChart_03 = echarts.init(dom);
-		window.treemapChart_03.isEvent = 0;
+	//window._el.id_trade_value.innerHTML = "";
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
-	
-	//window.treemapChart_03.showLoading()
 
-	var _chartData = [];
-	
-	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
-	//var i =0,iLen = window.socketData.updateRank.length,io;
-	
-	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,so;
+	var display;
+	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,io;
 	for(;i<iLen;++i){
-		so = window.socketData.renderTradeValueInfo[i]
-		
-		var symbol = "▲"
-		if( so.rt == 0 ) 
+		io = window.socketData.MarketIndex.datas[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
+
+		var _html00 = `<tr id="trade_value_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">`
+		var _html01 = `
+			<td>${ io._t }</td>
+			<td>${ io.nm }</td>
+			<td>${ io.cd }</td>
+			<td>${ io.prevChange }</td>
+			<td>${ io.price }</td>
+			<td>${ io.rt }</td>
+			<td>${ io.tradeCalue }</td>
+		`
+		var _html02 =`</tr>`
+
+		//window._el.id_trade_value.appendChild( new_el )
+
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "trade_value_" + io.cd )
+		if( target_el )
 		{
-			var symbol = "-"
+			//window._el.id_trade_value.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_trade_value.insertBefore( new_el,window._el.id_trade_value.firstChild )
+			target_el.innerHTML = _html01
+			
 		}
-		if( so.rt < 0 ) 
+		else
 		{
-			var symbol = "▼"	
+			window._el.id_trade_value.appendChild( new_el )	
 		}
-		
-		
-		var _o = {
-			name : so.nm
-			,cd : so.cd
-			,value : [ so.tradeValue, so.rt ]
-			,price : so.price
-			,rt : so.rt
-			,r_mark : symbol
-			,tradeValue : so.tradeValue
-			,amt : so.amt
-			,children : []
-		}
-		_chartData.push( _o )
-	}
-	var h = dom.style.height.replace("px") * 1 - 0
-	var chartData = _chartData.sort(function(a,b){ return a.rt - b.rt }).reverse();
-	var app = {};
-
-	var option;
-	var nowDate = window.UTIL.Date.getTimeTo__YYYYMMDD_HHMMSS()
-	var title = "실시간 거래대금순위 - " + nowDate;
-	var subTitle = nowDate
-	option = {
-
-		title : { show :true, text : title,textStyle : { fontSize:12 } },
-		grid : { top:10,bottom:0 },
-		height : h,
-		series: [
-			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
-			breadcrumb : { show : false, },
-			width :"100%",
-			//height :h,
-			//top:0,
-			data : chartData.slice(0,100),
-//			data : chartData,
-			label : { formatter: function (params) { 
-			let arr = [ "{title|" + params.name + "}",
-				"{hr|}",
-				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
-				"{hr|}",
-				"{b|" + window.UTIL.Number.longNumberAddString( params.data.tradeValue) + "}",
-				//"{a|" + echarts.format.addCommas(params.data.amt) + "}",
-
-			];
-			return arr.join('\n');
-			}
-			, rich : {
-				title : { fontSize: 14 },
-				a : { fontSize: 9 },
-				b : { fontSize: 12 },
-				hr : { 
-					width : "100%",
-					borderColor : "rgba(255,255,255,0.0)",
-					borderWidth : 0.5,
-					height : 0,
-					lineHeight : 10,
-				}
-			}
-			},
-			visualMin : -30,
-			visualMax : 30,
-			visualDimension : 1,
-			levels: [{ color: ['blue','#ccc','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
-		}
-		]
-	};
-
-	if( option && typeof option === 'object' ){
-	window.treemapChart_03.setOption(option);
-	window.treemapChart_03.resize();
-
-	//setTimeout(function(){ window.treemapChart_03.hideLoading(); },1000)
-	
-	}
-
-	if( !window.treemapChart_03.isEvent )
-	{
-		window.treemapChart_03.on('click',function(d){
-			window.barChart.curCd = d.data.cd;
-			getTradeValueByCd()
-		})
-		window.treemapChart_03.isEvent = 1;
 	}
 }
 
@@ -542,7 +472,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 	var s,so;
 	for( s in window.socketData.MarketIndexGlobal ){
 		so = window.socketData.MarketIndexGlobal[ s ];
-		//if( s != "USA") continue
+		if( s != "USA") continue
 		var i = 0,iLen = so.length,io;
 		for(;i<iLen;++i){
 			io = so[ i ];
@@ -669,6 +599,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	
 	window._el.id_market_index = window.document.getElementById( "market_index" )
 	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
+	window._el.id_trade_value = window.document.getElementById( "trade_value" )
 
 
 	window._el.id_menu_00 = window.document.getElementById("menu_00");
@@ -714,7 +645,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
 		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
 		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
-		menu_04 : `/html/실시간거래대금갭.html`,
 		candle : `/html/candle.html?cd=`
 	};
 
@@ -722,7 +652,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
 	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
 	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-	window._el.id_menu_04.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
 
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
@@ -904,7 +833,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 <body style="padding:50px;">
 	<div class="ui grid">
 		<div class="eight wide column" style="padding: 20px;">
-			<span id="menu_04" style="cursor:pointer;">실시간거래대금갭</span> | 
 			<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
 			<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
 			<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
@@ -917,6 +845,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 				<div class="ui list" id="search_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 		</div>
+
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column">
+					<table class="ui table celled compact" id="trade_value"></table>
+				</div>
+			</div>
+		</div>
+
 		<div class="sixteen wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="market_index_title" style="">
@@ -925,7 +862,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				<div class="sixteen wide column">
 					<div class="ui ten cards" id="market_index"></div>
 				</div>
-				
 			</div>
 		</div>
 		<div class="sixteen wide column" style="padding: 20px;">
