@@ -35,7 +35,7 @@ th{
 }
 
 .blink_FALLING {
-    -webkit-animation: blink_FALLING 0.5s linear /*infinite*/;
+    -webkit-animation: blink_FALLING 2.5s linear /*infinite*/;
 } 
 @-webkit-keyframes blink_FALLING {
     0% { background-color: red; }
@@ -46,7 +46,7 @@ th{
     to {background-color: green;}  */
 }
 .blink_RISING {
-    -webkit-animation: blink_RISING 0.5s linear /*infinite*/;
+    -webkit-animation: blink_RISING 2.5s linear /*infinite*/;
 } 
 @-webkit-keyframes blink_RISING {
     0% { background-color: blue; }
@@ -57,7 +57,7 @@ th{
     to {background-color: green;}  */
 }
 .blink_UNCHANGED {
-    -webkit-animation: blink_UNCHANGED 0.5s linear /*infinite*/;
+    -webkit-animation: blink_UNCHANGED 2.5s linear /*infinite*/;
 } 
 @-webkit-keyframes blink_UNCHANGED {
     0% { background-color: #ccc; }
