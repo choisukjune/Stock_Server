@@ -961,7 +961,7 @@ global.wsFuns.EnergyIndex =function(){
 	
 }
 
-global.wsFuns.MetaIndex =function(){
+global.wsFuns.MetalIndex =function(){
 	
 	console.log( "[ S ] - global.wsFuns.MetalIndex" )
 	try
