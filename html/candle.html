@@ -284,11 +284,11 @@ var renderTradeValueByCd = function( d ){
 		},
 		//toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
 		xAxis: [ 
-			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }	}
+			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }, axisLabel : { fontSize : 9 }	}
 		],
 		yAxis: [
-			{ scale: true, splitArea: {show: true },splitLine: { show: false } },
-			{ scale: true, splitArea: {show: false },splitLine: { show: false } }
+			{ scale: true, splitArea: {show: true },splitLine: { show: false }, axisLabel : { fontSize : 9 } },
+			{ scale: true, splitArea: {show: false },splitLine: { show: false }, axisLabel : { fontSize : 9 } }
 		],
 		dataZoom: [
 			{ show: true, realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] },
