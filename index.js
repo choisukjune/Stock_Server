@@ -884,33 +884,41 @@ global.wsFuns.renderTradeValueInfo = function(){
 global.wsFuns.ExchangeIndex =function(){
 	
 	console.log( "[ S ] - global.wsFuns.ExchangeIndex" )
-
-	var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
+	try
+	{
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
 		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
 		+ global.CONST.SERVER.CRWALER.NAVER.port
-	http.get( url + '/getMarketIndexGlobal', function(response){
-		response.setEncoding('utf8');
+		http.get( url + '/getExchangeIndex', function(response){
+			response.setEncoding('utf8');
 
-		var d = "";
-		response.on('end', function () {
-			
-			var r = {
-				type : "data",
-				nm : "ExchangeIndex",
-				func : "renderExchangeIndex",
-				d : d,
-				p : null
+			var d = "";
+			response.on('end', function () {
 				
-			}
-			global.ws.boradCastMessage( r )
+				var r = {
+					type : "data",
+					nm : "ExchangeIndex",
+					func : "renderExchangeIndex",
+					d : d,
+					p : null
+					
+				}
+				global.ws.boradCastMessage( r )
 
-			console.log( "[ E ] - global.wsFuns.ExchangeIndex" )
-		});
+				console.log( "[ E ] - global.wsFuns.ExchangeIndex" )
+			});
 
-		response.on('data', function (body) {
-			d += body;
-		});
-	});
+			response.on('data', function (body) {
+				d += body;
+			});
+		});	
+	}
+	catch(er)
+	{
+		debugger;
+		console.log( er )
+	}
+	
 }
 
 //--------------------------------------------------;
