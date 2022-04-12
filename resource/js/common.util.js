@@ -299,3 +299,130 @@ window.COMPONENT.gnb = function(){
 	
 	return;
 };
+
+
+
+
+window.COMPONENT.searchStock = function(q,cbFunction){
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
+
+	xhr.onreadystatechange = function() {
+
+		if(xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText );
+			cbFunction(d.suggestItems,q)
+		}
+
+	}
+	xhr.send();
+}
+
+window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
+	
+	var resultDom = tDom.parentElement.parentElement.children[1];
+	resultDom.style.width = tDom.offsetWidth + "px";
+	resultDom.style.display = "block";
+	resultDom.innerHTML = "";
+
+	var html = ""
+	var i =0,iLen =arr.length,io;
+	for(;i<iLen;++i){
+		io = arr[ i ];
+		html = `
+		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}" style="cursor:pointer;">(${io.displayedCode}) - ${io.koreanName}</div>
+		`
+		var new_el = window.UTIL.Html.htmlToElement( html )
+		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
+		if( target_el )
+		{
+			resultDom.lastElementChild.parentNode.removeChild( target_el )
+			resultDom.insertBefore( new_el,resultDom.firstChild )			
+			
+		}
+		else
+		{
+			resultDom.insertBefore( new_el,resultDom.firstChild )	
+		}
+
+		new_el.addEventListener( "click",function(e){
+			
+			var cd = e.currentTarget.getAttribute("data-cd-value");
+			
+			resultDom.innerHTML = "";
+			resultDom.style.display = "none";		
+			//candleChart 페이지로이동시킴;
+			cb( cd )
+		})
+	}
+	//resultDom.innerHTML = html
+}
+
+window.COMPONENT.stockSearch = function( idNm ){
+
+
+	var _target_el = window.document.getElementById( idNm + "_warp" );
+
+	var html = `
+		<div>
+			<div class="ui fluid icon input">
+				<input type="text" placeholder="Search a very wide input..." id="${idNm}">
+				<i class="search icon"></i>
+			</div>
+			<div class="ui list" id="${idNm}_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+		</div>
+	`
+
+	var new_el = window.UTIL.Html.htmlToElement( html );
+	_target_el.appendChild( new_el );
+	var eventUlr = 'candle.html?cd=';
+	window.document.getElementById( idNm ).addEventListener('keyup', function(e){
+	
+		if( e.currentTarget.value == "" )
+		{
+			window.document.getElementById( idNm + "_result" ).style.display = "none"
+			window.document.getElementById( idNm + "_result" ).innerHTML = "";
+		}
+		else
+		{
+			if (window.event.keyCode == 13) {
+				window.COMPONENT.searchStock( e.currentTarget,function(d,tDom){
+					if(d.length == 1 )
+					{
+						window.document.getElementById( idNm + "_result" ).style.display = "none"
+						window.document.getElementById( idNm + "_result" ).innerHTML = "";
+						var cd = d[0].displayedCode;				
+						//candleChart 페이지로이동시킴;
+						window.UTIL.Link.a( eventUlr + cd, "_blank")					
+					}
+					else if( d.length > 1 )
+					{
+						window.COMPONENT.makeSearchList(d,tDom,function(cd){
+							window.UTIL.Link.a( eventUlr + cd, "_blank")
+						})
+					}
+
+				});
+			}
+			else
+			{
+				window.COMPONENT.searchStock( e.currentTarget,function(d,tDom){
+					if( d.length == 0)
+					{
+						window.document.getElementById( idNm + "_result" ).style.display = "none"
+						window.document.getElementById( idNm + "_result" ).innerHTML = "";
+					}
+					else
+					{
+						window.COMPONENT.makeSearchList(d,tDom,function(cd){
+								window.UTIL.Link.a( eventUlr + cd, "_blank")
+						})	
+					}
+				});
+			
+			}	
+		}
+	})
+}

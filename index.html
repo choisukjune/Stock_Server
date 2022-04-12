@@ -1006,6 +1006,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 
 	window.COMPONENT.gnb();
+	window.COMPONENT.stockSearch();
 
 	window.wsFns.getEnergyIndex();
 	window.wsFns.getExchangeIndex();
@@ -1024,53 +1025,53 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
-	window._el.id_search.addEventListener('keyup', function(e){
-	
-		if( e.currentTarget.value == "" )
-		{
-			window._el.id_search_result.style.display = "none"
-			window._el.id_search_result.innerHTML = "";
-		}
-		else
-		{
-			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget,function(d,tDom){
-					if(d.length == 1 )
-					{
-						window._el.id_search_result.style.display = "none"
-						window._el.id_search_result.innerHTML = "";
-						var cd = d[0].displayedCode;				
-						//candleChart 페이지로이동시킴;
-						window.UTIL.Link.a( urls.candle + cd, "_blank")					
-					}
-					else if( d.length > 1 )
-					{
-						makeSearchList(d,tDom,function(cd){
-							window.UTIL.Link.a( urls.candle + cd, "_blank")
-						})
-					}
-
-				});
-			}
-			else
-			{
-				searchStock( e.currentTarget,function(d,tDom){
-					if( d.length == 0)
-					{
-						window._el.id_search_result.style.display = "none"
-						window._el.id_search_result.innerHTML = "";
-					}
-					else
-					{
-						makeSearchList(d,tDom,function(cd){
-								window.UTIL.Link.a( urls.candle + cd, "_blank")
-						})	
-					}
-				});
-			
-			}	
-		}
-	})
+//	window._el.id_search.addEventListener('keyup', function(e){
+//	
+//		if( e.currentTarget.value == "" )
+//		{
+//			window._el.id_search_result.style.display = "none"
+//			window._el.id_search_result.innerHTML = "";
+//		}
+//		else
+//		{
+//			if (window.event.keyCode == 13) {
+//				searchStock( e.currentTarget,function(d,tDom){
+//					if(d.length == 1 )
+//					{
+//						window._el.id_search_result.style.display = "none"
+//						window._el.id_search_result.innerHTML = "";
+//						var cd = d[0].displayedCode;				
+//						//candleChart 페이지로이동시킴;
+//						window.UTIL.Link.a( urls.candle + cd, "_blank")					
+//					}
+//					else if( d.length > 1 )
+//					{
+//						makeSearchList(d,tDom,function(cd){
+//							window.UTIL.Link.a( urls.candle + cd, "_blank")
+//						})
+//					}
+//
+//				});
+//			}
+//			else
+//			{
+//				searchStock( e.currentTarget,function(d,tDom){
+//					if( d.length == 0)
+//					{
+//						window._el.id_search_result.style.display = "none"
+//						window._el.id_search_result.innerHTML = "";
+//					}
+//					else
+//					{
+//						makeSearchList(d,tDom,function(cd){
+//								window.UTIL.Link.a( urls.candle + cd, "_blank")
+//						})	
+//					}
+//				});
+//			
+//			}	
+//		}
+//	})
 	window._el.id_search_tradeValueBarchart.addEventListener('keyup', function(e){
 	
 		if( e.currentTarget.value == "" )
@@ -1201,12 +1202,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 <body style="padding:50px;">
 	<div class="ui grid">
 		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
-		<div class="eight wide column" style="padding: 20px;">
-				<div class="ui fluid icon input">
-					<input type="text" placeholder="Search a very wide input..." id="search">
-					<i class="search icon"></i>
-				</div>
-				<div class="ui list" id="search_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+		<div id="search_wrap" class="eight wide column" style="padding: 20px;">
+				
 		</div>
 		<div class="four wide column">
 			<div class="ui grid">
