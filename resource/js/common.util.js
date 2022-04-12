@@ -269,12 +269,14 @@ window.COMPONENT.gnb = function(){
 	var _target_el = window.document.getElementById( "gnb" );
 
 	var html = `
+		<div>
 		<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
 		<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
 		<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
 		<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span> | 
 		<span id="menu_04" style="cursor:pointer;">wics업종별현황</span> |
 		<span id="menu_05" style="cursor:pointer;">관심종목</span>
+		</div>
 	`
 	var new_el = window.UTIL.Html.htmlToElement( html );
 	_target_el.appendChild( new_el );
