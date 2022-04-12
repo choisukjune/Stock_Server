@@ -594,26 +594,26 @@ window.wsFns.renderMarketIndexGlobal = function(){
 
 window.wsFns.getExchangeIndex = function(){
 		
-		var xhr = new XMLHttpRequest();
-		
-		xhr.open("GET" , `http://112.144.208.118:8888/getExchangeIndex`, true);
-		xhr.onreadystatechange = function(){
-			
-			if( xhr.readyState == 4 && xhr.status == 200)
-			{
-				debugger;
-				
-				var d = JSON.parse( xhr.responseText )
-				window.socketData.getExchangeIndex = d;
-				//window._el.id_market_index.innerHTML = "";
-				window.wsFns.renderExchangeIndex();
-				
-			}
-		}
-		
-		xhr.send();
+	var xhr = new XMLHttpRequest();
 	
+	xhr.open("GET" , `http://112.144.208.118:8888/getExchangeIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			debugger;
+			
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.getExchangeIndex = d;
+			//window._el.id_market_index.innerHTML = "";
+			window.wsFns.renderExchangeIndex();
+			
+		}
 	}
+	
+	xhr.send();
+
+}
 window.wsFns.renderExchangeIndex = function(){
 	var status = {
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
@@ -663,7 +663,28 @@ window.wsFns.renderExchangeIndex = function(){
 	}
 
 }
+window.wsFns.getEnergyIndex = function(){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getEnergyIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			debugger;
+			
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.getEnergyIndex = d;
+			//window._el.id_market_index.innerHTML = "";
+			window.wsFns.renderEnergyIndex();
+			
+		}
+	}
+	
+	xhr.send();
 
+}
 window.wsFns.renderEnergyIndex = function(){
 	var status = {
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
@@ -825,6 +846,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 
+	window.wsFns.getEnergyIndex();
 	window.wsFns.getExchangeIndex();
 	window.wsFns.getMarketIndex( function(){ window.wsFns.getMarketIndexGlobal(); } );
 
