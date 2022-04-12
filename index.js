@@ -961,6 +961,86 @@ global.wsFuns.EnergyIndex =function(){
 	
 }
 
+global.wsFuns.EnergyIndex =function(){
+	
+	console.log( "[ S ] - global.wsFuns.MetalIndex" )
+	try
+	{
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
+		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
+		+ global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getMetalIndex', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				
+				var r = {
+					type : "data",
+					nm : "MetalIndex",
+					func : "renderMetalIndex",
+					d : d,
+					p : null
+					
+				}
+				global.ws.boradCastMessage( r )
+
+				console.log( "[ E ] - global.wsFuns.MetalIndex" )
+			});
+
+			response.on('data', function (body) {
+				d += body;
+			});
+		});	
+	}
+	catch(er)
+	{
+		debugger;
+		console.log( er )
+	}
+	
+}
+
+global.wsFuns.Agricultural =function(){
+	
+	console.log( "[ S ] - global.wsFuns.Agricultural" )
+	try
+	{
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
+		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
+		+ global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getAgricultural', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				
+				var r = {
+					type : "data",
+					nm : "Agricultural",
+					func : "renderAgricultural",
+					d : d,
+					p : null
+					
+				}
+				global.ws.boradCastMessage( r )
+
+				console.log( "[ E ] - global.wsFuns.Agricultural" )
+			});
+
+			response.on('data', function (body) {
+				d += body;
+			});
+		});	
+	}
+	catch(er)
+	{
+		debugger;
+		console.log( er )
+	}
+	
+}
+
 //--------------------------------------------------;
 //--------------------------------------------------;
 
@@ -970,6 +1050,8 @@ global.ws.intervals.MarketIndex 		= setInterval(global.wsFuns.MarketIndex,30000)
 global.ws.intervals.MarketIndexGlobal	 = setInterval(global.wsFuns.MarketIndexGlobal,30000);
 global.ws.intervals.ExchangeIndex	 = setInterval(global.wsFuns.ExchangeIndex,30000);
 global.ws.intervals.EnergyIndex	 = setInterval(global.wsFuns.EnergyIndex,30000);
+global.ws.intervals.MetalIndex	 = setInterval(global.wsFuns.MetalIndex,30000);
+global.ws.intervals.Agricultural	 = setInterval(global.wsFuns.Agricultural,30000);
 //global.ws.intervals.updateRank_buy		= setInterval(global.wsFuns.updateRank_buy,30000);
 //global.ws.intervals.updateRank_sell		= setInterval(global.wsFuns.updateRank_sell,30000);
 //global.ws.intervals.renderMassTransList_buy		= setInterval(global.wsFuns.renderMassTransList_buy,500);
@@ -984,6 +1066,8 @@ global.ws.clearIntervals.MarketIndex 		= function(){ clearInterval( global.ws.in
 //global.ws.clearIntervals.MarketIndexGlobal 	= function(){ clearInterval( global.ws.intervals.MarketIndexGlobal ) };
 global.ws.clearIntervals.ExchangeIndex 	= function(){ clearInterval( global.ws.intervals.ExchangeIndex ) };
 global.ws.clearIntervals.EnergyIndex 	= function(){ clearInterval( global.ws.intervals.EnergyIndex ) };
+global.ws.clearIntervals.MetalIndex 	= function(){ clearInterval( global.ws.intervals.MetalIndex ) };
+global.ws.clearIntervals.Agricultural 	= function(){ clearInterval( global.ws.intervals.Agricultural ) };
 global.ws.clearIntervals.updateRank_buy 		= function(){ clearInterval( global.ws.intervals.updateRank_buy ) };
 global.ws.clearIntervals.updateRank_sell 		= function(){ clearInterval( global.ws.intervals.updateRank_sell ) };
 global.ws.clearIntervals.renderMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransList_buy ) };
