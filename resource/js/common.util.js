@@ -291,12 +291,12 @@ window.COMPONENT.gnb = function(){
 		candle : `/html/candle.html?cd=`
 	};
 
-	window.document.getElementById( "menu_00 ").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
-	window.document.getElementById( "menu_01 ").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
-	window.document.getElementById( "menu_02 ").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
-	window.document.getElementById( "menu_03 ").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-	window.document.getElementById( "menu_04 ").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
-	window.document.getElementById( "menu_05 ").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_05,"_blank"); });
+	window.document.getElementById( "menu_00").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
+	window.document.getElementById( "menu_01").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
+	window.document.getElementById( "menu_02").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
+	window.document.getElementById( "menu_03").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
+	window.document.getElementById( "menu_04").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
+	window.document.getElementById( "menu_05").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_05,"_blank"); });
 	
 	return;
 };
