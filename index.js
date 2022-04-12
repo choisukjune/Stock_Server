@@ -921,6 +921,46 @@ global.wsFuns.ExchangeIndex =function(){
 	
 }
 
+global.wsFuns.EnergyIndex =function(){
+	
+	console.log( "[ S ] - global.wsFuns.EnergyIndex" )
+	try
+	{
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
+		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
+		+ global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getEnergyIndex', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				
+				var r = {
+					type : "data",
+					nm : "EnergyIndex",
+					func : "renderEnergyIndex",
+					d : d,
+					p : null
+					
+				}
+				global.ws.boradCastMessage( r )
+
+				console.log( "[ E ] - global.wsFuns.EnergyIndex" )
+			});
+
+			response.on('data', function (body) {
+				d += body;
+			});
+		});	
+	}
+	catch(er)
+	{
+		debugger;
+		console.log( er )
+	}
+	
+}
+
 //--------------------------------------------------;
 //--------------------------------------------------;
 
