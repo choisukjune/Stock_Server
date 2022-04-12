@@ -270,33 +270,32 @@ window.COMPONENT.gnb = function(){
 
 	var html = `
 		<div>
-		<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
-		<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
-		<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
-		<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span> | 
-		<span id="menu_04" style="cursor:pointer;">wics업종별현황</span> |
-		<span id="menu_05" style="cursor:pointer;">관심종목</span>
+		<span id="gnb_00" style="cursor:pointer;">실시간대량거래</span> | 
+		<span id="gnb_01" style="cursor:pointer;">기관거래원별</span> | 
+		<span id="gnb_02" style="cursor:pointer;">외국계거래원별</span> | 
+		<span id="gnb_03" style="cursor:pointer;">외국계증권사매매동향</span> | 
+		<span id="gnb_04" style="cursor:pointer;">wics업종별현황</span> |
+		<span id="gnb_05" style="cursor:pointer;">관심종목</span>
 		</div>
 	`
 	var new_el = window.UTIL.Html.htmlToElement( html );
 	_target_el.appendChild( new_el );
 
 	var urls = {
-		menu_00 : `/html/실시간대량거래.html`,
-		menu_01 : `/html/기관거래원별.html?date=${today}`,
-		menu_02 : `/html/외국계거래원별.html?date=${today}`,
-		menu_03 : `/html/외국계증권사매매동향.html?date=${today}`,
-		menu_04 : `/html/wics업종별현황.html?date=${today}`,
-		menu_05 : `/html/관심종목.html?date=${yesterday}`,
-		candle : `/html/candle.html?cd=`
+		gnb_00 : `/html/실시간대량거래.html`,
+		gnb_01 : `/html/기관거래원별.html?date=${today}`,
+		gnb_02 : `/html/외국계거래원별.html?date=${today}`,
+		gnb_03 : `/html/외국계증권사매매동향.html?date=${today}`,
+		gnb_04 : `/html/wics업종별현황.html?date=${today}`,
+		gnb_05 : `/html/관심종목.html?date=${yesterday}`,
 	};
 
-	window.document.getElementById( "menu_00").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
-	window.document.getElementById( "menu_01").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
-	window.document.getElementById( "menu_02").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
-	window.document.getElementById( "menu_03").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-	window.document.getElementById( "menu_04").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
-	window.document.getElementById( "menu_05").addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_05,"_blank"); });
+	window.document.getElementById( "gnb_00").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_00,"_blank"); });
+	window.document.getElementById( "gnb_01").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_01,"_blank"); });
+	window.document.getElementById( "gnb_02").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_02,"_blank"); });
+	window.document.getElementById( "gnb_03").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_03,"_blank"); });
+	window.document.getElementById( "gnb_04").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_04,"_blank"); });
+	window.document.getElementById( "gnb_05").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_05,"_blank"); });
 	
 	return;
 };

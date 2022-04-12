@@ -1293,7 +1293,6 @@ var getAcgDataByCd = function( cd,start,end){
 					window.data.d02.push( io.tr3 )
 					window.data.d99.push( io )
 				}
-				getAcgDataByCd_50();
 				//var i =0,iLen = d.length,io,io00;
 				var i =0,iLen = 15,io,io00;
 
@@ -1649,23 +1648,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 	
 	window.params = window.UTIL.Url.paramToObject();
-
-//	var urls = {
-//		menu_00 : `/html/실시간대량거래.html`,
-//		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
-//		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
-//		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
-//		menu_04 : `/html/wics업종별현황.html?date=${window.date.curDate}`,
-//		menu_05 : `/html/관심종목.html?date=${window.date.yesterday}`,
-//		candle : `/html/candle.html?cd=`
-//	};
-//
-//	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
-//	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
-//	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
-//	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-//	window._el.id_menu_04.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
-//	window._el.id_menu_05.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_05,"_blank"); });
 
 	window.barChart = {};
 	window.barChart.curCd = window.params.cd;
