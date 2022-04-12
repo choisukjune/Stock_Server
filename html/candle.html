@@ -1650,26 +1650,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	
 	window.params = window.UTIL.Url.paramToObject();
 
-	var urls = {
-		menu_00 : `/html/실시간대량거래.html`,
-		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
-		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
-		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
-		menu_04 : `/html/wics업종별현황.html?date=${window.date.curDate}`,
-		menu_05 : `/html/관심종목.html?date=${window.date.yesterday}`,
-		candle : `/html/candle.html?cd=`
-	};
-
-	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
-	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
-	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
-	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-	window._el.id_menu_04.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
-	window._el.id_menu_05.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_05,"_blank"); });
+//	var urls = {
+//		menu_00 : `/html/실시간대량거래.html`,
+//		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
+//		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
+//		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
+//		menu_04 : `/html/wics업종별현황.html?date=${window.date.curDate}`,
+//		menu_05 : `/html/관심종목.html?date=${window.date.yesterday}`,
+//		candle : `/html/candle.html?cd=`
+//	};
+//
+//	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
+//	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
+//	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
+//	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
+//	window._el.id_menu_04.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
+//	window._el.id_menu_05.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_05,"_blank"); });
 
 	window.barChart = {};
 	window.barChart.curCd = window.params.cd;
-
+	
+	window.COMPONENT.gnb();
 
 	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
 	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur);
@@ -1749,14 +1750,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <body style="padding:20px;overflow-y:hidden;">
 <div class="ui grid" style="padding: 10px;height: 100%;" id="wrap">
-	<div class="eight wide column" style="padding: 20px;">
-		<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
-		<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
-		<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
-		<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span> | 
-		<span id="menu_04" style="cursor:pointer;">wics업종별현황</span> |
-		<span id="menu_05" style="cursor:pointer;">관심종목</span>
-	</div>
+	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
 
 	<div class="eight wide column" style="padding: 20px;" id="search_wrap">
 		<div class="ui fluid icon input">
