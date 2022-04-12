@@ -700,13 +700,13 @@ window.wsFns.renderEnergyIndex = function(){
 		io = window.socketData.getExchangeIndex[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
 		var name = io.name;
-		if( io.categoryType == "exchangeWorld") continue;
+		//if( io.categoryType == "exchangeWorld") continue;
 
 		if( io.marketStatus == "CLOSE") display = "block"
 		else display = "none"
 
 		
-		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="exchange_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
+		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="energy_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
 		var _html01 =`
 			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
 			<div class="">
@@ -719,17 +719,17 @@ window.wsFns.renderEnergyIndex = function(){
 		var _html02 =`</div>`
 
 		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
-		var target_el = window.document.getElementById( "exchange_index_" + io.reutersCode )
+		var target_el = window.document.getElementById( "energy_index_" + io.reutersCode )
 		if( target_el )
 		{
-			//window._el.id_exchange_index.lastElementChild.parentNode.removeChild( target_el )
-			//window._el.id_exchange_index.insertBefore( new_el,window._el.id_exchange_index.firstChild )
+			//window._el.id_energy_index.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_energy_index.insertBefore( new_el,window._el.id_energy_index.firstChild )
 			target_el.innerHTML = _html01
 			
 		}
 		else
 		{
-			window._el.id_exchange_index.appendChild( new_el )	
+			window._el.id_energy_index.appendChild( new_el )	
 		}
 	}
 
@@ -816,6 +816,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_market_index = window.document.getElementById( "market_index" )
 	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
 	window._el.id_exchange_index = window.document.getElementById( "exchange_index" )
+	window._el.id_energy_index = window.document.getElementById( "energy_index" )
 
 
 	window._el.id_menu_00 = window.document.getElementById("menu_00");
@@ -1074,6 +1075,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 				<div class="sixteen wide column">
 					<div class="ui four cards" id="exchange_index"></div>
+				</div>
+			</div>
+		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="energy_index_title" style="">
+				주요시장지표
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui four cards" id="energy_index"></div>
 				</div>
 			</div>
 		</div>
