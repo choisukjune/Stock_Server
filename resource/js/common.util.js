@@ -452,7 +452,7 @@ window.COMPONENT.getTradeValueByCd = function(){
 		if( xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText )
-			renderTradeValueByCd( d.data )
+			window.COMPONENT.renderTradeValueByCd( d.data )
 		}
 	}
 
