@@ -478,8 +478,8 @@ window.wsFns.renderMarketIndex = function(){
 					<span style="font-size:16px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)} <br>
 						<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 					</span>
-					<span class="right floated" style="padding: 5px;background-color: #fff;min-height:90px;">
-						<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.symbolCode}_transparent.png?${Date.now()}" style="" load="lazy">
+					<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
+						<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.symbolCode}_transparent.png?${Date.now()}" style="" load="lazy" style="height:35px">
 					</span>
 				</div>
 
@@ -565,7 +565,7 @@ window.wsFns.renderMarketIndexGlobal = function(){
 						<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 					</span>
 					<span class="right floated" style="padding: 5px;background-color: #fff;min-height:90px;">
-						<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/day/${io.reutersCode}_transparent.png?${Date.now()}" style="" load="lazy">
+						<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/day/${io.reutersCode}_transparent.png?${Date.now()}" style="" load="lazy" style="height:35px">
 					</span>
 				</div>
 				
