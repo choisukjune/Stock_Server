@@ -1046,20 +1046,20 @@ global.wsFuns.AgriculturalIndex =function(){
 
 
 global.ws.intervals = {}
-global.ws.intervals.MarketIndex 		= setInterval(global.wsFuns.MarketIndex,30000);
-global.ws.intervals.MarketIndexGlobal	 = setInterval(global.wsFuns.MarketIndexGlobal,30000);
-global.ws.intervals.ExchangeIndex	 = setInterval(global.wsFuns.ExchangeIndex,30000);
-global.ws.intervals.EnergyIndex	 = setInterval(global.wsFuns.EnergyIndex,30000);
-global.ws.intervals.MetalIndex	 = setInterval(global.wsFuns.MetalIndex,30000);
-global.ws.intervals.AgriculturalIndex	 = setInterval(global.wsFuns.AgriculturalIndex,30000);
-//global.ws.intervals.updateRank_buy		= setInterval(global.wsFuns.updateRank_buy,30000);
-//global.ws.intervals.updateRank_sell		= setInterval(global.wsFuns.updateRank_sell,30000);
-//global.ws.intervals.renderMassTransList_buy		= setInterval(global.wsFuns.renderMassTransList_buy,500);
-//global.ws.intervals.renderMassTransInfo_buy		= setInterval(global.wsFuns.renderMassTransInfo_buy,30000);
-//global.ws.intervals.renderMassTransInfo_sell		= setInterval(global.wsFuns.renderMassTransInfo_sell,30000);
-//global.ws.intervals.makeMassTransList_buy		= setInterval( global.wsFuns.makeMassTransList_buy ,7000);
-global.ws.intervals.renderTradeValueInfo		= setInterval( global.wsFuns.renderTradeValueInfo ,7000);
-global.ws.intervals.renderTradeValueInfo_gap		= setInterval( global.wsFuns.renderTradeValueInfo_gap ,7000);
+global.ws.intervals.MarketIndex 				= setInterval(function(){ global.wsFuns.MarketIndex();					},30000);
+global.ws.intervals.MarketIndexGlobal			= setInterval(function(){ global.wsFuns.MarketIndexGlobal();			},30000);
+global.ws.intervals.ExchangeIndex				= setInterval(function(){ global.wsFuns.ExchangeIndex();				},30000);
+global.ws.intervals.EnergyIndex					= setInterval(function(){ global.wsFuns.EnergyIndex();					},30000);
+global.ws.intervals.MetalIndex					= setInterval(function(){ global.wsFuns.MetalIndex();					},30000);
+global.ws.intervals.AgriculturalIndex			= setInterval(function(){ global.wsFuns.AgriculturalIndex();			},30000);
+//global.ws.intervals.updateRank_buy			= setInterval(function(){ global.wsFuns.updateRank_buy();				},30000);
+//global.ws.intervals.updateRank_sell			= setInterval(function(){ global.wsFuns.updateRank_sell();				},30000);
+//global.ws.intervals.renderMassTransList_buy	= setInterval(function(){ global.wsFuns.renderMassTransList_buy();		},500);
+//global.ws.intervals.renderMassTransInfo_buy	= setInterval(function(){ global.wsFuns.renderMassTransInfo_buy();		},30000);
+//global.ws.intervals.renderMassTransInfo_sell	= setInterval(function(){ global.wsFuns.renderMassTransInfo_sell();		},30000);
+//global.ws.intervals.makeMassTransList_buy		= setInterval(function(){ global.wsFuns.makeMassTransList_buy();		},7000);
+global.ws.intervals.renderTradeValueInfo		= setInterval(function(){ global.wsFuns.renderTradeValueInfo();			},7000);
+global.ws.intervals.renderTradeValueInfo_gap	= setInterval(function(){ global.wsFuns.renderTradeValueInfo_gap();		},7000);
 
 global.ws.clearIntervals = {}
 global.ws.clearIntervals.MarketIndex 		= function(){ clearInterval( global.ws.intervals.MarketIndex ) };
