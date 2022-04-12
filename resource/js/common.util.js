@@ -360,9 +360,9 @@ window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 	//resultDom.innerHTML = html
 }
 
-window.COMPONENT.stockSearch = function( idNm ){
+window.COMPONENT.stockSearch = function(){
 
-
+	var idNm = "search";
 	var _target_el = window.document.getElementById( idNm + "_warp" );
 
 	var html = `
