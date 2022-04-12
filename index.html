@@ -814,111 +814,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
-//	window._el.id_search_tradeValueBarchart.addEventListener('keyup', function(e){
-//	
-//		if( e.currentTarget.value == "" )
-//		{
-//			window._el.id_search_tradeValueBarchart_result.style.display = "none"
-//			window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-//		}
-//		else
-//		{
-//			if (window.event.keyCode == 13) {
-//				searchStock( e.currentTarget,function(d,tDom){
-//					if(d.length == 1 )
-//					{
-//						window._el.id_search_tradeValueBarchart_result.style.display = "none"
-//						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-//						var cd = d[0].displayedCode;				
-//						window.barChart.curCd = cd;
-//						getTradeValueByCd();				
-//					}
-//					else if( d.length > 1 )
-//					{
-//						makeSearchList(d,tDom,function(cd){
-//							window.barChart.curCd = cd;
-//							getTradeValueByCd();
-//						})
-//					}
-//
-//				});
-//			}
-//			else
-//			{
-//				searchStock( e.currentTarget,function(d,tDom){
-//					if( d.length == 0)
-//					{
-//						window._el.id_search_tradeValueBarchart_result.style.display = "none"
-//						window._el.id_search_tradeValueBarchart_result.innerHTML = "";
-//					}
-//					else
-//					{
-//						makeSearchList(d,tDom,function(cd){
-//							window.barChart.curCd = cd;
-//							getTradeValueByCd();
-//						})	
-//					}
-//				});
-//			
-//			}	
-//		}
-//	})
-	window.ws = new WebSocket("ws://112.144.208.118:8888/index.html");
-
-	window.ws.onopen = function(e) {
-		console.log("[open] 커넥션이 만들어졌습니다.");
-		console.log("데이터를 서버에 전송해봅시다.");
-		
-		//서버에 socket 요청;
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransInfo_buy" } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransInfo_sell" } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "makeMassTransList_buy", param : window.massTransData.buy.offset } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMassTransList_buy" } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_buy" } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "updateRank_sell" } ) )
-		//window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) )
-	};
-
-	window.ws.onmessage = function(e) {
-		
-		var reader = new FileReader();
-		reader.onload = function() {
-
-			try
-			{
-				var d = JSON.parse( reader.result ) 
-				//console.log( d.type + " - " + d.nm )
-				window.socketData[ d.nm ] = JSON.parse( d.d )
-				console.log( d.func );
-				var p = null;
-				if( d.p !== null || !d.p ) p = d.p = null
-				window.wsFns[ d.func ]( p )	
-			}
-			catch( er )
-			{
-				debugger;
-			}
-			
-		}
-		reader.readAsText(e.data);
-
-	};
-
-	window.ws.onclose = function(event){
-		if (event.wasClean) {
-			console.log(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
-		} else {
-			// 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
-			// event.code가 1006이 됩니다.
-			console.log('[close] 커넥션이 죽었습니다.');
-			console.log('--커낵션을다시 연결합니다.');
-			setTimeout(function(){ window.ws = new WebSocket("ws://112.144.208.118:8888/index.html"); },5000)
-		}
-	};
-
-	window.ws.onerror = function(error) { console.log(`[error] ${error.message}`); };
-
 	window.interval = {}
 	//window.interval.renderUpdateRank_pp = setInterval(function(){
 	//	if( !window.socketData.renderMassTransInfo_sell ) return;
@@ -935,9 +830,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//	if( !window.socketData.renderMassTransInfo_buy ) return;
 	//	window.wsFns.renderMassTransList_buy()
 	//},7000)
-	window.interval.getTradeValueByCd = setInterval(function(){
-		window.COMPONENT.getTradeValueByCd();
-	},7000)
+	window.interval.getTradeValueByCd = setInterval(function(){	window.COMPONENT.getTradeValueByCd(); },7000)
 })
 </script>
 
