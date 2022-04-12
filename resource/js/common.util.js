@@ -276,7 +276,8 @@ window.COMPONENT.gnb = function(){
 		<span id="menu_04" style="cursor:pointer;">wics업종별현황</span> |
 		<span id="menu_05" style="cursor:pointer;">관심종목</span>
 	`
-	_target_el.innerHTML = html;
+	var new_el = window.UTIL.Html.htmlToElement( html );
+	_target_el.appendChild( new_el );
 
 	var urls = {
 		menu_00 : `/html/실시간대량거래.html`,
