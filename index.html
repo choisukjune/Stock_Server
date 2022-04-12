@@ -629,7 +629,7 @@ window.wsFns.renderExchangeIndex = function(){
 		io = window.socketData.getExchangeIndex[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
 		var name = io.name;
-		//if( io.stockEndType != "futures") continue;
+		if( io.categoryType == "exchangeWorld") continue;
 
 		if( io.marketStatus == "CLOSE") display = "block"
 		else display = "none"
@@ -643,8 +643,6 @@ window.wsFns.renderExchangeIndex = function(){
 				<span style="font-size:14px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)} -  </span>
 				<span style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
 			</div>
-
-
 			<!--div class="description"></div-->
 		`
 		var _html02 =`</div>`
