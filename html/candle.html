@@ -208,6 +208,162 @@ function htmlToElement(html) {
     return template.content.firstChild;
 }
 
+var getTradeValueByCd = function(){
+	if( window.barChart.curCd == null ) return;
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${window.barChart.curCd}&date=${window.date.curDate}`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			renderTradeValueByCd( d.data )
+		}
+	}
+
+	xhr.send();
+}
+
+var renderTradeValueByCd = function( d ){
+		
+	var dom = document.getElementById("tradeValueByCd");
+	window.barchart = echarts.init(dom);
+	
+	var app = {};
+	
+	window.barchart.showLoading()
+	
+	var d00 = []
+	var d01 = []
+	var xAis = []
+
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[ i ]
+
+		d00.push( io.price );
+		var color = 0
+		if( io.rtChange > 0 ) var color = 1
+		if( io.rtChange < 0 ) var color = -1
+		d01.push( [ io._t, io.tradeValueGap, color] );
+		xAis.push( io._t );
+	}
+
+	
+	var h = dom.style.height.replace("px") * 1
+	var _p = d[ d.length -1 ];
+
+	var symbol = "▲"
+	if( _p.rt == 0 ) var symbol = "-"
+	if( _p.rt < 0 ) var symbol = "▼"
+	
+	var title = `${_p.nm} - ${_p.cd }`
+
+	var lineColor = "red";
+	if( _p.rt < 0 ) lineColor = "blue";
+	if( _p.rt == 0 ) lineColor = "orange";
+
+	var subTitle = `${echarts.format.addCommas( _p.price )} ${symbol} ${echarts.format.addCommas( _p.prevChange )}(${_p.rt}%) - 거래대금 : ${window.UTIL.Number.longNumberAddString( _p.tradeValue )}`
+	var option = {
+		title : { text : title, subtext : subTitle, left : 'center',},
+		height : h,
+		//width : "100%",
+		tooltip: {
+			trigger: 'axis', axisPointer: { type: 'cross' }, borderWidth: 1, borderColor: '#ccc', padding: 10,
+			formatter : function(d){
+				var r = ""
+				r += d[0].name + "<br>"
+				r += "거래대금갭 :" + window.UTIL.Number.longNumberAddString( d[0].value[1] ) + "<br>"
+				r += "주가 :" + window.UTIL.Number.numberWithCommas( d[1].value ) + "<br>"
+				return r;
+			},
+			//grid:[{	left : "10%"},{ left : "40%" }],
+			textStyle: { color: '#000'  },
+			position: [ 50, 10 ]
+			// extraCssText: 'width: 170px'
+		},
+		//toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
+		xAxis: [ 
+			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }	}
+		],
+		yAxis: [
+			{ scale: true, splitArea: {show: true },splitLine: { show: false } },
+			{ scale: true, splitArea: {show: false },splitLine: { show: false } }
+		],
+		dataZoom: [
+			{ show: true, realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] },
+			{ type: 'inside', realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] }
+		],
+		grid: { left: '4%', right: '4%', top : 50, bottom : 30},
+		visualMap : [
+			{
+				type : "piecewise",
+				precision : true,
+				show :false,seriesIndex : 0,dimention:2,maxOpen : true,
+				pieces : [
+					{ value : 1, color :"red"},
+					{ value : -1, color :"blue", opacity : 0.5 },
+					{ value : 0, color :"orange", opacity : 0.5 }
+				]
+			},
+		],
+		series: [
+			{ 
+				name : "Volume",
+				//width :"100%",height :"100%",
+				data: d01,type: 'bar', xAxisIndex: 0, yAxisIndex: 1, zlevel : 1,
+				//showBackground: true,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
+				//markPoint: {
+				//	data: [
+				//		{ type: 'max', name: 'Max' },
+				//		{ type: 'min', name: 'Min' }
+				//	]
+				//},
+				//markLine: {
+				//	data: [{ type: 'average', name: 'Avg' }]
+				//},
+				itemStyle : { color : 'red' },
+				animation : true
+			},
+			{
+			name: 'Price', type: 'line', xAxisIndex: 0, yAxisIndex: 0, data: d00, zlevel : 0,
+			showSymbol : false, smooth :true, areaStyle : { opacity : 0.4, 
+			color:new echarts.graphic.LinearGradient(0,0,0,1,[
+			{
+			offset : 0,
+			color : lineColor
+			},
+			{
+				offset : 0.9,
+				color : "white"
+				}
+
+				]),
+				origin:"auto"
+				},
+				//markPoint: {
+				//	data: [
+				//		{ type: 'max', name: 'Max' },
+				//		{ type: 'min', name: 'Min' }
+				//	]
+				//},
+				//markLine : {
+				//	data : [ { name : 'Start Price',yAxis : d[0].price + _p, label : { formatter : `Start Price`, position : "start" } }]	
+				//},
+				lineStyle : { width : 1, color : lineColor, opacity : 0.2 },
+				animation : true,
+			}
+		]
+	};
+
+	if (option && typeof option === 'object'){
+		window.barchart.setOption(option);
+		window.barchart.resize();
+		window.barchart.hideLoading();
+	}
+}
+
+
 
 var getAgcData = function(cd){
 	
@@ -1506,17 +1662,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
 	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
 
+	window.barChart = {};
+	window.barChart.curCd = window.params.cd;
 
-	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur )
-	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur)
-	//getAgcData(( window.params.cd )
-	getFTrData( window.params.cd )
-	getInsightByStockAvgCd( window.params.cd )
-	updateNewsFromNaver( window.params.cd )
-	updateNewsFromDaum( window.params.cd )
+
+	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
+	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur);
+	getTradeValueByCd();
+	//getAgcData(( window.params.cd );
+	getFTrData( window.params.cd );
+	getInsightByStockAvgCd( window.params.cd );
+	updateNewsFromNaver( window.params.cd );
+	updateNewsFromDaum( window.params.cd );
 	getAllStockInfo();
-	getTrdRank( window.params.cd )
-	updateStock( window.params.cd )
+	getTrdRank( window.params.cd );
+	updateStock( window.params.cd );
 	
 	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
 
@@ -1615,6 +1775,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			<div class="sixteen wide column" style="overflow-y:auto;">
 				<div class="ui grid">
 					<div class="sixteen wide column" id="container" style="height: 800px"></div>
+					<div class="sixteen wide column" id="tradeValueByCd" style="height:300px;"></div>
 					<div class="sixteen wide column" id="FtrData" style="/*height: 500px;*/"></div>
 					<div class="sixteen wide column" id="AgcData_50" style="/*height: 500px;*/"></div>
 					<div class="sixteen wide column" id="AgcData" style="/*height: 500px;*/"></div>
