@@ -873,7 +873,7 @@ var pad = function(n, width){
 		http://localhost:8888/find?brand=varihope&page=1
 	* </code>
 	*/
-	global.server.addRouter("/getAgricultural",function( req, res ){
+	global.server.addRouter("/getAgriculturalIndex",function( req, res ){
 
 		var routerNm = req.url.split("?")[0];
 		var paramsO = paramToObject( req.url );
@@ -885,7 +885,7 @@ var pad = function(n, width){
 		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
 		
 		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
-		http.get( url + '/getAgricultural', function(response){
+		http.get( url + '/getAgriculturalIndex', function(response){
 			response.setEncoding('utf8');
 
 			var d = "";
