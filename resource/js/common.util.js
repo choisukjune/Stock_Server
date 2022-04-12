@@ -363,7 +363,7 @@ window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 window.COMPONENT.stockSearch = function(){
 
 	var idNm = "search";
-	var _target_el = window.document.getElementById( idNm + "_warp" );
+	var _target_el = window.document.getElementById( idNm + "_wrap" );
 
 	var html = `
 		<div>
