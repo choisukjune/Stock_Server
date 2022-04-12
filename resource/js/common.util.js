@@ -253,6 +253,9 @@ window.UTIL.Color.generateColor = function(colorStart,colorEnd,value){
 }
 
 window.UTIL.Html = {};
+/*
+ *
+ */
 window.UTIL.Html.htmlToElement = function( html ){
     var template = document.createElement('template');
     html = html.trim(); // Never return a text node of whitespace as the result
@@ -261,6 +264,9 @@ window.UTIL.Html.htmlToElement = function( html ){
 }
 
 window.COMPONENT = {};
+/*
+ *
+ */
 window.COMPONENT.gnb = function(){
 	
 	var today = window.UTIL.Date.getTimeTo__YYYYMMDD()
@@ -302,7 +308,9 @@ window.COMPONENT.gnb = function(){
 
 
 
-
+/*
+ *
+ */
 window.COMPONENT.searchStock = function(q,cbFunction){
 
 	var xhr = new XMLHttpRequest();
@@ -319,7 +327,9 @@ window.COMPONENT.searchStock = function(q,cbFunction){
 	}
 	xhr.send();
 }
-
+/*
+ *
+ */
 window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 	
 	var resultDom = tDom.parentElement.parentElement.children[1];
@@ -359,7 +369,9 @@ window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 	}
 	//resultDom.innerHTML = html
 }
-
+/*
+ *
+ */
 window.COMPONENT.stockSearch_global = function(){
 
 	var idNm = "search";
@@ -373,11 +385,14 @@ window.COMPONENT.stockSearch_global = function(){
 			</div>
 			<div class="ui list" id="${idNm}_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
 		</div>
-	`
+	`;
 
 	var new_el = window.UTIL.Html.htmlToElement( html );
+	
 	_target_el.appendChild( new_el );
+	
 	var eventUlr = './html/candle.html?cd=';
+
 	window.document.getElementById( idNm ).addEventListener('keyup', function(e){
 	
 		if( e.currentTarget.value == "" )
@@ -418,6 +433,238 @@ window.COMPONENT.stockSearch_global = function(){
 					{
 						window.COMPONENT.makeSearchList(d,tDom,function(cd){
 								window.UTIL.Link.a( eventUlr + cd, "_blank")
+						})	
+					}
+				});
+			
+			}	
+		}
+	})
+}
+
+
+window.COMPONENT.getTradeValueByCd = function(){
+	if( window.barChart.curCd == null ) return;
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${window.barChart.curCd}&date=${window.date.curDate}`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			renderTradeValueByCd( d.data )
+		}
+	}
+
+	xhr.send();
+}
+
+window.COMPONENT.renderTradeValueByCd = function( d ){
+		
+	var dom = document.getElementById("tradeValueByCd");
+	window.barchart = echarts.init(dom);
+	
+	var app = {};
+	
+	window.barchart.showLoading()
+	
+	var d00 = []
+	var d01 = []
+	var xAis = []
+
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[ i ]
+
+		d00.push( io.price );
+		var color = 0
+		if( io.rtChange > 0 ) var color = 1
+		if( io.rtChange < 0 ) var color = -1
+		d01.push( [ io._t, io.tradeValueGap, color] );
+		xAis.push( io._t );
+	}
+
+	
+	var h = dom.style.height.replace("px") * 1
+	var _p = d[ d.length -1 ];
+
+	var symbol = "▲"
+	if( _p.rt == 0 ) var symbol = "-"
+	if( _p.rt < 0 ) var symbol = "▼"
+	
+	var title = `${_p.nm} - ${_p.cd }`
+
+	var lineColor = "red";
+	if( _p.rt < 0 ) lineColor = "blue";
+	if( _p.rt == 0 ) lineColor = "orange";
+
+	var subTitle = `${echarts.format.addCommas( _p.price )} ${symbol} ${echarts.format.addCommas( _p.prevChange )}(${_p.rt}%) - 거래대금 : ${window.UTIL.Number.longNumberAddString( _p.tradeValue )}`
+	var option = {
+		title : { text : title, subtext : subTitle, left : 'center',},
+		height : h,
+		//width : "100%",
+		tooltip: {
+			trigger: 'axis', axisPointer: { type: 'cross' }, borderWidth: 1, borderColor: '#ccc', padding: 10,
+			formatter : function(d){
+				var r = ""
+				r += d[0].name + "<br>"
+				r += "거래대금갭 :" + window.UTIL.Number.longNumberAddString( d[0].value[1] ) + "<br>"
+				r += "주가 :" + window.UTIL.Number.numberWithCommas( d[1].value ) + "<br>"
+				return r;
+			},
+			//grid:[{	left : "10%"},{ left : "40%" }],
+			textStyle: { color: '#000'  },
+			position: [ 50, 10 ]
+			// extraCssText: 'width: 170px'
+		},
+		//toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
+		xAxis: [ 
+			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }	}
+		],
+		yAxis: [
+			{ scale: true, splitArea: {show: true },splitLine: { show: false } },
+			{ scale: true, splitArea: {show: false },splitLine: { show: false } }
+		],
+		dataZoom: [
+			{ show: true, realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] },
+			{ type: 'inside', realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] }
+		],
+		grid: { left: '4%', right: '4%', top : 50, bottom : 30},
+		visualMap : [
+			{
+				type : "piecewise",
+				precision : true,
+				show :false,seriesIndex : 0,dimention:2,maxOpen : true,
+				pieces : [
+					{ value : 1, color :"red"},
+					{ value : -1, color :"blue", opacity : 0.5 },
+					{ value : 0, color :"orange", opacity : 0.5 }
+				]
+			},
+		],
+		series: [
+			{ 
+				name : "Volume",
+				//width :"100%",height :"100%",
+				data: d01,type: 'bar', xAxisIndex: 0, yAxisIndex: 1, zlevel : 1,
+				//showBackground: true,backgroundStyle: { color: 'rgba(180, 180, 180, 0.2)'},
+				//markPoint: {
+				//	data: [
+				//		{ type: 'max', name: 'Max' },
+				//		{ type: 'min', name: 'Min' }
+				//	]
+				//},
+				//markLine: {
+				//	data: [{ type: 'average', name: 'Avg' }]
+				//},
+				itemStyle : { color : 'red' },
+				animation : true
+			},
+			{
+			name: 'Price', type: 'line', xAxisIndex: 0, yAxisIndex: 0, data: d00, zlevel : 0,
+			showSymbol : false, smooth :true, areaStyle : { opacity : 0.4, 
+			color:new echarts.graphic.LinearGradient(0,0,0,1,[
+			{
+			offset : 0,
+			color : lineColor
+			},
+			{
+				offset : 0.9,
+				color : "white"
+				}
+
+				]),
+				origin:"auto"
+				},
+				//markPoint: {
+				//	data: [
+				//		{ type: 'max', name: 'Max' },
+				//		{ type: 'min', name: 'Min' }
+				//	]
+				//},
+				//markLine : {
+				//	data : [ { name : 'Start Price',yAxis : d[0].price + _p, label : { formatter : `Start Price`, position : "start" } }]	
+				//},
+				lineStyle : { width : 1, color : lineColor, opacity : 0.2 },
+				animation : true,
+			}
+		]
+	};
+
+	if (option && typeof option === 'object'){
+		window.barchart.setOption(option);
+		window.barchart.resize();
+		window.barchart.hideLoading();
+	}
+}
+
+/*
+ *
+ */
+window.COMPONENT.stockSearch_tradeValueBarchart = function(){
+
+	var idNm = "search_tradeValueBarchart";
+	var _target_el = window.document.getElementById( idNm + "_wrap" );
+
+	var html = `
+		<div>
+			<div class="ui fluid icon input">
+				<input type="text" placeholder="Search a very wide input..." id="${idNm}">
+				<i class="search icon"></i>
+			</div>
+			<div class="ui list" id="${idNm}_result" style="position: absolute;z-index: 100;background-color: #fff;border:1px solid #ccc;width:491px;padding:10px;display:none;"></div>
+		</div>
+	`;
+
+	var new_el = window.UTIL.Html.htmlToElement( html );
+	
+	_target_el.appendChild( new_el );
+	
+	var eventUlr = './html/candle.html?cd=';
+
+	window.document.getElementById( idNm ).addEventListener('keyup', function(e){
+	
+		if( e.currentTarget.value == "" )
+		{
+			window.document.getElementById( idNm + "_result" ).style.display = "none"
+			window.document.getElementById( idNm + "_result" ).innerHTML = "";
+		}
+		else
+		{
+			if (window.event.keyCode == 13) {
+				window.COMPONENT.searchStock( e.currentTarget,function(d,tDom){
+					if(d.length == 1 )
+					{
+						window.document.getElementById( idNm + "_result" ).style.display = "none"
+						window.document.getElementById( idNm + "_result" ).innerHTML = "";
+						var cd = d[0].displayedCode;				
+						//candleChart 페이지로이동시킴;
+						window.barChart.curCd = cd;
+						window.COMPONENT.getTradeValueByCd();					
+					}
+					else if( d.length > 1 )
+					{
+						window.COMPONENT.makeSearchList(d,tDom,function(cd){
+							window.barChart.curCd = cd;
+							window.COMPONENT.getTradeValueByCd();					
+						})
+					}
+
+				});
+			}
+			else
+			{
+				window.COMPONENT.searchStock( e.currentTarget,function(d,tDom){
+					if( d.length == 0)
+					{
+						window.document.getElementById( idNm + "_result" ).style.display = "none"
+						window.document.getElementById( idNm + "_result" ).innerHTML = "";
+					}
+					else
+					{
+						window.COMPONENT.makeSearchList(d,tDom,function(cd){
+							window.barChart.curCd = cd;
+							window.COMPONENT.getTradeValueByCd();					
 						})	
 					}
 				});
