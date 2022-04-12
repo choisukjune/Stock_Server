@@ -360,7 +360,7 @@ window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 	//resultDom.innerHTML = html
 }
 
-window.COMPONENT.stockSearch = function(){
+window.COMPONENT.stockSearch_global = function(){
 
 	var idNm = "search";
 	var _target_el = window.document.getElementById( idNm + "_wrap" );
@@ -377,7 +377,7 @@ window.COMPONENT.stockSearch = function(){
 
 	var new_el = window.UTIL.Html.htmlToElement( html );
 	_target_el.appendChild( new_el );
-	var eventUlr = 'candle.html?cd=';
+	var eventUlr = './html/candle.html?cd=';
 	window.document.getElementById( idNm ).addEventListener('keyup', function(e){
 	
 		if( e.currentTarget.value == "" )
