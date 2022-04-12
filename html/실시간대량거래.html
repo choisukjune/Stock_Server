@@ -948,7 +948,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		if (event.wasClean) {
 			console.log(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
 		} else {
-			// 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
+			// 프로세스가 죽거나 네트워크에 장애가 있는 경우
 			// event.code가 1006이 됩니다.
 			console.log('[close] 커넥션이 죽었습니다.');
 			console.log('--커낵션을다시 연결합니다.');
