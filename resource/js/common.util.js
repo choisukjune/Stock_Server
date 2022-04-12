@@ -675,49 +675,52 @@ window.COMPONENT.stockSearch_tradeValueBarchart = function(){
 	})
 }
 
+window.Websocket = {}
+window.Websocket.init = function(){
 
-window.ws = new WebSocket("ws://112.144.208.118:8888/index.html");
+	window.ws = new WebSocket("ws://112.144.208.118:8888/index.html");
 
-window.ws.onopen = function(e) {
-	console.log("[open] 커넥션이 만들어졌습니다.");
-	console.log("데이터를 서버에 전송해봅시다.");
-};
+	window.ws.onopen = function(e) {
+		console.log("[open] 커넥션이 만들어졌습니다.");
+		console.log("데이터를 서버에 전송해봅시다.");
+	};
 
-window.ws.onmessage = function(e) {
-	
-	var reader = new FileReader();
-	reader.onload = function() {
-
-		try
-		{
-			var d = JSON.parse( reader.result ) 
-			//console.log( d.type + " - " + d.nm )
-			window.socketData[ d.nm ] = JSON.parse( d.d )
-			console.log( d.func );
-			var p = null;
-			if( d.p !== null || !d.p ) p = d.p = null
-			window.wsFns[ d.func ]( p )	
-		}
-		catch( er )
-		{
-			debugger;
-		}
+	window.ws.onmessage = function(e) {
 		
-	}
-	reader.readAsText(e.data);
+		var reader = new FileReader();
+		reader.onload = function() {
 
-};
+			try
+			{
+				var d = JSON.parse( reader.result ) 
+				//console.log( d.type + " - " + d.nm )
+				window.socketData[ d.nm ] = JSON.parse( d.d )
+				console.log( d.func );
+				var p = null;
+				if( d.p !== null || !d.p ) p = d.p = null
+				window.wsFns[ d.func ]( p )	
+			}
+			catch( er )
+			{
+				debugger;
+			}
+			
+		}
+		reader.readAsText(e.data);
 
-window.ws.onclose = function(event){
-	if (event.wasClean) {
-		console.log(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
-	} else {
-		// 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
-		// event.code가 1006이 됩니다.
-		console.log('[close] 커넥션이 죽었습니다.');
-		console.log('--커낵션을다시 연결합니다.');
-		setTimeout(function(){ window.ws = new WebSocket("ws://112.144.208.118:8888/index.html"); },5000)
-	}
-};
+	};
 
-window.ws.onerror = function(error) { console.log(`[error] ${error.message}`); };
+	window.ws.onclose = function(event){
+		if (event.wasClean) {
+			console.log(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
+		} else {
+			// 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
+			// event.code가 1006이 됩니다.
+			console.log('[close] 커넥션이 죽었습니다.');
+			console.log('--커낵션을다시 연결합니다.');
+			setTimeout(function(){ window.ws = new WebSocket("ws://112.144.208.118:8888/index.html"); },5000)
+		}
+	};
+
+	window.ws.onerror = function(error) { console.log(`[error] ${error.message}`); };
+}
