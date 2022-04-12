@@ -1005,6 +1005,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 
+	window.COMPONENT.gnb();
+
 	window.wsFns.getEnergyIndex();
 	window.wsFns.getExchangeIndex();
 	window.wsFns.getMetalIndex();
@@ -1019,22 +1021,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 	window.document.addEventListener('click',function(e){ window._el.id_search_result.style.display = "none"; });
-
-	var urls = {
-		menu_00 : `/html/실시간대량거래.html`,
-		menu_01 : `/html/기관거래원별.html?date=${window.date.curDate}`,
-		menu_02 : `/html/외국계거래원별.html?date=${window.date.curDate}`,
-		menu_03 : `/html/외국계증권사매매동향.html?date=${window.date.curDate}`,
-		menu_04 : `/html/실시간거래대금갭.html`,
-		candle : `/html/candle.html?cd=`
-	};
-
-	window._el.id_menu_00.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_00,"_blank"); });
-	window._el.id_menu_01.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_01,"_blank"); });
-	window._el.id_menu_02.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_02,"_blank"); });
-	window._el.id_menu_03.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_03,"_blank"); });
-	window._el.id_menu_04.addEventListener('click',function(e){ window.UTIL.Link.a(urls.menu_04,"_blank"); });
-
 
 	window.addEventListener('resize', function(e){ window.treemapChart.resize(); }, true);
 
@@ -1214,13 +1200,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <body style="padding:50px;">
 	<div class="ui grid">
-		<div class="eight wide column" style="padding: 20px;">
-			<span id="menu_04" style="cursor:pointer;">실시간거래대금갭</span> | 
-			<span id="menu_00" style="cursor:pointer;">실시간대량거래</span> | 
-			<span id="menu_01" style="cursor:pointer;">기관거래원별</span> | 
-			<span id="menu_02" style="cursor:pointer;">외국계거래원별</span> | 
-			<span id="menu_03" style="cursor:pointer;">외국계증권사매매동향</span>
-		</div>
+		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
 		<div class="eight wide column" style="padding: 20px;">
 				<div class="ui fluid icon input">
 					<input type="text" placeholder="Search a very wide input..." id="search">
