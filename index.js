@@ -986,8 +986,8 @@ global.wsFuns.AgriculturalIndex =function(){
 				
 				var r = {
 					type : "data",
-					nm : "Agricultural",
-					func : "renderAgricultural",
+					nm : "AgriculturalIndex",
+					func : "renderAgriculturalIndex",
 					d : d,
 					p : null
 					
