@@ -627,7 +627,7 @@ window.COMPONENT.stockSearch_tradeValueBarchart = function(){
 	
 	_target_el.appendChild( new_el );
 	
-	var eventUlr = './html/candle.html?cd=';
+	var eventUlr = '../html/candle.html?cd=';
 	
 	window.document.addEventListener('click',function(e){ window.document.getElementById( `${idNm}_result` ).style.display = "none"; });
 	window.document.getElementById( idNm ).addEventListener('keyup', function(e){
