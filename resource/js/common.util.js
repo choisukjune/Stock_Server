@@ -1247,6 +1247,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 		dom.remove();
 		var _a = document.getElementById( "tradeValueTree" );
 		_a.className = _a.className.replace( "eight","sixteen" );
+		window.charts.renderTradeValueInfo.resize();
 		return;
 		
 	}
