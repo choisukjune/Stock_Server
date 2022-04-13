@@ -1351,7 +1351,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 	{
 		window.charts.renderTradeValueInfo_gap.on('click',function(d){
 			window.Info.renderTradeValueByCd.curCd = d.data.cd
-			getTradeValueByCd()
+			window.COMPONENT.getTradeValueByCd()
 		})
 		window.charts.renderTradeValueInfo_gap.isEvent = 1;
 	}
