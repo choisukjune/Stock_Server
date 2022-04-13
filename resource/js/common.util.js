@@ -1389,7 +1389,7 @@ window.Websocket.init = function(){
 				window.socketData[ d.nm ] = JSON.parse( d.d )
 				console.log( d.func );
 				var p = null;
-				if( d.p !== null || !d.p ) p = d.p = null
+				if( d.p !== null || !d.p ) p = d.p
 				window.COMPONENT[ d.func ]( p )	
 			}
 			catch( er )
