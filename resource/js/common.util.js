@@ -783,7 +783,7 @@ window.COMPONENT.getMarketIndexGlobal = function(){
 	xhr.send();
 }
 
-window.COMPONENT.renderMarketIndexGlobal = function(){
+window.COMPONENT.renderMarketIndexGlobal = function( option ){
 	var status = {
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
 		"RISING" : {	color:"red", symbol : "▲",},
@@ -795,7 +795,7 @@ window.COMPONENT.renderMarketIndexGlobal = function(){
 	var s,so;
 	for( s in window.socketData.MarketIndexGlobal ){
 		so = window.socketData.MarketIndexGlobal[ s ];
-		//if( s != "USA") continue
+		if( option.indexOf( s ) == -1 ) continue
 		var i = 0,iLen = so.length,io;
 		for(;i<iLen;++i){
 			io = so[ i ];

@@ -62,7 +62,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.COMPONENT.getExchangeIndex();
 	window.COMPONENT.getMetalIndex();
 	window.COMPONENT.getAgriculturalIndex();
-	window.COMPONENT.getMarketIndex( function(){ window.COMPONENT.getMarketIndexGlobal(); } );
 
 	var wsReqData = function( d ){
 		if( !window.ws || window.ws.readyState != 1 )
@@ -78,6 +77,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
+	wsReqData( { type : "execFunc", funcNm : "MarketIndex" } )
+	wsReqData( { type : "execFunc", funcNm : "MarketIndex", param : [ "USA" ] } )
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			

@@ -520,7 +520,7 @@ global.wsFuns.MarketIndex =function( ws, p ){
 	});
 }
 
-global.wsFuns.MarketIndexGlobal =function( ws ){
+global.wsFuns.MarketIndexGlobal =function( ws, p ){
 	
 	console.log( "[ S ] - global.wsFuns.MarketIndexGlobal" )
 
@@ -538,7 +538,7 @@ global.wsFuns.MarketIndexGlobal =function( ws ){
 				nm : "MarketIndexGlobal",
 				func : "renderMarketIndexGlobal",
 				d : d,
-				p : null
+				p : p
 				
 			}
 			ws.send( JSON.stringify( r ) , { binary : true } )
