@@ -1,3 +1,7 @@
+window.Info = {};
+window.Info.renderTradeValueByCd = {}
+window.Info.renderTradeValueByCd.curCd = null;
+
 window.UTIL = {}
 
 window.UTIL.Link = {}
@@ -445,12 +449,6 @@ window.COMPONENT.stockSearch_global = function(){
 
 window.COMPONENT.getTradeValueByCd = function(){
 	if( !window.charts.renderTradeValueByCd ) window.charts.renderTradeValueByCd = {};
-	if( !window.Info )
-	{
-		window.Info = {};
-		window.Info.renderTradeValueByCd = {};
-		window.Info.renderTradeValueByCd.curCd = null
-	}
 	if( window.Info.renderTradeValueByCd.curCd == null ) return;
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${window.Info.renderTradeValueByCd.curCd}&date=${window.date.curDate}`, true);
