@@ -207,16 +207,15 @@ var _ROOT_PATH = process.cwd();
 var excuteFile = function(){
 
 	console.log( "[ S ] - " + dateFormat_YYMMDD_HHMMSS() );
-
-	var command = `10.bat`
+	++excuteFile.cnt;
+	var command = `10.bat ${excuteFile.cnt}`
 	var r = execSync( command ).toString();
 	
 	setTimeout(function(){ excuteFile(); },15000)
 
 	console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
 }
-
-
+excuteFile.cnt = 0;
 //var logic = function(){
 //	global.target_file_list = fs.readdirSync( target_folder_json )
 //	
