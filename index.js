@@ -478,7 +478,7 @@ global.wss.on('connection', function connection( ws ) {
 		//console.log('disconnected SOCKET - PORT : 5000');
 	});
 	//var r = {	type : "connection", data : id };
-//global.ws.send( JSON.stringify( r ) );
+//global.ws.send( JSON.stringify( r ) , { binary : true } );
 });
 global.ws.boradCastMessage = function( o ){
 	var s,so;
@@ -510,7 +510,7 @@ global.wsFuns.MarketIndex =function( ws ){
 				d : d,
 				p : null
 			}
-			ws.send( JSON.stringify( r ) )
+			ws.send( JSON.stringify( r ) , { binary : true } )
 			console.log( "[ E ] - global.wsFuns.MarketIndex" )
 		});
 
@@ -541,8 +541,8 @@ global.wsFuns.MarketIndexGlobal =function( ws ){
 				p : null
 				
 			}
-			ws.send( JSON.stringify( r ) )
-
+			ws.send( JSON.stringify( r ) , { binary : true } )
+			
 			console.log( "[ E ] - global.wsFuns.MarketIndexGlobal" )
 		});
 
@@ -573,7 +573,7 @@ global.wsFuns.updateRank_buy =function( ws ){
 		d : JSON.stringify( d ),
 		p : null
 	}
-	ws.send( JSON.stringify( r ) )
+	ws.send( JSON.stringify( r ) , { binary : true } )
 }
 
 global.wsFuns.updateRank_sell =function( ws ){
@@ -598,7 +598,7 @@ global.wsFuns.updateRank_sell =function( ws ){
 		d : JSON.stringify( d ),
 		p : null
 	}
-	ws.send( JSON.stringify( r ) )
+	ws.send( JSON.stringify( r ) , { binary : true } )
 }
 
 //--------------------------------------------------;
@@ -813,7 +813,7 @@ global.wsFuns.renderTradeValueInfo_gap = function( ws ){
 		d : JSON.stringify( data ),
 		p : null
 	}
-	ws.send( JSON.stringify( r ) )
+	ws.send( JSON.stringify( r ) , { binary : true } )
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
 }
 
@@ -846,7 +846,7 @@ global.wsFuns.renderTradeValueInfo = function( ws ){
 		d : JSON.stringify( data ),
 		p : null
 	}
-	ws.send( JSON.stringify( r ) )
+	ws.send( JSON.stringify( r ) , { binary : true } )
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
 }
 
@@ -872,7 +872,7 @@ global.wsFuns.ExchangeIndex =function( ws ){
 					p : null
 					
 				}
-				ws.send( JSON.stringify( r ) )
+				ws.send( JSON.stringify( r ) , { binary : true } )
 
 				console.log( "[ E ] - global.wsFuns.ExchangeIndex" )
 			});
@@ -912,7 +912,7 @@ global.wsFuns.EnergyIndex =function( ws ){
 					p : null
 					
 				}
-				ws.send( JSON.stringify( r ) )
+				ws.send( JSON.stringify( r ) , { binary : true } )
 
 				console.log( "[ E ] - global.wsFuns.EnergyIndex" )
 			});
@@ -952,7 +952,7 @@ global.wsFuns.MetalIndex =function( ws ){
 					p : null
 					
 				}
-				ws.send( JSON.stringify( r ) )
+				ws.send( JSON.stringify( r ) , { binary : true } )
 
 				console.log( "[ E ] - global.wsFuns.MetalIndex" )
 			});
@@ -992,7 +992,7 @@ global.wsFuns.AgriculturalIndex =function( ws ){
 					p : null
 					
 				}
-				ws.send( JSON.stringify( r ) )
+				ws.send( JSON.stringify( r ) , { binary : true } )
 
 				console.log( "[ E ] - global.wsFuns.AgriculturalIndex" )
 			});
