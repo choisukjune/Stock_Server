@@ -448,8 +448,10 @@ window.COMPONENT.stockSearch_global = function(){
 
 
 window.COMPONENT.getTradeValueByCd = function(){
-	if( !window.charts.renderTradeValueByCd ) window.charts.renderTradeValueByCd = {};
+	
 	if( window.Info.renderTradeValueByCd.curCd == null ) return;
+	if( !window.charts.renderTradeValueByCd ) window.charts.renderTradeValueByCd = {};
+
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${window.Info.renderTradeValueByCd.curCd}&date=${window.date.curDate}`, true);
 	xhr.onreadystatechange = function(){
