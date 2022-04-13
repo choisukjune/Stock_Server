@@ -471,7 +471,7 @@ global.wss.on('connection', function connection( ws ) {
 			console.log( _m.funcNm )
 			var p = null;
 			if( _m.param ) p = _m.param
-			global.wsFuns[ _m.funcNm ]( ws );
+			global.wsFuns[ _m.funcNm ]( ws, p );
 		}
 	});
 	ws.on('close', function close() {
@@ -492,7 +492,7 @@ global.ws.boradCastMessage = function( o ){
 
 
 global.wsFuns = {}
-global.wsFuns.MarketIndex =function( ws ){
+global.wsFuns.MarketIndex =function( ws, p ){
 	
 	console.log( "[ S ] - global.wsFuns.MarketIndex" )
 
@@ -508,7 +508,7 @@ global.wsFuns.MarketIndex =function( ws ){
 				nm : "MarketIndex",
 				func : "renderMarketIndex",
 				d : d,
-				p : null
+				p : p
 			}
 			ws.send( JSON.stringify( r ) , { binary : true } )
 			console.log( "[ E ] - global.wsFuns.MarketIndex" )
