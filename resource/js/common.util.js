@@ -795,7 +795,7 @@ window.COMPONENT.renderMarketIndexGlobal = function( option ){
 	var s,so;
 	for( s in window.socketData.MarketIndexGlobal ){
 		so = window.socketData.MarketIndexGlobal[ s ];
-		if( option || option.length != 0 ) if( option.indexOf( s ) == -1 ) continue
+		if( typeof option != "undefined" && option.length != 0 ) if( option.indexOf( s ) == -1 ) continue
 		var i = 0,iLen = so.length,io;
 		for(;i<iLen;++i){
 			io = so[ i ];
