@@ -444,9 +444,16 @@ window.COMPONENT.stockSearch_global = function(){
 
 
 window.COMPONENT.getTradeValueByCd = function(){
-	if( window.barChart.curCd == null ) return;
+	if( !window.charts.renderTradeValueByCd ) window.charts.renderTradeValueByCd = {};
+	if( !window.Info )
+	{
+		window.Info = {};
+		window.Info.renderTradeValueByCd = {};
+		window.Info.renderTradeValueByCd.curCd = null
+	}
+	if( window.Info.renderTradeValueByCd.curCd == null ) return;
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${window.barChart.curCd}&date=${window.date.curDate}`, true);
+	xhr.open("GET" , `http://112.144.208.118:8888/getTradeValueByCd?cd=${window.Info.renderTradeValueByCd.curCd}&date=${window.date.curDate}`, true);
 	xhr.onreadystatechange = function(){
 		
 		if( xhr.readyState == 4 && xhr.status == 200)
@@ -460,13 +467,13 @@ window.COMPONENT.getTradeValueByCd = function(){
 }
 
 window.COMPONENT.renderTradeValueByCd = function( d ){
-		
+	if( !window.charts ) window.charts = {};
 	var dom = document.getElementById("tradeValueByCd");
-	window.barchart = echarts.init(dom);
+	window.charts.renderTradeValueByCd = echarts.init(dom);
 	
 	var app = {};
 	
-	window.barchart.showLoading()
+	window.charts.renderTradeValueByCd.showLoading()
 	
 	var d00 = []
 	var d01 = []
@@ -592,9 +599,9 @@ window.COMPONENT.renderTradeValueByCd = function( d ){
 	};
 
 	if (option && typeof option === 'object'){
-		window.barchart.setOption(option);
-		window.barchart.resize();
-		window.barchart.hideLoading();
+		window.charts.renderTradeValueByCd.setOption(option);
+		window.charts.renderTradeValueByCd.resize();
+		window.charts.renderTradeValueByCd.hideLoading();
 	}
 }
 
@@ -640,13 +647,13 @@ window.COMPONENT.stockSearch_tradeValueBarchart = function(){
 						window.document.getElementById( idNm + "_result" ).innerHTML = "";
 						var cd = d[0].displayedCode;				
 						//candleChart 페이지로이동시킴;
-						window.barChart.curCd = cd;
+						window.Info.renderTradeValueByCd.curCd = cd;
 						window.COMPONENT.getTradeValueByCd();					
 					}
 					else if( d.length > 1 )
 					{
 						window.COMPONENT.makeSearchList(d,tDom,function(cd){
-							window.barChart.curCd = cd;
+							window.Info.renderTradeValueByCd.curCd = cd;
 							window.COMPONENT.getTradeValueByCd();					
 						})
 					}
@@ -664,7 +671,7 @@ window.COMPONENT.stockSearch_tradeValueBarchart = function(){
 					else
 					{
 						window.COMPONENT.makeSearchList(d,tDom,function(cd){
-							window.barChart.curCd = cd;
+							window.Info.renderTradeValueByCd.curCd = cd;
 							window.COMPONENT.getTradeValueByCd();					
 						})	
 					}
@@ -674,6 +681,691 @@ window.COMPONENT.stockSearch_tradeValueBarchart = function(){
 		}
 	})
 }
+
+
+window.COMPONENT.getMarketIndex = function( cbFunction ){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getMarketIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.MarketIndex = d;
+			window.COMPONENT.renderMarketIndex()
+			cbFunction();
+			
+		}
+	}
+	
+	xhr.send();
+
+}
+
+window.COMPONENT.renderMarketIndex = function(){
+	//window._el.id_market_index.innerHTML = "";
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var display;
+	var i = 0,iLen = window.socketData.MarketIndex.datas.length,io;
+	for(;i<iLen;++i){
+		io = window.socketData.MarketIndex.datas[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)
+
+		if( io.marketStatus == "CLOSE") display = "block"
+		else display = "none"
+
+//https://ssl.pstatic.net/imgfinance/chart/mobile/world/mini/.DJI_home_open.png?1649664420000
+//https://ssl.pstatic.net/imgfinance/chart/mobile/mini/KOSDAQ_home_open.png?1649754060000
+	
+		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.stockName}">`
+		var _html01 = `
+				<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
+				<div class="">
+					<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
+						<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.symbolCode}_home_open.png?${Date.now()}" load="lazy" style="height:35px">
+
+					</span>
+					<span style="font-size:15px;"> ${io.symbolCode}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span><br>
+					<span style="font-size:16px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)} 
+						<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
+					</span>
+
+				</div>
+
+				<!--div class="description"></div-->
+			`
+			var _html02 =`</div>`
+
+			//window._el.id_market_index.appendChild( new_el )
+
+
+			var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+			var target_el = window.document.getElementById( "market_index_" + io.symbolCode )
+			if( target_el )
+			{
+				//window._el.id_market_index.lastElementChild.parentNode.removeChild( target_el )
+				//window._el.id_market_index.insertBefore( new_el,window._el.id_market_index.firstChild )
+				target_el.innerHTML = _html01
+				
+			}
+			else
+			{
+				window.document.getElementById( "market_index" ).appendChild( new_el )	
+			}
+	}
+
+}
+
+
+window.COMPONENT.getMarketIndexGlobal = function(){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getMarketIndexGlobal`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.MarketIndexGlobal = d;
+			window.COMPONENT.renderMarketIndexGlobal();		
+		}
+	}
+	xhr.send();
+}
+
+window.COMPONENT.renderMarketIndexGlobal = function(){
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var display;
+	var s,so;
+	for( s in window.socketData.MarketIndexGlobal ){
+		so = window.socketData.MarketIndexGlobal[ s ];
+		//if( s != "USA") continue
+		var i = 0,iLen = so.length,io;
+		for(;i<iLen;++i){
+			io = so[ i ];
+			//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
+			var name = ""
+			//if( io.stockEndType != "futures") continue;
+
+			if( io.marketStatus == "CLOSE") display = "block"
+			else display = "none"
+
+			if( io.stockEndType == "futures") name = io.futuresName;
+			else name = io.indexName;
+			var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="market_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
+			var _html01 =`
+				<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
+				<div class="">
+					<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
+						<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/mini/${io.reutersCode}_home_open.png?${Date.now()}" load="lazy" style="height:35px">
+					</span>
+					<span style="font-size:13px;"> ${name}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span><br>
+					<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
+						<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
+					</span>
+
+				</div>
+				
+
+
+				<!--div class="description"></div-->
+			`
+			var _html02 =`</div>`
+	
+			var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+			var target_el = window.document.getElementById( "market_index_" + io.reutersCode )
+			if( target_el )
+			{
+				//window._el.id_market_index.lastElementChild.parentNode.removeChild( target_el )
+				//window._el.id_market_index.insertBefore( new_el,window._el.id_market_index.firstChild )
+				target_el.innerHTML = _html01
+				
+			}
+			else
+			{
+				window.document.getElementById( "market_index" ).appendChild( new_el )	
+			}
+		}
+	}
+}
+
+window.COMPONENT.getExchangeIndex = function(){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getExchangeIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.getExchangeIndex = d;
+			window.COMPONENT.renderExchangeIndex();
+		}
+	}
+	
+	xhr.send();
+
+}
+window.COMPONENT.renderExchangeIndex = function(){
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var display;
+
+	var i = 0,iLen = window.socketData.getExchangeIndex.length,io;
+	for(;i<iLen;++i){
+		io = window.socketData.getExchangeIndex[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
+		var name = io.name;
+		if( io.categoryType == "exchangeWorld") continue;
+
+		if( io.marketStatus == "CLOSE") display = "block"
+		else display = "none"
+		
+		var marketStatus = "";
+		if( io.marketStatus != null ) marketStatus = ` - <span style="font-size:11px;">${io.marketStatus}</span>`;
+		
+		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="exchange_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
+		var _html01 =`
+			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
+			<div class="">
+				<span style="font-size:13px;"> ${name}</span>${marketStatus}
+				<span class="right floated" style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}   ${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
+			</div>
+			<!--div class="description"></div-->
+		`
+		var _html02 =`</div>`
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "exchange_index_" + io.reutersCode )
+		if( target_el )
+		{
+			//window._el.id_exchange_index.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_exchange_index.insertBefore( new_el,window._el.id_exchange_index.firstChild )
+			target_el.innerHTML = _html01
+			
+		}
+		else
+		{
+			window.document.getElementById( "exchange_index" ).appendChild( new_el )	
+		}
+	}
+
+}
+window.COMPONENT.getEnergyIndex = function(){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getEnergyIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.getEnergyIndex = d;
+			window.COMPONENT.renderEnergyIndex();
+		}
+	}
+	
+	xhr.send();
+
+}
+window.COMPONENT.renderEnergyIndex = function(){
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var display;
+
+	var i = 0,iLen = window.socketData.getEnergyIndex.length,io;
+	for(;i<iLen;++i){
+		io = window.socketData.getEnergyIndex[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
+		var name = io.name;
+		//if( io.categoryType == "exchangeWorld") continue;
+		
+		
+		if( io.marketStatus == "CLOSE") display = "block"
+		else display = "none"
+
+		var marketStatus = "";
+		if( io.marketStatus != null ) marketStatus = ` - <span style="font-size:11px;">${io.marketStatus}</span>`;
+		
+		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="energy_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
+		var _html01 =`
+			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
+			<div class="">
+				<span style="font-size:13px;"> ${name}</span>${marketStatus}
+				<span class="right floated" style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}   ${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
+			</div>
+			<!--div class="description"></div-->
+		`
+		var _html02 =`</div>`
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "energy_index_" + io.reutersCode )
+		if( target_el )
+		{
+			//window._el.id_energy_index.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_energy_index.insertBefore( new_el,window._el.id_energy_index.firstChild )
+			target_el.innerHTML = _html01
+			
+		}
+		else
+		{
+			window.document.getElementById( "energy_index" ).appendChild( new_el )	
+		}
+	}
+
+}
+
+window.COMPONENT.getMetalIndex = function(){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getMetalIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.getMetalIndex = d;
+			window.COMPONENT.renderMetalIndex();	
+		}
+	}
+	
+	xhr.send();
+
+}
+window.COMPONENT.renderMetalIndex = function(){
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var display;
+
+	var i = 0,iLen = window.socketData.getMetalIndex.length,io;
+	for(;i<iLen;++i){
+		io = window.socketData.getMetalIndex[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
+		var name = io.name;
+		//if( io.categoryType == "exchangeWorld") continue;
+		
+		
+		if( io.marketStatus == "CLOSE") display = "block"
+		else display = "none"
+
+		var marketStatus = "";
+		if( io.marketStatus != null ) marketStatus = ` - <span style="font-size:11px;">${io.marketStatus}</span>`;
+		
+		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="metal_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
+		var _html01 =`
+			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
+			<div class="">
+				<span style="font-size:13px;"> ${name}</span>${marketStatus}
+				<span class="right floated" style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}   ${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
+			</div>
+			<!--div class="description"></div-->
+		`
+		var _html02 =`</div>`
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "metal_index_" + io.reutersCode )
+		if( target_el )
+		{
+			//window._el.id_energy_index.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_energy_index.insertBefore( new_el,window._el.id_energy_index.firstChild )
+			target_el.innerHTML = _html01
+			
+		}
+		else
+		{
+			window.document.getElementById( "metal_index" ).appendChild( new_el )	
+		}
+	}
+
+}
+
+window.COMPONENT.getAgriculturalIndex = function(){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getAgriculturalIndex`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText )
+			window.socketData.getAgriculturalIndex = d;
+			window.COMPONENT.renderAgriculturalIndex();		
+		}
+	}
+	
+	xhr.send();
+
+}
+window.COMPONENT.renderAgriculturalIndex = function(){
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var display;
+
+	var i = 0,iLen = window.socketData.getAgriculturalIndex.length,io;
+	for(;i<iLen;++i){
+		io = window.socketData.getAgriculturalIndex[ i ];
+		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
+		var name = io.name;
+		//if( io.categoryType == "exchangeWorld") continue;
+		
+		
+		if( io.marketStatus == "CLOSE") display = "block"
+		else display = "none"
+
+		var marketStatus = "";
+		if( io.marketStatus != null ) marketStatus = ` - <span style="font-size:11px;">${io.marketStatus}</span>`;
+
+		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="agricultural_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
+		var _html01 =`
+			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
+			<div class="">
+				<span style="font-size:13px;"> ${name}</span>${marketStatus}
+				<span class="right floated" style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}   ${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
+			</div>
+			<!--div class="description"></div-->
+		`
+		var _html02 =`</div>`
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "agricultural_index_" + io.reutersCode )
+		if( target_el )
+		{
+			//window._el.id_Agricultural_index.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_Agricultural_index.insertBefore( new_el,window._el.id_Agricultural_index.firstChild )
+			target_el.innerHTML = _html01
+			
+		}
+		else
+		{
+			window.document.getElementById( "agricultural_index" ).appendChild( new_el )	
+		}
+	}
+
+}
+
+window.COMPONENT.renderTradeValueInfo = function(){
+	
+	if( window.socketData.renderTradeValueInfo.length == 0 ) return;
+	
+	var domId = "tradeValueTree";
+	
+	var dom = document.getElementById( domId );
+	if( !window.charts ) window.charts = {}
+	if( !window.charts.renderTradeValueInfo )
+	{
+		window.charts.renderTradeValueInfo = echarts.init(dom);
+		window.charts.renderTradeValueInfo.isEvent = 0;
+	}
+	
+	//window.treemapChart_03.showLoading()
+
+	var _chartData = [];
+	
+	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
+	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	var i = 0,iLen = window.socketData.renderTradeValueInfo.length,so;
+	for(;i<iLen;++i){
+		so = window.socketData.renderTradeValueInfo[i]
+		
+		var symbol = "▲";
+		if( so.rt == 0 ) symbol = "-";
+		if( so.rt < 0 ) symbol = "▼";
+		
+		var _o = {
+			name : so.nm
+			,cd : so.cd
+			,value : [ so.tradeValue, so.rt ]
+			,price : so.price
+			,rt : so.rt
+			,r_mark : symbol
+			,tradeValue : so.tradeValue
+			,amt : so.amt
+			,children : []
+		}
+		_chartData.push( _o )
+	}
+	var h = dom.style.height.replace("px") * 1 - 0
+	var chartData = _chartData.sort(function(a,b){ return a.rt - b.rt }).reverse();
+	var app = {};
+
+	var option;
+	var nowDate = window.UTIL.Date.getTimeTo__YYYYMMDD_HHMMSS()
+	var title = "실시간 거래대금순위 - " + nowDate;
+	var subTitle = nowDate
+	option = {
+
+		title : { show :true, text : title,textStyle : { fontSize:12 } },
+		grid : { top:10,bottom:0 },
+		height : h,
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			//height :h,
+			//top:0,
+			data : chartData.slice(0,100),
+//			data : chartData,
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
+				"{hr|}",
+				"{b|" + window.UTIL.Number.longNumberAddString( params.data.tradeValue) + "}",
+				//"{a|" + echarts.format.addCommas(params.data.amt) + "}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			visualMin : -30,
+			visualMax : 30,
+			visualDimension : 1,
+			levels: [{ color: ['blue','#ccc','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+		window.charts.renderTradeValueInfo.setOption(option);
+		window.charts.renderTradeValueInfo.resize();
+
+		//setTimeout(function(){ window.charts.renderTradeValueInfo.hideLoading(); },1000)
+	}
+
+	if( !window.charts.renderTradeValueInfo.isEvent )
+	{
+		window.charts.renderTradeValueInfo.on('click',function(d){
+			window.Info.renderTradeValueByCd.curCd = d.data.cd;
+			window.COMPONENT.getTradeValueByCd()
+		})
+		window.charts.renderTradeValueInfo.isEvent = 1;
+	}
+}
+
+window.COMPONENT.renderTradeValueInfo_gap = function(){
+	console.log( "[ S ] - window.wsFns.renderTradeValueInfo_gap" )
+	
+	if( window.socketData.renderTradeValueInfo_gap.length == 0 ) return;
+	
+	var domId = "tradeValueTreeGap";
+	
+	var dom = document.getElementById( domId );
+	if( !window.charts ) window.charts = {}
+	if( !window.charts.renderTradeValueInfo_gap )
+	{
+		window.charts.renderTradeValueInfo_gap = echarts.init(dom);
+		window.charts.renderTradeValueInfo_gap.isEvent = 0;
+	}
+	
+	//window.treemapChart_04.showLoading()
+
+	var _chartData = [];
+	var colors = [];
+	//d.sort(function(a,b){ return a.rt - b.rt }).reverse()
+	//var i =0,iLen = window.socketData.updateRank.length,io;
+	
+	//var i = 0,iLen = window.socketData.renderTradeValueInfo_gap.length,so;
+	var i = 0,iLen = 50,so;
+	for(;i<iLen;++i){
+		so = window.socketData.renderTradeValueInfo_gap[i]
+		
+		var symbol = "▲"
+		if( so.rt == 0 ) 
+		{
+			var symbol = "-"
+		}
+		if( so.rt < 0 ) 
+		{
+			var symbol = "▼"	
+		}
+
+		var _o = {
+			name : so.nm
+			,cd : so.cd
+			,value : [ so.tradeValueGap, so.rtChange ]
+			,price : so.price
+			,rt : so.rt
+			,rtChange : so.rtChange
+			,curRt : so.curRt
+			,prevRt : so.prevRt
+			,r_mark : symbol
+			,tradeValue : so.tradeValue
+			,tradeValueGap : so.tradeValueGap
+			,amt : so.amt
+			,children : []
+		}
+		_chartData.push( _o )
+	}
+	var h = dom.style.height.replace("px") * 1
+	var chartData = _chartData.sort(function(a,b){ return b.tradeValueGap - a.tradeValueGap });
+	var app = {};
+
+	var option;
+	var nowDate = window.UTIL.Date.getTimeTo__YYYYMMDD_HHMMSS()
+	var title = "실시간 거래대금갭 - " + nowDate;
+	var subTitle = nowDate;
+	option = {
+		title : { show :true, text : title,textStyle : { fontSize:12 } },
+		grid : { top:10,bottom : 0 },
+		height : h,
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
+			breadcrumb : { show : false, },
+			width :"100%",
+			//height :h,
+			//top:0,
+			data : chartData,
+			label : { formatter: function (params) { 
+			let arr = [ "{title|" + params.name + "}",
+				//"{hr|}",
+				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
+				"{hr|}",
+				"{a|volume:" + echarts.format.addCommas(params.data.amt) + " / value:" + window.UTIL.Number.longNumberAddString(params.data.tradeValue) + "}",
+				"{a|curRt:" + echarts.format.addCommas(params.data.curRt) + " / prevRt:" + echarts.format.addCommas(params.data.prevRt) + "}",
+				"{hr|}",
+				"{b|" + window.UTIL.Number.longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
+
+			];
+			return arr.join('\n');
+			}
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
+			},
+			visualMin : -1,
+			visualMax : 1,
+			visualDimension : 1,
+			levels: [{ color: ['blue','#999','red'],colorMappingBy: 'value',itemStyle: {gapWidth: 1}}]
+		}
+		]
+	};
+
+	if( option && typeof option === 'object' ){
+		window.charts.renderTradeValueInfo_gap.setOption(option);
+		window.charts.renderTradeValueInfo_gap.resize();
+
+		//setTimeout(function(){ window.charts.renderTradeValueInfo_gap.hideLoading(); },1000)	
+	}
+
+	if( !window.charts.renderTradeValueInfo_gap.isEvent )
+	{
+		window.charts.renderTradeValueInfo_gap.on('click',function(d){
+			window.Info.renderTradeValueByCd.curCd = d.data.cd
+			getTradeValueByCd()
+		})
+		window.charts.renderTradeValueInfo_gap.isEvent = 1;
+	}
+	console.log( "[ E ] - window.wsFns.renderTradeValueInfo_gap" )
+}
+
+//-------------------------------------------------------;
+//-------------------------------------------------------;
+//-------------------------------------------------------;
+//-------------------------------------------------------;
+//-------------------------------------------------------;
+//-------------------------------------------------------;
 
 window.Websocket = {}
 window.Websocket.init = function(){
@@ -698,7 +1390,7 @@ window.Websocket.init = function(){
 				console.log( d.func );
 				var p = null;
 				if( d.p !== null || !d.p ) p = d.p = null
-				window.wsFns[ d.func ]( p )	
+				window.COMPONENT[ d.func ]( p )	
 			}
 			catch( er )
 			{

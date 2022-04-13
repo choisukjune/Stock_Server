@@ -599,7 +599,7 @@
         "SECT_TP_NM": "관리종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "15,411,979"
+        "LIST_SHRS": "15,454,630"
     },
     "104700": {
         "ISU_CD": "KR7104700000",
@@ -2391,7 +2391,7 @@
         "SECT_TP_NM": "벤처기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "46,794,262"
+        "LIST_SHRS": "49,343,413"
     },
     "131760": {
         "ISU_CD": "KR7131760001",
@@ -6708,9 +6708,9 @@
     "234100": {
         "ISU_CD": "KR7234100006",
         "ISU_SRT_CD": "234100",
-        "ISU_NM": "세원",
-        "ISU_ABBRV": "세원",
-        "ISU_ENG_NM": "Sewon Co.,Ltd",
+        "ISU_NM": "폴라리스세원",
+        "ISU_ABBRV": "폴라리스세원",
+        "ISU_ENG_NM": "Sewon",
         "LIST_DD": "2017/10/20",
         "MKT_TP_NM": "KOSDAQ",
         "SECUGRP_NM": "주권",
@@ -7095,7 +7095,7 @@
         "SECT_TP_NM": "투자주의환기종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "10,398,161"
+        "LIST_SHRS": "10,428,530"
     },
     "241840": {
         "ISU_CD": "KR7241840008",
@@ -7529,7 +7529,7 @@
         "SECT_TP_NM": "중견기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "100",
-        "LIST_SHRS": "44,366,138"
+        "LIST_SHRS": "44,649,909"
     },
     "255440": {
         "ISU_CD": "KR7255440000",
@@ -7879,7 +7879,7 @@
         "SECT_TP_NM": "중견기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "17,737,535"
+        "LIST_SHRS": "17,862,911"
     },
     "263720": {
         "ISU_CD": "KR7263720005",
@@ -8005,7 +8005,7 @@
         "SECT_TP_NM": "우량기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "8,405,480"
+        "LIST_SHRS": "8,486,542"
     },
     "264850": {
         "ISU_CD": "KR7264850009",
@@ -9769,7 +9769,7 @@
         "SECT_TP_NM": "중견기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "100",
-        "LIST_SHRS": "21,014,406"
+        "LIST_SHRS": "21,218,422"
     },
     "310200": {
         "ISU_CD": "KR7310200001",
@@ -12288,8 +12288,8 @@
         "SECUGRP_NM": "주권",
         "SECT_TP_NM": "",
         "KIND_STKCERT_TP_NM": "보통주",
-        "PARVAL": "500",
-        "LIST_SHRS": "7,661,415"
+        "PARVAL": "100",
+        "LIST_SHRS": "38,307,075"
     },
     "383310": {
         "ISU_CD": "KR7383310000",
@@ -18208,7 +18208,7 @@
         "LIST_DD": "2005/10/27",
         "MKT_TP_NM": "KOSDAQ",
         "SECUGRP_NM": "주권",
-        "SECT_TP_NM": "중견기업부",
+        "SECT_TP_NM": "관리종목(소속부없음)",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "200",
         "LIST_SHRS": "83,006,958"
@@ -21739,7 +21739,7 @@
         "SECT_TP_NM": "중견기업부",
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
-        "LIST_SHRS": "9,586,649"
+        "LIST_SHRS": "9,771,293"
     },
     "015750": {
         "ISU_CD": "KR7015750003",
@@ -24904,20 +24904,6 @@
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
         "LIST_SHRS": "26,624,932"
-    },
-    "043220": {
-        "ISU_CD": "KR7043220003",
-        "ISU_SRT_CD": "043220",
-        "ISU_NM": "티에스넥스젠",
-        "ISU_ABBRV": "티에스넥스젠",
-        "ISU_ENG_NM": "TS Nexgen",
-        "LIST_DD": "2001/07/03",
-        "MKT_TP_NM": "KOSDAQ",
-        "SECUGRP_NM": "주권",
-        "SECT_TP_NM": "중견기업부",
-        "KIND_STKCERT_TP_NM": "보통주",
-        "PARVAL": "500",
-        "LIST_SHRS": "91,115,377"
     },
     "011200": {
         "ISU_CD": "KR7011200003",
@@ -31288,6 +31274,20 @@
         "KIND_STKCERT_TP_NM": "보통주",
         "PARVAL": "500",
         "LIST_SHRS": "11,675,000"
+    },
+    "043220": {
+        "ISU_CD": "KR7043220003",
+        "ISU_SRT_CD": "043220",
+        "ISU_NM": "티에스넥스젠",
+        "ISU_ABBRV": "티에스넥스젠",
+        "ISU_ENG_NM": "TS Nexgen",
+        "LIST_DD": "2001/07/03",
+        "MKT_TP_NM": "KOSDAQ",
+        "SECUGRP_NM": "주권",
+        "SECT_TP_NM": "중견기업부",
+        "KIND_STKCERT_TP_NM": "보통주",
+        "PARVAL": "500",
+        "LIST_SHRS": "91,115,377"
     },
     "019180": {
         "ISU_CD": "KR7019180009",
