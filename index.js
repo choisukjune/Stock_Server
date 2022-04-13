@@ -783,103 +783,72 @@ global.wsFuns.renderMassTransInfo_sell = function(){
 	global.ws.boradCastMessage( r )
 }
 
-//global.wsFuns.renderTradeValueInfo_gap = function(){
-//	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo_gap" )
-//	var curDate = getTimeTo__HHMMSS();
-//
-//	if( curDate > 153300 )
-//	{
-//		//global.ws.clearIntervals.renderTradeValueInfo_gap()
-//		//return;
-//	}
-//	var tForderPath = "./data/realTime/tradeValue/json/"
-//	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
-//	
-//	var d = JSON.parse( _d );
-//
-//	global.data.renderTradeValueInfo_gap.prev = global.data.renderTradeValueInfo_gap.cur
-//	global.data.renderTradeValueInfo_gap.cur = d
-//	
-//	var prev = global.data.renderTradeValueInfo_gap.prev
-//	var cur = global.data.renderTradeValueInfo_gap.cur
-//
-//	if( prev.length == 0 || cur.length == 0 )
-//	{
-//		console.log( "not yet prev Data" )
-//		return;
-//	}
-//
-//	var data = [];
-//	
-//	var s,so,so00;
-//	for( s in cur ){
-//		so = cur[ s ];
-//		so00 = prev[ s ];
-//		try
-//		{
-//			if( !so || !so00 ) continue;
-//			if( so.tradeValue - so00.tradeValue > 0 )
-//			{
-//				so.tradeValueGap = so.tradeValue - so00.tradeValue
-//				so.curRt = so.rt
-//				so.prevRt = so00.rt
-//				so.rtChange = so.rt - so00.rt
-//
-//				data.push( so )
-//
-//			}
-//		}
-//		catch( er )
-//		{
-//			debugger;
-//		}
-//
-//	}
-//	
-//	var r = {
-//		type : "data",
-//		nm : "renderTradeValueInfo_gap",
-//		func : "renderTradeValueInfo_gap",
-//		d : JSON.stringify( data ),
-//		p : null
-//	}
-//	global.ws.boradCastMessage( r )
-//	global.wsFuns.insertTradeValueInfo_gap( r.d )
-//	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
-//}
-//
-//
-//global.wsFuns.renderTradeValueInfo = function(){
-//	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo" )
-//	var curDate = getTimeTo__HHMMSS();
-//
-//	if( curDate > 153300 )
-//	{
-//		//global.ws.clearIntervals.renderTradeValueInfo()
-//		//return;
-//	}
-//	var tForderPath = "./data/realTime/tradeValue/json/"
-//	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
-//	var d = JSON.parse( _d );
-//
-//	var data = [];
-//
-//	var s,so;
-//	for( s in d ){
-//		so = d[ s ];
-//		data.push( so )
-//	}
-//
-//	var r = {
-//		type : "data",
-//		nm : "renderTradeValueInfo",
-//		func : "renderTradeValueInfo",
-//		d : JSON.stringify( data ),
-//		p : null
-//	}
-//	global.ws.boradCastMessage( r )
-//	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
-//}
+global.wsFuns.renderTradeValueInfo_gap = function(){
+	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo_gap" )
+	var curDate = getTimeTo__HHMMSS();
+
+	if( curDate > 153300 )
+	{
+		//global.ws.clearIntervals.renderTradeValueInfo_gap()
+		//return;
+	}
+	var tForderPath = "./data/realTime/tradeValueGap/json/"
+	var _d = fs.readFileSync( tForderPath + "tradeValueGap.json" ).toString();
+	
+	var d = JSON.parse( _d );
+
+
+	var data = [];
+	
+	var s,so;
+	for( s in d ){
+		so = d[ s ];
+		data.push( so )
+	}
+	
+	var r = {
+		type : "data",
+		nm : "renderTradeValueInfo_gap",
+		func : "renderTradeValueInfo_gap",
+		d : JSON.stringify( data ),
+		p : null
+	}
+	global.ws.boradCastMessage( r )
+	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
+}
+
+
+global.wsFuns.renderTradeValueInfo = function(){
+	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo" )
+	var curDate = getTimeTo__HHMMSS();
+
+	if( curDate > 153300 )
+	{
+		//global.ws.clearIntervals.renderTradeValueInfo()
+		//return;
+	}
+	var tForderPath = "./data/realTime/tradeValue/json/"
+	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
+	var d = JSON.parse( _d );
+
+	var data = [];
+
+	var s,so;
+	for( s in d ){
+		so = d[ s ];
+		data.push( so )
+	}
+
+	var r = {
+		type : "data",
+		nm : "renderTradeValueInfo",
+		func : "renderTradeValueInfo",
+		d : JSON.stringify( data ),
+		p : null
+	}
+	global.ws.boradCastMessage( r )
+	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
+}
 
 global.wsFuns.ExchangeIndex =function(){
 	
