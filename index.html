@@ -67,11 +67,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	var wsReqData = function( d ){
 		if( !window.ws || window.ws.readyState != 1 )
 		{
+			console.log( "not yet window.ws" )
 			return setTimeout(function(){
 				wsReqData( d )
 			},2000)
 		}
 		var _d = JSON.stringify( d )
+		console.log( _d )
 		window.ws.send( _d );			
 	}
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
