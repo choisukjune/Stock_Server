@@ -73,7 +73,19 @@ var exec_query_DB = function( dbjsNm, bResult ){
 		r = deleteLines( r , 4 )
 	return r;
 };
-
+/*
+ * @function
+ * @param {String} str
+ * @param {Number} n
+ * @return {String} str
+ */
+var deleteLines = function( str, n ){
+	var i = 0,iLen = n,io;
+	for(;i<iLen;++i){ str = str.slice(str.indexOf("\n") + 1, str.length ); }
+	//str = str.replace( /\t/g, '' );
+	//str = str.replace( /\r\n/g, '' );
+	return str;
+};
 
 var curDateTime = function(){
 	var a = new Date()
@@ -286,10 +298,11 @@ var csvToJson = function(){
 			{
 				debugger;
 			}
-
-			fs.writeFileSync( target_folder_gap_json + fileNm + ".json", JSON.stringify( data ),{flag :'w'} )
-			JSONtoDb( fileNm );
 		}
+		console.log( data )
+		var fileNmGap = fileNm + "Gap"
+		fs.writeFileSync( target_folder_gap_json + fileNmGap + ".json", JSON.stringify( data ),{flag :'w'} )
+		JSONtoDb( fileNmGap );
 	}
 
 	
@@ -303,10 +316,10 @@ var JSONtoDb = function( filename ){
 
 	console.log( "[ S ] - " + Date.now() );
 	console.log( filename )
-
+	var target_folder_gap_json = _ROOT_PATH + "/data/realTime/" + filename + "/json/";
 	var filePath = target_folder_gap_json + filename + ".json";
 	
-	var _tdbjs_nm = "insertTradeValueInfo_gap.tdbjs";	
+	var _tdbjs_nm = "insertTradeValueInfo_gap";	
 
 	
 	var _tQuery = fs.readFileSync( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ).toString();

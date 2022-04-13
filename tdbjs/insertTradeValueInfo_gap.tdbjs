@@ -26,5 +26,5 @@ for(;i<iLen;++i){
 	
 }
 col_nm.insertMany( _ta );
-
+col_nm.createIndex({cd:1},{background:true})
 printjson( 1 )
