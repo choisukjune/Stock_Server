@@ -726,7 +726,7 @@ window.COMPONENT.renderMarketIndex = function(){
 //https://ssl.pstatic.net/imgfinance/chart/mobile/world/mini/.DJI_home_open.png?1649664420000
 //https://ssl.pstatic.net/imgfinance/chart/mobile/mini/KOSDAQ_home_open.png?1649754060000
 	
-		var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.stockName}">`
+		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="market_index_${io.symbolCode}" data-cd-value="${io.symbolCode}" data-nm-value="${io.stockName}">`
 		var _html01 = `
 				<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
 				<div class="">
@@ -808,7 +808,7 @@ window.COMPONENT.renderMarketIndexGlobal = function(){
 
 			if( io.stockEndType == "futures") name = io.futuresName;
 			else name = io.indexName;
-			var _html00 = `<div class="card" style="padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="market_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
+			var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="market_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
 			var _html01 =`
 				<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
 				<div class="">
