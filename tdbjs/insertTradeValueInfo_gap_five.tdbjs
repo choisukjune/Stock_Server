@@ -1,0 +1,37 @@
+var db_nm = "trade_value_gap";
+var db_nm00 = "trade_value_gap_five";
+var db0 = db.getSiblingDB( db_nm );
+var db1 = db.getSiblingDB( db_nm00 );
+var col = db1.getCollection( "data" )
+
+var cols = db0.getCollectionNames();
+
+var _o = {}
+var i =0,iLen = cols.length,io;
+for(;i<iLen;++i){
+	io = cols[ i ];
+	db0.getCollection( io ).find({}).forEach(function(d){
+		if( !_o[ d.cd ] ) _o[ d.cd ] = { data : [], nm : d.nm, cd : d.cd  };
+		_o[ d.cd ].data.push( [ d._t, d.price, d.tradeValueGap ] )
+	})
+}
+
+var _ta = [];
+var s,so;
+for( s in _o ){
+	so = _o[ s ];
+	so._id = so.cd;
+	
+	_ta.push( io );
+
+	if( _ta.length == 500 )
+	{
+		col.insertMany( _ta );
+		_ta = [];
+	}
+	
+	
+}
+col.insertMany( _ta );
+
+printjson( 1 )
