@@ -1237,12 +1237,23 @@ window.COMPONENT.renderTradeValueInfo = function(){
 
 window.COMPONENT.renderTradeValueInfo_gap = function(){
 	console.log( "[ S ] - window.wsFns.renderTradeValueInfo_gap" )
-	
+
+	var domId = "tradeValueTreeGap";	
+	var dom = document.getElementById( domId );
+
+	var now = window.UTIL.Date.getTimeTo__HHMMSS();
+	if( now > 153300 )
+	{
+		dom.innerHTML = `
+		<div>
+		장종료 - ${now}
+		</div>
+		`
+	}
+
 	if( window.socketData.renderTradeValueInfo_gap.length == 0 ) return;
 	
-	var domId = "tradeValueTreeGap";
-	
-	var dom = document.getElementById( domId );
+
 	if( !window.charts ) window.charts = {}
 	if( !window.charts.renderTradeValueInfo_gap )
 	{
