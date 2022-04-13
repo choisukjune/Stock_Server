@@ -64,8 +64,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.COMPONENT.getAgriculturalIndex();
 	window.COMPONENT.getMarketIndex( function(){ window.COMPONENT.getMarketIndexGlobal(); } );
 
-	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
-	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
+	var wsReqData = function( d ){
+		if( !window.ws || window.ws.readyState != 1 )
+		{
+			return setTimeout(function(){
+				wsReqData( d )
+			},2000)
+		}
+		var _d = JSON.stringify( d )
+		window.ws.send( _d );			
+	}
+	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
+	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeExchangeIndex" } ) );		//서버에 socket 요청;
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );				
