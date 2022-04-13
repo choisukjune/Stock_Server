@@ -64,12 +64,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.COMPONENT.getAgriculturalIndex();
 	window.COMPONENT.getMarketIndex( function(){ window.COMPONENT.getMarketIndexGlobal(); } );
 
-	//서버에 socket 요청;
+	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
+	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeExchangeIndex" } ) );		//서버에 socket 요청;
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );				
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderAgriculturalIndex" } ) );
 	
 	window.intervals = {}
-	
-	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) ); },15000 );
-	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );}, 15000 );
+	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		},15000 );
+	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	}, 15000 );
+	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			},15000 );
+	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeExchangeIndex" } ) );	}, 15000 );
+	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			},15000 );
+	window.intervals.AgriculturalIndex			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderAgriculturalIndex" } ) );	}, 15000 );
+
 
 	window.clearIntervals = {};
 	window.clearIntervals.renderTradeValueInfo		= function(){ clearInterval( window.intervals.renderTradeValueInfo ) };
