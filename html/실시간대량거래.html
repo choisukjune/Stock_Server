@@ -124,10 +124,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
 <body style="padding:50px;">
 	<div class="ui grid">
 		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
-		<div id="search_wrap" class="eight wide column" style="padding: 20px;">
-				
-		</div>
+		<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
 		<div class="four wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="market_index_title" style="">
+				국내외증시
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui one cards" id="market_index"></div>
+				</div>
+			</div>
+		</div>
+		<div class="three wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="exchange_index_title" style="">
 				환율지표
@@ -137,7 +145,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-		<div class="four wide column">
+		<div class="three wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="energy_index_title" style="">
 				에너지 시장지표
@@ -147,7 +155,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-		<div class="four wide column">
+		<div class="three wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="metal_index_title" style="">
 				금속 시장지표
@@ -157,7 +165,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-		<div class="four wide column">
+		<div class="three wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="agricultural_index_title" style="">
 				농축산물 시장지표
@@ -168,16 +176,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			</div>
 		</div>
 
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="sixteen wide column" id="market_index_title" style="">
-				국내외증시
-				</div>
-				<div class="sixteen wide column">
-					<div class="ui six cards" id="market_index"></div>
-				</div>
-			</div>
-		</div>
 
 		<div id="search_tradeValueBarchart_wrap" class="sixteen wide column" style="padding: 20px;"></div>
 
