@@ -64,6 +64,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.COMPONENT.getAgriculturalIndex();
 	window.COMPONENT.getMarketIndex( function(){ window.COMPONENT.getMarketIndexGlobal(); } );
 
+	//서버에 socket 요청;
+	
+	window.intervals = {}
+	
+	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) ); },15000 );
+	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );}, 15000 );
+
+	window.clearIntervals = {};
+	window.clearIntervals.renderTradeValueInfo		= function(){ clearInterval( window.intervals.renderTradeValueInfo ) };
+	window.clearIntervals.renderTradeValueInfo_gap 	= function(){ clearInterval( window.intervals.renderTradeValueInfo_gap ) };
+
+
+
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;

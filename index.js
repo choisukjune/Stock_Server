@@ -471,7 +471,7 @@ global.wss.on('connection', function connection( ws ) {
 			console.log( _m.funcNm )
 			var p = null;
 			if( _m.param ) p = _m.param
-			global.wsFuns[ _m.funcNm ]( p );
+			global.wsFuns[ _m.funcNm ]( ws );
 		}
 	});
 	ws.on('close', function close() {
@@ -492,7 +492,7 @@ global.ws.boradCastMessage = function( o ){
 
 
 global.wsFuns = {}
-global.wsFuns.MarketIndex =function(){
+global.wsFuns.MarketIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.MarketIndex" )
 
@@ -510,7 +510,7 @@ global.wsFuns.MarketIndex =function(){
 				d : d,
 				p : null
 			}
-			global.ws.boradCastMessage( r )
+			ws.send( r )
 			console.log( "[ E ] - global.wsFuns.MarketIndex" )
 		});
 
@@ -520,7 +520,7 @@ global.wsFuns.MarketIndex =function(){
 	});
 }
 
-global.wsFuns.MarketIndexGlobal =function(){
+global.wsFuns.MarketIndexGlobal =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.MarketIndexGlobal" )
 
@@ -541,7 +541,7 @@ global.wsFuns.MarketIndexGlobal =function(){
 				p : null
 				
 			}
-			global.ws.boradCastMessage( r )
+			ws.send( r )
 
 			console.log( "[ E ] - global.wsFuns.MarketIndexGlobal" )
 		});
@@ -552,7 +552,7 @@ global.wsFuns.MarketIndexGlobal =function(){
 	});
 }
 
-global.wsFuns.updateRank_buy =function(){
+global.wsFuns.updateRank_buy =function( ws ){
 
 	var curDate = getTimeTo__HHMMSS();
 	if( curDate > 153300 )
@@ -573,10 +573,10 @@ global.wsFuns.updateRank_buy =function(){
 		d : JSON.stringify( d ),
 		p : null
 	}
-	global.ws.boradCastMessage( r )
+	ws.send( r )
 }
 
-global.wsFuns.updateRank_sell =function(){
+global.wsFuns.updateRank_sell =function( ws ){
 
 	var curDate = getTimeTo__HHMMSS();
 	if( curDate > 153300 )
@@ -598,7 +598,7 @@ global.wsFuns.updateRank_sell =function(){
 		d : JSON.stringify( d ),
 		p : null
 	}
-	global.ws.boradCastMessage( r )
+	ws.send( r )
 }
 
 //--------------------------------------------------;
@@ -783,7 +783,7 @@ global.wsFuns.renderMassTransInfo_sell = function(){
 	global.ws.boradCastMessage( r )
 }
 
-global.wsFuns.renderTradeValueInfo_gap = function(){
+global.wsFuns.renderTradeValueInfo_gap = function( ws ){
 	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo_gap" )
 	var curDate = getTimeTo__HHMMSS();
 
@@ -813,12 +813,12 @@ global.wsFuns.renderTradeValueInfo_gap = function(){
 		d : JSON.stringify( data ),
 		p : null
 	}
-	global.ws.boradCastMessage( r )
+	ws.send( r )
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_gap" )
 }
 
 
-global.wsFuns.renderTradeValueInfo = function(){
+global.wsFuns.renderTradeValueInfo = function( ws ){
 	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo" )
 	var curDate = getTimeTo__HHMMSS();
 
@@ -846,11 +846,11 @@ global.wsFuns.renderTradeValueInfo = function(){
 		d : JSON.stringify( data ),
 		p : null
 	}
-	global.ws.boradCastMessage( r )
+	ws.send( r )
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
 }
 
-global.wsFuns.ExchangeIndex =function(){
+global.wsFuns.ExchangeIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.ExchangeIndex" )
 	try
@@ -872,7 +872,7 @@ global.wsFuns.ExchangeIndex =function(){
 					p : null
 					
 				}
-				global.ws.boradCastMessage( r )
+				ws.send( r )
 
 				console.log( "[ E ] - global.wsFuns.ExchangeIndex" )
 			});
@@ -890,7 +890,7 @@ global.wsFuns.ExchangeIndex =function(){
 	
 }
 
-global.wsFuns.EnergyIndex =function(){
+global.wsFuns.EnergyIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.EnergyIndex" )
 	try
@@ -912,7 +912,7 @@ global.wsFuns.EnergyIndex =function(){
 					p : null
 					
 				}
-				global.ws.boradCastMessage( r )
+				ws.send( r )
 
 				console.log( "[ E ] - global.wsFuns.EnergyIndex" )
 			});
@@ -930,7 +930,7 @@ global.wsFuns.EnergyIndex =function(){
 	
 }
 
-global.wsFuns.MetalIndex =function(){
+global.wsFuns.MetalIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.MetalIndex" )
 	try
@@ -952,7 +952,7 @@ global.wsFuns.MetalIndex =function(){
 					p : null
 					
 				}
-				global.ws.boradCastMessage( r )
+				ws.send( r )
 
 				console.log( "[ E ] - global.wsFuns.MetalIndex" )
 			});
@@ -970,7 +970,7 @@ global.wsFuns.MetalIndex =function(){
 	
 }
 
-global.wsFuns.AgriculturalIndex =function(){
+global.wsFuns.AgriculturalIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.AgriculturalIndex" )
 	try
@@ -992,7 +992,7 @@ global.wsFuns.AgriculturalIndex =function(){
 					p : null
 					
 				}
-				global.ws.boradCastMessage( r )
+				ws.send( r )
 
 				console.log( "[ E ] - global.wsFuns.AgriculturalIndex" )
 			});
@@ -1014,37 +1014,37 @@ global.wsFuns.AgriculturalIndex =function(){
 //--------------------------------------------------;
 
 
-global.ws.intervals = {}
-global.ws.intervals.MarketIndex 				= setInterval(function(){ global.wsFuns.MarketIndex();					},30000);
-global.ws.intervals.MarketIndexGlobal			= setInterval(function(){ global.wsFuns.MarketIndexGlobal();			},30000);
-global.ws.intervals.ExchangeIndex				= setInterval(function(){ global.wsFuns.ExchangeIndex();				},30000);
-global.ws.intervals.EnergyIndex					= setInterval(function(){ global.wsFuns.EnergyIndex();					},30000);
-global.ws.intervals.MetalIndex					= setInterval(function(){ global.wsFuns.MetalIndex();					},30000);
-global.ws.intervals.AgriculturalIndex			= setInterval(function(){ global.wsFuns.AgriculturalIndex();			},30000);
-//global.ws.intervals.updateRank_buy			= setInterval(function(){ global.wsFuns.updateRank_buy();				},30000);
-//global.ws.intervals.updateRank_sell			= setInterval(function(){ global.wsFuns.updateRank_sell();				},30000);
-//global.ws.intervals.renderMassTransList_buy	= setInterval(function(){ global.wsFuns.renderMassTransList_buy();		},500);
-//global.ws.intervals.renderMassTransInfo_buy	= setInterval(function(){ global.wsFuns.renderMassTransInfo_buy();		},30000);
-//global.ws.intervals.renderMassTransInfo_sell	= setInterval(function(){ global.wsFuns.renderMassTransInfo_sell();		},30000);
-//global.ws.intervals.makeMassTransList_buy		= setInterval(function(){ global.wsFuns.makeMassTransList_buy();		},7000);
-global.ws.intervals.renderTradeValueInfo		= setInterval(function(){ global.wsFuns.renderTradeValueInfo();			},7000);
-global.ws.intervals.renderTradeValueInfo_gap	= setInterval(function(){ global.wsFuns.renderTradeValueInfo_gap();		},7000);
-
-global.ws.clearIntervals = {}
-global.ws.clearIntervals.MarketIndex 		= function(){ clearInterval( global.ws.intervals.MarketIndex ) };
-//global.ws.clearIntervals.MarketIndexGlobal 	= function(){ clearInterval( global.ws.intervals.MarketIndexGlobal ) };
-global.ws.clearIntervals.ExchangeIndex 	= function(){ clearInterval( global.ws.intervals.ExchangeIndex ) };
-global.ws.clearIntervals.EnergyIndex 	= function(){ clearInterval( global.ws.intervals.EnergyIndex ) };
-global.ws.clearIntervals.MetalIndex 	= function(){ clearInterval( global.ws.intervals.MetalIndex ) };
-global.ws.clearIntervals.AgriculturalIndex 	= function(){ clearInterval( global.ws.intervals.AgriculturalIndex ) };
-global.ws.clearIntervals.updateRank_buy 		= function(){ clearInterval( global.ws.intervals.updateRank_buy ) };
-global.ws.clearIntervals.updateRank_sell 		= function(){ clearInterval( global.ws.intervals.updateRank_sell ) };
-global.ws.clearIntervals.renderMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransList_buy ) };
-global.ws.clearIntervals.renderMassTransInfo_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransInfo_buy ) };
-global.ws.clearIntervals.renderMassTransInfo_sell 	= function(){ clearInterval( global.ws.intervals.renderMassTransInfo_sell ) };
-global.ws.clearIntervals.makeMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.makeMassTransList_buy ) };
-global.ws.clearIntervals.renderTradeValueInfo 	= function(){ clearInterval( global.ws.intervals.renderTradeValueInfo ) };
-global.ws.clearIntervals.renderTradeValueInfo_gap 	= function(){ clearInterval( global.ws.intervals.renderTradeValueInfo_gap ) };
+//global.ws.intervals = {}
+//global.ws.intervals.MarketIndex 				= setInterval(function(){ global.wsFuns.MarketIndex();					},30000);
+//global.ws.intervals.MarketIndexGlobal			= setInterval(function(){ global.wsFuns.MarketIndexGlobal();			},30000);
+//global.ws.intervals.ExchangeIndex				= setInterval(function(){ global.wsFuns.ExchangeIndex();				},30000);
+//global.ws.intervals.EnergyIndex					= setInterval(function(){ global.wsFuns.EnergyIndex();					},30000);
+//global.ws.intervals.MetalIndex					= setInterval(function(){ global.wsFuns.MetalIndex();					},30000);
+//global.ws.intervals.AgriculturalIndex			= setInterval(function(){ global.wsFuns.AgriculturalIndex();			},30000);
+////global.ws.intervals.updateRank_buy			= setInterval(function(){ global.wsFuns.updateRank_buy();				},30000);
+////global.ws.intervals.updateRank_sell			= setInterval(function(){ global.wsFuns.updateRank_sell();				},30000);
+////global.ws.intervals.renderMassTransList_buy	= setInterval(function(){ global.wsFuns.renderMassTransList_buy();		},500);
+////global.ws.intervals.renderMassTransInfo_buy	= setInterval(function(){ global.wsFuns.renderMassTransInfo_buy();		},30000);
+////global.ws.intervals.renderMassTransInfo_sell	= setInterval(function(){ global.wsFuns.renderMassTransInfo_sell();		},30000);
+////global.ws.intervals.makeMassTransList_buy		= setInterval(function(){ global.wsFuns.makeMassTransList_buy();		},7000);
+//global.ws.intervals.renderTradeValueInfo		= setInterval(function(){ global.wsFuns.renderTradeValueInfo();			},7000);
+//global.ws.intervals.renderTradeValueInfo_gap	= setInterval(function(){ global.wsFuns.renderTradeValueInfo_gap();		},7000);
+//
+//global.ws.clearIntervals = {}
+//global.ws.clearIntervals.MarketIndex 		= function(){ clearInterval( global.ws.intervals.MarketIndex ) };
+////global.ws.clearIntervals.MarketIndexGlobal 	= function(){ clearInterval( global.ws.intervals.MarketIndexGlobal ) };
+//global.ws.clearIntervals.ExchangeIndex 	= function(){ clearInterval( global.ws.intervals.ExchangeIndex ) };
+//global.ws.clearIntervals.EnergyIndex 	= function(){ clearInterval( global.ws.intervals.EnergyIndex ) };
+//global.ws.clearIntervals.MetalIndex 	= function(){ clearInterval( global.ws.intervals.MetalIndex ) };
+//global.ws.clearIntervals.AgriculturalIndex 	= function(){ clearInterval( global.ws.intervals.AgriculturalIndex ) };
+//global.ws.clearIntervals.updateRank_buy 		= function(){ clearInterval( global.ws.intervals.updateRank_buy ) };
+//global.ws.clearIntervals.updateRank_sell 		= function(){ clearInterval( global.ws.intervals.updateRank_sell ) };
+//global.ws.clearIntervals.renderMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransList_buy ) };
+//global.ws.clearIntervals.renderMassTransInfo_buy 	= function(){ clearInterval( global.ws.intervals.renderMassTransInfo_buy ) };
+//global.ws.clearIntervals.renderMassTransInfo_sell 	= function(){ clearInterval( global.ws.intervals.renderMassTransInfo_sell ) };
+//global.ws.clearIntervals.makeMassTransList_buy 	= function(){ clearInterval( global.ws.intervals.makeMassTransList_buy ) };
+//global.ws.clearIntervals.renderTradeValueInfo 	= function(){ clearInterval( global.ws.intervals.renderTradeValueInfo ) };
+//global.ws.clearIntervals.renderTradeValueInfo_gap 	= function(){ clearInterval( global.ws.intervals.renderTradeValueInfo_gap ) };
 
 //--------------------------------------------------;
 //--------------------------------------------------;
