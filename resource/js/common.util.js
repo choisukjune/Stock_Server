@@ -1244,11 +1244,11 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 	var now = window.UTIL.Date.getTimeTo__HHMMSS();
 	if( now > 153300 )
 	{
-		dom.innerHTML = `
-		<div>
-		장종료 - ${now}
-		</div>
-		`
+		dom.remove();
+		var _a = document.getElementById( "tradeValueTree" );
+		_a.className = a.className.repalec( "eight","sixteen" );
+		return;
+		
 	}
 
 	if( window.socketData.renderTradeValueInfo_gap.length == 0 ) return;
