@@ -1025,7 +1025,7 @@ window.COMPONENT.renderMetalIndex = function(){
 		var marketStatus = "";
 		if( io.marketStatus != null ) marketStatus = ` - <span style="font-size:11px;">${io.marketStatus}</span>`;
 		
-		var _html00 = `<div class="card" style=margin:0px 0px 10px 0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="metal_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
+		var _html00 = `<div class="card" style="margin:0px 0px 10px 0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="metal_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
 		var _html01 =`
 			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
 			<div class="">
