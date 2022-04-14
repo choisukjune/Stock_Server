@@ -1421,9 +1421,6 @@ window.COMPONENT.renderStockInfo = function( cd ){
 			<div class="ten wide column" style="">
 				<div class="ui grid">
 					<div class="sixteen wide column" style="">
-						<span style="font-size:11px;">${d.companySummary}</span>
-					</div>
-					<div class="sixteen wide column" style="">
 						<table class="ui celled table compact">
 							<thead>
 								<tr>
@@ -1458,6 +1455,9 @@ window.COMPONENT.renderStockInfo = function( cd ){
 								</tr>
 							<tbody>
 						</table>
+					</div>
+					<div class="sixteen wide column" style="">
+						<span style="font-size:11px;">${d.companySummary}</span>
 					</div>
 				</div>
 			</div>
