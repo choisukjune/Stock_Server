@@ -6,6 +6,21 @@ window.socketData = {};
 
 
 window.UTIL = {}
+window.UTIL.Agent = {}
+window.UTIL.Agent.isMobile(){
+
+	var UserAgent = navigator.userAgent;
+	if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null)
+	{
+		return true;
+
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 window.UTIL.Link = {}
 window.UTIL.Link.a = function( url, target ){
@@ -1602,7 +1617,7 @@ window.COMPONENT.getAcgDataByCd = function( cd, start, end ){
 			var d = _d.reverse()	
 			if( d == null ) return;
 			var _htmlTxt = ""
-			var agency_data = `
+			var _htmlTxt = `
 			<div style="color:#666;font-size:12px;">
 			일자별 투자자 누적순매수 ( 단위 : 백만 )
 			</div>
@@ -1649,31 +1664,31 @@ window.COMPONENT.getAcgDataByCd = function( cd, start, end ){
 				io00 = d[ i ];
 				io = d[ i ].pp;
 
-				agency_data += "<tr>"
-				agency_data += "<td>" + io00._t + "</td>"  
-				agency_data += "<td>" + io00.price + "</td>"  
-				agency_data += "<td>" + io00.amt  + "</td>"  
-				//agency_data += "<td>" + io.cd  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io00.rt )};'>`  + io00.rt  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr1 )};'>`	  + longNumberAddString( io.tr1  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr2 )};'>`	  + longNumberAddString( io.tr2  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr3 )};'>`	  + longNumberAddString( io.tr3  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr4 )};'>`	  + longNumberAddString( io.tr4  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr5 )};'>`	  + longNumberAddString( io.tr5  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr6 )};'>`	  + longNumberAddString( io.tr6  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr7 )};'>`	  + longNumberAddString( io.tr7  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr8 )};'>`	  + longNumberAddString( io.tr8  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr9 )};'>`	  + longNumberAddString( io.tr9  )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr10 )};'>`  + longNumberAddString( io.tr10 )  + "</td>"  
-//					agency_data += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr12 )};'>`  + longNumberAddString( io.tr12 )  + "</td>"  
-				agency_data += `<td style='color:${_html_updateStock( io.tr13 )};'>`  + longNumberAddString( io.tr13 )  + "</td>"  
+				_htmlTxt += "<tr>"
+				_htmlTxt += "<td>" + io00._t + "</td>"  
+				_htmlTxt += "<td>" + io00.price + "</td>"  
+				_htmlTxt += "<td>" + io00.amt  + "</td>"  
+				//_htmlTxt += "<td>" + io.cd  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io00.rt )};'>`  + io00.rt  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr1 )};'>`	  + longNumberAddString( io.tr1  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr2 )};'>`	  + longNumberAddString( io.tr2  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr3 )};'>`	  + longNumberAddString( io.tr3  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr4 )};'>`	  + longNumberAddString( io.tr4  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr5 )};'>`	  + longNumberAddString( io.tr5  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr6 )};'>`	  + longNumberAddString( io.tr6  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr7 )};'>`	  + longNumberAddString( io.tr7  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr8 )};'>`	  + longNumberAddString( io.tr8  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr9 )};'>`	  + longNumberAddString( io.tr9  )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr10 )};'>`  + longNumberAddString( io.tr10 )  + "</td>"  
+				//_htmlTxt += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr12 )};'>`  + longNumberAddString( io.tr12 )  + "</td>"  
+				_htmlTxt += `<td style='color:${_html_updateStock( io.tr13 )};'>`  + longNumberAddString( io.tr13 )  + "</td>"  
 
-				agency_data += "</tr>"
+				_htmlTxt += "</tr>"
 			}
 			
-			agency_data += `</tbody></table>`
+			_htmlTxt += `</tbody></table>`
 				
 			
 			var _target_dom = document.getElementById( "AgcData" );
