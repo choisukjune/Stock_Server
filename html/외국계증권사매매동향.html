@@ -127,7 +127,7 @@ var fTradersSellTreemap = function(data){
 
 	if (option && typeof option === 'object') {
 		window.charts.fTradersSellTreemap.setOption(option);
-		window.charts.fTradersSellTreemap.on('dbclick',function(d){
+		window.charts.fTradersSellTreemap.on('click',function(d){
 			var a = window.document.createElement( "a" );
 				a.target = "_blank";
 				a.href = "/html/candle.html?cd=" + d.data.cd
@@ -141,7 +141,7 @@ window.onload = function(){
 	var params = window.UTIL.Url.paramToObject()
 	window.date = {};
 	window.date.curDate = params.date;
-debugger;
+
 	getTradersData( function(d){
 		fTradersBuyTreemap( d.b );
 		fTradersSellTreemap( d.s );
