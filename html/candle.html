@@ -1647,6 +1647,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		window.date.curBefore3month = getTimeTo__YYYYMMDD_berfore_month( null, 9 )
 		window.date.cur = getTimeTo__YYYYMMDD();
 	}
+
+	window.Websocket.init();
+
 	
 	window.params = window.UTIL.Url.paramToObject();
 
@@ -1655,6 +1658,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	
 	window.COMPONENT.gnb();
 	window.COMPONENT.stockSearch_global();
+
 
 	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
 	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur);
