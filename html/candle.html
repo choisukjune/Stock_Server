@@ -762,11 +762,11 @@ function calculateMA(dayCount, data) {
 var can = function(data){
 	
 
-if( window.data.d00.length == 0 ) setTimeout(function(){ can(data) },1000)
-if( window.data.d01.length == 0 ) setTimeout(function(){ can(data) },1000)
-if( window.data.d02.length == 0 ) setTimeout(function(){ can(data) },1000)
+if( window.data.d00.length == 0 ) return setTimeout(function(){ can(data) },1000)
+if( window.data.d01.length == 0 ) return setTimeout(function(){ can(data) },1000)
+if( window.data.d02.length == 0 ) return setTimeout(function(){ can(data) },1000)
 
-var dom = document.getElementById("container");
+var dom = document.getElementById("candleChart");
 window.charts.candle00 = echarts.init(dom);
 var app = {};
 
@@ -1755,7 +1755,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			<div class="sixteen wide column" style="" id="stockInfo_more"></div>
 			<div class="sixteen wide column" style="overflow-y:auto;">
 				<div class="ui grid">
-					<div class="sixteen wide column" id="container" style="height: 800px"></div>
+					<div class="sixteen wide column" id="candleChart" style="height: 800px"></div>
 					<div class="sixteen wide column" id="tradeValueByCd" style="height:300px;"></div>
 					<div class="sixteen wide column" id="FtrData" style="/*height: 500px;*/"></div>
 					<div class="sixteen wide column" id="AgcData_50" style="/*height: 500px;*/"></div>
