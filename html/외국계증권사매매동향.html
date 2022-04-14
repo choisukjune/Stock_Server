@@ -81,7 +81,7 @@ var fTradersBuyTreemap = function( data ){
 
 	if (option && typeof option === 'object') {
 		window.charts.fTradersBuyTreemap.setOption(option);
-		window.charts.fTradersBuyTreemap.on('click',function(d){
+		window.charts.fTradersBuyTreemap.on('dbclick',function(d){
 			debugger;
 			var a = window.document.createElement( "a" );
 				a.target = "_blank";
