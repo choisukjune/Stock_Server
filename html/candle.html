@@ -1344,8 +1344,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.intervals = {}
 	window.intervals.renderStockInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderStockInfo", param : window.params.cd } ) );		}, 15000 );
 
-	window.intervals.getTradeValueByCd = setInterval(function(){	window.COMPONENT.getTradeValueByCd(); },7000)
-
+	window.intervals.getTradeValueByCd	 = setInterval(function(){	window.COMPONENT.getTradeValueByCd(); },7000)
+	window.intervals.getCandleChartByCd	 = setInterval(function(){	window.COMPONENT.getCandleChartByCd( window.params.cd, window.date.curBefore3month ,window.date.cur ); },7000)
 })
 </script>
 

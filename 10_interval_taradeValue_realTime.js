@@ -210,9 +210,10 @@ var excuteFile = function(){
 	++excuteFile.cnt;
 	var command = `10.bat ${excuteFile.cnt}`
 	var r = execSync( command ).toString();
-	
-	setTimeout(function(){ excuteFile(); },15000)
+	var now = dateFormat_HHMMSS();
 
+	if( now < 15350000 ) setTimeout(function(){ excuteFile(); },15000)
+	
 	console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
 }
 excuteFile.cnt = 0;
