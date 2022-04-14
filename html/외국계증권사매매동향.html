@@ -42,12 +42,10 @@ var getTradersData = function( cbFunction ){
 				}
 				chartDatas.s.push( s );
 				cbFcuntion( chartDatas );
+			}
 		}
-		
-
-		
+		xhr.send();
 	}
-	xhr.send();
 }
 
 
@@ -155,6 +153,7 @@ window.onload = function(){
 	
 }
 </script>
+
 <body style="padding:50px">
 
 	
