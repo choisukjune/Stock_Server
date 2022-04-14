@@ -672,38 +672,33 @@ catch(er)
 		var myChart = echarts.init(dom);
 		var app = {};
 
-		var option;
-
-  myChart.setOption(
-	(option = {
-		title: {
-			text: 'ECharts Options',
-			subtext: '2016/04',
-			left: 'leafDepth'
-		},
-		tooltip: {},
-		series: [
-			{
-				name: 'option',
-				type: 'treemap',
-				width :"100%",height :"100%",
-				visibleMin: 300,
-				data: window.chartData,
-				leafDepth: 1,
-				label : { formatter: function (params){
-						let arr = [	params.name, echarts.format.addCommas(params.value) ];
-						return arr.join('\n');
-					}
-				},
-				levels: [
-					{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColor: '#fff', borderWidth: 4, gapWidth: 4 } },
-					{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColorSaturation: 0.7, gapWidth: 2, borderWidth: 2 } },
-				]
-			}
-		]
-	})
-  );
-
+		var option = {
+			title: {
+				text: 'ECharts Options',
+				subtext: '2016/04',
+				left: 'leafDepth'
+			},
+			tooltip: {},
+			series: [
+				{
+					name: '외국계증권사별 매수현황( 금액 )',
+					type: 'treemap',
+					width :"100%",height :"100%",
+					visibleMin: 300,
+					data: window.chartData,
+					leafDepth: 1,
+					label : { formatter: function (params){
+							let arr = [	params.name, echarts.format.addCommas(params.value) ];
+							return arr.join('\n');
+						}
+					},
+					levels: [
+						{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColor: '#fff', borderWidth: 4, gapWidth: 4 } },
+						{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColorSaturation: 0.7, gapWidth: 2, borderWidth: 2 } },
+					]
+				}
+			]
+		};
 
 		if (option && typeof option === 'object') {
 			myChart.setOption(option);
@@ -720,33 +715,42 @@ catch(er)
 		var app = {};
 
 		var option00 = {
-			grid : { width :"100%" },
+			title: {
+				text: 'ECharts Options',
+				subtext: '2016/04',
+				left: 'leafDepth'
+			},
+			tooltip: {},
 			series: [
 				{
-					type: 'treemap', leafDepth: null, roam: false, nodeClick: false,
-					breadcrumb : { show : false, },
+					name: '외국계증권사별 매도현황( 금액 )',
+					type: 'treemap',
 					width :"100%",height :"100%",
+					visibleMin: 300,
 					data: window.chartData_s,
+					leafDepth: 1,
 					label : { formatter: function (params){
 							let arr = [	params.name, echarts.format.addCommas(params.value) ];
 							return arr.join('\n');
 						}
 					},
 					levels: [
-						{ color: ['skyblue','blue'], colorMappingBy: 'value', itemStyle: { gapWidth: 1 }}
+						{ color: ['skyblue','blue'], colorMappingBy: 'value', itemStyle: { borderColor: '#fff', borderWidth: 4, gapWidth: 4 } },
+						{ color: ['skyblue','blue'], colorMappingBy: 'value', itemStyle: { borderColorSaturation: 0.7, gapWidth: 2, borderWidth: 2 } },
 					]
 				}
 			]
 		};
 
+
 		if (option00 && typeof option00 === 'object') {
 			myChart00.setOption(option00);
-			myChart00.on('click',function(d){
-				var a = window.document.createElement( "a" );
-					a.target = "_blank";
-					a.href = "/html/candle.html?cd=" + d.data.cd
-					a.click();
-			})
+//			myChart00.on('click',function(d){
+//				var a = window.document.createElement( "a" );
+//					a.target = "_blank";
+//					a.href = "/html/candle.html?cd=" + d.data.cd
+//					a.click();
+//			})
 		}
 	}
 	xhr.send();
