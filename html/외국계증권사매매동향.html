@@ -51,11 +51,8 @@ var fTradersBuyTreemap = function( data ){
 
 	var app = {};
 	var option = {
-		title: {
-			text: 'ECharts Options',
-			subtext: '2016/04',
-			left: 'leafDepth'
-		},
+		title : { show :true, text : title,textStyle : { fontSize:12 } },
+		grid : { top:10,bottom : 0 },
 		tooltip: {},
 		series: [
 			{
@@ -69,7 +66,6 @@ var fTradersBuyTreemap = function( data ){
 				label : { 
 					formatter: function (params){
 						let arr = ["{title|" + params.name + "}",
-							"{hr|}",
 							"{hr|}",
 							"{a| 매수 : "  + echarts.format.addCommas(params.data.b ) + "}",
 							"{a| 메도 : " + echarts.format.addCommas(params.data.s ) + "}",
@@ -113,11 +109,8 @@ var fTradersSellTreemap = function(data){
 	var app = {};
 
 	var option = {
-		title: {
-			text: 'ECharts Options',
-			subtext: '2016/04',
-			left: 'leafDepth'
-		},
+		title : { show :true, text : title,textStyle : { fontSize:12 } },
+		grid : { top:10,bottom : 0 },
 		tooltip: {},
 		series: [
 			{
@@ -131,7 +124,6 @@ var fTradersSellTreemap = function(data){
 				label : { 
 					formatter: function (params){
 						let arr = ["{title|" + params.name + "}",
-							"{hr|}",
 							"{hr|}",
 							"{a| 매수 : "  + echarts.format.addCommas(params.data.b ) + "}",
 							"{a| 메도 : " + echarts.format.addCommas(params.data.s ) + "}",
