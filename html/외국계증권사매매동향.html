@@ -512,127 +512,16 @@ window.onload = function(){
 					children: []
 				}
 
-				//var agency_data = `<table class="ui celled table compact">`
-				//	agency_data += `
-				//	  <thead>
-				//		<tr>
-				//		  <th rowspan="2">투자자구분</th>
-				//		  <th colspan="3">거래량</th>
-  				//		  <th colspan="3">거래대금</th>
-				//		</tr>
-				//		<tr>
-				//		  <th>매수</th>
-				//		  <th>매도</th>
-				//		  <th>순매수</th>
-				//		  <th>매수</th>
-				//		  <th>매도</th>
-				//		  <th>순매수</th>
-				//		</tr>
-				//	  </thead>
-				//	  <tbody>
-				//	`
-				//	/*
-				//	"INVST_TP_NM" : "금융투자",
-				//	"ASK_TRDVOL" : 115383.0,
-				//	"BID_TRDVOL" : 127821.0,
-				//	"NETBID_TRDVOL" : 12438.0,
-				//	"ASK_TRDVAL" : 2449947600.0,
-				//	"BID_TRDVAL" : 2719570700.0,
-				//	"NETBID_TRDVAL" : 269623100.0,
-				//	"CONV_OBJ_TP_CD" : ""
-				//	
-				//	*/
-				//	
-				//	var _tempArr = [];
-
-
-				//	var z,zo;
-				//	for( z in io.agency ){
-				//		zo = io.agency[ z ];
-				//		_tempArr.push( zo )
-				//	}
-
-				//	_tempArr.sort((a,b) => (a.NETBID_TRDVOL < b.NETBID_TRDVOL) ? 1 : ((b.NETBID_TRDVOL < a.NETBID_TRDVOL) ? -1 : 0))
-				//	
-
-				//	var lastO = '';
-				//	var last1 = '';
-				//	var k = 0,kLen = _tempArr.length,ko;
-				//	for(;k<kLen;++k){
-				//		ko = _tempArr[ k ]
-				//	
-				//		if( ko.INVST_TP_NM == "전체" )
-				//		{
-				//			lastO = ko;
-				//			continue;
-				//		}
-				//		if( ko.INVST_TP_NM == "기관합계" )
-				//		{
-				//			last1 = ko;
-				//			continue;
-				//		}
-				//		var bgColor = "#e9e9e9";
-				//		var Color = "#9d9d9d";
-
-				//		if( ko.NETBID_TRDVOL > 0 )
-				//		{
-				//			bgColor ="red"
-				//			Color = "#fff"
-				//		}
-
-				//		if( ko.NETBID_TRDVOL < 0 )
-				//		{
-				//			bgColor ="blue"
-				//			Color = "#fff"
-				//		}
-
-				//		
-				//		agency_data += `<tr style='background-color:${bgColor};color:${Color};'>`
-				//		agency_data += `<td>${ko.INVST_TP_NM}</td>`
-				//		agency_data += `<td>${numberWithCommas( ko.ASK_TRDVOL )}</td>`
-				//		agency_data += `<td>${numberWithCommas( ko.BID_TRDVOL )}</td>`
-				//		agency_data += `<td>${numberWithCommas( ko.NETBID_TRDVOL )}</td>`
-				//		agency_data += `<td>${numberWithCommas( ko.ASK_TRDVAL )}</td>`
-				//		agency_data += `<td>${numberWithCommas( ko.BID_TRDVAL )}</td>`
-				//		agency_data += `<td>${numberWithCommas( ko.NETBID_TRDVAL )}</td>`
-				//		//agency_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
-
-				//		agency_data += "</tr>"						
-				//	}
-
-						//agency_data += `<tr style='background-color:yellow;color:red;'>`
-						//agency_data += `<td>${lastO.INVST_TP_NM}</td>`
-						//agency_data += `<td>${numberWithCommas( lastO.ASK_TRDVOL )}</td>`
-						//agency_data += `<td>${numberWithCommas( lastO.BID_TRDVOL )}</td>`
-						//agency_data += `<td>${numberWithCommas( lastO.NETBID_TRDVOL )}</td>`
-						//agency_data += `<td>${numberWithCommas( lastO.ASK_TRDVAL )}</td>`
-						//agency_data += `<td>${numberWithCommas( lastO.BID_TRDVAL )}</td>`
-						//agency_data += `<td>${numberWithCommas( lastO.NETBID_TRDVAL )}</td>`
-						////agency_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
-
-						//agency_data += "</tr>"		
-
-						//agency_data += `<tr style='background-color:yellow;color:red;'>`
-						//agency_data += `<td>${last1.INVST_TP_NM}</td>`
-						//agency_data += `<td>${numberWithCommas( last1.ASK_TRDVOL )}</td>`
-						//agency_data += `<td>${numberWithCommas( last1.BID_TRDVOL )}</td>`
-						//agency_data += `<td>${numberWithCommas( last1.NETBID_TRDVOL )}</td>`
-						//agency_data += `<td>${numberWithCommas( last1.ASK_TRDVAL )}</td>`
-						//agency_data += `<td>${numberWithCommas( last1.BID_TRDVAL )}</td>`
-						//agency_data += `<td>${numberWithCommas( last1.NETBID_TRDVAL )}</td>`
-						////agency_data += `<td>${zo.CONV_OBJ_TP_CD}</td>`
-
-				//		agency_data += "</tr>"		
-
-
-				//	agency_data += "</tbody>"
-				//	agency_data += "</table>";
-
-
-				//_html += `<div>${agency_data}</div>`
-
-				//_html += "</span>"
-				
+				var k,ko;
+				for( s in io.trs ){
+					ko = io.trs[ s ]
+					_chart_o_00.children.push({
+						name: s,
+						//value: io.agency[ "연기금 등" ].NETBID_TRDVAL,
+						value: ko.s,
+						children: []
+					})
+				}
 				window.chartData_s.push( _chart_o_00 )
 
 					var _tempArr = [];
@@ -795,7 +684,7 @@ catch(er)
 			{
 			  type: 'treemap',
 			leafDepth: null,
-			roam: false,
+			roam: true,
 			nodeClick: false,
 			breadcrumb : {
 				show : false,
