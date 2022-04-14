@@ -1406,7 +1406,7 @@ window.COMPONENT.renderStockInfo = function( cd ){
 	var _htmlTxt = `
 	<div class="sixteen wide column" style="">
 		<div class="ui grid">
-			<div class="ten wide column" style="">
+			<div class="three wide column" style="">
 				<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span><br>
 				<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span>
 				<span style='font-size:12px;padding:10px 0px;'>( ${ d.symbolCode } ) - ${d.market} </span><br>
@@ -1414,59 +1414,57 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				<span style="color:${color};"> ${symbol} ${window.UTIL.Number.numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span><br>
 				<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) | 거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 			</div>
-			<div class="six wide column" style="">
+			<div class="three wide column" style="">
 				<div claa="image"><img src="https://t1.daumcdn.net/finance/chart/kr/stock/d/A${cd}.png?t=${Date.now()}"  style="width:-webkit-fill-available;"></div>
 			</div>
+			
+			<div class="ten wide column" style="">
+				<table class="ui celled table compact">
+					<thead>
+						<tr>
+							<th>전일종가</th>
+							<th>전일거래량</th>
+							<th>거래금</th>
+							<th>시가</th>
+							<th>고가</th>
+							<th>저가</th>
+							<th>시가총액</th>
+							<th>외국인비율</th>
+							<th>EPS</th>
+							<th>BPS</th>
+							<th>PBR</th>
+							<th>PER</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>${window.UTIL.Number.numberWithCommas( d.prevClosingPrice )}</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.prevAccTradeVolume )}</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.accTradePrice )}</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.openingPrice )}</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.highPrice )}</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.lowPrice )}</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.marketCap )}( ${d.marketCapRank}위 )</td>
+							<td>${d.foreignRatio}%( ${d.prevForeignRatio}% )</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.eps )}원</td>
+							<td>${window.UTIL.Number.numberWithCommas( d.bps )}원</td>
+							<td>${d.pbr}배</td>
+							<td>${d.per}배</td>
+						</tr>
+					<tbody>
+				</table>
+			</div>
+
 			<div class="sixteen wide column" style="">
 				<span style="font-size:11px;">${d.companySummary}</span>
 			</div>
+
 		</div>
-	</div>
-	
-	`
-	var _htmlTxt_info = `
-	<div class="sixteen wide column" style="">
-		<table class="ui celled table compact">
-			<thead>
-				<tr>
-					<th>전일종가</th>
-					<th>전일거래량</th>
-					<th>거래금</th>
-					<th>시가</th>
-					<th>고가</th>
-					<th>저가</th>
-					<th>시가총액</th>
-					<th>외국인비율</th>
-					<th>EPS</th>
-					<th>BPS</th>
-					<th>PBR</th>
-					<th>PER</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${window.UTIL.Number.numberWithCommas( d.prevClosingPrice )}</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.prevAccTradeVolume )}</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.accTradePrice )}</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.openingPrice )}</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.highPrice )}</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.lowPrice )}</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.marketCap )}( ${d.marketCapRank}위 )</td>
-					<td>${d.foreignRatio}%( ${d.prevForeignRatio}% )</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.eps )}원</td>
-					<td>${window.UTIL.Number.numberWithCommas( d.bps )}원</td>
-					<td>${d.pbr}배</td>
-					<td>${d.per}배</td>
-				</tr>
-			<tbody>
-		</table>
 	</div>
 	`
 	
 	var _target_dom = document.getElementById( "renderStockInfo" );
-	var _target_dom_more = document.getElementById( "renderStockInfo_more" );
 	_target_dom.innerHTML = _htmlTxt
-	_target_dom_more.innerHTML = _htmlTxt_info
 }
 
 //-------------------------------------------------------;
