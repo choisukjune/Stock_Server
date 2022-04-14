@@ -144,8 +144,9 @@ var fTradersSellTreemap = function(data){
 
 window.onload = function(){ 
 
+	var params = window.UTIL.Url.paramToObject()
 	window.date = {};
-	window.date.curDate = window.UTIL.Url.paramToObject().date;
+	window.date.curDate = params.date;
 debugger;
 	getTradersData( function(d){
 		fTradersBuyTreemap( d.b );
