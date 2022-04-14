@@ -30,8 +30,8 @@ var getTradersData = function( cbFunction ){
 				var k,ko;
 				for( k in io.trs ){
 					ko = io.trs[ k ];
-					b.children.push({ name: k, value: ko.b, children: [] });
-					s.children.push({ name: k, value: ko.s * -1, children: [] });
+					b.children.push({ name: k, value: ko.b, b : ko.b, s : ko.s, pp : ko.b + ko.s, children: [] });
+					s.children.push({ name: k, value: ko.s * -1, b : ko.b, s : ko.s, pp : ko.b + ko.s, children: [] });
 				}
 				chartDatas.b.push( b );
 				chartDatas.s.push( s );				
@@ -66,9 +66,30 @@ var fTradersBuyTreemap = function( data ){
 				data: data,
 				leafDepth: 1,
 				roam: "scale",
-				label : { formatter: function (params){
-						let arr = [	params.name, echarts.format.addCommas(params.value) ];
+				label : { 
+					formatter: function (params){
+						let arr = ["{title|" + params.name + "}",
+							"{hr|}",
+							"{hr|}",
+							"{a| 매수 : "  + echarts.format.addCommas(params.data.b ) + "}",
+							"{a| 메도 : " + echarts.format.addCommas(params.data.s ) + "}",
+							"{hr|}",
+							"{b| 순매수 : " + echarts.format.addCommas(params.data.pp ) + "}",
+
+						];
 						return arr.join('\n');
+					},
+					rich : {
+						title : { fontSize: 14 },
+						a : { fontSize: 9 },
+						b : { fontSize: 12 },
+						hr : { 
+							width : "100%",
+							borderColor : "rgba(255,255,255,0.0)",
+							borderWidth : 0.5,
+							height : 0,
+							lineHeight : 10,
+						}
 					}
 				},
 				levels: [
@@ -110,13 +131,12 @@ var fTradersSellTreemap = function(data){
 				label : { 
 					formatter: function (params){
 						let arr = ["{title|" + params.name + "}",
-							//"{hr|}",
-							"{a|" + echarts.format.addCommas(params.value) + "}",			
 							"{hr|}",
-							"{a|buy : "  + echarts.format.addCommas(params.data.b ) + "}",
-							"{a|sell : " + echarts.format.addCommas(params.data.s ) + "}",
 							"{hr|}",
-							"{b|pp : " + echarts.format.addCommas(params.data.pp ) + "}",
+							"{a| 매수 : "  + echarts.format.addCommas(params.data.b ) + "}",
+							"{a| 메도 : " + echarts.format.addCommas(params.data.s ) + "}",
+							"{hr|}",
+							"{b| 순매수 : " + echarts.format.addCommas(params.data.pp ) + "}",
 
 						];
 						return arr.join('\n');
