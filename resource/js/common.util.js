@@ -2089,7 +2089,7 @@ window.COMPONENT.fTradersBuyTreemap = function( data ){
 	var app = {};
 	var option = {
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
-		grid : { top:10,bottom : 0 },
+//		grid : { top:10,bottom : 0 },
 		//height : h,
 		tooltip: {},
 		series: [
@@ -2097,6 +2097,7 @@ window.COMPONENT.fTradersBuyTreemap = function( data ){
 				name: '외국계증권사별 매수현황( 금액 )',
 				type: 'treemap',
 				width :"100%",
+				top : 10,
 				height : h,
 				visibleMin: 300,
 				data: data,
@@ -2154,7 +2155,7 @@ window.COMPONENT.fTradersSellTreemap = function(data){
 	var app = {};
 	var option = {
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
-		grid : { top:10,bottom : 0 },
+		//grid : { top:10,bottom : 0 },
 		//height : h,
 		tooltip: {},
 		series: [
@@ -2162,6 +2163,7 @@ window.COMPONENT.fTradersSellTreemap = function(data){
 				name: '외국계증권사별 매도현황( 금액 )',
 				type: 'treemap',
 				width :"100%",
+				top : 10,
 				height : h,
 				visibleMin: 300,
 				data: data,
