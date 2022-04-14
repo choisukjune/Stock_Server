@@ -207,10 +207,17 @@ var _ROOT_PATH = process.cwd();
 var excuteFile = function(){
 
 	console.log( "[ S ] - " + dateFormat_YYMMDD_HHMMSS() );
+	
+	var now = dateFormat_HHMMSS();
+	if( now < 15350000 )
+	{	console.log( "  [ STATUS ] - " + now + " - process end" )
+		console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
+		return;
+	}
 	++excuteFile.cnt;
 	var command = `10.bat ${excuteFile.cnt}`
 	var r = execSync( command ).toString();
-	var now = dateFormat_HHMMSS();
+	
 
 	if( now < 15350000 ) setTimeout(function(){ excuteFile(); },15000)
 	
