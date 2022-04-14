@@ -65,7 +65,7 @@ var fTradersBuyTreemap = function( data ){
 				visibleMin: 300,
 				data: data,
 				leafDepth: 1,
-				roam: "scale",
+
 				label : { formatter: function (params){
 						let arr = [	params.name, echarts.format.addCommas(params.value) ];
 						return arr.join('\n');
@@ -112,7 +112,7 @@ var fTradersSellTreemap = function(data){
 				width :"100%",height :"100%",
 				visibleMin: 300,
 				data: data,
-				nodeClick : false,
+				roam: "scale",nodeClick : false,
 				leafDepth: 1,
 				label : { formatter: function (params){
 						let arr = [	params.name, echarts.format.addCommas(params.value) ];
@@ -130,7 +130,7 @@ var fTradersSellTreemap = function(data){
 
 	if (option && typeof option === 'object') {
 		window.charts.fTradersSellTreemap.setOption(option);
-		window.charts.fTradersSellTreemap.on('click',function(d){
+		window.charts.fTradersSellTreemap.on('dbclick',function(d){
 			var a = window.document.createElement( "a" );
 				a.target = "_blank";
 				a.href = "/html/candle.html?cd=" + d.data.cd
