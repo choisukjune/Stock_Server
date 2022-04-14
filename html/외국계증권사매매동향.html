@@ -25,24 +25,18 @@ var getTradersData = function( cbFunction ){
 				io = a[ i ];
 
 				var b = { name: io.nm, cd : io.cd, value: io.total[ "b" ], children: []	};
-				
-				var k,ko;
-				for( s in io.trs ){
-					ko = io.trs[ s ];
-					b.children.push({ name: s, value: ko.b, children: [] });
-				}
-				chartDatas.b.push( b );
-
 				var s = { name: io.nm, cd : io.cd, value: io.total[ "s" ] * -1,	children: [] };
 
 				var k,ko;
-				for( s in io.trs ){
-					ko = io.trs[ s ];
+				for( k in io.trs ){
+					ko = io.trs[ k ];
+					b.children.push({ name: s, value: ko.b, children: [] });
 					s.children.push({ name: s, value: ko.s * -1, children: [] });
 				}
-				chartDatas.s.push( s );
-				cbFcuntion( chartDatas );
+				chartDatas.b.push( b );
+				chartDatas.s.push( s );				
 			}
+			cbFcuntion( chartDatas );
 		}
 	}
 	xhr.send();
