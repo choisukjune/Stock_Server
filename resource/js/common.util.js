@@ -1875,6 +1875,168 @@ window.COMPONENT.renderCandleChartByCd = function(data){
 	}
 }
 
+window.COMPONENT.getAcgDataByCd_50 = function(){
+		
+
+		if( window.data.d00.length == 0 ) return setTimeout(function(){ window.COMPONENT.getAcgDataByCd_50(data) },1000)
+		if( window.data.d01.length == 0 ) return setTimeout(function(){ window.COMPONENT.getAcgDataByCd_50(data) },1000)
+		if( window.data.d02.length == 0 ) return setTimeout(function(){ window.COMPONENT.getAcgDataByCd_50(data) },1000)
+		if( window.data.d99.length == 0 ) return setTimeout(function(){ window.COMPONENT.getAcgDataByCd_50(data) },1000)
+
+
+		var r00 = {}
+		var i =0,iLen = 30,io;
+		for(;i<iLen;++i){
+			io = window.data.d99[ i ];
+			
+			var s,so;
+			for( s in io ){
+				so = io[ s ];
+				if( !r00[ s ] ) r00[ s ] = so;
+				else r00[ s ] += so;
+			}
+		}		
+
+		var r01 = {}
+		var i =0,iLen = 15,io;
+		for(;i<iLen;++i){
+			io = window.data.d99[ i ];
+			
+			var s,so;
+			for( s in io ){
+				so = io[ s ];
+				if( !r01[ s ] ) r01[ s ] = so;
+				else r01[ s ] += so;
+			}
+		}		
+
+
+		var r02 = {}
+		var i =0,iLen = 5,io;
+		for(;i<iLen;++i){
+			io = window.data.d99[ i ];
+			
+			var s,so;
+			for( s in io ){
+				so = io[ s ];
+				if( !r02[ s ] ) r02[ s ] = so;
+				else r02[ s ] += so;
+			}
+		}		
+
+
+		var _htmlTxt = ""
+		var _htmlTxt = `
+		<div style="color:#666;font-size:12px;">
+		기간별 투자자 누적순매수 ( 단위 : 백만 )
+		</div>
+		<table class="ui celled table compact">
+			<thead>
+				<tr>
+					<th> 기간   </th>
+					<!--th> 현재가격</th-->
+					<!--th> 거래량  </th-->
+					<!--th> "cd"   </th-->
+					<!--th> 전일비  </th-->
+					<!--th> 등락률  </th-->
+					<th> 개인  </th>
+					<th> 외국인  </th>
+					<th> 기관계  </th>
+					<th> 금융투자  </th>
+					<th> 보험  </th>
+					<th> 투신  </th>
+					<th> 기타금융  </th>
+					<th> 은행  </th>
+					<th> 연기금등  </th>
+					<th> 사모펀드 </th>
+					<th> 국가 </th>
+					<th> 기타법인 </th>
+					<th> 내외국인 </th>
+				</tr>
+			</thead>
+			<tbody>
+		`
+
+		_htmlTxt += "<tr>"
+		_htmlTxt += "<td> 5일 </td>"  
+		//_htmlTxt += "<td>" + io00.price + "</td>"  
+		//_htmlTxt += "<td>" + io00.amt  + "</td>"  
+		//_htmlTxt += "<td>" + io.cd  + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io00.rt )};'>` + io00.rt   + "</td>"  
+		
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr1 ) };'>` + longNumberAddString( r02.tr1  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr2 ) };'>` + longNumberAddString( r02.tr2  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr3 ) };'>` + longNumberAddString( r02.tr3  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr4 ) };'>` + longNumberAddString( r02.tr4  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr5 ) };'>` + longNumberAddString( r02.tr5  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr6 ) };'>` + longNumberAddString( r02.tr6  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr7 ) };'>` + longNumberAddString( r02.tr7  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr8 ) };'>` + longNumberAddString( r02.tr8  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr9 ) };'>` + longNumberAddString( r02.tr9  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr10) };'>` + longNumberAddString( r02.tr10 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr11) };'>` + longNumberAddString( r02.tr11 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr12) };'>` + longNumberAddString( r02.tr12 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r02.tr13) };'>` + longNumberAddString( r02.tr13 )  + "</td>"  
+
+		_htmlTxt += "</tr>"
+	
+		_htmlTxt += "<tr>"
+		_htmlTxt += "<td> 15일 </td>"  
+		//_htmlTxt += "<td>" + io00.price + "</td>"  
+		//_htmlTxt += "<td>" + io00.amt  + "</td>"  
+		//_htmlTxt += "<td>" + io.cd  + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io00.rt )};'>` + io00.rt   + "</td>"  
+		
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr1 )};'>` +  longNumberAddString( r01.tr1  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr2 )};'>` +  longNumberAddString( r01.tr2  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr3 )};'>` +  longNumberAddString( r01.tr3  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr4 )};'>` +  longNumberAddString( r01.tr4  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr5 )};'>` +  longNumberAddString( r01.tr5  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr6 )};'>` +  longNumberAddString( r01.tr6  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr7 )};'>` +  longNumberAddString( r01.tr7  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr8 )};'>` +  longNumberAddString( r01.tr8  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr9 )};'>` +  longNumberAddString( r01.tr9  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr10 )};'>` + longNumberAddString( r01.tr10 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr11 )};'>` + longNumberAddString( r01.tr11 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr12 )};'>` + longNumberAddString( r01.tr12 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r01.tr13 )};'>` + longNumberAddString( r01.tr13 )  + "</td>"  
+
+		_htmlTxt += "</tr>"
+
+
+		_htmlTxt += "<tr>"
+		_htmlTxt += "<td> 50일 </td>"  
+		//_htmlTxt += "<td>" + io00.price + "</td>"  
+		//_htmlTxt += "<td>" + io00.amt  + "</td>"  
+		//_htmlTxt += "<td>" + io.cd  + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io00.rt )};'>` + io00.rt   + "</td>"  
+		
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr1 )};'>` +  longNumberAddString( r00.tr1  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr2 )};'>` +  longNumberAddString( r00.tr2  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr3 )};'>` +  longNumberAddString( r00.tr3  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr4 )};'>` +  longNumberAddString( r00.tr4  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr5 )};'>` +  longNumberAddString( r00.tr5  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr6 )};'>` +  longNumberAddString( r00.tr6  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr7 )};'>` +  longNumberAddString( r00.tr7  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr8 )};'>` +  longNumberAddString( r00.tr8  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr9 )};'>` +  longNumberAddString( r00.tr9  ) + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr10 )};'>` + longNumberAddString( r00.tr10 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr11 )};'>` + longNumberAddString( r00.tr11 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr12 )};'>` + longNumberAddString( r00.tr12 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( r00.tr13 )};'>` + longNumberAddString( r00.tr13 )  + "</td>"  
+
+		_htmlTxt += "</tr>"
+		_htmlTxt += `</tbody></table>`
+			
+		
+		var _target_dom = document.getElementById( "AgcData_50" );
+		_target_dom.innerHTML = _htmlTxt
+	
+}
+
 
 //-------------------------------------------------------;
 //-------------------------------------------------------;

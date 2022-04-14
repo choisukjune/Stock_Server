@@ -1317,6 +1317,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	window.COMPONENT.getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
 	window.COMPONENT.getCandleChartByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
+	window.COMPONENT.getAcgDataByCd_50();
 
 	getFTrData( window.params.cd );
 	getInsightByStockAvgCd( window.params.cd );
@@ -1346,6 +1347,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	window.intervals.getTradeValueByCd	 = setInterval(function(){	window.COMPONENT.getTradeValueByCd(); },7000)
 	window.intervals.getCandleChartByCd	 = setInterval(function(){	window.COMPONENT.getCandleChartByCd( window.params.cd, window.date.curBefore3month ,window.date.cur ); },7000)
+
 })
 </script>
 
