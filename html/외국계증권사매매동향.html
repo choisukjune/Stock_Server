@@ -12,7 +12,7 @@
 var getTradersData = function( cbFunction ){
 
 	var xhr = new XMLHttpRequest();
-    xhr.open("GET" , encodeURI("http://112.144.208.118:8888/getInsightByStock?date=" + 	window.date.curDate.date ) , true);
+    xhr.open("GET" , encodeURI("http://112.144.208.118:8888/getInsightByStock?date=" + 	window.date.curDate ) , true);
 
     xhr.onreadystatechange = function() {
 
