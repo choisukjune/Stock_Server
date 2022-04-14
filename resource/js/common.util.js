@@ -2091,7 +2091,7 @@ window.COMPONENT.fTradersBuyTreemap = function( data ){
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
 		grid : { top:10,bottom : 0 },
 		height : h,
-		tooltip: {},
+		//tooltip: {},
 		series: [
 			{
 				name: '외국계증권사별 매수현황( 금액 )',
@@ -2156,7 +2156,7 @@ window.COMPONENT.fTradersSellTreemap = function(data){
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
 		grid : { top:10,bottom : 0 },
 		height : h,
-		tooltip: {},
+		//tooltip: {},
 		series: [
 			{
 				name: '외국계증권사별 매도현황( 금액 )',
