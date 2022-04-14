@@ -180,6 +180,10 @@ window.onload = function(){
 	window.date = {};
 	window.date.curDate = params.date;
 
+	window.COMPONENT.gnb();
+	window.COMPONENT.stockSearch_global();
+
+
 	getTradersData( function(d){
 		fTradersBuyTreemap( d.b );
 		fTradersSellTreemap( d.s );
@@ -191,10 +195,12 @@ window.onload = function(){
 <body style="padding:50px">
 
 	
-<div class="ui one column grid">
-  <div class="column"><p id="div00">외국계증권사 매매동향</p></div>
-  <div class="column" style="height:400px"><div id="fTradersBuyTreemap" style="width:100%;height: 100%"></div></div>
-  <div class="column" style="height:400px"><div id="fTradersSellTreemap" style="width:100%;height: 100%"></div></div>
+<div class="ui grid">
+	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
+	<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
+	<div class="column"><p id="div00">외국계증권사 매매동향</p></div>
+	<div class="column" style="height:400px"><div id="fTradersBuyTreemap" style="width:100%;height: 100%"></div></div>
+	<div class="column" style="height:400px"><div id="fTradersSellTreemap" style="width:100%;height: 100%"></div></div>
 </div>
 
 </body>
