@@ -2101,7 +2101,7 @@ window.COMPONENT.fTradersBuyTreemap = function( data ){
 				visibleMin: 300,
 				data: data,
 				leafDepth: 1,
-				roam: "scale",
+				roam: false,
 				label : { 
 					formatter: function (params){
 						let arr = ["{title|" + params.name + "}",
@@ -2165,7 +2165,7 @@ window.COMPONENT.fTradersSellTreemap = function(data){
 				//height :"100%",
 				visibleMin: 300,
 				data: data,
-				roam: "scale",
+				roam: false,
 				leafDepth: 1,
 				label : { 
 					formatter: function (params){
