@@ -111,7 +111,7 @@ var fTradersSellTreemap = function(data){
 					formatter: function (params){
 						let arr = ["{title|" + params.name + "}",
 							//"{hr|}",
-							"{a|" + echarts.format.addCommas(params.value)}",			
+							"{a|" + echarts.format.addCommas(params.value) + "}",			
 							"{hr|}",
 							"{a|buy : "  + echarts.format.addCommas(params.data.b ) + "}",
 							"{a|sell : " + echarts.format.addCommas(params.data.s ) + "}",
