@@ -1653,6 +1653,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.barChart.curCd = window.params.cd;
 	
 	window.COMPONENT.gnb();
+	window.COMPONENT.stockSearch_global();
 
 	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
 	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur);
@@ -1665,74 +1666,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	getAllStockInfo();
 	getTrdRank( window.params.cd );
 	updateStock( window.params.cd );
-	
-	window.document.addEventListener('click',function(e){ window._el.id_searchResult.style.display = "none"; });
-
-	window._el.id_search.addEventListener('keyup', function(e){
-		if( e.currentTarget.value == "" )
-		{
-			window._el.id_searchResult.style.display = "none"
-			window._el.id_searchResult.innerHTML = "";
-		}
-		else
-		{
-			if (window.event.keyCode == 13) {
-				searchStock( e.currentTarget.value,function(d){
-					if(d.length == 1 )
-					{
-						window._el.id_searchResult.style.display = "none"
-						window._el.id_searchResult.innerHTML = "";
-						var cd = d[0].displayedCode;				
-						//candleChart 페이지로이동시킴;
-						var a = window.document.createElement( "a" );
-						//a.target = "_blank";
-						a.href = "/html/candle.html?cd=" + cd
-						a.click();
-						
-					}
-					else if( d.length > 1 )
-					{
-						makeSearchList(d)
-					}
-
-				});
-			}
-			else
-			{
-				searchStock( e.currentTarget.value,function(d){
-					if( d.length == 0)
-					{
-						window._el.id_searchResult.style.display = "none"
-						window._el.id_searchResult.innerHTML = "";
-					}
-					else
-					{
-						makeSearchList(d)	
-					}
-				});
-			
-			}	
-		}
-	
-	});
-	// window._el.id_search.addEventListener('change', function(e){
-	// 	// debugger;
-	// 	//e.preventDefault();
-	// 	//setTimeout(function(){
-			
-	// 	//},1000) 
-		
-	// });
-	//window._el.id_search.addEventListener('change', function(e){
-//		renderChartCandle(e.currentTarget.value, "20210901", "20220214")
-//	});
 
 })
 </script>
 
-<body style="padding:20px;overflow-y:hidden;">
+<body style="padding:5px;overflow-y:hidden;">
 <div class="ui grid" style="padding: 10px;height: 100%;" id="wrap">
 	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
+	<div id="search_wrap" class="eight wide column" style="padding: 20px;">
 
 	<div class="eight wide column" style="padding: 20px;" id="search_wrap">
 		<div class="ui fluid icon input">
