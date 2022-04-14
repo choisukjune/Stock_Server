@@ -196,7 +196,7 @@ var csvToJson = function( fileNm ){
 				var _t00 = "20" + _date[0] + "-" + _date[1] + "-" + _date[2];
 				
 				//if( ( _t * 1 ) == 20220323 ) continue;
-				if( ( _t * 1 ) <= 20220408 ) continue;
+				if( ( _t * 1 ) <= 20220412 ) continue;
 				
 				if( !global.o[ cd ] ) global.o[ cd ] = {};
 				if( !global.o[ cd ][ _t ] ) global.o[ cd ][ _t ] = {};

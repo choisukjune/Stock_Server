@@ -209,17 +209,22 @@ var excuteFile = function(){
 	console.log( "[ S ] - " + dateFormat_YYMMDD_HHMMSS() );
 	
 	var now = dateFormat_HHMMSS();
-	if( now < 15350000 )
-	{	console.log( "  [ STATUS ] - " + now + " - process end" )
+	if( now > 153500 )
+	{	console.log( "[ Messgae ] - " + now + " - process end" )
 		console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
 		return;
 	}
+	else if( now < 90000 )
+	{
+		return setTimeout(function(){ excuteFile(); },30000)
+	}
+
 	++excuteFile.cnt;
 	var command = `10.bat ${excuteFile.cnt}`
 	var r = execSync( command ).toString();
 	
 
-	if( now < 15350000 ) setTimeout(function(){ excuteFile(); },15000)
+	setTimeout(function(){ excuteFile(); },15000)
 	
 	console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
 }
