@@ -1179,12 +1179,12 @@ window.COMPONENT.renderTradeValueInfo = function(){
 	option = {
 
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
-		grid : { top:10,bottom : 0,left :'5%',right:'5%' },
+		grid : { top:10,bottom : 0,left :'2%',right:'2%' },
 		height : h,
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
 			breadcrumb : { show : false, },
-			width :"100%",
+			//width :"100%",
 			//height :h,
 			//top:0,
 			data : chartData.slice(0,100),
@@ -1314,7 +1314,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 	var subTitle = nowDate;
 	option = {
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
-		grid : { top:10,bottom : 0,left :'5%',right:'5%' },
+		grid : { top:10,bottom : 0,left :'2%',right:'2%' },
 		height : h,
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
