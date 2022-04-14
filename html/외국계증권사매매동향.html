@@ -65,7 +65,7 @@ var fTradersBuyTreemap = function( data ){
 				visibleMin: 300,
 				data: data,
 				leafDepth: 1,
-				roam: "scale", nodeClick: false
+				roam: "scale", nodeClick: false,
 				label : { formatter: function (params){
 						let arr = [	params.name, echarts.format.addCommas(params.value) ];
 						return arr.join('\n');
