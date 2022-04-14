@@ -1586,8 +1586,278 @@ window.COMPONENT.renderNewsFromNaver = function( cd ){
 		}
 
 		xhr.send();
+}
+
+
+window.COMPONENT.getAcgDataByCd = function( cd, start, end ){
+		
+	var xhr = new XMLHttpRequest();
+
+	xhr.open("GET" , `http://112.144.208.118:8888/getAcgDataByCd?cd=${cd}&start=${start}&end=${end}`, true);
+	xhr.onreadystatechange = function() {
+
+		if(xhr.readyState == 4 && xhr.status == 200)
+		{
+			var _d = JSON.parse( xhr.responseText )
+			var d = _d.reverse()	
+			if( d == null ) return;
+			var _htmlTxt = ""
+			var agency_data = `
+			<div style="color:#666;font-size:12px;">
+			일자별 투자자 누적순매수 ( 단위 : 백만 )
+			</div>
+			<table class="ui celled table compact">
+				<thead>
+					<tr>
+						<th> 일자   </th>
+						<th> 현재가격 </th>
+						<th> 거래량  </th>
+						<!--th> "cd"   </th-->
+						<th> 전일비  </th>
+						<th> 등락률   </th>
+						<th> 개인  </th>
+						<th> 외국인  </th>
+						<th> 기관계  </th>
+						<th> 금융투자  </th>
+						<th> 보험  </th>
+						<th> 투신  </th>
+						<th> 기타금융  </th>
+						<th> 은행  </th>
+						<th> 연기금등  </th>
+						<th> 사모펀드 </th>
+						<!--th> 국가 </th-->
+						<th> 기타법인 </th>
+						<th> 내외국인 </th>
+					</tr>
+				</thead>
+				<tbody>
+			`
+			var i =0,iLen = _d.length,io,io00;
+			for(;i<iLen;++i){
+				io00 = d[ i ];
+				io = d[ i ].pp;
+				
+				window.data.d00.push( io.tr1 )
+				window.data.d01.push( io.tr2 )
+				window.data.d02.push( io.tr3 )
+				window.data.d99.push( io )
+			}
+			//var i =0,iLen = d.length,io,io00;
+			var i =0,iLen = 15,io,io00;
+
+			for(;i<iLen;++i){
+				io00 = d[ i ];
+				io = d[ i ].pp;
+
+				agency_data += "<tr>"
+				agency_data += "<td>" + io00._t + "</td>"  
+				agency_data += "<td>" + io00.price + "</td>"  
+				agency_data += "<td>" + io00.amt  + "</td>"  
+				//agency_data += "<td>" + io.cd  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io00.rt )};'>`  + io00.rt  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr1 )};'>`	  + longNumberAddString( io.tr1  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr2 )};'>`	  + longNumberAddString( io.tr2  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr3 )};'>`	  + longNumberAddString( io.tr3  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr4 )};'>`	  + longNumberAddString( io.tr4  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr5 )};'>`	  + longNumberAddString( io.tr5  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr6 )};'>`	  + longNumberAddString( io.tr6  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr7 )};'>`	  + longNumberAddString( io.tr7  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr8 )};'>`	  + longNumberAddString( io.tr8  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr9 )};'>`	  + longNumberAddString( io.tr9  )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr10 )};'>`  + longNumberAddString( io.tr10 )  + "</td>"  
+//					agency_data += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr12 )};'>`  + longNumberAddString( io.tr12 )  + "</td>"  
+				agency_data += `<td style='color:${_html_updateStock( io.tr13 )};'>`  + longNumberAddString( io.tr13 )  + "</td>"  
+
+				agency_data += "</tr>"
+			}
+			
+			agency_data += `</tbody></table>`
+				
+			
+			var _target_dom = document.getElementById( "AgcData" );
+			_target_dom.innerHTML = _htmlTxt
+		}
+
+	}
+
+	xhr.send();
+
+}
+
+
+
+window.COMPONENT.getCandleChartByCd = function(cd,startTime,endTime,cbFunction){
+	var xhr = new XMLHttpRequest();
+
+	//http://112.144.208.118:8888/getCandleDataByCd?cd=510007&startTime=20220201&endTime=20220214
+	xhr.open("GET" , `http://112.144.208.118:8888/getCandleDataByCd?cd=${cd}&startTime=${startTime}&endTime=${endTime}`, true);
+
+	xhr.onreadystatechange = function() {
+
+		if(xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText );
+			window.COMPONENT.renderCandleChartByCd(d)	
+		}
+
+	}
+	xhr.send();
+}
+
+
+function splitData(rawData) {
+  let categoryData = [];
+  let values = [];
+  let volumes = [];
+  for (let i = 0; i < rawData.length; i++) {
+    categoryData.push(rawData[i].splice(0, 1)[0]);
+    values.push([rawData[i][0],rawData[i][3],rawData[i][2],rawData[i][1]]);
+    volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][3] ? 1 : -1]);
+  }
+  return {
+    categoryData: categoryData,
+    values: values,
+    volumes: volumes
+  };
+}
+
+function calculateMA(dayCount, data) {
+  var result = [];
+  for (var i = 0, len = data.values.length; i < len; i++) {
+    if (i < dayCount) {
+      result.push('-');
+      continue;
+    }
+    var sum = 0;
+    for (var j = 0; j < dayCount; j++) {
+      sum += data.values[i - j][1];
+    }
+    result.push(+(sum / dayCount).toFixed(3));
+  }
+  return result;
+}
+
+window.COMPONENT.renderCandleChartByCd = function(data){
 	
-	
+
+	if( window.data.d00.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+	if( window.data.d01.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+	if( window.data.d02.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+
+	var dom = document.getElementById("candleChart");
+	window.charts.candle00 = echarts.init(dom);
+
+
+	var app = {};
+	var option;
+
+	var upColor = 'red';
+	var downColor = 'skyblue';
+
+	//var rawData = window.socketData.renderCandleChartByCd;
+	var rawData = data;
+	var data = splitData(rawData);
+
+	window.charts.candle00.setOption(
+	(option = {
+	  animation: false,
+	  legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
+	  tooltip: {
+		trigger: 'axis',axisPointer: { type: 'cross' }, borderWidth: 1,	borderColor: '#ccc', padding: 10, textStyle: { color: '#000'  }, 
+		position: function (pos, params, el, elRect, size) {
+		  const obj = { top: 10  };
+		  obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+		  return obj;
+		}
+		// extraCssText: 'width: 170px'
+	  },
+	  axisPointer: { link: [ { xAxisIndex: '0' } ], label: { backgroundColor: '#777' } },
+	  toolbox: { feature: { 
+			dataZoom: { yAxisIndex: false },
+			//brush: {   type: ['lineX', 'clear'] }
+		}
+	  },
+	  brush: { xAxisIndex: 'all', brushLink: 'all', outOfBrush: { colorAlpha: 0.1 } },
+	  visualMap: {
+		show: false,seriesIndex: 1,dimension: 2,
+		pieces: [
+		  {value: 1,color: downColor},
+		  {value: -1,color: upColor}
+		]
+	  },
+	  grid: [
+		{ left: '4%', right: '4%', height: '68%' },
+		{ left: '4%', right: '4%', top: '80%', height: '15%'   }
+	  ],
+	  xAxis: [
+		{
+		  type: 'category',
+		  data: data.categoryData,
+		  boundaryGap: false,
+		  axisLine: { onZero: true },
+		  //splitLine: { show: true },
+		  min: 'dataMin',
+		  max: 'dataMax',
+		  axisPointer: {
+			z: 100
+		  }, axisLabel : { fontSize : 9 }
+		},
+		{
+		  type: 'category',
+		  gridIndex: 1,
+		  data: data.categoryData,
+		  //boundaryGap: false,
+		  //axisLine: { onZero: false },
+		  axisTick: { show: false },
+		  splitLine: { show: false },
+		  axisLabel: { show: false },
+		  min: 'dataMin',
+		  max: 'dataMax'
+		}
+	  ],
+	  yAxis: [
+		{ scale: true, splitArea: {show: false },splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
+		{ scale: true, gridIndex: 1,splitNumber: 2,axisLabel: { show: false,fontSize : 9 },axisLine: { show: false },axisTick: { show: false },splitLine: { show: false }},
+		{ scale: true, type:"value",splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
+	  ],
+	  //dataZoom: [{ type: 'inside', xAxisIndex: [0, 1], start: 98, end: 100 }, { show: true, xAxisIndex: [0, 1], type: 'slider', top: '85%', start: 98, end: 100 } ],
+	  series: [
+		{
+		  name: '일봉',
+		  type: 'candlestick',
+		  data: data.values,
+		  itemStyle: { color: upColor, color0: downColor, borderColor: undefined,  borderColor0: undefined },
+		  tooltip: {
+			formatter: function (param) {
+			  param = param[0];
+			  return [
+				'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+				'Open: ' + param.data[0] + '<br/>',
+				'Close: ' + param.data[1] + '<br/>',
+				'Lowest: ' + param.data[2] + '<br/>',
+				'Highest: ' + param.data[3] + '<br/>'
+			  ].join('');
+			}
+		  }
+		},
+		{ name: 'Volume', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: data.volumes },
+		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: '개인', type: 'line', data: window.data.d00.reverse(), smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
+		{ name: '외국인', type: 'line', data: window.data.d01.reverse(), smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
+		{ name: '기관', type: 'line', data: window.data.d02.reverse(), smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
+
+		
+	  ]
+	}), true );
+
+	if (option && typeof option === 'object') {
+		window.charts.candle00.setOption(option);
+	}
 }
 
 
