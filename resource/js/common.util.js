@@ -1414,7 +1414,7 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				<span style="color:${color};"> ${symbol} ${window.UTIL.Number.numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span><br>
 				<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) | 거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 			</div>
-			<div class="three wide column" style="min-height:290px;">
+			<div class="three wide column" style="min-height:200px;">
 				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${cd}_end_up_tablet.png?${Date.now()}"  style="width:-webkit-fill-available;"></div>
 			</div>
 			
