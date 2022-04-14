@@ -1379,7 +1379,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 }
 
 
-window.COMPONENT.renderStockInfo = function( data ){
+window.COMPONENT.renderStockInfo = function( cd ){
 		
 	var d = window.socketData.renderStockInfo;
 			
