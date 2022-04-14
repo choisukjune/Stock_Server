@@ -1471,6 +1471,126 @@ window.COMPONENT.renderStockInfo = function( cd ){
 	_target_dom.innerHTML = _htmlTxt
 }
 
+
+
+var imageOnError = function( img ){
+	img.onerror = "";
+	img.src = "https://dummyimage.com/100x80/000/fff&text=Ooops!"
+	return true;
+}
+
+window.COMPONENT.renderNewsFromDaum = function( cd ){
+		
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET" , "http://112.144.208.118:8888/getNewsByCdFromDaum?cd=" + cd, true);
+		xhr.onreadystatechange = function() {
+
+			if(xhr.readyState == 4 && xhr.status == 200)
+			{
+				var d = JSON.parse( xhr.responseText )
+				var _htmlTxt = `<div class="ui grid" style="padding:0px 0 0px 0;">`
+				
+				var i = 0,iLen = d.data.length,io;
+				//var i = 0,iLen = 5,io;
+				for(;i<iLen;++i){
+					io = d.data[ i ]
+					var a = ""
+					var b = `<div class="six wide column" style="">
+						<div><img src="${io.imageUrl}" onerror="return imageOnError(this)" style="width: 100%;height:80px;object-fit:cover;" loading='lazy'></div>
+					  </div>`
+					if( io.imageUrl == null )
+					{
+						a = "sixteen";
+						b = "";
+					}
+					else
+					{
+						a = "ten"
+					}
+
+					_htmlTxt += `
+					${b}
+					  <div class="${a} wide column" style="padding:5px 10px!important;border-bottom:0px solid #ccc;padding-bottom:10px;">
+						<a href="https://m.finance.daum.net/quotes/A${window.params.cd}/news/stock/${io.newsId}" target="_blank" style="color:#000!important;cursor:pointer;display:block;">
+						<div stlye="margin-bottom:40px;">
+						<span style="font-size:12px;font-weight: bold;line-height:18px;">${io.title}</span></br>
+						<span style="font-size:11px;color:#666;">${io.cpKorName} · ${io.createdAt} <!--img src="https://t1.daumcdn.net/top/favicon.ico" style="width:15px"--></span>
+						</div>
+						</a>
+						
+						<!--div stlye="margin-bottom:40px;"><span style="font-size:12px;font-weight: bold;line-height:22px;">${io.summary}</span></div-->
+					  </div>`	
+				}
+				_htmlTxt += `</div>`
+				
+				var _target_dom = document.getElementById( "news" );
+				_target_dom.innerHTML = _htmlTxt
+			}
+
+		}
+
+		xhr.send();
+	
+	
+}
+
+window.COMPONENT.renderNewsFromNaver = function( cd ){
+
+		var xhr = new XMLHttpRequest();
+
+		xhr.open("GET" , "http://112.144.208.118:8888/getNewsByCdFromNaver?cd=" + cd, true);
+
+		xhr.onreadystatechange = function() {
+
+			if(xhr.readyState == 4 && xhr.status == 200)
+			{
+				var d = JSON.parse( xhr.responseText )
+				var _htmlTxt = `<div class="ui grid" style="padding:0px 0 0px 0;">`
+				
+				var i = 0,iLen = d.length,io;
+				//var i = 0,iLen = 5,io;
+				for(;i<iLen;++i){
+					io = d[ i ].items[0]
+					var a = ""
+					var b = `<div class="six wide column" style="">
+						<div><img src="${io.imageOriginLink}" onerror="return imageOnError(this)" style="width: 100%;height:80px;object-fit:cover;" loading='lazy'></div>
+					  </div>`
+					if( io.imageOriginLink == null )
+					{
+						a = "sixteen";
+						b = "";
+
+					}
+					else
+					{
+						a = "ten"
+					}
+					_htmlTxt += `
+					${b}
+					  <div class="${a} wide column" style="padding:5px 10px;!important;border-bottom:0px solid #ccc;padding-bottom:10px;">
+						<a href="https://m.stock.naver.com/domestic/stock/${window.params.cd}/news/view/${io.officeId}/${io.articleId}" target="_blank" style="color:#000!important;cursor:pointer;display:block">
+							<div stlye="margin-bottom:40px;">
+							<span style="font-size:12px;font-weight: bold;line-height:18px;">${io.titleFull}</span></br>
+							<span style="font-size:11px;color:#666;">${io.officeName} · ${io.datetime} <!--img src="https://ssl.pstatic.net/imgstock/favicon.ico" style="width:15px;"--></span>
+							</div>
+						</a>
+						<!--div stlye="margin-bottom:40px;"><span style="font-size:11px;font-weight: bold;line-height:22px;">${io.body}</span></div-->
+					  </div>`	
+				}
+				_htmlTxt += `</div>`
+				
+				var _target_dom = document.getElementById( "news" );
+				_target_dom.innerHTML = _htmlTxt
+			}
+
+		}
+
+		xhr.send();
+	
+	
+}
+
+
 //-------------------------------------------------------;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
