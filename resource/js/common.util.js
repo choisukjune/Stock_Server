@@ -2,6 +2,9 @@ window.Info = {};
 window.Info.renderTradeValueByCd = {}
 window.Info.renderTradeValueByCd.curCd = null;
 
+window.socketData = {};
+
+
 window.UTIL = {}
 
 window.UTIL.Link = {}
