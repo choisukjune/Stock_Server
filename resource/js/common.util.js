@@ -1181,6 +1181,7 @@ window.COMPONENT.renderTradeValueInfo = function(){
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
 		grid : { top:10,bottom : 0,left :'2%',right:'2%' },
 		height : h,
+		width : "100%",
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
 			breadcrumb : { show : false, },
@@ -1316,6 +1317,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 		title : { show :true, text : title,textStyle : { fontSize:12 } },
 		grid : { top:10,bottom : 0,left :'2%',right:'2%' },
 		height : h,
+		width : "100%",
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
 			breadcrumb : { show : false, },
