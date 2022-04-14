@@ -1657,9 +1657,9 @@ window.COMPONENT.getAcgDataByCd = function( cd, start, end ){
 				window.data.d02.push( io.tr3 )
 				window.data.d99.push( io )
 			}
-			window.data.d00.push( io.tr1 ).reverse();
-			window.data.d01.push( io.tr2 ).reverse();
-			window.data.d02.push( io.tr3 ).reverse();
+			window.data.d00 = window.data.d00.reverse();
+			window.data.d01 = window.data.d01.reverse();
+			window.data.d02 = window.data.d02.reverse();
 			//window.data.d99.push( io )
 			//var i =0,iLen = d.length,io,io00;
 			var i =0,iLen = 15,io,io00;
