@@ -492,6 +492,17 @@ window.onload = function(){
 					value: io.total[ "b" ],
 					children: []
 				}
+				
+				var k,ko;
+				for( s in io.trs ){
+					ko = io.trs[ s ]
+					_chart_o.children.push({
+						name: s,
+						//value: io.agency[ "연기금 등" ].NETBID_TRDVAL,
+						value: ko.b,
+						children: []
+					})
+				}
 				window.chartData.push( _chart_o )
 
 				var _chart_o_00 = {
