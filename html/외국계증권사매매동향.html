@@ -49,16 +49,23 @@ var fTradersBuyTreemap = function( data ){
 	var dom = document.getElementById("fTradersBuyTreemap");
 	window.charts.fTradersBuyTreemap = echarts.init(dom);
 
+	var h = dom.style.height.replace("px") * 1
+
+	var nowDate = window.UTIL.Date.getTimeTo__YYYYMMDD_HHMMSS()
+	var title = "외국계증권사별 매수현황( 금액 ) - " + nowDate;
+
 	var app = {};
 	var option = {
-		title : { show :true, text : '외국계증권사별 매수현황( 금액 )',textStyle : { fontSize:12 } },
+		title : { show :true, text : title,textStyle : { fontSize:12 } },
 		grid : { top:10,bottom : 0 },
+		height : h,
 		tooltip: {},
 		series: [
 			{
 				name: '외국계증권사별 매수현황( 금액 )',
 				type: 'treemap',
-				width :"100%",height :"100%",
+				width :"100%",
+				//height :"100%",
 				visibleMin: 300,
 				data: data,
 				leafDepth: 1,
@@ -106,17 +113,24 @@ var fTradersSellTreemap = function(data){
 	if( !window.charts ) window.charts = {};	
 	var dom = document.getElementById("fTradersSellTreemap");
 	window.charts.fTradersSellTreemap = echarts.init(dom);
-	var app = {};
 
+	var h = dom.style.height.replace("px") * 1
+
+	var nowDate = window.UTIL.Date.getTimeTo__YYYYMMDD_HHMMSS()
+	var title = "외국계증권사별 매도현황( 금액 ) - " + nowDate;
+
+	var app = {};
 	var option = {
-		title : { show :true, text : '외국계증권사별 매도현황( 금액 )',textStyle : { fontSize:12 } },
+		title : { show :true, text : title,textStyle : { fontSize:12 } },
 		grid : { top:10,bottom : 0 },
+		height : h,
 		tooltip: {},
 		series: [
 			{
 				name: '외국계증권사별 매도현황( 금액 )',
 				type: 'treemap',
-				width :"100%",height :"100%",
+				width :"100%",
+				//height :"100%",
 				visibleMin: 300,
 				data: data,
 				roam: "scale",
