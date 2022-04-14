@@ -1184,7 +1184,7 @@ window.COMPONENT.renderTradeValueInfo = function(){
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
 			breadcrumb : { show : false, },
-			width : "98%",
+			width : "95%",
 			//height :h,
 			//top:0,
 			data : chartData.slice(0,100),
@@ -1319,7 +1319,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: true, nodeClick: false,
 			breadcrumb : { show : false, },
-			width : "98%",
+			width : "95%",
 			//height :h,
 			//top:0,
 			data : chartData,
