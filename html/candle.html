@@ -1662,7 +1662,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 	getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
 	renderChartCandle( window.params.cd,window.date.curBefore3month,window.date.cur);
-	//getTradeValueByCd();
+	
 	//getAgcData(( window.params.cd );
 	getFTrData( window.params.cd );
 	getInsightByStockAvgCd( window.params.cd );
@@ -1671,7 +1671,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	getAllStockInfo();
 	getTrdRank( window.params.cd );
 //	updateStock( window.params.cd );
-
+	
+	window.COMPONENT.getTradeValueByCd();
 
 	var wsReqData = function( d ){
 		if( !window.ws || window.ws.readyState != 1 )
@@ -1686,11 +1687,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		window.ws.send( _d );			
 	}
 	wsReqData( { type : "execFunc", funcNm : "renderStockInfo", param : window.params.cd } )
-	wsReqData( { type : "execFunc", funcNm : "renderTradeValueByCd" } )
 
 	window.intervals = {}
 	window.intervals.renderStockInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderStockInfo", param : window.params.cd } ) );		}, 15000 );
-	window.intervals.renderStockInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueByCd", param : null } ) );		}, 15000 );
+
+	window.interval.getTradeValueByCd = setInterval(function(){	window.COMPONENT.getTradeValueByCd(); },7000)
 
 })
 </script>
