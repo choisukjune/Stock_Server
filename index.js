@@ -1010,6 +1010,46 @@ global.wsFuns.AgriculturalIndex =function( ws ){
 	
 }
 
+global.wsFuns.renderStockInfo =function( ws, p ){
+	
+	console.log( "[ S ] - global.wsFuns.renderStockInfo" )
+	try
+	{
+		var url = global.CONST.SERVER.CRWALER.DAUM.protocol 
+			+ global.CONST.SERVER.CRWALER.DAUM.host + ":" 
+			+ global.CONST.SERVER.CRWALER.DAUM.port;
+		http.get( url + '/getStockInfoByCd?cd=' + p, function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				
+				var r = {
+					type : "data",
+					nm : "renderStockInfo",
+					func : "renderStockInfo",
+					d : d,
+					p : p
+					
+				}
+				ws.send( JSON.stringify( r ) , { binary : true } )
+
+				console.log( "[ E ] - global.wsFuns.renderStockInfo" )
+			});
+
+			response.on('data', function (body) {
+				d += body;
+			});
+		});	
+	}
+	catch(er)
+	{
+		debugger;
+		console.log( er )
+	}
+	
+}
+
 //--------------------------------------------------;
 //--------------------------------------------------;
 //--------------------------------------------------;

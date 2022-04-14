@@ -1136,7 +1136,7 @@ var getTrdRank = function(cd){
 }
 
 
-var updateStock = function( cd ){
+var renderStockInfo = function( cd ){
 		
 		var xhr = new XMLHttpRequest();
 
@@ -1171,7 +1171,7 @@ var updateStock = function( cd ){
 				<div class="sixteen wide column" style="">
 					<div class="ui grid">
 						<div class="sixteen wide column" style="">
-							<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span></br>
+							<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span>
 							<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span><br>
 							<span style='font-size:12px;padding:10px 0px;'>( ${ d.symbolCode } ) - ${d.market} </span><br>
 							<span style="color:${color};font-size:18px;font-weight:bold;">  ${window.UTIL.Number.numberWithCommas( d.tradePrice )}</span> 
@@ -1665,7 +1665,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	updateNewsFromDaum( window.params.cd );
 	getAllStockInfo();
 	getTrdRank( window.params.cd );
-	updateStock( window.params.cd );
+//	updateStock( window.params.cd );
+
+
+	var wsReqData = function( d ){
+		if( !window.ws || window.ws.readyState != 1 )
+		{
+			console.log( "not yet window.ws" )
+			return setTimeout(function(){
+				wsReqData( d )
+			},2000)
+		}
+		var _d = JSON.stringify( d )
+		console.log( _d )
+		window.ws.send( _d );			
+	}
+	wsReqData( { type : "execFunc", funcNm : "renderStockInfo", param : window.params.cd } )
+
+	window.intervals = {}
+	window.intervals.renderStockInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderStockInfo", param : window.params.cd } ) );		}, 15000 );
 
 })
 </script>
