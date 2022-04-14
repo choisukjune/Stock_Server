@@ -675,28 +675,33 @@ catch(er)
 		var option;
 
   myChart.setOption(
-    (option = {
-      title: {
-        text: 'ECharts Options',
-        subtext: '2016/04',
-        left: 'leafDepth'
-      },
-      tooltip: {},
-      series: [
-        {
-          name: 'option',
-          type: 'treemap',
- 		width :"100%",height :"100%",
-          visibleMin: 300,
-          data: window.chartData,
-          leafDepth: 1,
-          levels: [
-			{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColor: '#fff', borderWidth: 4, gapWidth: 4 } },
-            { color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColorSaturation: 0.7, gapWidth: 2, borderWidth: 2 } },
-          ]
-        }
-      ]
-    })
+	(option = {
+		title: {
+			text: 'ECharts Options',
+			subtext: '2016/04',
+			left: 'leafDepth'
+		},
+		tooltip: {},
+		series: [
+			{
+				name: 'option',
+				type: 'treemap',
+				width :"100%",height :"100%",
+				visibleMin: 300,
+				data: window.chartData,
+				leafDepth: 1,
+				label : { formatter: function (params){
+						let arr = [	params.name, echarts.format.addCommas(params.value) ];
+						return arr.join('\n');
+					}
+				},
+				levels: [
+					{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColor: '#fff', borderWidth: 4, gapWidth: 4 } },
+					{ color: ['pink','red'], colorMappingBy: 'value', itemStyle: { borderColorSaturation: 0.7, gapWidth: 2, borderWidth: 2 } },
+				]
+			}
+		]
+	})
   );
 
 
