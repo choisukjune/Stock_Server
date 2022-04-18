@@ -2289,8 +2289,8 @@ window.COMPONENT.renderTrs = function(){
 				e.currentTarget.style.backgroundColor = "red";
 				e.currentTarget.style.color = "#fff";
 
-				window.COMPONENT.getTrdData_buy( window.url.params.date,cd, function(d){	renderAgcDailyTreemap_buy( d, cd ); });
-				window.COMPONENT.getTrdData_sell( window.url.params.date,cd, function(d){ renderAgcDailyTreemap_sell( d, cd ); });
+				window.COMPONENT.getTrdData_buy( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_buy( d, cd ); });
+				window.COMPONENT.getTrdData_sell( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_sell( d, cd ); });
 		
 		})
 	}
