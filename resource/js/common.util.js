@@ -1436,17 +1436,20 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				<div class="image" style="min-height:100px;">
 					<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/item/area/day/${cd}.png?sidcode=${Date.now()}"  style="width:-webkit-fill-available;"></div>
 				</div>
-				<span style='font-size:11px;padding:10px 0px;color:#aaa;'>${ d.date }</span><br>
-				<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${d.market}</span><br>
-				<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span>
-				<span style='font-size:12px;padding:10px 0px;'>( ${ d.symbolCode } )</span><br>
-				<span style="color:${color};font-size:18px;font-weight:bold;">  ${window.UTIL.Number.numberWithCommas( d.tradePrice )}</span>
-				<span style="color:${color};"> ${symbol} ${window.UTIL.Number.numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span><br>
-				<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% )<br>
-				거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 			</div>
 			<div class="ten wide column" style="">
 				<div class="ui grid">
+					<div class="sixteen wide column" style="">
+						<span style='font-size:11px;padding:10px 0px;color:#aaa;'>${ d.date }</span><br>
+
+						<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span>
+						<span style='font-size:12px;padding:10px 0px;'>( ${ d.symbolCode } )</span> - 
+						<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${d.market}</span>
+						<br>
+						<span style="color:${color};font-size:18px;font-weight:bold;">  ${window.UTIL.Number.numberWithCommas( d.tradePrice )}</span>
+						<span style="color:${color};"> ${symbol} ${window.UTIL.Number.numberWithCommas( d.changePrice )} ( ${(d.changeRate*100).toFixed(2)} % )</span><br>
+						<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% ) / 거래대금 : ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
+					</div>
 					<div class="sixteen wide column" style="">
 						<table class="ui celled table compact">
 							<thead>
