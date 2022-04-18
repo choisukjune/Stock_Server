@@ -1433,6 +1433,9 @@ window.COMPONENT.renderStockInfo = function( cd ){
 	<div class="sixteen wide column" style="">
 		<div class="ui grid">
 			<div class="three wide column" style="">
+				<div class="image" style="min-height:200px;">
+					<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/item/area/day/${cd}.png?sidcode=${Date.now()}"  style="width:-webkit-fill-available;"></div>
+				</div>
 				<span style='font-size:11px;padding:10px 0px;color:#aaa;'>${ d.date }</span><br>
 				<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${d.market}</span><br>
 				<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span>
@@ -1442,10 +1445,6 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% )<br>
 				거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 			</div>
-			<div class="three wide column" style="min-height:200px;">
-				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/item/area/day/${cd}.png?sidcode=${Date.now()}"  style="width:-webkit-fill-available;"></div>
-			</div>
-			
 			<div class="ten wide column" style="">
 				<div class="ui grid">
 					<div class="sixteen wide column" style="">
