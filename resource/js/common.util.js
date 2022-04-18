@@ -1443,7 +1443,7 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 			</div>
 			<div class="three wide column" style="min-height:200px;">
-				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${cd}_end_up_tablet.png?${Date.now()}"  style="width:-webkit-fill-available;"></div>
+				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/item/area/day/${cd}.png?sidcode=${Date.now()}"  style="width:-webkit-fill-available;"></div>
 			</div>
 			
 			<div class="ten wide column" style="">
