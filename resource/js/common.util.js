@@ -2316,6 +2316,7 @@ window.COMPONENT.renderAgcDailyTreemap_buy = function( d, sort ){
 			
 			var _chart_o = {
 				name: io.nm,
+				cd : io.cd,
 				price : io.price,
 				rt : io.rt,
 				rtMarker : symbol,
