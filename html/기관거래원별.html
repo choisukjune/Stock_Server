@@ -1,28 +1,11 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<link rel="stylesheet" href="../resource/css/common.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
-<style>
-td{
-	font-size:11px;
-	padding:10px;
-}
-.ui.card, .ui.cards>.card{
-
-	border-radius: 0rem !important
-	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
-	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
-
-
-}
-/*span{*/
-/*	padding : 10px 0 10px 0;*/
-/*}*/
-th{
-	font-size:11px;
-}
-</style>
+<script type="text/javascript" src="../resource/js/common.util.js"></script>
 
 
 <script>
@@ -614,6 +597,13 @@ var renderTreemapChart = function(){
 
 window.onload = function(){ 
 
+
+	window.Websocket.init();
+
+	window.COMPONENT.gnb();
+	window.COMPONENT.stockSearch_global();
+
+
 	var div00 = window.document.getElementById("div00");
 	var cards = window.document.getElementById("cards");
 	
@@ -646,16 +636,19 @@ window.onload = function(){
 <body style="padding:50px">
 
 	
-<div class="ui grid">
+<div class="ui stackable grid">
+	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
+	<div id="search_wrap" class="eight wide column" style="padding: 20px;">
+
 	<div class="sixteen wide cloumn">
 		<h3>기관 매매 동향</h3>
-		<div>(단위 : 백만 )</div>
+		<div>(단위 : 백만 ) - 20시이후 업데이트</div>
 	</div>
+
 	<div class="sixteen wide column" style="">
 		<table class="ui celled table compact">
 		<tbody>
-			<tr id="searchTrs">
-			</tr>
+			<tr id="searchTrs"></tr>
 		</tbody>
 		</table>
 	</div>
