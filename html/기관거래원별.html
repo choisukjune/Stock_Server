@@ -9,75 +9,6 @@
 
 
 <script>
-
-var updateStock = function(){
-		
-		
-
-		var cd = window.stock_arr[ updateStock.cnt ];
-		var xhr = new XMLHttpRequest();
-
-		xhr.open("GET" , "http://112.144.208.118:8888/getStockInfoByCd?cd=" + cd, true);
-
-		xhr.onreadystatechange = function() {
-
-			if(xhr.readyState == 4 && xhr.status == 200)
-
-			{
-	//			console.log( xhr.responseText )
-				var d = JSON.parse( xhr.responseText )
-				debugger;
-				var _htmlTxt = `
-				<span style='font-size:25px;'>${ d.name }</span>  ( ${ d.symbolCode } )<br>
-				<span style="color:black;font-size:14px;">  ${window.UTIL.Number.numberWithCommas( d.askPrice )}</span>
-				<span style="color:black;">  ${d.changePrice} ( ${(d.changeRate*100).toFixed(2)} % )</span></br>
-				<span style="">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}   <br>   거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>
-				`
-				window.document.getElementById( cd ).innerHTML = _htmlTxt
-				window.document.getElementById( "summaray_"+cd ).innerHTML = `<span style="font-size:11px;">${d.companySummary}</span>`
-				if( updateStock.cnt == window.stock_arr.length - 1 )
-				{
-					console.log("업데이트끝")
-					updateStock.cnt = 0;
-					updateStock.status = 0;
-				}
-				else
-				{
-					++updateStock.cnt;
-					updateStock.status = 1
-					setTimeout(function(){ updateStock()  },300)
-				}
-			}
-
-		}
-
-		xhr.send();
-	
-	
-}
-updateStock.cnt = 0;
-updateStock.status = 0;
-
-var getStockInfoByCd = function(cd,cbFunction){
-	var xhr = new XMLHttpRequest();
-
-	//http://112.144.208.118:8888/getCandleDataByCd?cd=510007&startTime=20220201&endTime=20220214
-	xhr.open("GET" , `http://112.144.208.118:8888/getStockInfoByCd?cd=${cd}`, true);
-
-	xhr.onreadystatechange = function() {
-
-		if(xhr.readyState == 4 && xhr.status == 200)
-		{
-			var d = JSON.parse( xhr.responseText );
-			
-			cbFunction(d)
-		}
-
-	}
-	xhr.send();
-}
-
-
 var paramToObject = function(){
 	
 	var r =  window.location.search.replace("?","");
@@ -105,6 +36,33 @@ var getTrdData = function( date, sort, cbFunction ){
         if(xhr.readyState == 4 && xhr.status == 200)
         {
             var a =JSON.parse(xhr.responseText);
+	
+			if( a.length == 0 ) return;
+			window.chartData = [];
+			var i = 0,iLen = arr.length,io;
+			for(;i<iLen;++i){
+				io = arr[ i ];
+				
+									
+				var symbol = "▲"
+				if( io.rt == 0 ) var symbol = "-";
+				if( io.rt < 0 ) var symbol = "▼";
+				
+				var _chart_o = {
+					name: io.nm,
+					price : io.price,
+					rt : io.rt,
+					rtMarker : symbol,
+					ydt : io.ydt,
+					b: io.b[ sort ],
+					s: io.s[ sort ],
+					pp: io.pp[ sort ],
+					value: io.pp[ sort ],
+					children: []
+				}
+				window.chartData.push( _chart_o )	
+			}
+
 			cbFunction( a, sort );
 		
 		}
@@ -131,7 +89,7 @@ var renderStock = function( arr, sort ){
 		<div style="padding-top:20px;background-color:#fff;">
 		<span style='color:black;font-size:24px;'>${io.nm}</span> (${io.cd})
 		</div>
-		<div style="padding-top:20px;background-color:#fff;">
+		<div style="padding-top:10px;background-color:#fff;">
 		<span style="color:${status.color};font-size:15px;">${window.UTIL.Number.numberWithCommas( io.price )}</span>
 		<span style="color:${status.color}">${status.symbol}${ window.UTIL.Number.numberWithCommas( io.ydt )} ( ${io.rt}% )</span>
 		</div>
@@ -246,7 +204,6 @@ var renderTrs = function(){
 				e.currentTarget.style.color = "#fff";
 
 				getTrdData( window.url.params.date,cd, function(d){
-					renderStock(d,cd);
 					renderTreemapChart();
 				})
 		
@@ -259,9 +216,9 @@ var renderTrs = function(){
 
 var renderTreemapChart = function(){
 		var dom = document.getElementById("container");
-		window.charts.treemapChart = echarts.init(dom);
+		window.charts.renderTreemapChart = echarts.init(dom);
 
-		window.charts.treemapChart.showLoading();
+		window.charts.renderTreemapChart.showLoading();
 
 		var app = {};
 
@@ -302,11 +259,11 @@ var renderTreemapChart = function(){
 		};
 
 		if (option && typeof option === 'object'){
-			window.charts.treemapChart.setOption(option);
-			window.charts.treemapChart.resize();
+			window.charts.renderTreemapChart.setOption(option);
+			window.charts.renderTreemapChart.resize();
 			
 			setTimeout(function(){
-				window.charts.treemapChart.hideLoading();
+				window.charts.renderTreemapChart.hideLoading();
 			},1000)
 
 		}
@@ -320,39 +277,32 @@ window.onload = function(){
 
 	window.COMPONENT.gnb();
 	window.COMPONENT.stockSearch_global();
-
-
-	var div00 = window.document.getElementById("div00");
-	var cards = window.document.getElementById("cards");
-	
 	
 	window.CONST = {};
 	window.CONST.traders = [ "개인",	"외국인", "기관계","금융투자","보험","투신","기타금융","은행","연기금등","사모펀드","국가","기타법인","내외국인" ];
 	window.CONST.tradersCd = [ "tr1","tr2","tr3","tr4","tr5","tr6","tr7","tr8","tr9","tr10","tr11","tr12","tr13" ];
 
-	window.stock = {};
-	window.stock_arr = [];
-	window.url = {};
 	window.url.params = paramToObject();
 	
 	window.charts = {};
-	window.charts.treemapChart = {};
-
+	window.charts.renderTreemapChart = {};
 	window.chartData = [];
 	
 	renderTrs();
 	getTrdData( window.url.params.date,"tr9", function(d){
-
-		renderStock(d,"tr9");
 		renderTreemapChart();
 	})
-	window.addEventListener("resize",function(e){
-		window.charts.treemapChart.resize();
-	})
+	window.addEventListener('resize', function(e){ 
+		var s,so;
+		for( s in window.charts ){
+			so = window.charts[ s ];
+			soresize();
+		}
+	}, true);
 }
 </script>
 
-<body style="padding:50px">
+<body style="padding:20px">
 	
 	<div class="ui stackable grid">
 		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
@@ -375,7 +325,7 @@ window.onload = function(){
 		</div>
 		
 		<div class="sixteen wide column">
-			<div class="ui four cards" id="cards"></div>
+			<div class="ui one cards" id="cards"></div>
 		</div>
 
 	</div>
