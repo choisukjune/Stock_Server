@@ -119,7 +119,7 @@ var renderAgcDailyTreemap_buy = function( d, sort ){
 				if( io.rt == 0 ) var symbol = "-";
 				if( io.rt < 0 ) var symbol = "▼";
 				
-				var _chart_o00 = {
+				var _chart_o = {
 					name: io.nm,
 					price : io.price,
 					rt : io.rt,
@@ -131,7 +131,7 @@ var renderAgcDailyTreemap_buy = function( d, sort ){
 					value: io.b[ sort ],
 					children: []
 				}
-				chartData.push( _chart_o00 )	
+				chartData.push( _chart_o )	
 			}
 
 
@@ -143,7 +143,6 @@ var renderAgcDailyTreemap_buy = function( d, sort ){
 		var app = {};
 
 		var option = {
-			title : { text: "asdddd" },
 			grid : { width :"100%" },
 			series: [
 				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
@@ -227,8 +226,7 @@ var renderAgcDailyTreemap_sell = function( d, sort ){
 
 		var app = {};
 
-		var option00 = {
-			title : { text: "asdf" },
+		var option = {
 			grid : { width :"100%" },
 			series: [
 				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
