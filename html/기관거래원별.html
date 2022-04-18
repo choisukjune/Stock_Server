@@ -179,8 +179,23 @@ var renderStock = function( arr, sort ){
 		`
 		_html += _html00
 			
+		var symbol = "▲"
+		if( io.rt == 0 ) 
+		{
+			var symbol = "-"
+		}
+		if( io.rt < 0 ) 
+		{
+			var symbol = "▼"	
+		}
+		
+
 		var _chart_o = {
 			name: io.nm,
+			price : io.price,
+			rt : io.rt,
+			rtMarker : symbol,
+			ydt : io.ydt
 			b: io.b[ sort ],
 			s: io.s[ sort ],
 			pp: io.pp[ sort ],
@@ -256,6 +271,7 @@ var renderTreemapChart = function(){
 						formatter: function (params){
 							let arr = [
 								"{title|" + params.name + "}",
+								"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.rtMarker + echarts.format.addCommas(params.data.rt) + "%}",			
 								"{hr|}",
 								"{a| 매수 : "  + window.UTIL.Number.longNumberAddString(params.data.b ) + "}",
 								"{a| 메도 : " + window.UTIL.Number.longNumberAddString(params.data.s ) + "}",
