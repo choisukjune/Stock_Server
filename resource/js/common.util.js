@@ -1432,7 +1432,7 @@ window.COMPONENT.renderStockInfo = function( cd ){
 	var _htmlTxt = `
 	<div class="sixteen wide column" style="">
 		<div class="ui grid">
-			<div class="three wide column" style="">
+			<div class="two wide column" style="">
 				<span style='font-size:12px;padding:10px 0px;color:#ccc;'>${ d.date }</span><br>
 				<span style='font-size:15px;padding:10px 0px;'>${ d.name }</span>
 				<span style='font-size:12px;padding:10px 0px;'>( ${ d.symbolCode } ) - ${d.market} </span><br>
@@ -1444,7 +1444,7 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${cd}_end_up_tablet.png?${Date.now()}"  style="width:-webkit-fill-available;"></div>
 			</div>
 			
-			<div class="ten wide column" style="">
+			<div class="eleven wide column" style="">
 				<div class="ui grid">
 					<div class="sixteen wide column" style="">
 						<table class="ui celled table compact">
