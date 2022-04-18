@@ -4,18 +4,10 @@ var date = <!=DATE=!>
 var db0 = db.getSiblingDB( db_nm );
 var col0 = db0.getCollection( col_nm );
 
-var _sort = "<!=SORT=!>"
-
-var s = type + "." + _sort
-
-var order = -1;
-if( type == "b" ) order = -1
-if( type == "s" ) order = 1;
-
 var r = []; 
 var _q = { _t : date }
-
-col0.find( _q ).sort( { s : order } ).limit(100).forEach(function(d){
+var sort = { "s.<!=SORT=!>" : 1 }
+col0.find( _q ).sort( sort ).limit(100).forEach(function(d){
 	r.push( d );
 })
  

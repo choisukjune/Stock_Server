@@ -25,12 +25,32 @@ var paramToObject = function(){
 	return o;
 };
 
-var getTrdData = function( date, sort, type, cbFunction ){
+var getTrdData_buy = function( date, sort, cbFunction ){
 
 	date = date || window.url.params.date
 
 	var xhr = new XMLHttpRequest();
-    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData?date=${date}&sort=${sort}&type=${type}` ) , true);
+    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData_buy?date=${date}&sort=${sort}` ) , true);
+    xhr.onreadystatechange = function() {
+
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+            var a =JSON.parse(xhr.responseText);
+	
+			cbFunction( a, sort );
+		
+		}
+		
+	}
+	xhr.send();
+}
+
+var getTrdData_sell = function( date, sort, cbFunction ){
+
+	date = date || window.url.params.date
+
+	var xhr = new XMLHttpRequest();
+    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData_sell?date=${date}&sort=${sort}` ) , true);
     xhr.onreadystatechange = function() {
 
         if(xhr.readyState == 4 && xhr.status == 200)
@@ -77,8 +97,8 @@ var renderTrs = function(){
 				e.currentTarget.style.backgroundColor = "red";
 				e.currentTarget.style.color = "#fff";
 
-				getTrdData( window.url.params.date,cd,"b", function(d){	renderAgcDailyTreemap_buy( d, cd ); });
-				getTrdData( window.url.params.date,cd,"s", function(d){	renderAgcDailyTreemap_sell( d, cd ); });
+				getTrdData_buy( window.url.params.date,cd, function(d){	renderAgcDailyTreemap_buy( d, cd ); });
+				getTrdData_sell( window.url.params.date,cd, function(d){ renderAgcDailyTreemap_sell( d, cd ); });
 		
 		})
 	}
@@ -279,8 +299,9 @@ window.onload = function(){
 	
 	renderTrs();
 
-	getTrdData( window.url.params.date,"tr9","b", function(d){	renderAgcDailyTreemap_buy( d, "tr9" ); });
-	getTrdData( window.url.params.date,"tr9","s", function(d){	renderAgcDailyTreemap_sell( d, "tr9" ); });
+	getTrdData_buy( window.url.params.date,"tr9", function(d){	renderAgcDailyTreemap_buy( d, "tr9" ); });
+	getTrdData_sell( window.url.params.date,"tr9", function(d){ renderAgcDailyTreemap_sell( d, "tr9" ); });
+
 
 	window.addEventListener('resize', function(e){ 
 		var s,so;
