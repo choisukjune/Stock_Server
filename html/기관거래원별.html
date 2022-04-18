@@ -575,7 +575,7 @@ var renderTreemapChart = function(){
 				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
 				  data: window.chartData,label : {
 					formatter: function (params) {
-						let arr = [ params.name, echarts.format.addCommas(params.value) ];
+						let arr = [ params.name, window.UTIL.Number.longNumberAddString(params.value) ];
 						return arr.join('\n');
 					  }
 					},levels: [{ color: ['pink','red'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
@@ -633,29 +633,33 @@ window.onload = function(){
 	})
 }
 </script>
+
 <body style="padding:50px">
-
 	
-<div class="ui stackable grid">
-	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
-	<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
+	<div class="ui stackable grid">
+		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
+		<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
 
-	<div class="sixteen wide cloumn">
-		<h3>기관 매매 동향</h3>
-		<div>(단위 : 백만 ) - 20시이후 업데이트</div>
-	</div>
+		<div class="sixteen wide cloumn">
+			<h3>기관 매매 동향</h3><span>(단위 : 백만 ) - 20시이후 업데이트</span>
+		</div>
 
-	<div class="sixteen wide column" style="">
-		<table class="ui celled table compact">
-		<tbody>
-			<tr id="searchTrs"></tr>
-		</tbody>
-		</table>
+		<div class="sixteen wide column" style="">
+			<table class="ui celled table compact">
+				<tbody>
+					<tr id="searchTrs"></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="sixteen wide column" style="height:400px">
+			<div id="container" style="width:100%;height: 100%"></div>	
+		</div>
+		
+		<div class="sixteen wide column">
+			<div class="ui three cards" id="cards"></div>
+		</div>
+
 	</div>
-	<div class="sixteen wide column" style="height:400px"><div id="container" style="width:100%;height: 100%"></div>	</div>
-	<div class="sixteen wide column">
-		<div class="ui three cards" id="cards"></div>
-	</div>
-</div>
 
 </body>
