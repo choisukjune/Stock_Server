@@ -94,7 +94,7 @@ var renderAgcDailyTreemap_buy = function( d, sort ){
 		if( d.length == 0 ) return;
 			var i = 0,iLen = d.length,io;
 			for(;i<iLen;++i){
-				io = a[ i ];
+				io = d[ i ];
 				
 				var symbol = "▲"
 				if( io.rt == 0 ) var symbol = "-";
@@ -177,7 +177,7 @@ var renderAgcDailyTreemap_sell = function( d, sort ){
 		if( d.length == 0 ) return;
 			var i = 0,iLen = d.length,io;
 			for(;i<iLen;++i){
-				io = a[ i ];
+				io = d[ i ];
 				
 				var symbol = "▲"
 				if( io.rt == 0 ) var symbol = "-";
