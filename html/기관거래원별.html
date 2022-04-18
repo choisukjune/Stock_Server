@@ -181,7 +181,9 @@ var renderStock = function( arr, sort ){
 			
 		var _chart_o = {
 			name: io.nm,
-			//value: io.agency[ "연기금 등" ].NETBID_TRDVAL,
+			b: io.b[ sort ],
+			s: io.s[ sort ],
+			pp: io.pp[ sort ],
 			value: io.pp[ sort ],
 			children: []
 		}
@@ -249,12 +251,33 @@ var renderTreemapChart = function(){
 			grid : { width :"100%" },
 			series: [
 				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
-				  data: window.chartData,label : {
-					formatter: function (params) {
-						let arr = [ params.name, window.UTIL.Number.longNumberAddString(params.value) ];
-						return arr.join('\n');
-					  }
-					},levels: [{ color: ['pink','red'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
+					data: window.chartData,
+					label : { 
+						formatter: function (params){
+							let arr = [
+								"{title|" + params.name + "}",
+								"{hr|}",
+								"{a| 매수 : "  + window.UTIL.Number.longNumberAddString(params.data.b ) + "}",
+								"{a| 메도 : " + window.UTIL.Number.longNumberAddString(params.data.s ) + "}",
+								"{hr|}",
+								"{b| 순매수 : " + window.UTIL.Number.longNumberAddString(params.data.pp ) + "}",
+							];
+							return arr.join('\n');
+						},
+						rich : {
+							title : { fontSize: 14 },
+							a : { fontSize: 9 },
+							b : { fontSize: 12 },
+							hr : { 
+								width : "100%",
+								borderColor : "rgba(255,255,255,0.0)",
+								borderWidth : 0.5,
+								height : 0,
+								lineHeight : 10,
+							}
+						}
+					},
+					levels: [{ color: ['pink','red'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
 				}
 			]
 		};
