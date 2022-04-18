@@ -376,7 +376,7 @@ var pad = function(n, width){
 	* </code>
 	*/
 	global.server.addRouter("/getStockInfoIntegration",function( req, res ){
-		console.log( 111 )
+
 		var routerNm = req.url.split("?")[0];
 		var paramsO = paramToObject( req.url );
 				
@@ -387,7 +387,7 @@ var pad = function(n, width){
 		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
 		
 		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
-		http.get( url + '/getStockInfoIntegration?cd=' + paramsO.cd, function(response){
+		http.get( url + '/getStockInfoByCd?cd=' + paramsO.cd, function(response){
 			response.setEncoding('utf8');
 
 			var d = "";
