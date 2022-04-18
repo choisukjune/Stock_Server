@@ -256,7 +256,8 @@ http.get( url + `/getAllStockInfo`, function(response){
 });
 
 global.server = http.createServer(function(req, res){
-
+	var ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+	console.log( "reqIp : " + ip );
     req.on('error', function( err ){
         console.error(err);
         res.statusCode = 400;

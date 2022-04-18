@@ -216,6 +216,8 @@ var excuteFile = function(){
 	}
 	else if( now < 90000 )
 	{
+		console.log( "[ Message ] - Too early time! - Wait 30s -" + now );
+		console.log( "[ E ] - " + dateFormat_YYMMDD_HHMMSS() );
 		return setTimeout(function(){ excuteFile(); },30000)
 	}
 
