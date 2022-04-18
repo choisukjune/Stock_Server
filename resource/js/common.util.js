@@ -2220,6 +2220,281 @@ window.COMPONENT.fTradersSellTreemap = function(data){
 		window.charts.fTradersSellTreemap.setOption(option);
 	}
 }
+
+
+window.COMPONENT.getTrdData_buy = function( date, sort, cbFunction ){
+
+	date = date || window.url.params.date
+
+	var xhr = new XMLHttpRequest();
+    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData_buy?date=${date}&sort=${sort}` ) , true);
+    xhr.onreadystatechange = function() {
+
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+            var a =JSON.parse(xhr.responseText);
+	
+			cbFunction( a, sort );
+		
+		}
+		
+	}
+	xhr.send();
+}
+
+window.COMPONENT.getTrdData_sell = function( date, sort, cbFunction ){
+
+	date = date || window.url.params.date
+
+	var xhr = new XMLHttpRequest();
+    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData_sell?date=${date}&sort=${sort}` ) , true);
+    xhr.onreadystatechange = function() {
+
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {
+            var a =JSON.parse(xhr.responseText);
+	
+			cbFunction( a, sort );
+		
+		}
+		
+	}
+	xhr.send();
+}
+
+window.COMPONENT.renderTrs = function(){
+
+	var traders = [ "개인",	"외국인", "기관계","금융투자","보험","투신","기타금융","은행","연기금등","사모펀드","국가","기타법인","내외국인" ];
+	var tradersCd = [ "tr1","tr2","tr3","tr4","tr5","tr6","tr7","tr8","tr9","tr10","tr11","tr12","tr13" ];
+
+	var _tdom = window.document.getElementById("searchTrs");
+	var i = 0,iLen = traders.length,io;
+	for(;i<iLen;++i){
+		io = traders[ i ];
+		var new_el = window.UTIL.Html.htmlToElement( `<td id="btn_${tradersCd[i]}" style="text-align:center;cursor:pointer;" data-cd-value="${tradersCd[i]}" class="sort">${io}</td>` )
+	
+		//_tdom.insertBefore( new_el,_tdom.firstChild )
+		_tdom.appendChild( new_el )
+		new_el.addEventListener( "click",function(e){
+				var cd = e.currentTarget.getAttribute("data-cd-value");
+				var sort_arr = window.document.getElementsByClassName("sort");
+				var i = 0,iLen = sort_arr.length,io;
+				for(;i<iLen;++i){
+					io = sort_arr[ i ];
+					io.style = {};
+					io.style.textAlign = "center"
+					io.style.cursor = "pointer"
+
+				}
+				e.currentTarget.style.backgroundColor = "red";
+				e.currentTarget.style.color = "#fff";
+
+				window.COMPONENT.getTrdData_buy( window.url.params.date,cd, function(d){	renderAgcDailyTreemap_buy( d, cd ); });
+				window.COMPONENT.getTrdData_sell( window.url.params.date,cd, function(d){ renderAgcDailyTreemap_sell( d, cd ); });
+		
+		})
+	}
+
+	
+	var _target_dom =	window.document.getElementById( "btn_tr9" );
+	_target_dom.click();
+	
+}
+
+
+window.COMPONENT.renderAgcDailyTreemap_buy = function( d, sort ){
+		
+	var chartData = [];
+	if( d.length == 0 ) return;
+		var i = 0,iLen = d.length,io;
+		for(;i<iLen;++i){
+			io = d[ i ];
+			
+			var symbol = "▲"
+			if( io.rt == 0 ) var symbol = "-";
+			if( io.rt < 0 ) var symbol = "▼";
+			
+			var _chart_o = {
+				name: io.nm,
+				price : io.price,
+				rt : io.rt,
+				rtMarker : symbol,
+				ydt : io.ydt,
+				b: io.b[ sort ],
+				s: io.s[ sort ],
+				pp: io.pp[ sort ],
+				value: io.b[ sort ],
+				children: []
+			}
+			chartData.push( _chart_o )	
+		}
+
+
+	var domId = "renderAgcDailyTreemap_buy";
+	
+	var dom = document.getElementById( domId );
+	if( !window.charts ) window.charts = {}
+	if( !window.charts.renderAgcDailyTreemap_buy )
+	{
+		window.charts.renderAgcDailyTreemap_buy = echarts.init(dom);
+		window.charts.renderAgcDailyTreemap_buy.isEvent = 0;
+	}
+
+	window.charts.renderAgcDailyTreemap_buy.showLoading();
+
+	var app = {};
+
+	var option = {
+		grid : { width :"100%" },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
+				data: chartData,
+				label : { 
+					formatter: function (params){
+						let arr = [
+							"{title|" + params.name + "}",
+							"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.rtMarker + params.data.ydt + " " +  "( " +echarts.format.addCommas(params.data.rt) + "% )}",			
+							"{hr|}",
+							"{a| 매수 : "  + window.UTIL.Number.longNumberAddString(params.data.b ) + "}",
+							"{a| 메도 : " + window.UTIL.Number.longNumberAddString(params.data.s ) + "}",
+							"{hr|}",
+							"{b| 순매수 : " + window.UTIL.Number.longNumberAddString(params.data.pp ) + "}",
+						];
+						return arr.join('\n');
+					},
+					rich : {
+						title : { fontSize: 14 },
+						a : { fontSize: 9 },
+						b : { fontSize: 12 },
+						hr : { 
+							width : "100%",
+							borderColor : "rgba(255,255,255,0.0)",
+							borderWidth : 0.5,
+							height : 0,
+							lineHeight : 10,
+						}
+					}
+				},
+				levels: [{ color: ['pink','red'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
+			}
+		]
+	};
+
+	if (option && typeof option === 'object'){
+		window.charts.renderAgcDailyTreemap_buy.setOption(option);
+		window.charts.renderAgcDailyTreemap_buy.resize();
+		
+		setTimeout(function(){
+			window.charts.renderAgcDailyTreemap_buy.hideLoading();
+		},1000)
+
+		window.charts.renderAgcDailyTreemap_buy.on('click',function(d){
+			var eventUlr = '../html/candle.html?cd=';
+			window.UTIL.Link.a( eventUlr + d.data.cd, "_blank")	
+		})
+		window.charts.renderAgcDailyTreemap_buy.isEvent = 1;
+	}
+
+}
+
+
+window.COMPONENT.renderAgcDailyTreemap_sell = function( d, sort ){
+		
+	chartData = [];
+	if( d.length == 0 ) return;
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[ i ];
+		
+		var symbol = "▲"
+		if( io.rt == 0 ) var symbol = "-";
+		if( io.rt < 0 ) var symbol = "▼";
+		
+		var _chart_o = {
+			name: io.nm,
+			cd : io.cd,
+			price : io.price,
+			rt : io.rt,
+			rtMarker : symbol,
+			ydt : io.ydt,
+			b: io.b[ sort ],
+			s: io.s[ sort ],
+			pp: io.pp[ sort ],
+			value: io.s[ sort ] * -1,
+			children: []
+		}
+		chartData.push( _chart_o )	
+	}
+
+
+
+	var domId = "renderAgcDailyTreemap_sell";
+	
+	var dom = document.getElementById( domId );
+	if( !window.charts ) window.charts = {}
+	if( !window.charts.renderAgcDailyTreemap_sell )
+	{
+		window.charts.renderAgcDailyTreemap_sell = echarts.init(dom);
+		window.charts.renderAgcDailyTreemap_sell.isEvent = 0;
+	}
+
+	window.charts.renderAgcDailyTreemap_sell.showLoading();
+
+	var app = {};
+
+	var option = {
+		grid : { width :"100%" },
+		series: [
+			{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
+				data: chartData,
+				label : { 
+					formatter: function (params){
+						let arr = [
+							"{title|" + params.name + "}",
+							"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.rtMarker + params.data.ydt + " " +  "( " +echarts.format.addCommas(params.data.rt) + "% )}",			
+							"{hr|}",
+							"{a| 매수 : "  + window.UTIL.Number.longNumberAddString(params.data.b ) + "}",
+							"{a| 메도 : " + window.UTIL.Number.longNumberAddString(params.data.s ) + "}",
+							"{hr|}",
+							"{b| 순매수 : " + window.UTIL.Number.longNumberAddString(params.data.pp ) + "}",
+						];
+						return arr.join('\n');
+					},
+					rich : {
+						title : { fontSize: 14 },
+						a : { fontSize: 9 },
+						b : { fontSize: 12 },
+						hr : { 
+							width : "100%",
+							borderColor : "rgba(255,255,255,0.0)",
+							borderWidth : 0.5,
+							height : 0,
+							lineHeight : 10,
+						}
+					}
+				},
+				levels: [{ color: ['skyblue','blue'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
+			}
+		]
+	};
+
+	if (option && typeof option === 'object'){
+		window.charts.renderAgcDailyTreemap_sell.setOption(option);
+		window.charts.renderAgcDailyTreemap_sell.resize();
+		
+		setTimeout(function(){
+			window.charts.renderAgcDailyTreemap_sell.hideLoading();
+		},1000)
+		window.charts.renderAgcDailyTreemap_sell.on('click',function(d){
+			var eventUlr = '../html/candle.html?cd=';
+			window.UTIL.Link.a( eventUlr + d.data.cd, "_blank")	
+		})
+		window.charts.renderAgcDailyTreemap_sell.isEvent = 1;
+
+	}
+
+}
+
 //-------------------------------------------------------;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
