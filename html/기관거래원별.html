@@ -271,7 +271,7 @@ var renderTreemapChart = function(){
 						formatter: function (params){
 							let arr = [
 								"{title|" + params.name + "}",
-								"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.rtMarker + echarts.format.addCommas(params.data.rt) + "%}",			
+								"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.rtMarker + params.data.ydt + " " +  "(" +echarts.format.addCommas(params.data.rt) + ")%}",			
 								"{hr|}",
 								"{a| 매수 : "  + window.UTIL.Number.longNumberAddString(params.data.b ) + "}",
 								"{a| 메도 : " + window.UTIL.Number.longNumberAddString(params.data.s ) + "}",
