@@ -1488,7 +1488,7 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				</div>
 			</div>
 			<div class="six wide column" style="">
-				<div class="image" style="min-height:100px;">
+				<div class="image" style="min-height:230px;">
 					<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/item/area/week/${cd}.png?sidcode=${Date.now()}"  style="width:-webkit-fill-available;"></div>
 				</div>
 			</div>
