@@ -25,12 +25,12 @@ var paramToObject = function(){
 	return o;
 };
 
-var getTrdData = function( date, sort, cbFunction ){
+var getTrdData = function( date, sort, type, cbFunction ){
 
 	date = date || window.url.params.date
 
 	var xhr = new XMLHttpRequest();
-    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData?date=${date}&sort=${sort}` ) , true);
+    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getTrdData?date=${date}&sort=${sort}&type=${type}` ) , true);
     xhr.onreadystatechange = function() {
 
         if(xhr.readyState == 4 && xhr.status == 200)
@@ -77,10 +77,8 @@ var renderTrs = function(){
 				e.currentTarget.style.backgroundColor = "red";
 				e.currentTarget.style.color = "#fff";
 
-				getTrdData( window.url.params.date,cd, function(d){
-					renderAgcDailyTreemap_buy( d, cd );
-					renderAgcDailyTreemap_sell( d, cd );
-				})
+				getTrdData( window.url.params.date,cd,"b", function(d){	renderAgcDailyTreemap_buy( d, cd ); });
+				getTrdData( window.url.params.date,cd,"s", function(d){	renderAgcDailyTreemap_sell( d, cd ); });
 		
 		})
 	}
@@ -177,28 +175,28 @@ var renderAgcDailyTreemap_sell = function( d, sort ){
 		
 		window.chartData.s = [];
 		if( d.length == 0 ) return;
-			var i = 0,iLen = d.length,io;
-			for(;i<iLen;++i){
-				io = d[ i ];
-				
-				var symbol = "▲"
-				if( io.rt == 0 ) var symbol = "-";
-				if( io.rt < 0 ) var symbol = "▼";
-				
-				var _chart_o = {
-					name: io.nm,
-					price : io.price,
-					rt : io.rt,
-					rtMarker : symbol,
-					ydt : io.ydt,
-					b: io.b[ sort ],
-					s: io.s[ sort ],
-					pp: io.pp[ sort ],
-					value: io.s[ sort ],
-					children: []
-				}
-				window.chartData.s.push( _chart_o )	
+		var i = 0,iLen = d.length,io;
+		for(;i<iLen;++i){
+			io = d[ i ];
+			
+			var symbol = "▲"
+			if( io.rt == 0 ) var symbol = "-";
+			if( io.rt < 0 ) var symbol = "▼";
+			
+			var _chart_o = {
+				name: io.nm,
+				price : io.price,
+				rt : io.rt,
+				rtMarker : symbol,
+				ydt : io.ydt,
+				b: io.b[ sort ],
+				s: io.s[ sort ],
+				pp: io.pp[ sort ],
+				value: io.s[ sort ],
+				children: []
 			}
+			window.chartData.s.push( _chart_o )	
+		}
 
 
 		var dom = document.getElementById("renderAgcDailyTreemap_sell");
@@ -280,10 +278,10 @@ window.onload = function(){
 	};
 	
 	renderTrs();
-	getTrdData( window.url.params.date,"tr9", function(d){
-		renderAgcDailyTreemap_buy( d, "tr9" );
-		renderAgcDailyTreemap_sell( d, "tr9" );
-	})
+
+	getTrdData( window.url.params.date,"tr9","b", function(d){	renderAgcDailyTreemap_buy( d, cd ); });
+	getTrdData( window.url.params.date,"tr9","s", function(d){	renderAgcDailyTreemap_sell( d, cd ); });
+
 	window.addEventListener('resize', function(e){ 
 		var s,so;
 		for( s in window.charts ){

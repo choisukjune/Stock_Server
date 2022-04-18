@@ -1928,7 +1928,7 @@ var pad = function(n, width){
 		var query = _tQuery
 			.replace( "<!=DATE=!>", date)
 			.replace( "<!=SORT=!>", paramsO.sort)
-			//.replace( "<!=CD=!>", paramsO.cd )
+			.replace( "<!=CD=!>", paramsO.type )
 			//.replace( "<!=LIMIT=!>", limit );
 			
 		var dbjs_nm = "getTrdData.dbjs";
