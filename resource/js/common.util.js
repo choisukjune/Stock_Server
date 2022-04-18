@@ -1442,11 +1442,11 @@ window.COMPONENT.renderStockInfo = function( cd ){
 				<span style="font-size:12px;">  거래량 : ${window.UTIL.Number.numberWithCommas( d.accTradeVolume )}( ${tradeVolumeRatio}% )<br>
 				거래대금 ${window.UTIL.Number.numberWithCommas( d.accTradePrice )} </span>  
 			</div>
-			<div class="two wide column" style="min-height:200px;">
+			<div class="three wide column" style="min-height:200px;">
 				<div claa="image"><img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${cd}_end_up_tablet.png?${Date.now()}"  style="width:-webkit-fill-available;"></div>
 			</div>
 			
-			<div class="eleven wide column" style="">
+			<div class="ten wide column" style="">
 				<div class="ui grid">
 					<div class="sixteen wide column" style="">
 						<table class="ui celled table compact">
