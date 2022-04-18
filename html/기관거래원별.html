@@ -165,7 +165,10 @@ var renderStock = function( arr, sort ){
 			
 			_html00 += `
 			<tr style="color:${color};background-color:${bColor}">
-				<td> ${window.CONST.traders[ cnt ]} 	</td><td>	${so00}		</td><td>  ${so01}  </td><td>  ${so02}  </td>
+				<td> ${window.CONST.traders[ cnt ]}</td>
+				<td>${window.UTIL.Number.longNumberAddString( so00 )}</td>
+				<td>${window.UTIL.Number.longNumberAddString( so01 )}</td>
+				<td>${window.UTIL.Number.longNumberAddString( so02 )}</td>
 			</tr>`
 			++cnt;
 				
