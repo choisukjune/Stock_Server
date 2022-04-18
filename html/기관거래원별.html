@@ -91,6 +91,7 @@ var renderTrs = function(){
 
 var renderAgcDailyTreemap_buy = function( d, sort ){
 		
+		window.chartData.b = [];
 		if( d.length == 0 ) return;
 			var i = 0,iLen = d.length,io;
 			for(;i<iLen;++i){
@@ -174,6 +175,7 @@ var renderAgcDailyTreemap_buy = function( d, sort ){
 
 var renderAgcDailyTreemap_sell = function( d, sort ){
 		
+		window.chartData.s = [];
 		if( d.length == 0 ) return;
 			var i = 0,iLen = d.length,io;
 			for(;i<iLen;++i){
@@ -195,7 +197,7 @@ var renderAgcDailyTreemap_sell = function( d, sort ){
 					value: io.s[ sort ],
 					children: []
 				}
-				window.chartData.b.push( _chart_o )	
+				window.chartData.s.push( _chart_o )	
 			}
 
 
