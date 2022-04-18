@@ -279,8 +279,8 @@ window.onload = function(){
 	
 	renderTrs();
 
-	getTrdData( window.url.params.date,"tr9","b", function(d){	renderAgcDailyTreemap_buy( d, cd ); });
-	getTrdData( window.url.params.date,"tr9","s", function(d){	renderAgcDailyTreemap_sell( d, cd ); });
+	getTrdData( window.url.params.date,"tr9","b", function(d){	renderAgcDailyTreemap_buy( d, "tr9" ); });
+	getTrdData( window.url.params.date,"tr9","s", function(d){	renderAgcDailyTreemap_sell( d, "tr9" ); });
 
 	window.addEventListener('resize', function(e){ 
 		var s,so;
