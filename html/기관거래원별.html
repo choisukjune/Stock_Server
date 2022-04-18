@@ -282,7 +282,7 @@ window.onload = function(){
 	window.CONST.traders = [ "개인",	"외국인", "기관계","금융투자","보험","투신","기타금융","은행","연기금등","사모펀드","국가","기타법인","내외국인" ];
 	window.CONST.tradersCd = [ "tr1","tr2","tr3","tr4","tr5","tr6","tr7","tr8","tr9","tr10","tr11","tr12","tr13" ];
 
-	window.url.params = paramToObject();
+	window.url.params = window.UTIL.Url.paramToObject();
 	
 	window.charts = {};
 	window.charts.renderTreemapChart = {};
