@@ -37,31 +37,6 @@ var getTrdData = function( date, sort, cbFunction ){
         {
             var a =JSON.parse(xhr.responseText);
 	
-			if( a.length == 0 ) return;
-			window.chartData = [];
-			var i = 0,iLen = a.length,io;
-			for(;i<iLen;++i){
-				io = a[ i ];
-				
-				var symbol = "▲"
-				if( io.rt == 0 ) var symbol = "-";
-				if( io.rt < 0 ) var symbol = "▼";
-				
-				var _chart_o = {
-					name: io.nm,
-					price : io.price,
-					rt : io.rt,
-					rtMarker : symbol,
-					ydt : io.ydt,
-					b: io.b[ sort ],
-					s: io.s[ sort ],
-					pp: io.pp[ sort ],
-					value: io.pp[ sort ],
-					children: []
-				}
-				window.chartData.push( _chart_o )	
-			}
-
 			cbFunction( a, sort );
 		
 		}
@@ -103,7 +78,8 @@ var renderTrs = function(){
 				e.currentTarget.style.color = "#fff";
 
 				getTrdData( window.url.params.date,cd, function(d){
-					renderTreemapChart();
+					renderAgcDailyTreemap_buy( d, cd );
+					renderAgcDailyTreemap_sell( d, cd );
 				})
 		
 		})
@@ -113,11 +89,37 @@ var renderTrs = function(){
 }
 
 
-var renderTreemapChart = function(){
-		var dom = document.getElementById("container");
-		window.charts.renderTreemapChart = echarts.init(dom);
+var renderAgcDailyTreemap_buy = function( d, sort ){
+		
+		if( d.length == 0 ) return;
+			var i = 0,iLen = d.length,io;
+			for(;i<iLen;++i){
+				io = a[ i ];
+				
+				var symbol = "▲"
+				if( io.rt == 0 ) var symbol = "-";
+				if( io.rt < 0 ) var symbol = "▼";
+				
+				var _chart_o = {
+					name: io.nm,
+					price : io.price,
+					rt : io.rt,
+					rtMarker : symbol,
+					ydt : io.ydt,
+					b: io.b[ sort ],
+					s: io.s[ sort ],
+					pp: io.pp[ sort ],
+					value: io.b[ sort ],
+					children: []
+				}
+				window.chartData.b.push( _chart_o )	
+			}
 
-		window.charts.renderTreemapChart.showLoading();
+
+		var dom = document.getElementById("renderAgcDailyTreemap_buy");
+		window.charts.renderAgcDailyTreemap_buy = echarts.init(dom);
+
+		window.charts.renderAgcDailyTreemap_buy.showLoading();
 
 		var app = {};
 
@@ -125,7 +127,7 @@ var renderTreemapChart = function(){
 			grid : { width :"100%" },
 			series: [
 				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
-					data: window.chartData,
+					data: window.chartData.b,
 					label : { 
 						formatter: function (params){
 							let arr = [
@@ -158,16 +160,100 @@ var renderTreemapChart = function(){
 		};
 
 		if (option && typeof option === 'object'){
-			window.charts.renderTreemapChart.setOption(option);
-			window.charts.renderTreemapChart.resize();
+			window.charts.renderAgcDailyTreemap_buy.setOption(option);
+			window.charts.renderAgcDailyTreemap_buy.resize();
 			
 			setTimeout(function(){
-				window.charts.renderTreemapChart.hideLoading();
+				window.charts.renderAgcDailyTreemap_buy.hideLoading();
 			},1000)
 
 		}
 
 }
+
+
+var renderAgcDailyTreemap_sell = function( d, sort ){
+		
+		if( d.length == 0 ) return;
+			var i = 0,iLen = d.length,io;
+			for(;i<iLen;++i){
+				io = a[ i ];
+				
+				var symbol = "▲"
+				if( io.rt == 0 ) var symbol = "-";
+				if( io.rt < 0 ) var symbol = "▼";
+				
+				var _chart_o = {
+					name: io.nm,
+					price : io.price,
+					rt : io.rt,
+					rtMarker : symbol,
+					ydt : io.ydt,
+					b: io.b[ sort ],
+					s: io.s[ sort ],
+					pp: io.pp[ sort ],
+					value: io.s[ sort ],
+					children: []
+				}
+				window.chartData.b.push( _chart_o )	
+			}
+
+
+		var dom = document.getElementById("renderAgcDailyTreemap_sell");
+		window.charts.renderAgcDailyTreemap_sell = echarts.init(dom);
+
+		window.charts.renderAgcDailyTreemap_sell.showLoading();
+
+		var app = {};
+
+		var option = {
+			grid : { width :"100%" },
+			series: [
+				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
+					data: window.chartData.b,
+					label : { 
+						formatter: function (params){
+							let arr = [
+								"{title|" + params.name + "}",
+								"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.rtMarker + params.data.ydt + " " +  "( " +echarts.format.addCommas(params.data.rt) + "% )}",			
+								"{hr|}",
+								"{a| 매수 : "  + window.UTIL.Number.longNumberAddString(params.data.b ) + "}",
+								"{a| 메도 : " + window.UTIL.Number.longNumberAddString(params.data.s ) + "}",
+								"{hr|}",
+								"{b| 순매수 : " + window.UTIL.Number.longNumberAddString(params.data.pp ) + "}",
+							];
+							return arr.join('\n');
+						},
+						rich : {
+							title : { fontSize: 14 },
+							a : { fontSize: 9 },
+							b : { fontSize: 12 },
+							hr : { 
+								width : "100%",
+								borderColor : "rgba(255,255,255,0.0)",
+								borderWidth : 0.5,
+								height : 0,
+								lineHeight : 10,
+							}
+						}
+					},
+					levels: [{ color: ['skyblue','blue'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
+				}
+			]
+		};
+
+		if (option && typeof option === 'object'){
+			window.charts.renderAgcDailyTreemap_sell.setOption(option);
+			window.charts.renderAgcDailyTreemap_sell.resize();
+			
+			setTimeout(function(){
+				window.charts.renderAgcDailyTreemap_sell.hideLoading();
+			},1000)
+
+		}
+
+}
+
 
 window.onload = function(){ 
 
@@ -186,17 +272,21 @@ window.onload = function(){
 	
 	window.charts = {};
 	window.charts.renderTreemapChart = {};
-	window.chartData = [];
+	window.chartData = {
+		b : [],
+		s : [],
+	};
 	
 	renderTrs();
 	getTrdData( window.url.params.date,"tr9", function(d){
-		renderTreemapChart();
+		renderAgcDailyTreemap_buy( d, "tr9" );
+		renderAgcDailyTreemap_sell( d, "tr9" );
 	})
 	window.addEventListener('resize', function(e){ 
 		var s,so;
 		for( s in window.charts ){
 			so = window.charts[ s ];
-			soresize();
+			so.resize();
 		}
 	}, true);
 }
@@ -221,7 +311,7 @@ window.onload = function(){
 		</div>
 
 		<div class="sixteen wide column" style="height:400px">
-			<div id="container" style="width:100%;height: 100%"></div>	
+			<div id="renderAgcDailyTreemap" style="width:100%;height: 100%"></div>	
 		</div>
 		
 		<div class="sixteen wide column">
