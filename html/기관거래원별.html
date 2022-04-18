@@ -39,11 +39,10 @@ var getTrdData = function( date, sort, cbFunction ){
 	
 			if( a.length == 0 ) return;
 			window.chartData = [];
-			var i = 0,iLen = arr.length,io;
+			var i = 0,iLen = a.length,io;
 			for(;i<iLen;++i){
-				io = arr[ i ];
+				io = a[ i ];
 				
-									
 				var symbol = "▲"
 				if( io.rt == 0 ) var symbol = "-";
 				if( io.rt < 0 ) var symbol = "▼";
@@ -69,106 +68,6 @@ var getTrdData = function( date, sort, cbFunction ){
 		
 	}
 	xhr.send();
-}
-
-var renderStock = function( arr, sort ){
-	
-	if( arr.length == 0 ) return;
-	window.chartData = [];
-	var _html = "";
-	var i = 0,iLen = arr.length,io;
-	for(;i<iLen;++i){
-	io = arr[ i ];
-	
-		if( io.ydt == 0 ) var status = {	color:"grey	", symbol : "-",}
-		if( io.ydt > 0 ) var status = {	color:"red", symbol : "▲",}
-		if( io.ydt < 0 ) var status = {	color:"blue", symbol : "▼",}
-
-		var _html00 = `
-		<div class="card"  style="padding: 10px;box-shadow: 0 0px 3px 0 #fff, 0 0 0 3px #fff !important;border-radius: 0rem !important;">
-		<div style="padding-top:20px;background-color:#fff;">
-		<span style='color:black;font-size:24px;'>${io.nm}</span> (${io.cd})
-		</div>
-		<div style="padding-top:10px;background-color:#fff;">
-		<span style="color:${status.color};font-size:15px;">${window.UTIL.Number.numberWithCommas( io.price )}</span>
-		<span style="color:${status.color}">${status.symbol}${ window.UTIL.Number.numberWithCommas( io.ydt )} ( ${io.rt}% )</span>
-		</div>
-		<!--div class='image' style="padding-bottom:10px;background-color:#fff;">
-		<img class='chart' src='https://ssl.pstatic.net/imgfinance/chart/item/candle/day/${io.cd}.png' height='100' loading='lazy'></div>
-		<div-->
-		<table class="ui celled table compact">
-			<thead>
-				<tr>
-					<th> 구분</th>
-					<th> 매수(단위:백만) </th>
-					<th> 매도(단위:백만)  </th>
-					<th> 순매수(단위:백만)   </th>
-				</tr>
-			</thead>
-			<tbody>
-		`
-
-				
-		var s,so00,so01,so01,cnt = 0;
-		for( s in io.b ){
-			
-			so00 = io.b[ s ];
-			so01 = io.s[ s ];
-			so02 = io.pp[ s ];
-
-			var checkColor =  so00 + so01
-			if( checkColor > 0) var bColor="#f7dddd",color = "#ff0000"
-			else if( checkColor < 0) var bColor = "#dcecff",color="#0072ff"
-			else var bColor = "#fffeea",color="#000"
-			
-			_html00 += `
-			<tr style="color:${color};background-color:${bColor}">
-				<td> ${window.CONST.traders[ cnt ]}</td>
-				<td>${window.UTIL.Number.longNumberAddString( so00 )}</td>
-				<td>${window.UTIL.Number.longNumberAddString( so01 )}</td>
-				<td>${window.UTIL.Number.longNumberAddString( so02 )}</td>
-			</tr>`
-			++cnt;
-				
-		}
-
-		_html00 += `
-					</tbody>
-				</table>
-			</div>
-		</div>
-		`
-		_html += _html00
-			
-		var symbol = "▲"
-		if( io.rt == 0 ) 
-		{
-			var symbol = "-"
-		}
-		if( io.rt < 0 ) 
-		{
-			var symbol = "▼"	
-		}
-		
-
-		var _chart_o = {
-			name: io.nm,
-			price : io.price,
-			rt : io.rt,
-			rtMarker : symbol,
-			ydt : io.ydt,
-			b: io.b[ sort ],
-			s: io.s[ sort ],
-			pp: io.pp[ sort ],
-			value: io.pp[ sort ],
-			children: []
-		}
-		window.chartData.push( _chart_o )
-			
-			
-	}
-	var _tdom = window.document.getElementById("cards");
-	_tdom.innerHTML = _html;
 }
 
 var htmlToElement = function( html ){
