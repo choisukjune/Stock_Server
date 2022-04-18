@@ -79,7 +79,7 @@ var renderTrs = function(){
 	var i = 0,iLen = arr.length,io;
 	for(;i<iLen;++i){
 		io = arr[ i ];
-		var new_el = htmlToElement( `<td style="text-align:center;cursor:pointer;" data-cd-value="${window.CONST.tradersCd[i]}" class="sort">${io}</td>` )
+		var new_el = htmlToElement( `<td id="btn_${window.CONST.tradersCd[i]}" style="text-align:center;cursor:pointer;" data-cd-value="${window.CONST.tradersCd[i]}" class="sort">${io}</td>` )
 	
 		//_tdom.insertBefore( new_el,_tdom.firstChild )
 		_tdom.appendChild( new_el )
@@ -103,6 +103,9 @@ var renderTrs = function(){
 		})
 	}
 
+	
+	var _target_dom = window.document.getElementByID( "btn_tr9" );
+	_target_dom.click();
 	
 }
 
@@ -294,10 +297,6 @@ window.onload = function(){
 	window.chartData = { b : [], s : [] };
 	
 	renderTrs();
-
-	getTrdData_buy( window.url.params.date,"tr9", function(d){	renderAgcDailyTreemap_buy( d, "tr9" ); });
-	getTrdData_sell( window.url.params.date,"tr9", function(d){ renderAgcDailyTreemap_sell( d, "tr9" ); });
-
 
 	window.addEventListener('resize', function(e){ 
 		var s,so;
