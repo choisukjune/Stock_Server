@@ -129,15 +129,13 @@ var renderStock = function( arr, sort ){
 		var _html00 = `
 		<div class="card"  style="padding: 10px;box-shadow: 0 0px 3px 0 #fff, 0 0 0 3px #fff !important;border-radius: 0rem !important;">
 		<div style="padding-top:20px;background-color:#fff;">
-		<span style='color:black;font-size:24px;'>${io.nm}</span> (${io.cd})
+		<span style='color:black;font-size:24px;'>${io.nm}</span> (${io.cd}) - 
+		<span style="color:${status.color};font-size:15px;">${window.UTIL.Number.numberWithCommas( io.price )}</span>
+		<span style="color:${status.color}">${status.symbol}${ window.UTIL.Number.numberWithCommas( io.ydt )} ( ${io.rt}% )</span>
 		</div>
-		<div style="padding-bottom:20px;">
-		<span style="color:${status.color};font-size:15px;">${io.price}</span>
-		<span style="color:${status.color}">${status.symbol}${io.ydt} ( ${io.rt}% )</span>
-		</div>
-		<div class='image' style="padding-bottom:10px;background-color:#fff;">
+		<!--div class='image' style="padding-bottom:10px;background-color:#fff;">
 		<img class='chart' src='https://ssl.pstatic.net/imgfinance/chart/item/candle/day/${io.cd}.png' height='100' loading='lazy'></div>
-		<div>
+		<div-->
 		<table class="ui celled table compact">
 			<thead>
 				<tr>
