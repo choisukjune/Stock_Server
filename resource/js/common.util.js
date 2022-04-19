@@ -359,7 +359,7 @@ window.COMPONENT.searchStock = function(q,cbFunction){
 //
 //	}
 //	xhr.send();
-	var pattern = /^[0-9a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\x20]*$/gi;
+	var pattern = /([^가-힣\x20])/i;
 	if (pattern.test(q.value)) return;
 
 
