@@ -346,34 +346,19 @@ window.COMPONENT.gnb = function(){
  */
 window.COMPONENT.searchStock = function(q,cbFunction){
 
-//	var xhr = new XMLHttpRequest();
-//	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
-//
-//	xhr.onreadystatechange = function() {
-//
-//		if(xhr.readyState == 4 && xhr.status == 200)
-//		{
-//			var d = JSON.parse( xhr.responseText );
-//			cbFunction(d.suggestItems,q)
-//		}
-//
-//	}
-//	xhr.send();
-	var pattern = /([^가-힣\x20])/i;
-	if (pattern.test(q.value)) return;
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
 
-	console.log( q.value )
-	
-	var r = matchList(q.value, '<span style="color:red">', '</span>')
+	xhr.onreadystatechange = function() {
 
-	var _r = [];
-	var i = 0,iLen = r.length,io
-	for(;i<iLen;++i){
-		io = r[ i ];
-		_r.push( io[0] );
+		if(xhr.readyState == 4 && xhr.status == 200)
+		{
+			var d = JSON.parse( xhr.responseText );
+			cbFunction(d.suggestItems,q)
+		}
+
 	}
-	console.log( _r )
-	cbFunction(_r,q)
+	xhr.send();
 
 }
 /*
@@ -391,7 +376,7 @@ window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 	for(;i<iLen;++i){
 		io = arr[ i ];
 		html = `
-		<div class="item" id="search_result_${io.cd}" data-cd-value="${io.cd}" style="cursor:pointer;">(${io.cd}) - ${io.nm}</div>
+		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}" style="cursor:pointer;">(${io.displayedCode}) - ${io.koreanName}</div>
 		`
 		var new_el = window.UTIL.Html.htmlToElement( html )
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
