@@ -380,7 +380,7 @@ var renderTreemapChart = function( nm ){
 	if( !window.charts.treemapChart.isEvent )
 	{
 		window.charts.treemapChart.on('click',function(d){
-			renderScatterChart( d.data.cd )
+			renderScatterChart( d.data.cd, d.data.name )
 		})
 		window.charts.treemapChart.isEvent = 1;
 	}
@@ -433,7 +433,7 @@ var renderTreemapChart00 = function( nm ){
 		if( !window.charts.treemapChart00.isEvent )
 		{
 			window.charts.treemapChart00.on('click',function(d){
-				renderScatterChart( d.data.cd )
+				renderScatterChart( d.data.cd, d.data.name )
 			})
 			window.charts.treemapChart00.isEvent = 1;
 		}
@@ -461,7 +461,7 @@ var getFtrdDataByCd = function( cd,date,cbFunction ){
 
 }
 window.charts = {}
-var renderScatterChart = function( cd ){
+var renderScatterChart = function( cd,nm ){
 
 		//if( window.charts.renderScatterChart.dispose ) window.charts.renderScatterChart.dispose()
 		var dom = document.getElementById("scatter");
@@ -500,12 +500,11 @@ var renderScatterChart = function( cd ){
 			}
 			chartData.push( _o )
 		}
-
+		
+		var title = nm;
+		var subTitle = '외국계증권사 매수/매도 분포' 
 		option = {
-			  title: {
-				text: '외국계증권사 매수/매도 분포',
-//				subtext: 'Data from: Heinz 2003'
-			  },
+			  title : { text : title, subtext : subTitle, left : 'center',}
 			  grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },
 			  tooltip: {
 				// trigger: 'axis',
