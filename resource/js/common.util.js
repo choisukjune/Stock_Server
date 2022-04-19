@@ -2729,10 +2729,10 @@ const matchList = (_=>{
       }
     }
   };
-  return (search, arr, sTag = "", eTag = "", sort = sorter)=>{
+  return (search, sTag = "", eTag = "", sort = sorter)=>{
     const reg = new RegExp(search.split('').map(pattern).join('.*?'), "i");
     const tagLen = sTag.length + eTag.length;
-    return arr.reduce((acc, curr)=>{
+    return window.socketData.renderTradeValueInfo.reduce((acc, curr)=>{
       const matches = reg.exec(curr.name);
       if(matches) acc.push(matcher(curr, matches, sTag, eTag, tagLen));
       return acc;
