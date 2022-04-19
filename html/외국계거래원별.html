@@ -338,12 +338,19 @@ window.chartData.treemapChart00 = {};
 
 
 window.charts = {};
-window.charts.treemapChart = null;
+
 var renderTreemapChart = function( nm ){
-	var dom = document.getElementById("treemapChart");
-	window.charts.treemapChart = echarts.init(dom);
-	debugger;
+	var domId = "treemapChart";	
+	var dom = document.getElementById( domId );
+
+	if( !window.charts.treemapChart )
+	{
+		window.charts.treemapChart = echarts.init(dom);
+		window.charts.treemapChart.isEvent = 0;
+	}
+
 	window.charts.treemapChart.showLoading()
+
 
 	var app = {};
 
@@ -368,19 +375,31 @@ var renderTreemapChart = function( nm ){
 		setTimeout(function(){
 			window.charts.treemapChart.hideLoading();
 		},1000)
-		window.charts.treemapChart.on('click',function(d){
+	}
 	
-				renderScatterChart( d.data.cd )
+	if( !window.charts.treemapChart.isEvent )
+	{
+		window.charts.treemapChart.on('click',function(d){
+			renderScatterChart( d.data.cd )
 		})
+		window.charts.treemapChart.isEvent = 1;
 	}
 	
 }
 
 window.charts.treemapChart00 = null;
 var renderTreemapChart00 = function( nm ){
-		var dom = document.getElementById("treemapChart00");
-		window.charts.treemapChart00 = echarts.init(dom);
-		debugger;
+
+		var domId = "treemapChart00";	
+		var dom = document.getElementById( domId );
+
+		if( !window.charts ) window.charts = {}
+		if( !window.charts.treemapChart00 )
+		{
+			window.charts.treemapChart00 = echarts.init(dom);
+			window.charts.treemapChart00.isEvent = 0;
+		}
+
 		window.charts.treemapChart00.showLoading()
 
 		var app = {};
@@ -409,14 +428,14 @@ var renderTreemapChart00 = function( nm ){
 			setTimeout(function(){
 				window.charts.treemapChart00.hideLoading();
 			},1000)
-			window.charts.treemapChart.on('click',function(d){
-//				var a = window.document.createElement( "a" );
-//					a.target = "_blank";
-//					a.href = "/html/candle.html?cd=" + d.data.cd
-//					a.click();
-					renderScatterChart( d.data.cd )
-				
+		}
+		
+		if( !window.charts.treemapChart00.isEvent )
+		{
+			window.charts.treemapChart00.on('click',function(d){
+				renderScatterChart( d.data.cd )
 			})
+			window.charts.treemapChart00.isEvent = 1;
 		}
 
 }
@@ -441,14 +460,14 @@ var getFtrdDataByCd = function( cd,date,cbFunction ){
 	xhr.send();
 
 }
-window.scatterchart = {};
+window.charts = {}
 var renderScatterChart = function( cd ){
 
-		if( window.scatterchart.dispose ) window.scatterchart.dispose()
+		if( window.charts.renderScatterChart.dispose ) window.charts.renderScatterChart.dispose()
 		var dom = document.getElementById("scatter");
-		window.scatterchart = echarts.init(dom);
+		window.charts.renderScatterChart = echarts.init(dom);
 		var app = {};
-		window.scatterchart.showLoading()
+		window.charts.renderScatterChart.showLoading()
 		getFtrdDataByCd( cd,window.date.curDate.date, function(d){
 		var chartData = [];
 		var legendData = [];
@@ -513,11 +532,13 @@ var renderScatterChart = function( cd ){
 			};
 	
 			if (option && typeof option === 'object') {
-				window.scatterchart.setOption(option);
+				window.charts.renderScatterChart.setOption(option);
 
-				window.scatterchart.resize();
-				window.scatterchart.hideLoading()
+				window.charts.renderScatterChart.resize();
+				window.charts.renderScatterChart.hideLoading()
 			}
+			
+
 	})
 }
 
