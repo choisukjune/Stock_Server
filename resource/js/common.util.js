@@ -1187,7 +1187,7 @@ window.COMPONENT.renderTradeValueInfo = function(){
 		var _o = {
 			name : so.nm
 			,cd : so.cd
-			,value : [ so.tradeValue, so.rt ]
+			,value : [ so.amt, so.rt ]
 			,price : so.price
 			,rt : so.rt
 			,r_mark : symbol
