@@ -449,7 +449,7 @@ var renderScatterChart = function( cd ){
 		window.scatterchart = echarts.init(dom);
 		var app = {};
 		window.scatterchart.showLoading()
-		getFtrdDataByCd( cd,window.date.curDate, function(d){
+		getFtrdDataByCd( cd,window.date.curDate.date, function(d){
 		var chartData = [];
 		var legendData = [];
 		var _o = {  
@@ -529,7 +529,7 @@ window.onload = function(){
 
 
 	window.date = {};
-	window.date.curDate = paramToObject().date;
+	window.date.curDate = paramToObject();
 
 	var xhr = new XMLHttpRequest();
 	
