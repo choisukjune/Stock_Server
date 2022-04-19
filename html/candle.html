@@ -1244,7 +1244,7 @@ var getTimeTo__YYYY_MM_DD = function(date){
 var getIntegrationByCd = function( cd,cbFunction ){
 	var xhr = new XMLHttpRequest();
 
-	xhr.open("GET" , `http://112.144.208.118:8888/getInsightByStockAvg?cd=${cd}`, true);
+	xhr.open("GET" , `http://112.144.208.118:8888/getIntegrationByCd?cd=${cd}`, true);
 	xhr.onreadystatechange = function() {
 
 		if(xhr.readyState == 4 && xhr.status == 200)
