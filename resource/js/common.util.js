@@ -2733,9 +2733,25 @@ const matchList = (_=>{
     const reg = new RegExp(search.split('').map(pattern).join('.*?'), "i");
     const tagLen = sTag.length + eTag.length;
     return arr.reduce((acc, curr)=>{
-      const matches = reg.exec(curr);
+      const matches = reg.exec(curr.name);
       if(matches) acc.push(matcher(curr, matches, sTag, eTag, tagLen));
       return acc;
     }, []).sort(sort);
   };
 })();
+
+
+/*
+
+const arr = [
+{ name : "hika"},
+{ name : "ㄴㄷ러홍ㅏㄴㅂㅓㅂ길ㅂㅏㄴㅂㅏㄴㅂㅓ동"},
+{ name : "홍ㄴㄷㅂㅓㅂ길ㅂㅏㄴㅂㅓ동"},
+{ name : "홍ㄴㄷㅓㅂ기ㅂㅓ동"},
+{ name : "홍기동aaaaaa"},
+{ name : "1홍길도"},
+{ name : "홍길다1"},
+{ name : "홍기동}"
+];
+
+*/
