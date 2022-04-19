@@ -1363,7 +1363,7 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 				"{a|curRt:" + echarts.format.addCommas(params.data.curRt) + " / prevRt:" + echarts.format.addCommas(params.data.prevRt) + "}",
 				"{hr|}",
 				"{b|거래대금갭 : " + window.UTIL.Number.longNumberAddString( params.data.tradeValueGap ) + "(" + echarts.format.addCommas(params.data.rtChange.toFixed(2)) + "%)}",
-				"{b|거래량갭 : " + window.UTIL.Number.longNumberAddString( params.data.amtGap ) + "}",
+				"{b|거래량갭 : " + echarts.format.addCommas( params.data.amtGap ) + "}",
 
 			];
 			return arr.join('\n');
