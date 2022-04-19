@@ -391,7 +391,7 @@ window.COMPONENT.makeSearchList = function( arr, tDom, cb ){
 	for(;i<iLen;++i){
 		io = arr[ i ];
 		html = `
-		<div class="item" id="search_result_${io.displayedCode}" data-cd-value="${io.displayedCode}" style="cursor:pointer;">(${io.displayedCode}) - ${io.koreanName}</div>
+		<div class="item" id="search_result_${io.cd}" data-cd-value="${io.cd}" style="cursor:pointer;">(${io.cd}) - ${io.nm}</div>
 		`
 		var new_el = window.UTIL.Html.htmlToElement( html )
 		var target_el = window.document.getElementById( "search_result_" + io.displayedCode )
