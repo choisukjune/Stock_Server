@@ -362,8 +362,8 @@ window.COMPONENT.searchStock = function(q,cbFunction){
 	var pattern = /([^가-힣\x20])/i;
 	if (pattern.test(q.value)) return;
 
-
-
+	console.log( q.value )
+	
 	var r = matchList(q.value, '<span style="color:red">', '</span>')
 
 	var _r = [];
