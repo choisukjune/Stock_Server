@@ -346,19 +346,35 @@ window.COMPONENT.gnb = function(){
  */
 window.COMPONENT.searchStock = function(q,cbFunction){
 
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
+//	var xhr = new XMLHttpRequest();
+//	xhr.open("GET" , `http://112.144.208.118:8888/getStockSearch?q=${q.value}`, true);
+//
+//	xhr.onreadystatechange = function() {
+//
+//		if(xhr.readyState == 4 && xhr.status == 200)
+//		{
+//			var d = JSON.parse( xhr.responseText );
+//			cbFunction(d.suggestItems,q)
+//		}
+//
+//	}
+//	xhr.send();
+	var pattern = /^[0-9a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\x20]*$/gi;
+	if (pattern.test(q.value)) return;
 
-	xhr.onreadystatechange = function() {
 
-		if(xhr.readyState == 4 && xhr.status == 200)
-		{
-			var d = JSON.parse( xhr.responseText );
-			cbFunction(d.suggestItems,q)
-		}
 
+	var r = matchList(q.value, '<span style="color:red">', '</span>')
+
+	var _r = [];
+	var i = 0,iLen = r.length,io
+	for(;i<iLen;++i){
+		io = r[ i ];
+		_r.push( io[0] );
 	}
-	xhr.send();
+	console.log( _r )
+	cbFunction(_r,q)
+
 }
 /*
  *
@@ -2739,19 +2755,3 @@ const matchList = (_=>{
     }, []).sort(sort);
   };
 })();
-
-
-/*
-
-const arr = [
-{ name : "hika"},
-{ name : "ㄴㄷ러홍ㅏㄴㅂㅓㅂ길ㅂㅏㄴㅂㅏㄴㅂㅓ동"},
-{ name : "홍ㄴㄷㅂㅓㅂ길ㅂㅏㄴㅂㅓ동"},
-{ name : "홍ㄴㄷㅓㅂ기ㅂㅓ동"},
-{ name : "홍기동aaaaaa"},
-{ name : "1홍길도"},
-{ name : "홍길다1"},
-{ name : "홍기동"}
-];
-document.querySelector("#search").innerHTML = matchList("ㅎㄱㄷ", arr, '<span style="color:red">', '</span>').map(([v])=>`${v}`).join("");
-*/
