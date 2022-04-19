@@ -2596,7 +2596,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 						}
 					}
 				},
-				levels: [{ color: ['yellow','orange'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
+				levels: [{ color: ['orange','brown'],colorMappingBy: 'value',itemStyle: { gapWidth: 1 } }]
 			}
 		]
 	};
