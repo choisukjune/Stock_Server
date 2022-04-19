@@ -1188,6 +1188,7 @@ window.COMPONENT.renderTradeValueInfo = function(){
 			name : so.nm
 			,cd : so.cd
 			,value : [ so.amt, so.rt ]
+			,amt : so.amt
 			,price : so.price
 			,rt : so.rt
 			,r_mark : symbol
@@ -1223,8 +1224,8 @@ window.COMPONENT.renderTradeValueInfo = function(){
 				"{hr|}",
 				"{a|" + echarts.format.addCommas(params.data.price) + " " + params.data.r_mark + echarts.format.addCommas(params.data.rt) + "%}",			
 				"{hr|}",
-				"{b|" + window.UTIL.Number.longNumberAddString( params.data.tradeValue) + "}",
-				//"{a|" + echarts.format.addCommas(params.data.amt) + "}",
+				"{b|거래대금 : " + window.UTIL.Number.longNumberAddString( params.data.tradeValue) + "}",
+				"{b|거래량 : " + echarts.format.addCommas(params.data.amt) + "}",
 
 			];
 			return arr.join('\n');
