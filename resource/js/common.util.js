@@ -2706,7 +2706,7 @@ const matchList = (_=>{
     let distance = Number.MAX_VALUE, first = -1, last = 0, vLast = 0, vPrev = 0, acc = v;
     for(let i = 1, j = matches.length; i < j; i++){
       const curr = matches[i];
-      vLast = v.indexOf(curr, vLast);
+      vLast = v.name.indexOf(curr, vLast);
       if(first == -1) first = vLast;
       if(vLast && distance > vLast - vPrev) distance = vLast - vPrev;
       vPrev = vLast;
@@ -2751,7 +2751,7 @@ const arr = [
 { name : "홍기동aaaaaa"},
 { name : "1홍길도"},
 { name : "홍길다1"},
-{ name : "홍기동}"
+{ name : "홍기동"}
 ];
 
 */
