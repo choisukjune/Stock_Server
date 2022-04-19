@@ -2710,8 +2710,8 @@ const matchList = (_=>{
       if(first == -1) first = vLast;
       if(vLast && distance > vLast - vPrev) distance = vLast - vPrev;
       vPrev = vLast;
-      last = acc.indexOf(curr, last);
-      acc = `${acc.substring(0, last)}${sTag}${curr}${eTag}${acc.substr(last + 1)}`;
+      last = acc.name.indexOf(curr, last);
+      acc.name = `${acc.substring(0, last)}${sTag}${curr}${eTag}${acc.substr(last + 1)}`;
       last += tagLen;
     }
     return [acc, distance, v.length, first];
