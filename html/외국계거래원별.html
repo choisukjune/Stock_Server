@@ -504,10 +504,10 @@ var renderScatterChart = function( cd ){
 			  brush: {},
 			  legend: {	data: legendData,left: 'center',bottom: 0 },
 			  xAxis: [
-				{ type: 'time',min:"2022-02-22T09:00:00",max:"2022-02-22T15:30:00", scale: true, splitLine: { show: false  }}
+				{ type: 'time',min:"2022-02-22T09:00:00",max:"2022-02-22T15:30:00", scale: true, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }, axisLabel : { fontSize : 9 }	}
 			 ],
 			  yAxis: [
-				{  type: 'value', scale: true, splitLine: { show: false  } }
+				{ type: 'value', scale: true, splitArea: {show: false },splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
 			  ],
 			  series: chartData
 			};
