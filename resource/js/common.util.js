@@ -2706,12 +2706,12 @@ const matchList = (_=>{
     let distance = Number.MAX_VALUE, first = -1, last = 0, vLast = 0, vPrev = 0, acc = v;
     for(let i = 1, j = matches.length; i < j; i++){
       const curr = matches[i];
-      vLast = v.name.indexOf(curr, vLast);
+      vLast = v.nm.indexOf(curr, vLast);
       if(first == -1) first = vLast;
       if(vLast && distance > vLast - vPrev) distance = vLast - vPrev;
       vPrev = vLast;
-      last = acc.name.indexOf(curr, last);
-      acc.name = `${acc.name.substring(0, last)}${sTag}${curr}${eTag}${acc.name.substr(last + 1)}`;
+      last = acc.nm.indexOf(curr, last);
+      acc.nm = `${acc.nm.substring(0, last)}${sTag}${curr}${eTag}${acc.nm.substr(last + 1)}`;
       last += tagLen;
     }
     return [acc, distance, v.length, first];
@@ -2733,7 +2733,7 @@ const matchList = (_=>{
     const reg = new RegExp(search.split('').map(pattern).join('.*?'), "i");
     const tagLen = sTag.length + eTag.length;
     return window.socketData.renderTradeValueInfo.reduce((acc, curr)=>{
-      const matches = reg.exec(curr.name);
+      const matches = reg.exec(curr.nm);
       if(matches) acc.push(matcher(curr, matches, sTag, eTag, tagLen));
       return acc;
     }, []).sort(sort);
