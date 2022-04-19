@@ -2714,7 +2714,7 @@ const matchList = (_=>{
       acc.name = `${acc.name.substring(0, last)}${sTag}${curr}${eTag}${acc.name.substr(last + 1)}`;
       last += tagLen;
     }
-    return [acc.name, distance, v.length, first];
+    return [acc, distance, v.length, first];
   };
   const sorter = ([, dA, lA, fA], [, dB, lB, fB])=>{
     if(dA > dB) return 1;
@@ -2753,5 +2753,5 @@ const arr = [
 { name : "홍길다1"},
 { name : "홍기동"}
 ];
-document.querySelector("#search").innerHTML = matchList("ㅎㄱㄷ", arr, '<span style="color:red">', '</span>').map(([v])=>`<li>${v}</li>`).join("");
+document.querySelector("#search").innerHTML = matchList("ㅎㄱㄷ", arr, '<span style="color:red">', '</span>').map(([v])=>`${v}`).join("");
 */
