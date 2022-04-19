@@ -107,6 +107,28 @@ var dateFormat_YYMMDD = function( date ){
 	return YYYY + MM + DD;// + H +  M + S;
 };
 
+var getTimeTo__YYYYMMDD_berfore_day = function(date,day){
+	
+	date = date || new Date();
+	date.setDate( date.getDate() - day );
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+//	var hour = date.getHours();
+//	var minute = date.getMinutes();
+//	var second = date.getSeconds();
+
+	month = month >= 10 ? month : '0' + month;
+	day = day >= 10 ? day : '0' + day;
+	//hour = hour >= 10 ? hour : '0' + hour;
+	//minute = minute >= 10 ? minute : '0' + minute;
+	//second = second >= 10 ? second : '0' + second;
+	var r = year.toString() + month.toString() + day.toString()
+
+	return r
+
+}
+
 var pad = function(n, width){
 	n = n + '';
 	return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
@@ -117,7 +139,7 @@ var _ROOT_PATH = process.cwd();
 
 
 //*/
-var curDate = process.argv[2];
+var curDate = dateFormat_YYMMDD();//process.argv[2];
 /*/
 var curDate = "20220222";
 //*/
@@ -135,6 +157,8 @@ global.o = {};
 
 var csvToJson = function( fileNm ){
 	
+
+
 	//console.log( "[ S ] - " + Date.now() );
 	console.log( global.target_file_list.length  + " / " + csvToJson.cnt + " / " + fileNm  )
 	global.arr = [];	
@@ -195,8 +219,8 @@ var csvToJson = function( fileNm ){
 				var _t = "20" + _date[0] + _date[1] + _date[2];
 				var _t00 = "20" + _date[0] + "-" + _date[1] + "-" + _date[2];
 				
-				//if( ( _t * 1 ) == 20220323 ) continue;
-				if( ( _t * 1 ) <= 20220412 ) continue;
+				//if( ( _t * 1 ) <= 20220414 ) continue;
+				if( ( _t * 1 ) <= yesterday ) continue;
 				
 				if( !global.o[ cd ] ) global.o[ cd ] = {};
 				if( !global.o[ cd ][ _t ] ) global.o[ cd ][ _t ] = {};
@@ -338,4 +362,6 @@ var logic = function(){
 	
 }
 
+var yesterday = getTimeTo__YYYYMMDD_berfore_day( null, 1 ) * 1;
+console.log( yesterday );
 logic();

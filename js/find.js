@@ -2218,7 +2218,7 @@ var pad = function(n, width){
 		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
 		res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'})
 		
-		console.log( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ); 
+		//console.log( _tDbjs_PATH + "/" + _tdbjs_nm + ".tdbjs" ); 
 		
 		try
 		{

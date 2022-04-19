@@ -3,7 +3,7 @@ var insightByStock_avg = db.getSiblingDB("insightByStock_avg")
 
 var cols = tDb.getCollectionNames()
 var inSight_5day = insightByStock_avg.getCollection( "inSight_5day" )
-var tCols = cols.reverse().slice(0,5)
+var tCols = cols//.reverse().slice(0,5)
 var i = 0,iLen = tCols.length,io;
 var r = {}
 for(;i<iLen;++i){
@@ -27,6 +27,8 @@ for(;i<iLen;++i){
             if( !r[ d.cd ][ "trds" ][ s ] )
             {
                 r[ d.cd ][ "trds" ][ s ] = {
+		    sum_b : so.b,
+		    sum_s : so.s,
                     ppPrice : so.b + so.s,
                     ppVolume : so.b_amt + so.s_amt,
                     avgPrice : ( so.b + so.s ) / ( so.b_amt + so.s_amt )
@@ -34,7 +36,8 @@ for(;i<iLen;++i){
             }
             else
             {
-                
+                r[ d.cd ][ "trds" ][ s ].sum_b += so.b;
+                r[ d.cd ][ "trds" ][ s ].sum_s += so.s;
                 r[ d.cd ][ "trds" ][ s ].ppPrice += ( so.b + so.s )
                 r[ d.cd ][ "trds" ][ s ].ppVolume += so.b_amt + so.s_amt
                 r[ d.cd ][ "trds" ][ s ].avgPrice = r[ d.cd ][ "trds" ][ s ].ppPrice / r[ d.cd ][ "trds" ][ s ].ppVolume
