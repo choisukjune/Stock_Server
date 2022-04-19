@@ -369,10 +369,8 @@ var renderTreemapChart = function( nm ){
 			window.charts.treemapChart.hideLoading();
 		},1000)
 		window.charts.treemapChart.on('click',function(d){
-			var a = window.document.createElement( "a" );
-				a.target = "_blank";
-				a.href = "/html/candle.html?cd=" + d.data.cd
-				a.click();
+	
+				renderScatterChart( d.data.cd )
 		})
 	}
 	
@@ -412,13 +410,116 @@ var renderTreemapChart00 = function( nm ){
 				window.charts.treemapChart00.hideLoading();
 			},1000)
 			window.charts.treemapChart.on('click',function(d){
-				var a = window.document.createElement( "a" );
-					a.target = "_blank";
-					a.href = "/html/candle.html?cd=" + d.data.cd
-					a.click();
+//				var a = window.document.createElement( "a" );
+//					a.target = "_blank";
+//					a.href = "/html/candle.html?cd=" + d.data.cd
+//					a.click();
+					renderScatterChart( d.data.cd )
+					
+				})
 			})
 		}
 
+}
+
+
+var getFtrdDataByCd = function( cd,date,cbFunction ){
+		
+	var xhr = new XMLHttpRequest();
+	
+	xhr.open("GET" , `http://112.144.208.118:8888/getFtrdDataByCd?cd=${cd}&date=${date}`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
+			
+			var d = JSON.parse( xhr.responseText )
+			cbFunction( d );
+			
+		}
+	}
+	
+	xhr.send();
+
+}
+
+var renderScatterChart = function( cd ){
+
+		if( window.scatterchart.dispose ) window.scatterchart.dispose()
+		var dom = document.getElementById("scatter");
+		window.scatterchart = echarts.init(dom);
+		var app = {};
+		window.scatterchart.showLoading()
+		getFtrdDataByCd( cd,window.date.curDate, function(d){
+		var chartData = [];
+		var legendData = [];
+		var _o = {  
+			name: 'Female', type: 'scatter',  emphasis: { focus: 'series' },
+			data: [],
+			markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
+			markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
+		}
+		
+		var _to = {}
+		var i = 0,iLen = d.length,io
+		for(;i<iLen;++i){
+			io = d[ i ];
+			if( !_to[ io.tr ] ) _to[ io.tr ] = []
+			var amt = io.amt;
+			if( io.tt == 0 ) var amt = io.amt;
+			_to[ io.tr ].push( [  "2022-02-22T"+ io.ogText.split("\t")[0],amt ] )
+		}
+		var s,so
+		for( s in _to )
+		{
+			so = _to[ s ]
+			legendData.push( s );
+			_o = {  
+				name: s, type: 'scatter',  emphasis: { focus: 'series' },
+				data: so,
+				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
+				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
+			}
+			chartData.push( _o )
+		}
+
+		option = {
+			  title: {
+				text: '외국계증권사 매수/매도 분포',
+//				subtext: 'Data from: Heinz 2003'
+			  },
+			  grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },
+			  tooltip: {
+				// trigger: 'axis',
+				showDelay: 0,
+				formatter: function (params) {
+				  if (params.value.length > 1) {
+					return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + params.value[1] );
+				  } else {
+					return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  params.value );
+				  }
+				},
+				axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
+			  },
+			  toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
+			  brush: {},
+			  legend: {	data: legendData,left: 'center',bottom: 0 },
+			  xAxis: [
+				{ type: 'time',min:"2022-02-22T09:00:00",max:"2022-02-22T15:30:00", scale: true, splitLine: { show: false  }}
+			 ],
+			  yAxis: [
+				{  type: 'value', scale: true, splitLine: { show: false  } }
+			  ],
+			  series: chartData
+			};
+	
+			if (option && typeof option === 'object') {
+				window.scatterchart.setOption(option);
+
+				window.scatterchart.resize();
+				window.scatterchart.hideLoading()
+			}
+	})
 }
 
 
@@ -668,6 +769,7 @@ window.onload = function(){
 <div class="ui grid">
   <div class="sixteen wide column">외국계증권사 매매 동향</div>
   <div class="sixteen wide column" style="" id="cards"></div>
+  <div id="scater" class="sixteen wide column" style="height:400px"></div>
   <div class="sixteen wide column" id="treemapChart" style="height:400px;"></div>
   <div class="sixteen wide column" id="treemapChart00" style="height:400px;"></div>
 </div>
