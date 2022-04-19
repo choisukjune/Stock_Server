@@ -436,7 +436,7 @@ var pad = function(n, width){
 		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
 		
 		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
-		http.get( url + '/gitPull' + paramsO.cd, function(response){
+		http.get( url + '/gitPull', function(response){
 			response.setEncoding('utf8');
 
 			var d = "";
