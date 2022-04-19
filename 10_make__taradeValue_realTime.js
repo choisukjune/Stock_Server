@@ -286,6 +286,7 @@ var csvToJson = function(){
 				if( so.tradeValue - so00.tradeValue > 0 )
 				{
 					so.tradeValueGap = so.tradeValue - so00.tradeValue
+					so.amtGap = so.amt - so00.amt
 					so.curRt = so.rt
 					so.prevRt = so00.rt
 					so.rtChange = so.rt - so00.rt
