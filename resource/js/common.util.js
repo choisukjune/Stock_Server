@@ -2714,7 +2714,7 @@ const matchList = (_=>{
       acc.name = `${acc.name.substring(0, last)}${sTag}${curr}${eTag}${acc.name.substr(last + 1)}`;
       last += tagLen;
     }
-    return [acc, distance, v.length, first];
+    return [acc.name, distance, v.length, first];
   };
   const sorter = ([, dA, lA, fA], [, dB, lB, fB])=>{
     if(dA > dB) return 1;
