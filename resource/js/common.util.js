@@ -1278,11 +1278,15 @@ window.COMPONENT.renderTradeValueInfo_gap = function(){
 	var now = window.UTIL.Date.getTimeTo__HHMMSS();
 	if( now > 153300 )
 	{
-		dom.parentNode.removeChild(dom);
+		if( dom )
+		{
+			dom.parentNode.removeChild(dom);
 
-		var _a = document.getElementById( "tradeValueTree" );
-		_a.className = _a.className.replace( "eight","sixteen" );
-		window.charts.renderTradeValueInfo.resize();
+			var _a = document.getElementById( "tradeValueTree" );
+			_a.className = _a.className.replace( "eight","sixteen" );
+			window.charts.renderTradeValueInfo.resize();	
+		}
+		
 		return;
 		
 	}
