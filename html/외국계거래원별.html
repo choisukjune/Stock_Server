@@ -370,12 +370,22 @@ window.onload = function(){
 	window.date.curDate = paramToObject();
 	getInsightByTrad( renderInsightByTrad );
 
+	window.Websocket.init();
+
+	window.COMPONENT.gnb();
+	window.COMPONENT.stockSearch_global();
+
+
 }
 </script>
        
 <body style="padding:50px">
 
 <div class="ui grid">
+
+	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
+	<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
+
   <div class="sixteen wide column">외국계증권사 매매 동향</div>
   <div id="renderInsightByTrad" class="sixteen wide column" style=""></div>
   <div id="scatter" class="sixteen wide column" style="height:400px"></div>
