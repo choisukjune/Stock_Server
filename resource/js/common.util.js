@@ -1180,8 +1180,8 @@ window.COMPONENT.renderTopRankVolume = function(){
 				<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
 					<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 				</span><br>
-				<span style="font-size:12px;">거래대금 : ${io.accumulatedTradingValueKrwHangeul}</span><br>
-				<span style="font-size:12px;">거래량 : ${io.accumulatedTradingVolume}</span>
+				<span style="font-size:11px;">${io.accumulatedTradingValueKrwHangeul}</span>
+				<span style="font-size:11px;">${io.accumulatedTradingVolume}주</span>
 
 			</div>
 			
