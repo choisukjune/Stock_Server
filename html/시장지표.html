@@ -77,9 +77,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		console.log( _d )
 		window.ws.send( _d );			
 	}
-	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
-	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
-	wsReqData( { type : "execFunc", funcNm : "TopRankVolume" } )
+//	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
+//	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
+//	wsReqData( { type : "execFunc", funcNm : "TopRankVolume" } )
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			
@@ -88,8 +88,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderAgriculturalIndex" } ) );
 	
 	window.intervals = {}
-	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		}, 15000 );
-	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	}, 15000 );
+	//window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		}, 15000 );
+	//window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	}, 15000 );
 	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );				}, 15000 );
 	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal" } ) );			}, 15000 );
 	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );				}, 15000 );
@@ -118,7 +118,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	}, true);
 
-	window.intervals.getTradeValueByCd = setInterval(function(){ window.COMPONENT.getTradeValueByCd(); },7000)
+	//window.intervals.getTradeValueByCd = setInterval(function(){ window.COMPONENT.getTradeValueByCd(); },7000)
 })
 </script>
 
@@ -129,28 +129,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				
 		</div>
 
-		<div id="search_tradeValueBarchart_wrap" class="sixteen wide column" style="padding: 20px;"></div>
-
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="sixteen wide  column" id="tradeValueByCd" style="height:300px;"></div>
-			</div>
-		</div>
-
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="sixteen wide column" id="renderTopRankVolume_title" style="">
-				거래량상위
-				</div>
-				<div class="sixteen wide column">
-					<div class="ui six stackable cards" id="renderTopRankVolume"></div>
-				</div>
-			</div>
-		</div>
-
-		<div class="eight wide column" id="tradeValueTreeGap" style="text-align:center;height:400px;padding:0px;"></div>
-		<div class="eight wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>	
-		
 		<div class="sixteen wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="exchange_index_title" style="">
