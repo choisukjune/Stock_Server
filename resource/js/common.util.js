@@ -1171,11 +1171,12 @@ window.COMPONENT.renderTopRankVolume = function(){
 		io = window.socketData.TopRankVolume[ i ];
 		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="topRankVolume_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
 		var _html01 =`
+				<div class="image" style="padding: 5px;background-color: #fff;min-height:35px;">
+					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.reutersCode}_end_up_tablet.png?${Date.now()}" load="lazy" style="">
+				</div>
 			<div class="">
-				<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
-					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.reutersCode}_end_up_tablet.png?${Date.now()}" load="lazy" style="height:35px">
-				</span>
-				<span style="font-size:13px;"> ${io.stockName}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span><br>
+
+				<span style="font-size:13px;"> ${io.stockName}</span><br>
 				<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
 					<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 				</span>
