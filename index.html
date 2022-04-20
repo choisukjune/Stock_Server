@@ -80,6 +80,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
 	wsReqData( { type : "execFunc", funcNm : "TopRankVolume" } )
+	wsReqData( { type : "execFunc", funcNm : "MarketIndex" } )
 	wsReqData( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] } )
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
@@ -89,10 +90,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderAgriculturalIndex" } ) );
 	
 	window.intervals = {}
-	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );					}, 15000 );
-	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );				}, 15000 );
-	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );							}, 15000 );
-	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ]	} ) );	}, 15000 );
+	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		}, 15000 );
+	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	}, 15000 );
+	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );				}, 15000 );
+	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] } ) );			}, 15000 );
 	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );							}, 15000 );
 	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MetalIndex" } ) );								}, 15000 );
 	window.intervals.AgriculturalIndex			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "AgriculturalIndex" } ) );						}, 15000 );
