@@ -1163,7 +1163,7 @@ window.COMPONENT.renderTopRankVolume = function(){
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
 		"RISING" : {	color:"red", symbol : "▲",},
 		"FALLING" : {	color:"blue", symbol : "▼",},
-		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+		"UPPER_LIMIT" : {	color:"red", symbol : "↑",},
 	}
 
 	var i = 0,iLen = window.socketData.TopRankVolume.length,io;
