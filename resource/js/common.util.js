@@ -909,9 +909,9 @@ window.COMPONENT.renderExchangeIndex = function(){
 
 	var display;
 
-	var i = 0,iLen = window.socketData.getExchangeIndex.length,io;
+	var i = 0,iLen = window.socketData.ExchangeIndex.length,io;
 	for(;i<iLen;++i){
-		io = window.socketData.getExchangeIndex[ i ];
+		io = window.socketData.ExchangeIndex[ i ];
 		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
 		var name = io.name;
 		if( io.categoryType == "exchangeWorld") continue;
