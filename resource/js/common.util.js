@@ -1158,55 +1158,50 @@ window.COMPONENT.renderAgriculturalIndex = function(){
 
 
 window.COMPONENT.renderTopRankVolume = function(){
-console.log(	window.socketData.renderTopRankVolume );
-//	var status = {
-//		"UNCHANGED" : {	color:"grey", symbol : "-",},
-//		"RISING" : {	color:"red", symbol : "▲",},
-//		"FALLING" : {	color:"blue", symbol : "▼",},
-//		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
-//	}
-//
-//	var display;
-//
-//	var i = 0,iLen = window.socketData.renderTopRankVolume.length,io;
-//	for(;i<iLen;++i){
-//		io = window.socketData.renderTopRankVolume[ i ];
-//		//var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',o.rt)		
-//		var name = io.name;
-//		//if( io.categoryType == "exchangeWorld") continue;
-//		
-//		
-//		if( io.marketStatus == "CLOSE") display = "block"
-//		else display = "none"
-//
-//		var marketStatus = "";
-//		if( io.marketStatus != null ) marketStatus = ` - <span style="font-size:11px;">${io.marketStatus}</span>`;
-//
-//		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="agricultural_index_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.reutersCode}">`
-//		var _html01 =`
-//			<div style="background-color: #97979747;position: absolute;width: 100%;height: 100%;z-index: 5;top: 0px;left: 0;display:${display};"></div>
-//			<div class="">
-//				<span style="font-size:13px;"> ${name}</span>${marketStatus}
-//				<span class="right floated" style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}   ${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
-//			</div>
-//			<!--div class="description"></div-->
-//		`
-//		var _html02 =`</div>`
-//
-//		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
-//		var target_el = window.document.getElementById( "agricultural_index_" + io.reutersCode )
-//		if( target_el )
-//		{
-//			//window._el.id_Agricultural_index.lastElementChild.parentNode.removeChild( target_el )
-//			//window._el.id_Agricultural_index.insertBefore( new_el,window._el.id_Agricultural_index.firstChild )
-//			target_el.innerHTML = _html01
-//			
-//		}
-//		else
-//		{
-//			window.document.getElementById( "agricultural_index" ).appendChild( new_el )	
-//		}
-//	}
+
+	var status = {
+		"UNCHANGED" : {	color:"grey", symbol : "-",},
+		"RISING" : {	color:"red", symbol : "▲",},
+		"FALLING" : {	color:"blue", symbol : "▼",},
+		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
+	}
+
+	var i = 0,iLen = window.socketData.renderTopRankVolume.length,io;
+	for(;i<iLen;++i){
+		io = window.socketData.renderTopRankVolume[ i ];
+		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="topRankVolume_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
+		var _html01 =`
+			<div class="">
+				<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
+					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/mini/${io.reutersCode}_home_open.png?${Date.now()}" load="lazy" style="height:35px">
+				</span>
+				<span style="font-size:13px;"> ${io.stockName}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span><br>
+				<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
+					<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
+				</span>
+
+			</div>
+			
+
+
+			<!--div class="description"></div-->
+		`
+		var _html02 =`</div>`
+
+		var new_el = window.UTIL.Html.htmlToElement( _html00 + _html01 + _html02 )
+		var target_el = window.document.getElementById( "topRankVolume_" + io.reutersCode )
+		if( target_el )
+		{
+			//window._el.id_market_index.lastElementChild.parentNode.removeChild( target_el )
+			//window._el.id_market_index.insertBefore( new_el,window._el.id_market_index.firstChild )
+			target_el.innerHTML = _html01
+			
+		}
+		else
+		{
+			window.document.getElementById( "renderTopRankVolume" ).appendChild( new_el )	
+		}
+	}
 
 }
 
