@@ -25,21 +25,6 @@ var paramToObject = function(){
 	return o;
 };
 
-updateStock.cnt = 0;
-updateStock.status = 0;
-window.chartData = [];
-
-window.chartData = {}
-window.chartData.key = [];
-window.chartData.s = [];
-window.chartData.b = [];
-window.chartData.pp = [];
-window.chartData.renderTreemapChart_buy = {};
-window.chartData.renderTreemapChart_sell = {};
-
-
-window.charts = {};
-
 var renderTreemapChart_buy = function( nm ){
 	var domId = "renderTreemapChart_buy";	
 	var dom = document.getElementById( domId );
@@ -374,6 +359,13 @@ var renderInsightByTrad = function(d){
 
 
 window.onload = function(){ 
+
+	window.chartData = {}
+	window.chartData.renderTreemapChart_buy = {};
+	window.chartData.renderTreemapChart_sell = {};
+	
+	window.charts = {};
+
 
 	window.date = {};
 	window.date.curDate = paramToObject();
