@@ -1,312 +1,13 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<link rel="stylesheet" href="../resource/css/common.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
-        <!-- Uncomment this line if you want to dataTool extension
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/extension/dataTool.min.js"></script>
-        -->
-        <!-- Uncomment this line if you want to use gl extension
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
-        -->
-        <!-- Uncomment this line if you want to echarts-stat extension
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
-        -->
-        <!-- Uncomment this line if you want to use map
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/map/js/china.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/map/js/world.js"></script>
-        -->
-        <!-- Uncomment these two lines if you want to use bmap extension
-        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@{{version}}/dist/extension/bmap.min.js"></script>
-        -->
-
-<style>
-td{
-	font-size:11px;
-	padding:10px;
-}
-.ui.card, .ui.cards>.card{
-
-	border-radius: 0rem !important
-	-webkit-box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
-	box-shadow: 0 0px 0px 0 #d4d4d5, 0 0 0 0px #d4d4d5 !important
-
-
-}
-/*span{*/
-/*	padding : 10px 0 10px 0;*/
-/*}*/
-th{
-	font-size:11px;
-}
-</style>
-
+<script type="text/javascript" src="../resource/js/common.util.js"></script>
 
 <script>
-
-
-/*
-	A simple, lightweight jQuery plugin for creating sortable tables.
-	https://github.com/kylefox/jquery-tablesort
-	Version 0.0.11
-*/
-
-(function($) {
-	$.tablesort = function ($table, settings) {
-		var self = this;
-		this.$table = $table;
-		this.$thead = this.$table.find('thead');
-		this.settings = $.extend({}, $.tablesort.defaults, settings);
-		this.$sortCells = this.$thead.length > 0 ? this.$thead.find('th:not(.no-sort)') : this.$table.find('th:not(.no-sort)');
-		this.$sortCells.on('click.tablesort', function() {
-			self.sort($(this));
-		});
-		this.index = null;
-		this.$th = null;
-		this.direction = null;
-	};
-
-	$.tablesort.prototype = {
-
-		sort: function(th, direction) {
-			var start = new Date(),
-				self = this,
-				table = this.$table,
-				rowsContainer = table.find('tbody').length > 0 ? table.find('tbody') : table,
-				rows = rowsContainer.find('tr').has('td, th'),
-				cells = rows.find(':nth-child(' + (th.index() + 1) + ')').filter('td, th'),
-				sortBy = th.data().sortBy,
-				sortedMap = [];
-
-			var unsortedValues = cells.map(function(idx, cell) {
-				if (sortBy)
-					return (typeof sortBy === 'function') ? sortBy($(th), $(cell), self) : sortBy;
-				return ($(this).data().sortValue != null ? $(this).data().sortValue : $(this).text());
-			});
-			if (unsortedValues.length === 0) return;
-
-			//click on a different column
-			if (this.index !== th.index()) {
-				this.direction = 'asc';
-				this.index = th.index();
-			}
-			else if (direction !== 'asc' && direction !== 'desc')
-				this.direction = this.direction === 'asc' ? 'desc' : 'asc';
-			else
-				this.direction = direction;
-
-			direction = this.direction == 'asc' ? 1 : -1;
-
-			self.$table.trigger('tablesort:start', [self]);
-			self.log("Sorting by " + this.index + ' ' + this.direction);
-
-			// Try to force a browser redraw
-			self.$table.css("display");
-			// Run sorting asynchronously on a timeout to force browser redraw after
-			// `tablesort:start` callback. Also avoids locking up the browser too much.
-			setTimeout(function() {
-				self.$sortCells.removeClass(self.settings.asc + ' ' + self.settings.desc);
-				for (var i = 0, length = unsortedValues.length; i < length; i++)
-				{
-					sortedMap.push({
-						index: i,
-						cell: cells[i],
-						row: rows[i],
-						value: unsortedValues[i]
-					});
-				}
-
-				sortedMap.sort(function(a, b) {
-					return self.settings.compare(a.value, b.value) * direction;
-				});
-
-				$.each(sortedMap, function(i, entry) {
-					rowsContainer.append(entry.row);
-				});
-
-				th.addClass(self.settings[self.direction]);
-
-				self.log('Sort finished in ' + ((new Date()).getTime() - start.getTime()) + 'ms');
-				self.$table.trigger('tablesort:complete', [self]);
-				//Try to force a browser redraw
-				self.$table.css("display");
-			}, unsortedValues.length > 2000 ? 200 : 10);
-		},
-
-		log: function(msg) {
-			if(($.tablesort.DEBUG || this.settings.debug) && console && console.log) {
-				console.log('[tablesort] ' + msg);
-			}
-		},
-
-		destroy: function() {
-			this.$sortCells.off('click.tablesort');
-			this.$table.data('tablesort', null);
-			return null;
-		}
-
-	};
-
-	$.tablesort.DEBUG = false;
-
-	$.tablesort.defaults = {
-		debug: $.tablesort.DEBUG,
-		asc: 'sorted ascending',
-		desc: 'sorted descending',
-		compare: function(a, b) {
-			if (a > b) {
-				return 1;
-			} else if (a < b) {
-				return -1;
-			} else {
-				return 0;
-			}
-		}
-	};
-
-	$.fn.tablesort = function(settings) {
-		var table, sortable, previous;
-		return this.each(function() {
-			table = $(this);
-			previous = table.data('tablesort');
-			if(previous) {
-				previous.destroy();
-			}
-			table.data('tablesort', new $.tablesort(table, settings));
-		});
-	};
-
-})(window.Zepto || window.jQuery);
-
-var numberWithCommas = function(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-var getTimeTo__HHMMSS = function(date){
-	
-	date = date || new Date();
-	//var year = date.getFullYear();
-	//var month = date.getMonth() + 1;
-	//var day = date.getDate();
-	var hour = date.getHours();
-	var minute = date.getMinutes();
-	var second = date.getSeconds();
-
-	//month = month >= 10 ? month : '0' + month;
-	//day = day >= 10 ? day : '0' + day;
-	hour = hour >= 10 ? hour : '0' + hour;
-	minute = minute >= 10 ? minute : '0' + minute;
-	second = second >= 10 ? second : '0' + second;
-	var r = ( hour + minute + second ) * 1;
-
-	return r
-
-}
-
-var updateStock = function(){
-		
-		var _els_stockSise = window.document.getElementsByClassName( "stockSise" );
-		
-		var _el = _els_stockSise[ updateStock.cnt ]; 
-		var cd = _els_stockSise[ updateStock.cnt ].attributes[ "data-code-value"].value;
-		
-		if( window.stock[ cd ] )
-		{
-					var d = window.stock[ cd ];
-					var _htmlTxt = ""
-					
-					var plusMinus = d.datas[0].compareToPreviousClosePrice.replace(/\,/gi,"") * 1
-					
-					
-					if( plusMinus > 0 ) _htmlTxt += `<span style="color:red;font-size:14px;">`
-					else if( plusMinus < 0 ) _htmlTxt += `<span style="color:blue;font-size:14px;">`
-					else if( plusMinus == 0 ) _htmlTxt += `<span style="font-size:14px;">`
-
-					_htmlTxt += d.datas[0].closePrice + '</span>'
-					
-
-					if( plusMinus > 0 ) _htmlTxt += `<span style="color:red;"> ▲ +`
-					else if( plusMinus < 0 ) _htmlTxt += `<span style="color:blue;"> ▼ `
-					else if( plusMinus == 0 ) _htmlTxt += `<span style="">`
-					
-					_htmlTxt += d.datas[0].compareToPreviousClosePrice
-					_htmlTxt += "(" + d.datas[0].fluctuationsRatio + "% )"
-					_htmlTxt += "</span>"
-
-					_el.innerHTML = _htmlTxt
-					
-					if( updateStock.cnt == window.stock_arr.length - 1 )
-					{
-						console.log("업데이트끝")
-						updateStock.cnt = 0;
-						updateStock.status = 0;
-					}
-					else
-					{
-						++updateStock.cnt;
-						updateStock.status = 1
-						setTimeout(function(){ updateStock()  },300)
-					} 
-		}
-		else
-		{
-			var xhr = new XMLHttpRequest();
-
-			xhr.open("GET" , "http://112.144.208.118:8887/getStockInfo?cd=" + cd, true);
-
-			xhr.onreadystatechange = function() {
-
-				if(xhr.readyState == 4 && xhr.status == 200)
-
-				{
-		//			console.log( xhr.responseText )
-					var d = JSON.parse( xhr.responseText )
-					window.stock[ cd ] = d;
-					var _htmlTxt = ""
-					
-					var plusMinus = d.datas[0].compareToPreviousClosePrice.replace(/\,/gi,"") * 1
-					
-					
-					if( plusMinus > 0 ) _htmlTxt += `<span style="color:red;font-size:14px;">`
-					else if( plusMinus < 0 ) _htmlTxt += `<span style="color:blue;font-size:14px;">`
-					else if( plusMinus == 0 ) _htmlTxt += `<span style="font-size:14px;">`
-
-					_htmlTxt += d.datas[0].closePrice + '</span>'
-					
-
-					if( plusMinus > 0 ) _htmlTxt += `<span style="color:red;"> ▲ +`
-					else if( plusMinus < 0 ) _htmlTxt += `<span style="color:blue;"> ▼ `
-					else if( plusMinus == 0 ) _htmlTxt += `<span style="">`
-					
-					_htmlTxt += d.datas[0].compareToPreviousClosePrice
-					_htmlTxt += "(" + d.datas[0].fluctuationsRatio + "% )"
-					_htmlTxt += "</span>"
-
-					_el.innerHTML = _htmlTxt
-					if( updateStock.cnt == window.stock_arr.length - 1 )
-					{
-						console.log("업데이트끝")
-						updateStock.cnt = 0;
-						updateStock.status = 0;
-					}
-					else
-					{
-						++updateStock.cnt;
-						updateStock.status = 1
-						setTimeout(function(){ updateStock()  },300)
-					}
-				}
-
-			}
-
-			xhr.send();
-	
-			
-		}
-		
-	
-}
-
 
 var paramToObject = function(){
 	
@@ -333,23 +34,23 @@ window.chartData.key = [];
 window.chartData.s = [];
 window.chartData.b = [];
 window.chartData.pp = [];
-window.chartData.treemapChart = {};
-window.chartData.treemapChart00 = {};
+window.chartData.renderTreemapChart_buy = {};
+window.chartData.renderTreemapChart_sell = {};
 
 
 window.charts = {};
 
-var renderTreemapChart = function( nm ){
-	var domId = "treemapChart";	
+var renderTreemapChart_buy = function( nm ){
+	var domId = "renderTreemapChart_buy";	
 	var dom = document.getElementById( domId );
 
-	if( !window.charts.treemapChart )
+	if( !window.charts.renderTreemapChart_buy )
 	{
-		window.charts.treemapChart = echarts.init(dom);
-		window.charts.treemapChart.isEvent = 0;
+		window.charts.renderTreemapChart_buy = echarts.init(dom);
+		window.charts.renderTreemapChart_buy.isEvent = 0;
 	}
 
-	window.charts.treemapChart.showLoading()
+	window.charts.renderTreemapChart_buy.showLoading()
 
 
 	var app = {};
@@ -358,7 +59,7 @@ var renderTreemapChart = function( nm ){
 		grid : { width :"100%" },
 		series: [
 			{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
-			  data: window.chartData.treemapChart[ nm ],label : {
+			  data: window.chartData.renderTreemapChart_buy[ nm ],label : {
 				formatter: function (params) {
 					let arr = [ params.name, echarts.format.addCommas(params.value) ];
 					return arr.join('\n');
@@ -369,38 +70,38 @@ var renderTreemapChart = function( nm ){
 	};
 
 	if (option && typeof option === 'object'){
-		window.charts.treemapChart.setOption(option);
-		window.charts.treemapChart.resize();
+		window.charts.renderTreemapChart_buy.setOption(option);
+		window.charts.renderTreemapChart_buy.resize();
 		
 		setTimeout(function(){
-			window.charts.treemapChart.hideLoading();
+			window.charts.renderTreemapChart_buy.hideLoading();
 		},1000)
 	}
 	
-	if( !window.charts.treemapChart.isEvent )
+	if( !window.charts.renderTreemapChart_buy.isEvent )
 	{
-		window.charts.treemapChart.on('click',function(d){
+		window.charts.renderTreemapChart_buy.on('click',function(d){
 			renderScatterChart( d.data.cd, d.data.name )
 		})
-		window.charts.treemapChart.isEvent = 1;
+		window.charts.renderTreemapChart_buy.isEvent = 1;
 	}
 	
 }
 
-window.charts.treemapChart00 = null;
-var renderTreemapChart00 = function( nm ){
+window.charts.renderTreemapChart_sell = {};
+var renderrenderTreemapChart_sell = function( nm ){
 
-		var domId = "treemapChart00";	
+		var domId = "renderTreemapChart_sell";	
 		var dom = document.getElementById( domId );
 
 		if( !window.charts ) window.charts = {}
-		if( !window.charts.treemapChart00 )
+		if( !window.charts.renderTreemapChart_sell )
 		{
-			window.charts.treemapChart00 = echarts.init(dom);
-			window.charts.treemapChart00.isEvent = 0;
+			window.charts.renderTreemapChart_sell = echarts.init(dom);
+			window.charts.renderTreemapChart_sell.isEvent = 0;
 		}
 
-		window.charts.treemapChart00.showLoading()
+		window.charts.renderTreemapChart_sell.showLoading()
 
 		var app = {};
 
@@ -408,7 +109,7 @@ var renderTreemapChart00 = function( nm ){
 			grid : { width :"100%" },
 			series: [
 				{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
-				  data: window.chartData.treemapChart00[ nm ],label : {
+				  data: window.chartData.renderTreemapChart_sell[ nm ],label : {
 					formatter: function (params) {
 						let arr = [ params.name, echarts.format.addCommas(params.value) ];
 						return arr.join('\n');
@@ -422,20 +123,20 @@ var renderTreemapChart00 = function( nm ){
 		};
 
 		if (option && typeof option === 'object'){
-			window.charts.treemapChart00.setOption(option);
-			window.charts.treemapChart00.resize();
+			window.charts.renderTreemapChart_sell.setOption(option);
+			window.charts.renderTreemapChart_sell.resize();
 			
 			setTimeout(function(){
-				window.charts.treemapChart00.hideLoading();
+				window.charts.renderTreemapChart_sell.hideLoading();
 			},1000)
 		}
 		
-		if( !window.charts.treemapChart00.isEvent )
+		if( !window.charts.renderTreemapChart_sell.isEvent )
 		{
-			window.charts.treemapChart00.on('click',function(d){
+			window.charts.renderTreemapChart_sell.on('click',function(d){
 				renderScatterChart( d.data.cd, d.data.name )
 			})
-			window.charts.treemapChart00.isEvent = 1;
+			window.charts.renderTreemapChart_sell.isEvent = 1;
 		}
 
 }
@@ -518,19 +219,19 @@ var renderScatterChart = function( cd,nm ){
 				},
 				axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
 			  },
-				 visualMap: {
-        min: -100,
-        max: 100,
-        dimension: 1,
-        orient: 'vertical',
-        right: 10,
-        top: 'center',
-        text: ['HIGH', 'LOW'],
-        calculable: true,
-        inRange: {
-          color: ['#f2c31a', '#24b7f2']
-        }
-      },
+			 visualMap: {
+				min: -100,
+				max: 100,
+				dimension: 1,
+				orient: 'vertical',
+				right: 10,
+				top: 'center',
+				text: ['HIGH', 'LOW'],
+				calculable: true,
+				inRange: {
+				  color: ['#f2c31a', '#24b7f2']
+				}
+			  },
 			  toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
 			  brush: {},
 			  legend: {	data: legendData,left: 'center',bottom: 10 },
@@ -554,233 +255,131 @@ var renderScatterChart = function( cd,nm ){
 	})
 }
 
-
-window.onload = function(){ 
-
-	var div00 = window.document.getElementById("div00");
-	var cards = window.document.getElementById("cards");
-
-
-	window.date = {};
-	window.date.curDate = paramToObject();
-
+var getInsightByTrad = function( cbFunction ){
+		
 	var xhr = new XMLHttpRequest();
 	
-	window.stock = {};
-	window.stock_arr = [];
-    xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getInsightByTrad?date=${window.date.curDate.date}` ) , true);
-
-    xhr.onreadystatechange = function() {
-	
-        if(xhr.readyState == 4 && xhr.status == 200)
-        {
-            var a =JSON.parse(xhr.responseText);
-
-			var _html =`
-				<table class="ui sortable celled table compact">
-				  <thead>
-				  	<th>증권사</th>
-				`
-				var i = 0,iLen = a.length,io;
-				for(;i<iLen;++i){
-				io = a[ i ];
-				_html += `
-				<th class="traders" data-nm-value="${io.nm}">
-				${numberWithCommas( io.nm )								}
-				</th>
-				`
-			}
-
-			var sell = "<td>매도</td>";
-			var buy = "<td>매수</td>";
-			var net = "<td>순매수</td>";
-			var i = 0,iLen = a.length,io;
-			for(;i<iLen;++i){
-				io = a[ i ];
-				//window.stock[ io.cd ] = {};
-				//window.stock_arr.push( io.cd )
-				
-				sell += `<td> ${numberWithCommas( io.total[ "s" ] )					}</td>`
-				buy += `<td> ${numberWithCommas( io.total[ "b" ] )					}</td>`
-				net += `<td> ${numberWithCommas( io.total[ "s" ] + io.total[ "b" ] )	}</td>`
-				
-
-				window.chartData.key.push( io.nm )
-				window.chartData.s.push( io.total.s )
-				window.chartData.b.push( io.total.b )
-				window.chartData.pp.push( io.total[ "s" ] + io.total[ "b" ] )
-				if( !window.chartData.treemapChart[ io.nm ] ) window.chartData.treemapChart[ io.nm ] = [];
-				if( !window.chartData.treemapChart00[ io.nm ] ) window.chartData.treemapChart00[ io.nm ] = [];
+	xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getInsightByTrad?date=${window.date.curDate.date}`, true);
+	xhr.onreadystatechange = function(){
+		
+		if( xhr.readyState == 4 && xhr.status == 200)
+		{
 			
+			var d = JSON.parse( xhr.responseText )
+
+			var i = 0,iLen = d.length,io;
+			for(;i<iLen;++i){
+				io = d[ i ];
 				
-				var k,ko,cnt = 0;
+				if( !window.chartData.renderTreemapChart_buy[ io.nm ] ) window.chartData.renderTreemapChart_buy[ io.nm ] = [];
+				if( !window.chartData.renderTreemapChart_sell[ io.nm ] ) window.chartData.renderTreemapChart_sell[ io.nm ] = [];
+				
+				var k,ko;
 				for( k in io.stocks )
 				{
-					++cnt;
-					//if( cnt == 100 ) break;
 					ko = io.stocks[ k ];
 					var _chart_o = {
 						name: ko.nm,
 						cd : ko.cd,
-						//value: io.agency[ "연기금 등" ].NETBID_TRDVAL,
 						value: ko.b,
 						children: []
 					}
 					var _chart_o00 = {
 						name: ko.nm,
 						cd : ko.cd,
-						//value: io.agency[ "연기금 등" ].NETBID_TRDVAL,
 						value: ko.s * -1,
 						children: []
 					}
-					window.chartData.treemapChart[ io.nm ].push( _chart_o )
-					window.chartData.treemapChart00[ io.nm ].push( _chart_o00 )
+					window.chartData.renderTreemapChart_buy[ io.nm ].push( _chart_o )
+					window.chartData.renderTreemapChart_sell[ io.nm ].push( _chart_o00 )
 				}
 			}
-			_html +=`
-				</thead>
-				<tbody>
-					<tr>${sell}</tr>
-					<tr>${buy}</tr>
-					<tr>${net}</tr>
-				</tbody>
-			</table>
+			cbFunction( d );
+			
+		}
+	}
+	
+	xhr.send();
+
+}
+
+var renderInsightByTrad = function(d){
+	var _html =`
+		<table class="ui sortable celled table compact">
+			<thead>
+				<th>증권사</th>
+	`
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[ i ];
+		_html += `
+		<th class="traders" data-nm-value="${io.nm}">
+			${numberWithCommas( io.nm )}
+		</th>
 			`
-			cards.innerHTML = _html
+	}
 
-			//updateStock()
-			//if( getTimeTo__HHMMSS() > 153100 )
-			//{
-			//	setInterval(function(){
-			//		if( !updateStock.status )
-			//		{
-			//			console.log("업데이트시작")
-			//			updateStock()
-			//		}
-			//		else
-			//		{
-			//			console.log( "업데이트중" )
-			//		}
-			//	},30000)	
-			//}
-			//else
-			//{
-			//	console.log( "장마감" )
-			//}
-			
-			//$('.sortable.table').tablesort();
-			//var chartImgs = window.document.getElementsByClassName("chart");
-			
-			//setInterval(function(){
-			//	var k = 0,kLen = chartImgs.length,ko;
-			//	for(;k<kLen;++k){
-			//		ko = chartImgs[ k ]
-			//		var _tsrc = ko.src
-			//		ko.src = _tsrc.split("?")[0] + "?" + Date.now();
-			//	}	
-			//},60000)		
+	var sell = "<td>매도</td>";
+	var buy = "<td>매수</td>";
+	var net = "<td>순매수</td>";
 
-//			var dom = document.getElementById("container");
-//var myChart = echarts.init(dom);
-//var app = {};
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[ i ];
+		
+		sell += `<td> ${numberWithCommas( io.total[ "s" ] )	}</td>`
+		buy += `<td> ${numberWithCommas( io.total[ "b" ] )	}</td>`
+		net += `<td> ${numberWithCommas( io.total[ "s" ] + io.total[ "b" ] ) }</td>`
+		
+	}
+	_html +=`
+		</thead>
+		<tbody>
+			<tr>${sell}</tr>
+			<tr>${buy}</tr>
+			<tr>${net}</tr>
+		</tbody>
+	</table>
+	`
+	window.document.getElementById( "renderInsightByTrad" ).innerHTML = _html
 
-//var option;
-
-
-
-//option = {
-//  tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-//  legend: { data: ['매도', '매수', '순매수'] },
-//  grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
-//  xAxis: [ { type: 'value' } ],
-//  yAxis: [
-//    {
-//      type: 'category',
-//      axisTick: {
-//        show: false
-//      },
-//      data: window.chartData.key.reverse()
-//    }
-//  ],
-//  series: [
-//    {
-//      name: '매도',
-//      type: 'bar',
-//      stack: 'Total',
-//      label: {
-//      //  show: true,
-//	//	position: 'right'
-//      },
-//      emphasis: {
-//        focus: 'series'
-//      },
-//      data: window.chartData.s.reverse(),
-//	itemStyle:{
-//                color: 'blue',
-//      },
-
-//    },
-//    {
-//      name: '매수',
-//      type: 'bar',
-//      stack: 'Total',
-//      label: {
-//      //  show: true,
-//       // position: 'left'
-//      },
-//      emphasis: {
-//        focus: 'series'
-//      },
-//      data: window.chartData.b.reverse(),
-//	itemStyle:{
-//                color: 'red',
-//      },
-
-//    }
-//  ]
-//};
-
-//		if (option && typeof option === 'object') {
-//			myChart.setOption(option);
-//			myChart.on('click', function (params) {
-//				console.log("chartClick")
-//				renderTreemapChart( params.name )
-//			});
-
-//		}
-			var trs = window.document.getElementsByClassName("traders");
-			var i = 0,iLen = trs.length,io
+	var trs = window.document.getElementsByClassName("traders");
+	var i = 0,iLen = trs.length,io
+	for(;i<iLen;++i){
+		io = trs[ i ];
+		io.addEventListener("click",function(e){
+			var nm = e.currentTarget.getAttribute("data-nm-value");
+			var sort_arr = window.document.getElementsByClassName("traders");
+			var i = 0,iLen = sort_arr.length,io;
 			for(;i<iLen;++i){
-				io = trs[ i ];
-				io.addEventListener("click",function(e){
-					var nm = e.currentTarget.getAttribute("data-nm-value");
-					var sort_arr = window.document.getElementsByClassName("traders");
-					var i = 0,iLen = sort_arr.length,io;
-					for(;i<iLen;++i){
-						io = sort_arr[ i ];
-						io.style = {};
-						io.style.textAlign = "center"
-						io.style.cursor = "pointer"
+				io = sort_arr[ i ];
+				io.style = {};
+				io.style.textAlign = "center"
+				io.style.cursor = "pointer"
 
-					}
-					e.currentTarget.style.backgroundColor = "red";
-					e.currentTarget.style.color = "#fff";
-
-			
-			
-					renderTreemapChart( nm );
-					renderTreemapChart00( nm );
-			
-				})
 			}
-			window.addEventListener("resize",function(e){
-				window.charts.treemapChart.resize();
-				window.charts.treemapChart00.resize();
-			})
-		}
+			e.currentTarget.style.backgroundColor = "red";
+			e.currentTarget.style.color = "#fff";
 
-		}
-		xhr.send();
+			renderTreemapChart_buy( nm );
+			renderTreemapChart_sell( nm );
+	
+		})
+	}
+	window.addEventListener("resize",function(e){
+		window.charts.renderTreemapChart_buy.resize();
+		window.charts.renderTreemapChart_sell.resize();
+	})
+}
+
+
+window.onload = function(){ 
+
+	window.date = {};
+	window.date.curDate = paramToObject();
+	getInsightByTrad(function(d){
+		renderInsightByTrad(d);
+	})
 
 }
 </script>
@@ -791,18 +390,12 @@ window.onload = function(){
 
 
 <body style="padding:50px">
-	
-<!--div class="ui grid">
-	<div class="sixteen wide cloumn">외국계증권사 매매 동향</div>
-	<div class="six wide column" style="height:400px" id="cards"></div>
-	<div class="ten wide column" style="height:400px" id="container"></div>
-	<div class="sixteen wide column" id="treemapChart" style="height:400px;"></div>
-</div-->
+
 <div class="ui grid">
   <div class="sixteen wide column">외국계증권사 매매 동향</div>
   <div class="sixteen wide column" style="" id="cards"></div>
   <div id="scatter" class="sixteen wide column" style="height:400px"></div>
-  <div class="sixteen wide column" id="treemapChart" style="height:400px;"></div>
-  <div class="sixteen wide column" id="treemapChart00" style="height:400px;"></div>
+  <div class="sixteen wide column" id="renderTreemapChart_buy" style="height:400px;"></div>
+  <div class="sixteen wide column" id="renderTreemapChart_sell" style="height:400px;"></div>
 </div>
 </body>
