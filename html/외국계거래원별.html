@@ -68,7 +68,7 @@ var renderTreemapChart_buy = function( nm ){
 	
 	if( !window.charts.renderTreemapChart_buy.isEvent )
 	{
-		window.charts.renderTreemapChart_sell.on('click',function(d){
+		window.charts.renderTreemapChart_buy.on('click',function(d){
 			getFtrdDataByCd( d.data.cd, d.data.name, function(d,nm){
 				renderScatterChart(d,nm)
 			}) 
