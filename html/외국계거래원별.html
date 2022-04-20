@@ -298,7 +298,7 @@ var renderInsightByTrad = function(d){
 		io = d[ i ];
 		_html += `
 		<th class="traders" data-nm-value="${io.nm}">
-			${numberWithCommas( io.nm )}
+			${window.UTIL.Number.numberWithCommas( io.nm )}
 		</th>
 			`
 	}
@@ -311,9 +311,9 @@ var renderInsightByTrad = function(d){
 	for(;i<iLen;++i){
 		io = d[ i ];
 		
-		sell += `<td> ${numberWithCommas( io.total[ "s" ] )	}</td>`
-		buy += `<td> ${numberWithCommas( io.total[ "b" ] )	}</td>`
-		net += `<td> ${numberWithCommas( io.total[ "s" ] + io.total[ "b" ] ) }</td>`
+		sell += `<td> ${window.UTIL.Number.numberWithCommas( io.total[ "s" ] )	}</td>`
+		buy += `<td> ${window.UTIL.Number.numberWithCommas( io.total[ "b" ] )	}</td>`
+		net += `<td> ${window.UTIL.Number.numberWithCommas( io.total[ "s" ] + io.total[ "b" ] ) }</td>`
 		
 	}
 	_html +=`
