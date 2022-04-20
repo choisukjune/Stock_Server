@@ -1166,9 +1166,9 @@ window.COMPONENT.renderTopRankVolume = function(){
 		//"UPPER_LIMIT" : {	color:"red", symbol : "▲",},
 	}
 
-	var i = 0,iLen = window.socketData.renderTopRankVolume.length,io;
+	var i = 0,iLen = window.socketData.TopRankVolume.length,io;
 	for(;i<iLen;++i){
-		io = window.socketData.renderTopRankVolume[ i ];
+		io = window.socketData.TopRankVolume[ i ];
 		var _html00 = `<div class="card" style="margin-top:0px;padding: 5px!important;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;min-height:10px;" id="topRankVolume_${io.reutersCode}" data-cd-value="${io.reutersCode}" data-nm-value="${io.indexName}">`
 		var _html01 =`
 			<div class="">
