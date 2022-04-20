@@ -1,0 +1,207 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<link rel="stylesheet" href="../resource/css/common.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+<script type="text/javascript" src="../resource/js/common.util.js"></script>
+
+<script>
+
+window.addEventListener('DOMContentLoaded', (event) => {
+
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+
+	window._el = {}
+
+	window._el.id_market_index = window.document.getElementById( "market_index" )
+	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
+	window._el.id_exchange_index = window.document.getElementById( "exchange_index" )
+	window._el.id_energy_index = window.document.getElementById( "energy_index" )
+	window._el.id_metal_index = window.document.getElementById( "metal_index" )
+	window._el.id_agricultural_index = window.document.getElementById( "agricultural_index" )
+
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	window.barChart = {};
+	window.barChart.curCd = null;
+
+
+	window.socketData = {}
+
+	window.date = {}
+
+	if( window.UTIL.Date.getTimeTo__HHMMSS() < 93000 ) window.date.curDate = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+	else window.date.curDate = window.UTIL.Date.getTimeTo__YYYYMMDD();
+	
+	window.date.curDateWidhDash = window.UTIL.Date.getTimeTo__YYYY_MM_DD();
+
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+
+	window.Websocket.init();
+
+	window.COMPONENT.gnb();
+	window.COMPONENT.stockSearch_global();
+	window.COMPONENT.stockSearch_tradeValueBarchart();
+
+	window.COMPONENT.getEnergyIndex();
+	window.COMPONENT.getExchangeIndex();
+	window.COMPONENT.getMetalIndex();
+	window.COMPONENT.getAgriculturalIndex();
+	window.COMPONENT.getMarketIndex( function(){ window.COMPONENT.getMarketIndexGlobal(); } );
+
+	var wsReqData = function( d ){
+		if( !window.ws || window.ws.readyState != 1 )
+		{
+			console.log( "not yet window.ws" )
+			return setTimeout(function(){
+				wsReqData( d )
+			},2000)
+		}
+		var _d = JSON.stringify( d )
+		console.log( _d )
+		window.ws.send( _d );			
+	}
+	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
+	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
+	wsReqData( { type : "execFunc", funcNm : "TopRankVolume" } )
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeExchangeIndex" } ) );		//서버에 socket 요청;
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );				
+//	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderAgriculturalIndex" } ) );
+	
+	window.intervals = {}
+	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		}, 15000 );
+	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	}, 15000 );
+	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );				}, 15000 );
+	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal" } ) );			}, 15000 );
+	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );				}, 15000 );
+	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MetalIndex" } ) );					}, 15000 );
+	window.intervals.AgriculturalIndex			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "AgriculturalIndex" } ) );			}, 15000 );
+
+
+	window.clearIntervals = {};
+	window.clearIntervals.renderTradeValueInfo		= function(){ clearInterval( window.intervals.renderTradeValueInfo ) };
+	window.clearIntervals.renderTradeValueInfo_gap 	= function(){ clearInterval( window.intervals.renderTradeValueInfo_gap ) };
+
+
+
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+	//-------------------------------------------------------;
+
+
+	window.addEventListener('resize', function(e){ 
+		var s,so;
+		for( s in window.charts ){
+			so = window.charts[ s ];
+			so.resize();
+		}
+	}, true);
+
+	window.intervals.getTradeValueByCd = setInterval(function(){ window.COMPONENT.getTradeValueByCd(); },7000)
+})
+</script>
+
+<body style="padding:15px;">
+	<div class="ui stackable grid">
+		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
+		<div id="search_wrap" class="eight wide column" style="padding: 20px;">
+				
+		</div>
+
+		<div id="search_tradeValueBarchart_wrap" class="sixteen wide column" style="padding: 20px;"></div>
+
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide  column" id="tradeValueByCd" style="height:300px;"></div>
+			</div>
+		</div>
+
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="renderTopRankVolume_title" style="">
+				거래량상위
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="renderTopRankVolume"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="eight wide column" id="tradeValueTreeGap" style="text-align:center;height:400px;padding:0px;"></div>
+		<div class="eight wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>	
+		
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="exchange_index_title" style="">
+				환율지표
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="exchange_index"></div>
+				</div>
+			</div>
+		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="energy_index_title" style="">
+				에너지 시장지표
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="energy_index"></div>
+				</div>
+			</div>
+		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="metal_index_title" style="">
+				금속 시장지표
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="metal_index"></div>
+				</div>
+			</div>
+		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="agricultural_index_title" style="">
+				농축산물 시장지표
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="agricultural_index"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="market_index_title" style="">
+				국내외증시
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="market_index"></div>
+				</div>
+			</div>
+		</div>	
+
+	</div>
+</body>

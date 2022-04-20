@@ -298,6 +298,7 @@ window.COMPONENT.gnb = function(){
 
 	var html = `
 		<div>
+		<span id="gnb_06" style="cursor:pointer;">시장지표</span> | 
 		<span id="gnb_00" style="cursor:pointer;">실시간대량거래</span> | 
 		<span id="gnb_01" style="cursor:pointer;">기관거래원별</span> | 
 		<span id="gnb_02" style="cursor:pointer;">외국계거래원별</span> | 
@@ -327,6 +328,7 @@ window.COMPONENT.gnb = function(){
 		gnb_03 : `/html/외국계증권사매매동향.html?date=20220418`,
 		gnb_04 : `/html/wics업종별현황.html?date=20220418`,
 		gnb_05 : `/html/관심종목.html?date=20220418`,
+		gnb_05 : `/html/시장지표.html`,
 	};
 
 	window.document.getElementById( "gnb_00").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_00,"_blank"); });
@@ -335,6 +337,7 @@ window.COMPONENT.gnb = function(){
 	window.document.getElementById( "gnb_03").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_03,"_blank"); });
 	window.document.getElementById( "gnb_04").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_04,"_blank"); });
 	window.document.getElementById( "gnb_05").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_05,"_blank"); });
+	window.document.getElementById( "gnb_06").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_06,"_blank"); });
 	
 	return;
 };
