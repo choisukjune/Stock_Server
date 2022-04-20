@@ -328,7 +328,7 @@ window.COMPONENT.gnb = function(){
 		gnb_03 : `/html/외국계증권사매매동향.html?date=20220418`,
 		gnb_04 : `/html/wics업종별현황.html?date=20220418`,
 		gnb_05 : `/html/관심종목.html?date=20220418`,
-		gnb_05 : `/html/시장지표.html`,
+		gnb_06 : `/html/시장지표.html`,
 	};
 
 	window.document.getElementById( "gnb_00").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_00,"_blank"); });
