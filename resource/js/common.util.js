@@ -1173,14 +1173,14 @@ window.COMPONENT.renderTopRankVolume = function(){
 		var _html01 =`
 
 			<div class="">
-				<span class="right floated" style="padding: 5px;background-color: #fff;min-height:85px;">
-					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.reutersCode}_end_up_tablet.png?${Date.now()}" load="lazy" style="height:85px;">
+				<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
+					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.reutersCode}_end_up_tablet.png?${Date.now()}" load="lazy" style="height:35px;">
 				</span>
 				<span style="font-size:13px;"> ${io.stockName} ( ${io.reutersCode} )</span> - <span style="font-size:11px;">  ${io.stockExchangeType.name}</span><br>
 				<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
 					<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 				</span><br>
-				<span style="font-size:11px;">${io.accumulatedTradingValueKrwHangeul}</span>
+				<span style="font-size:11px;">${io.accumulatedTradingValueKrwHangeul}</span> / 
 				<span style="font-size:11px;">${io.accumulatedTradingVolume}주</span>
 
 			</div>
