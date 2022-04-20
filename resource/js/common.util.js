@@ -416,7 +416,7 @@ window.COMPONENT.stockSearch_global = function(){
 
 	var html = `
 		<div>
-			<div class="ui fluid icon input">
+			<div class="ui mini fluid icon input">
 				<input type="text" placeholder="종목명( 종목코드 ) - 종합정보로이동" id="${idNm}">
 				<i class="search icon"></i>
 			</div>
@@ -648,7 +648,7 @@ window.COMPONENT.stockSearch_tradeValueBarchart = function(){
 
 	var html = `
 		<div>
-			<div class="ui fluid icon input">
+			<div class="ui mini fluid icon input">
 				<input type="text" placeholder="종목명( 종목코드 ) - 실시간 거래대금 현황" id="${idNm}">
 				<i class="search icon"></i>
 			</div>
