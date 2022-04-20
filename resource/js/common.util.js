@@ -1163,7 +1163,7 @@ window.COMPONENT.renderTopRankVolume = function(){
 		"UNCHANGED" : {	color:"grey", symbol : "-",},
 		"RISING" : {	color:"red", symbol : "▲",},
 		"FALLING" : {	color:"blue", symbol : "▼",},
-		"UPPER_LIMIT" : {	color:"red", symbol : "↑",},
+		"UPPER_LIMIT" : {	color:"red", symbol : `<i class="arrow up icon red"></i>`,},
 	}
 
 	var i = 0,iLen = window.socketData.TopRankVolume.length,io;
@@ -1173,7 +1173,7 @@ window.COMPONENT.renderTopRankVolume = function(){
 		var _html01 =`
 			<div class="">
 				<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
-					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/world/mini/${io.reutersCode}_home_open.png?${Date.now()}" load="lazy" style="height:35px">
+					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.reutersCode}_end_up_tablet.png?${Date.now()}" load="lazy" style="height:35px">
 				</span>
 				<span style="font-size:13px;"> ${io.stockName}</span> - <span style="font-size:11px;">  ${io.marketStatus}</span><br>
 				<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
