@@ -154,7 +154,7 @@ var renderScatterChart = function( d ){
 
 		//if( window.charts.renderScatterChart.dispose ) window.charts.renderScatterChart.dispose()
 		var domId = "renderScatterChart";
-		var dom = document.getElementById("domId");
+		var dom = document.getElementById( domId );
 		
 		window.charts.renderScatterChart = echarts.init(dom);
 		var app = {};
@@ -379,7 +379,7 @@ window.onload = function(){
 
   <div class="sixteen wide column">외국계증권사 매매 동향</div>
   <div id="renderInsightByTrad" class="sixteen wide column" style=""></div>
-  <div id="scatter" class="sixteen wide column" style="height:400px"></div>
+  <div id="renderScatterChart" class="sixteen wide column" style="height:400px"></div>
   <div id="renderTreemapChart_buy" class="sixteen wide column" style="height:400px;"></div>
   <div id="renderTreemapChart_sell" class="sixteen wide column" style="height:400px;"></div>
 </div>
