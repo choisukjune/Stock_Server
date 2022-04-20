@@ -259,7 +259,7 @@ var getInsightByTrad = function( cbFunction ){
 		
 	var xhr = new XMLHttpRequest();
 	
-	xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getInsightByTrad?date=${window.date.curDate.date}`, true);
+	xhr.open("GET" , encodeURI(`http://112.144.208.118:8888/getInsightByTrad?date=${window.date.curDate.date}`), true);
 	xhr.onreadystatechange = function(){
 		
 		if( xhr.readyState == 4 && xhr.status == 200)
