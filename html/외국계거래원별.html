@@ -368,18 +368,11 @@ window.onload = function(){
 
 	window.date = {};
 	window.date.curDate = paramToObject();
-	getInsightByTrad(function(d){
-		renderInsightByTrad(d);
-	})
+	getInsightByTrad( renderInsightByTrad })
 
 }
 </script>
        
-
-        
-        
-
-
 <body style="padding:50px">
 
 <div class="ui grid">
