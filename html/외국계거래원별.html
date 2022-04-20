@@ -150,22 +150,19 @@ var getFtrdDataByCd = function( cd,date,cbFunction ){
 
 }
 window.charts = {}
-var renderScatterChart = function( cd,nm ){
+var renderScatterChart = function( d ){
 
 		//if( window.charts.renderScatterChart.dispose ) window.charts.renderScatterChart.dispose()
-		var dom = document.getElementById("scatter");
+		var domId = "renderScatterChart";
+		var dom = document.getElementById("domId");
+		
 		window.charts.renderScatterChart = echarts.init(dom);
 		var app = {};
+		
 		window.charts.renderScatterChart.showLoading()
-		getFtrdDataByCd( cd,window.date.curDate.date, function(d){
+
 		var chartData = [];
 		var legendData = [];
-		var _o = {  
-			name: 'Female', type: 'scatter',  emphasis: { focus: 'series' },
-			data: [],
-			markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
-			markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
-		}
 		
 		var _to = {}
 		var i = 0,iLen = d.length,io
@@ -184,7 +181,7 @@ var renderScatterChart = function( cd,nm ){
 			_o = {  
 				name: s, type: 'scatter',  emphasis: { focus: 'series' },
 				data: so,
-				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
+				markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
 				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
 			}
 			chartData.push( _o )
@@ -193,54 +190,44 @@ var renderScatterChart = function( cd,nm ){
 		var title = nm;
 		var subTitle = '외국계증권사 매수/매도 분포' 
 		option = {
-			  title : { text : title, subtext : subTitle, left : 'center',},
-			  grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },
-			  tooltip: {
-				// trigger: 'axis',
-				showDelay: 0,
-				formatter: function (params) {
-				  if (params.value.length > 1) {
-					return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + params.value[1] );
-				  } else {
-					return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  params.value );
-				  }
-				},
-				axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
-			  },
-			 visualMap: {
-				min: -100,
-				max: 100,
-				dimension: 1,
-				orient: 'vertical',
-				right: 10,
-				top: 'center',
-				text: ['HIGH', 'LOW'],
+			title : { text : title, subtext : subTitle, left : 'center',},
+			grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },
+			tooltip: {
+			// trigger: 'axis',
+			showDelay: 0,
+			formatter: function (params) {
+				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + params.value[1] );
+				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  params.value );
+			},
+			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
+			},
+			visualMap: {
+				min: -100, max: 100,
+				dimension: 1, orient: 'vertical',
+				right: 10, top: 'center', text: ['HIGH', 'LOW'],
 				calculable: true,
 				inRange: {
-				  color: ['#f2c31a', '#24b7f2']
+					color: ['#f2c31a', '#24b7f2']
 				}
-			  },
-			  toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
-			  brush: {},
-			  legend: {	data: legendData,left: 'center',bottom: 10 },
-			  xAxis: [
+			},
+			toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
+			brush: {}, legend: { data: legendData,left: 'center',bottom: 10 },
+			xAxis: [
 				{ type: 'time',min:"2022-02-22T09:00:00",max:"2022-02-22T15:30:00", scale: true, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }, axisLabel : { fontSize : 9 }	}
-			 ],
-			  yAxis: [
+			],
+			yAxis: [
 				{ type: 'value', scale: true, splitArea: {show: false },splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
-			  ],
-			  series: chartData
-			};
-	
-			if (option && typeof option === 'object') {
-				window.charts.renderScatterChart.setOption(option);
+			],
+			series: chartData
+		};
 
-				window.charts.renderScatterChart.resize();
-				window.charts.renderScatterChart.hideLoading()
-			}
+		if (option && typeof option === 'object') {
+			window.charts.renderScatterChart.setOption(option);
+
+			window.charts.renderScatterChart.resize();
+			window.charts.renderScatterChart.hideLoading()
+		}
 			
-
-	})
 }
 
 var getInsightByTrad = function( cbFunction ){
