@@ -6,17 +6,19 @@ if( console ) console.log( "[ S ] - " + fileNm + "----------" );
 // REQUIRE;
 //-------------------------------------------------------;
 
-var cp = require( "child_process" );
 var fs = require('fs');
 var http = require('http');
-var path = require('path');
+var https = require('https');
+
 var WebSocket = require('ws');
 
-var url = require('url');
-
 var execSync = require('child_process').execSync;
-var iconv = require( "iconv-lite" );
 var spawn = require('child_process').spawn;
+
+var path = require('path');
+var url = require('url');
+var iconv = require( "iconv-lite" );
+
 
 
 //-------------------------------------------------------;
