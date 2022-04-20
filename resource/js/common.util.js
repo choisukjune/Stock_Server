@@ -1176,7 +1176,7 @@ window.COMPONENT.renderTopRankVolume = function(){
 				<span class="right floated" style="padding: 5px;background-color: #fff;min-height:55px;">
 					<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.reutersCode}_end_up_tablet.png?${Date.now()}" load="lazy" style="height:55px;">
 				</span>
-				<span style="font-size:13px;"> ${io.stockName}</span> - <span style="font-size:11px;">  ${io.stockExchangeType.name}</span><br>
+				<span style="font-size:13px;"> ${io.stockName} ( ${io.reutersCode} )</span> - <span style="font-size:11px;">  ${io.stockExchangeType.name}</span><br>
 				<span style="font-size:14px;color:${status[ io.compareToPreviousPrice.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}
 					<span style="font-size:12px;color:${status[ io.compareToPreviousPrice.name ].color}">${status[ io.compareToPreviousPrice.name ].symbol} ${io.compareToPreviousClosePrice}( ${ io.fluctuationsRatio}% )</span>
 				</span><br>
@@ -1204,7 +1204,15 @@ window.COMPONENT.renderTopRankVolume = function(){
 		{
 			window.document.getElementById( "renderTopRankVolume" ).appendChild( new_el )	
 		}
+		new_el.addEventListener( "click",function(e){
+				var cd = e.currentTarget.getAttribute("data-cd-value");
+				window.Info.renderTradeValueByCd.curCd = cd;
+				window.COMPONENT.getTradeValueByCd();	
+		})
 	}
+	
+	window.Info.renderTradeValueByCd.curCd = window.socketData.TopRankVolume[0].cd;
+	window.COMPONENT.getTradeValueByCd();
 
 }
 
