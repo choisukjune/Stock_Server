@@ -80,6 +80,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo" } )
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } )
 	wsReqData( { type : "execFunc", funcNm : "TopRankVolume" } )
+	wsReqData( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] } )
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	
 //	window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderMetalIndex" } ) );			
@@ -91,7 +92,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.intervals.renderTradeValueInfo		= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo" } ) );		}, 15000 );
 	window.intervals.renderTradeValueInfo_gap	= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "renderTradeValueInfo_gap" } ) );	}, 15000 );
 	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );				}, 15000 );
-	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal" } ) );			}, 15000 );
+	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] }); }, 15000 );
 	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );				}, 15000 );
 	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MetalIndex" } ) );					}, 15000 );
 	window.intervals.AgriculturalIndex			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "AgriculturalIndex" } ) );			}, 15000 );
@@ -129,6 +130,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				
 		</div>
 
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="exchange_index_title" style="">
+				환율지표
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="exchange_index"></div>
+				</div>
+			</div>
+		</div>
+		<div class="sixteen wide column">
+			<div class="ui grid">
+				<div class="sixteen wide column" id="market_index_title" style="">
+				국내외증시
+				</div>
+				<div class="sixteen wide column">
+					<div class="ui six stackable cards" id="market_index"></div>
+				</div>
+			</div>
+		</div>	
+
 		<div id="search_tradeValueBarchart_wrap" class="sixteen wide column" style="padding: 20px;"></div>
 
 		<div class="sixteen wide column">
@@ -151,16 +173,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		<div class="eight wide column" id="tradeValueTreeGap" style="text-align:center;height:400px;padding:0px;"></div>
 		<div class="eight wide column" id="tradeValueTree" style="text-align:center;height:400px;padding:0px;"></div>	
 		
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="sixteen wide column" id="exchange_index_title" style="">
-				환율지표
-				</div>
-				<div class="sixteen wide column">
-					<div class="ui six stackable cards" id="exchange_index"></div>
-				</div>
-			</div>
-		</div>
+
 		<div class="sixteen wide column">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="energy_index_title" style="">
@@ -191,17 +204,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-
-		<div class="sixteen wide column">
-			<div class="ui grid">
-				<div class="sixteen wide column" id="market_index_title" style="">
-				국내외증시
-				</div>
-				<div class="sixteen wide column">
-					<div class="ui six stackable cards" id="market_index"></div>
-				</div>
-			</div>
-		</div>	
 
 	</div>
 </body>
