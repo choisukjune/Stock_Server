@@ -1046,7 +1046,58 @@ var pad = function(n, width){
 		
 
 	})
-					/**
+	
+	/**
+	 * 쿼리파일을 실행하는 라우터
+	 * @function
+	 * @param {http.ClientRequest} req
+	 * <code>
+		{
+
+		}
+	* </code>
+	*
+	* @param {http.ClientResponse} res
+	* <code>
+		{
+
+		}
+	* </code>
+	*
+	* @example
+	* <code>
+		http://localhost:8888/find?brand=varihope&page=1
+	* </code>
+	*/
+	global.server.addRouter("/getTopRankVolume",function( req, res ){
+
+		var routerNm = req.url.split("?")[0];
+		var paramsO = paramToObject( req.url );
+				
+		res.statusCode = 200;
+		res.setHeader( "Access-Control-Allow-Headers", "Content-Type" );
+		res.setHeader( "Access-Control-Allow-Origin", "*" );
+		res.setHeader( "Access-Control-Allow-Methods", "OPTIONS,POST,GET" );
+		res.writeHead(200, { 'Content-Type': 'text/html;charset=UTF-8' });
+		
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol + global.CONST.SERVER.CRWALER.NAVER.host + ":" + global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getTopRankVolume', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				res.end( d )	
+			});
+	
+			response.on('data', function (body) {
+				d += body;
+			});
+		});
+		
+
+	})
+	
+	/**
 	 * 쿼리파일을 실행하는 라우터
 	 * @function
 	 * @param {http.ClientRequest} req

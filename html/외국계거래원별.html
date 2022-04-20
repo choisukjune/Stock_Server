@@ -184,14 +184,14 @@ var renderScatterChart = function( d,nm ){
 			_o = {  
 				name: s, type: 'scatter',  emphasis: { focus: 'series' },
 				data: so,
-				markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
+				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
 				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
 			}
 			chartData.push( _o )
 		}
 		
 		var title = nm;
-		var subTitle = '외국계증권사 매수/매도 분포' 
+		var subTitle = '외국계증권사 매수/매도 분포' + new Date();
 		option = {
 			title : { text : title, subtext : subTitle, left : 'center',},
 			grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },

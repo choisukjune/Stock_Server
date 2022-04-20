@@ -971,6 +971,46 @@ global.wsFuns.MetalIndex =function( ws ){
 	
 }
 
+global.wsFuns.TopRankVolume =function( ws ){
+	
+	console.log( "[ S ] - global.wsFuns.TopRankVolume" )
+	try
+	{
+		var url = global.CONST.SERVER.CRWALER.NAVER.protocol 
+		+ global.CONST.SERVER.CRWALER.NAVER.host + ":" 
+		+ global.CONST.SERVER.CRWALER.NAVER.port
+		http.get( url + '/getTopRankVolume', function(response){
+			response.setEncoding('utf8');
+
+			var d = "";
+			response.on('end', function () {
+				
+				var r = {
+					type : "data",
+					nm : "TopRankVolume",
+					func : "renderTopRankVolume",
+					d : d,
+					p : null
+					
+				}
+				ws.send( JSON.stringify( r ) , { binary : true } )
+
+				console.log( "[ E ] - global.wsFuns.TopRankVolume" )
+			});
+
+			response.on('data', function (body) {
+				d += body;
+			});
+		});	
+	}
+	catch(er)
+	{
+		debugger;
+		console.log( er )
+	}
+	
+}
+
 global.wsFuns.AgriculturalIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.AgriculturalIndex" )
