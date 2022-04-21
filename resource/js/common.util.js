@@ -67,6 +67,36 @@ window.UTIL.Number.longNumberAddString = function( n ){
 	if( _p >= 3 ) return ( n * 0.01 ).toFixed(1) + "억"
 }
 
+window.UTIL.Number.longNumberAddStringFull = function( n ){
+	var _p = n.toString().length;
+	
+	if( _p > 9 && _p < 13 )
+	{
+		return ( n * 0.00000001 ).toFixed(2) + "억";
+	}
+	else if( _p >= 13 )
+	{
+		return ( n * 0.000000000001 ).toFixed(2) + "조";
+	}
+	
+	
+	var _p00 = Math.pow( 0.1, _p - 1 ).toFixed( _p - 1 );
+	var r = {
+		1 : n,
+		2 : ( n * 0.1 ).toFixed(1) + "십",
+		3 : ( n * 0.01 ).toFixed(2) + "백",
+		4 : ( n * 0.001 ).toFixed(2) + "천",
+		5 : ( n * 0.0001 ).toFixed(2) + "만",
+		6 : ( n * 0.00001 ).toFixed(2) + "십만",
+		7 : ( n * 0.000001 ).toFixed(2) + "백만",
+		8 : ( n * 0.0000001 ).toFixed(2) + "천만",
+		9 : ( n * 0.00000001 ).toFixed(2) + "억",	
+	}
+	
+	return r[ _p ];
+	
+}
+
 
 window.UTIL.Date = {}
 
