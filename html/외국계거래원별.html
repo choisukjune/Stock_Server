@@ -308,9 +308,9 @@ var domId = "renderInsightByTradBarChart";
 			//if( s < 0 ) s = s * -1;
 			//if( pp < 0 ) b = pp * -1;
 
-			chartData_buy.push( b );
-			chartData_sell.push( s );
-			chartData_pp.push( pp );
+			chartData_buy.push( { nm : io.nm, value : b } );
+			chartData_sell.push({ nm : io.nm, value : s } );
+			chartData_pp.push( { nm : io.nm, value : pp } );
 		}
 		
 		
