@@ -184,14 +184,12 @@ var renderScatterChart = function( d,nm ){
 			_o = {  
 				name: s, type: 'scatter',  emphasis: { focus: 'series' },
 				data: so,
-//				symbolSize: function (data){
-//					var d = data[ 1 ];
-//					if( d < 0 ) d = d * -1;
-//
-//					//return Math.sqrt(d) / 200;
-//					if( d > 100 ) return Math.sqrt(d) / 200;
-//					return d = 10;
-//				},
+				symbolSize: function (data){
+					var d = data[ 1 ];
+					if( d < 0 ) d = d * -1;
+
+					return d  / 100;
+				},
 				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
 				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
 			}
@@ -212,16 +210,15 @@ var renderScatterChart = function( d,nm ){
 			},
 			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
 			},
-			visualMap: {
+//			visualMap: {
 //				min: -100, max: 100,
-				dimension: 1, orient: 'vertical',
-				right: 10, top: 'center', text: ['HIGH', 'LOW'],
-				calculable: true,
-				inRange: {
-					color: ['#f2c31a', '#24b7f2']
-					, symbolSize: [10, 50]
-				}
-			},
+//				dimension: 1, orient: 'vertical',
+//				right: 10, top: 'center', text: ['HIGH', 'LOW'],
+//				calculable: true,
+//				inRange: {
+//					color: ['#f2c31a', '#24b7f2']
+//				}
+//			},
 
 			toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
 			brush: {}, legend: { data: legendData,left: 'center',bottom: 10 },
