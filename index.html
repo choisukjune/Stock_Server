@@ -98,6 +98,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );							}, 15000 );
 	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MetalIndex" } ) );								}, 15000 );
 	window.intervals.AgriculturalIndex			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "AgriculturalIndex" } ) );						}, 15000 );
+	window.intervals.TopRankVolume				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "TopRankVolume" } ) );							}, 15000 );
 
 
 	window.clearIntervals = {};
