@@ -165,7 +165,7 @@ var renderScatterChart = function( d,nm ){
 		window.charts.renderScatterChart = echarts.init(dom);
 		var app = {};
 		
-		window.charts.renderScatterChart.showLoading()
+		window.charts.renderScatterChart.showLoading();
 
 		var chartData = [];
 		var legendData = [];
@@ -257,7 +257,9 @@ var renderScatterChart = function( d,nm ){
 			window.charts.renderScatterChart.setOption(option);
 
 			window.charts.renderScatterChart.resize();
-			window.charts.renderScatterChart.hideLoading()
+			setTimeout(function(){
+				window.charts.renderScatterChart.hideLoading();
+			},1000)
 		}
 			
 }
