@@ -161,6 +161,7 @@ var renderScatterChart = function( d,nm ){
 		var domId = "renderScatterChart";
 		var dom = document.getElementById( domId );
 		
+		if( window.charts.renderScatterChart.dispose ) window.charts.renderScatterChart.dispose();
 		window.charts.renderScatterChart = echarts.init(dom);
 		var app = {};
 		
