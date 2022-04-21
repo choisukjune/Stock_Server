@@ -284,17 +284,24 @@ var getInsightByTrad = function( cbFunction ){
 var renderInsightByTrad = function(d){
 	var _html =`
 
-		<div class="five ui buttons">
-		  <button class="ui button">Overview</button>
-		  <button class="ui button">Specs</button>
-		  <button class="ui button">Warranty</button>
-		  <button class="ui button">Reviews</button>
-		  <button class="ui button">Support</button>
+		<div class="fifteen ui buttons">
+	`
+
+	var i = 0,iLen = d.length,io;
+	for(;i<iLen;++i){
+		io = d[ i ];
+		_html += `
+    	<button class="ui button traders" data-nm-value="${io.nm}" >${io.nm}</button>	`
+	}
+
+	_html +=`
 		</div>
 
 		<table class="ui sortable celled table compact">
 			<thead>
 				<th>증권사</th>
+
+
 	`
 	var i = 0,iLen = d.length,io;
 	for(;i<iLen;++i){
