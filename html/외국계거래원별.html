@@ -191,10 +191,15 @@ var renderScatterChart = function( d,nm ){
 				name: s, type: 'scatter',  emphasis: { focus: 'series' },
 				data: so,
 				symbolSize: function (data){
+					
+					
+					var _max = max;	
+					if( min < 0 && max < ( min * -1 ) ) var _max = min * -1
+
 					var d = data[ 1 ];
 					if( d < 0 ) d = d * -1;
 
-					return ( d / max ) * 200;
+					return ( d / _max ) * 200;
 				},
 				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
 				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
