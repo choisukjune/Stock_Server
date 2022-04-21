@@ -175,13 +175,13 @@ var renderScatterChart = function( d,nm ){
 		for(;i<iLen;++i){
 			io = d[ i ];
 			if( !_to[ io.tr ] ) _to[ io.tr ] = []
-			var amt = io.amt;
-			if( io.tt == 0 ) var amt = io.amt;
+			var pp = io.pp;
+			if( io.tt == 0 ) var pp = io.pp;
 
-			var _tAmt = amt;
-			if( _tAmt < 0 ) var _tAmt = _tAmt * -1
+			var _tPp = pp;
+			if( _tPp < 0 ) var _tPp = _tPp * -1
 
-			_to[ io.tr ].push( [  "2022-02-22T"+ io.ogText.split("\t")[0],amt,_tAmt ] )
+			_to[ io.tr ].push( [  "2022-02-22T"+ io.ogText.split("\t")[0],pp,_tPp ] )
 		}
 		var s,so
 		for( s in _to )
@@ -226,8 +226,8 @@ var renderScatterChart = function( d,nm ){
 			// trigger: 'axis',
 			showDelay: 0,
 			formatter: function (params) {
-				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + params.value[1] );
-				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  params.value );
+				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + echarts.format.addCommas( params.value[1] ) );
+				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  echarts.format.addCommas( params.value ) );
 			},
 			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
 			},
