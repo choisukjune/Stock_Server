@@ -296,8 +296,8 @@ var renderInsightByTrad = function(d){
 	for(;i<iLen;++i){
 		io = d[ i ];
 		_html += `
-		<tr>
-			<td class="traders" data-nm-value="${io.nm}">${io.nm}</td>
+		<tr class="traders" data-nm-value="${io.nm}">
+			<td>${io.nm}</td>
 			<td> ${window.UTIL.Number.numberWithCommas( io.total[ "s" ] )	}</td>
 			<td> ${window.UTIL.Number.numberWithCommas( io.total[ "b" ] )	}</td>
 			<td> ${window.UTIL.Number.numberWithCommas( io.total[ "s" ] + io.total[ "b" ] ) }</td>
@@ -370,10 +370,19 @@ window.onload = function(){
 	<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
 	<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
 
-  <div class="sixteen wide column">외국계증권사 매매 동향</div>
-  <div id="renderInsightByTrad" class="sixteen wide column" style=""></div>
-  <div id="renderScatterChart" class="sixteen wide column" style="height:400px"></div>
-  <div id="renderTreemapChart_buy" class="sixteen wide column" style="height:400px;"></div>
-  <div id="renderTreemapChart_sell" class="sixteen wide column" style="height:400px;"></div>
+	<div class="four wide column">
+		<div class="ui grid">
+			<div class="sixteen wide column">외국계증권사 매매 동향</div>
+			<div id="renderInsightByTrad" class="sixteen wide column" style=""></div>
+		</div>
+	</div>
+	<div class="tewlve wide column">
+		<div class="ui grid">
+			<div class="sixteen wide column">외국계증권사 매매 동향</div>
+			<div id="renderScatterChart" class="sixteen wide column" style="height:400px"></div>
+			<div id="renderTreemapChart_buy" class="sixteen wide column" style="height:400px;"></div>
+			<div id="renderTreemapChart_sell" class="sixteen wide column" style="height:400px;"></div>
+		</div>
+	</div>
 </div>
 </body>
