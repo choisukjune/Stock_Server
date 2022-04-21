@@ -228,23 +228,22 @@ var renderScatterChart = function( d,nm ){
 			formatter: function (params) {
 				if(params.value.length > 1) 
 				{
-					let arr = [ 
+					var arr = [ 
 						"{title|" + params.seriesName + "}",
 						"{a|" + params.value[0] + "}",			
 						"{b|: " + window.UTIL.Number.longNumberAddStringFull ( params.value[1] ) + "}",
 					];	
+					return arr.join('\n');
 				}
 				else 
 				{
-					let arr = [ 
+					var arr = [ 
 						"{title|" + params.seriesName + "}",
 						"{a|" + params.name + "}",			
 						"{b|: " + window.UTIL.Number.longNumberAddStringFull ( params.value ) + "}",
 					];	
+					return arr.join('\n');
 				}
-				
-				return arr.join('\n');
-
 			},
 			rich : {
 				title : { fontSize: 14 },
