@@ -229,18 +229,18 @@ var renderScatterChart = function( d,nm ){
 				if(params.value.length > 1) 
 				{
 					var arr = [ 
-						`<span style="font-size:14px;">${params.seriesName}</span>`,
+						`<span style="font-size:14px;">${window.UTIL.Number.longNumberAddStringFull ( params.value[1] )}</span><br>`,
+						`<span style="font-size:11px;">${params.seriesName}</span><br>`,
 						`<span style="font-size:11px;">${params.value[0]}</span>`,			
-						`<span style="font-size:11px;">${window.UTIL.Number.longNumberAddStringFull ( params.value[1] )}</span>`
 					];	
 					return arr.join('\n');
 				}
 				else 
 				{
 					var arr = [ 
-						`<span style="font-size:14px;">${params.seriesName}</span>`,
-						`<span style="font-size:11px;">${params.name}</span>`,			
-						`<span style="font-size:11px;">${window.UTIL.Number.longNumberAddStringFull ( params.value )}</span>`
+						`<span style="font-size:14px;">${window.UTIL.Number.longNumberAddStringFull ( params.value )}</span><br>`,
+						`<span style="font-size:11px;">${params.seriesName}</span><br>`,
+						`<span style="font-size:11px;">${params.name}</span>`
 					];	
 					return arr.join('\n');
 				}
