@@ -345,7 +345,7 @@ var domId = "renderInsightByTradBarChart";
 				{
 				  name: '매수',
 				  type: 'bar',
-				  stack: 'tradeValue_buy',
+				  stack: 'tradeValue',
 				  emphasis: {
 					focus: 'series'
 				  },
@@ -354,7 +354,7 @@ var domId = "renderInsightByTradBarChart";
 				{
 				  name: '매도',
 				  type: 'bar',
-				  stack: 'tradeValue_sell',
+				  stack: 'tradeValue',
 				  emphasis: {
 					focus: 'series'
 				  },
@@ -378,6 +378,9 @@ var domId = "renderInsightByTradBarChart";
 			window.charts.renderInsightByTradBarChart.resize();
 			window.charts.renderInsightByTradBarChart.hideLoading()
 		}
+		window.charts.renderTreemapChart_sell.on('click',function(d){
+			debugger;
+		})
 }
 
 
