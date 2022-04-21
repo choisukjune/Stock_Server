@@ -226,8 +226,8 @@ var renderScatterChart = function( d,nm ){
 			// trigger: 'axis',
 			showDelay: 0,
 			formatter: function (params) {
-				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + echarts.format.addCommas( params.value[1] ) );
-				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  echarts.format.addCommas( params.value ) );
+				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + window.UTIL.Number.longNumberAddStringFull ( params.value[1] ) );
+				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  window.UTIL.Number.longNumberAddStringFull ( params.value ) );
 			},
 			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
 			},
