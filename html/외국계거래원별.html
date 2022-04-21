@@ -229,32 +229,20 @@ var renderScatterChart = function( d,nm ){
 				if(params.value.length > 1) 
 				{
 					var arr = [ 
-						"{title|" + params.seriesName + "}",
-						"{a|" + params.value[0] + "}",			
-						"{b|: " + window.UTIL.Number.longNumberAddStringFull ( params.value[1] ) + "}",
+						`<span style="font-size:14px;">${params.seriesName}</span>`,
+						`<span style="font-size:11px;">${params.value[0]}</span>`,			
+						`<span style="font-size:11px;">${window.UTIL.Number.longNumberAddStringFull ( params.value[1] )}</span>`
 					];	
 					return arr.join('\n');
 				}
 				else 
 				{
 					var arr = [ 
-						"{title|" + params.seriesName + "}",
-						"{a|" + params.name + "}",			
-						"{b|: " + window.UTIL.Number.longNumberAddStringFull ( params.value ) + "}",
+						`<span style="font-size:14px;">${params.seriesName}</span>`,
+						`<span style="font-size:11px;">${params.name}</span>`,			
+						`<span style="font-size:11px;">${window.UTIL.Number.longNumberAddStringFull ( params.value )}</span>`
 					];	
 					return arr.join('\n');
-				}
-			},
-			rich : {
-				title : { fontSize: 14 },
-				a : { fontSize: 9 },
-				b : { fontSize: 12 },
-				hr : { 
-					width : "100%",
-					borderColor : "rgba(255,255,255,0.0)",
-					borderWidth : 0.5,
-					height : 0,
-					lineHeight : 10,
 				}
 			},
 			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
