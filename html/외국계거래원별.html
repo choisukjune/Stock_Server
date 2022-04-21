@@ -176,7 +176,11 @@ var renderScatterChart = function( d,nm ){
 			if( !_to[ io.tr ] ) _to[ io.tr ] = []
 			var amt = io.amt;
 			if( io.tt == 0 ) var amt = io.amt;
-			_to[ io.tr ].push( [  "2022-02-22T"+ io.ogText.split("\t")[0],amt ] )
+
+			var _tAmt = amt;
+			if( _tAmt < 0 ) var _tAmt = _tAmt * -1
+
+			_to[ io.tr ].push( [  "2022-02-22T"+ io.ogText.split("\t")[0],amt,_tAmt ] )
 		}
 		var s,so
 		for( s in _to )
@@ -222,12 +226,12 @@ var renderScatterChart = function( d,nm ){
 			},
 			visualMap: {
 				min: min, max: max,
-				dimension: 1, orient: 'vertical',
+				seriesIndex: 1,dimension: 1, orient: 'vertical',
 				right: 10, top: 'center', text: ['HIGH', 'LOW'],
 				calculable: true,
 				inRange: {
 					color: ['#f2c31a', '#24b7f2'],
-					symbolSize : [10, 200]
+					symbolSize : [10, 100]
 				}
 			},
 
