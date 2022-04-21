@@ -376,7 +376,8 @@ var domId = "renderInsightByTradBarChart";
 			window.charts.renderInsightByTradBarChart.hideLoading()
 		}
 		window.charts.renderInsightByTradBarChart.on('click',function(d){
-			debugger;
+			renderTreemapChart_buy( d.data.nm );
+			renderTreemapChart_sell( d.data.nm );
 		})
 }
 
