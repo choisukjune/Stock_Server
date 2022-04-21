@@ -189,7 +189,7 @@ var renderScatterChart = function( d,nm ){
 					if( d < 0 ) d = d * -1;
 
 					//return Math.sqrt(d) / 200;
-					if( d > 100 ) return d / 100;
+					if( d > 100 ) return Math.sqrt(d) / 200;
 					return d = 10;
 				},
 				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
