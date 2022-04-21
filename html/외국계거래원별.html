@@ -226,9 +226,38 @@ var renderScatterChart = function( d,nm ){
 			// trigger: 'axis',
 			showDelay: 0,
 			formatter: function (params) {
-				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + window.UTIL.Number.longNumberAddStringFull ( params.value[1] ) );
-				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  window.UTIL.Number.longNumberAddStringFull ( params.value ) );
+				if(params.value.length > 1) 
+				{
+					let arr = [ 
+						"{title|" + params.seriesName + "}",
+						"{a|" + params.value[0] + "}",			
+						"{b|: " + window.UTIL.Number.longNumberAddStringFull ( params.value[1] ) + "}",
+					];	
+				}
+				else 
+				{
+					let arr = [ 
+						"{title|" + params.seriesName + "}",
+						"{a|" + params.name + "}",			
+						"{b|: " + window.UTIL.Number.longNumberAddStringFull ( params.value ) + "}",
+					];	
+				}
+				
+				return arr.join('\n');
+
 			},
+			, rich : {
+				title : { fontSize: 14 },
+				a : { fontSize: 9 },
+				b : { fontSize: 12 },
+				hr : { 
+					width : "100%",
+					borderColor : "rgba(255,255,255,0.0)",
+					borderWidth : 0.5,
+					height : 0,
+					lineHeight : 10,
+				}
+			}
 			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
 			},
 //			visualMap: {
