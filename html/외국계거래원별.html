@@ -9,6 +9,8 @@
 
 <script>
 
+
+ 
 var paramToObject = function(){
 	
 	var r =  window.location.search.replace("?","");
@@ -168,7 +170,7 @@ var renderScatterChart = function( d,nm ){
 		var legendData = [];
 		
 		var _to = {}
-		var i = 0,iLen = d.length,io
+		var i = 0,iLen = d.length,io;
 		for(;i<iLen;++i){
 			io = d[ i ];
 			if( !_to[ io.tr ] ) _to[ io.tr ] = []
@@ -184,18 +186,26 @@ var renderScatterChart = function( d,nm ){
 			_o = {  
 				name: s, type: 'scatter',  emphasis: { focus: 'series' },
 				data: so,
-				symbolSize: function (data){
-					var d = data[ 1 ];
-					if( d < 0 ) d = d * -1;
-
-					return d  / 100;
-				},
+//				symbolSize: function (data){
+//					var d = data[ 1 ];
+//					if( d < 0 ) d = d * -1;
+//
+//					return d  / 100;
+//				},
 				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
 				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
 			}
 			chartData.push( _o )
 		}
-		
+
+		  var min = Math.min.apply(null, d.map(function(item) {
+			return item.amt;
+		  })),
+		  var max = Math.max.apply(null, d.map(function(item) {
+			return item.amt;
+		  }));
+
+
 		var title = nm;
 		var subTitle = '외국계증권사 매수/매도 분포' + new Date();
 		option = {
@@ -210,15 +220,16 @@ var renderScatterChart = function( d,nm ){
 			},
 			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
 			},
-//			visualMap: {
-//				min: -100, max: 100,
-//				dimension: 1, orient: 'vertical',
-//				right: 10, top: 'center', text: ['HIGH', 'LOW'],
-//				calculable: true,
-//				inRange: {
-//					color: ['#f2c31a', '#24b7f2']
-//				}
-//			},
+			visualMap: {
+				min: min, max: max,
+				dimension: 1, orient: 'vertical',
+				right: 10, top: 'center', text: ['HIGH', 'LOW'],
+				calculable: true,
+				inRange: {
+					color: ['#f2c31a', '#24b7f2']
+					symbolSize : [10, 200]
+				}
+			},
 
 			toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
 			brush: {}, legend: { data: legendData,left: 'center',bottom: 10 },
