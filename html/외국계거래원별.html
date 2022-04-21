@@ -186,7 +186,7 @@ var renderScatterChart = function( d,nm ){
 				data: so,
 				symbolSize: function (data){
 					var d = data[ 1 ];
-					if( d > 0 ) d = d * -1;
+					if( d < 0 ) d = d * -1;
 
 					return Math.sqrt(d) / 5e2;
 				},
