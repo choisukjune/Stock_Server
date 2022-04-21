@@ -377,8 +377,17 @@ var domId = "renderInsightByTradBarChart";
 			window.charts.renderInsightByTradBarChart.hideLoading()
 		}
 		window.charts.renderInsightByTradBarChart.on('click',function(d){
-			renderTreemapChart_buy( d.data.nm );
-			renderTreemapChart_sell( d.data.nm );
+			var nm;
+			if( d.componentType == "xAxis" )
+			{
+				nm = d.value
+			}
+			else
+			{
+				nm = d.data.value;
+			}
+			renderTreemapChart_buy( nm );
+			renderTreemapChart_sell( nm );
 		})
 
 }
