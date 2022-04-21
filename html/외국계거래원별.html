@@ -379,6 +379,10 @@ var domId = "renderInsightByTradBarChart";
 			renderTreemapChart_buy( d.data.nm );
 			renderTreemapChart_sell( d.data.nm );
 		})
+		window.charts.renderInsightByTradBarChart.on('legendselectchanged', function(d) {
+			renderTreemapChart_buy( d.data.nm );
+			renderTreemapChart_sell( d.data.nm );
+		});
 }
 
 
