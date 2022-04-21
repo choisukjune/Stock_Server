@@ -188,7 +188,8 @@ var renderScatterChart = function( d,nm ){
 					var d = data[ 1 ];
 					if( d < 0 ) d = d * -1;
 
-					return Math.sqrt(d) / 5e2;
+					//return Math.sqrt(d) / 5e2;
+					return d / 10;
 				},
 				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
 				//markLine: {lineStyle: { type: 'solid'	},data: [{ type: 'average', name: 'AVG' }, { xAxis: 160 }] }
