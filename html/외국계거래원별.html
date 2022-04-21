@@ -281,63 +281,102 @@ var getInsightByTrad = function( cbFunction ){
 
 }
 
-var renderInsightByTrad = function(d){
-	var _html =`
-		<table class="ui sortable celled table compact">
-			<thead>
-				<th>증권사</th>
-				<th>매수</th>
-				<th>매도</th>
-				<th>순매수</th>
-			</thead>
-			<tbody>
-	`
-	var i = 0,iLen = d.length,io;
-	for(;i<iLen;++i){
-		io = d[ i ];
-		_html += `
-		<tr class="traders" data-nm-value="${io.nm}">
-			<td>${io.nm}</td>
-			<td> ${window.UTIL.Number.numberWithCommas( io.total[ "s" ] )	}</td>
-			<td> ${window.UTIL.Number.numberWithCommas( io.total[ "b" ] )	}</td>
-			<td> ${window.UTIL.Number.numberWithCommas( io.total[ "s" ] + io.total[ "b" ] ) }</td>
-		</tr>
-		`
-	}
+var renderInsightByTradBarChart = function(d){
+var domId = "renderInsightByTradBarChart";
+		var dom = document.getElementById( domId );
+		
+		window.charts.renderInsightByTradBarChart = echarts.init(dom);
+		var app = {};
+		
+		window.charts.renderInsightByTradBarChart.showLoading()
 
-	_html +=`
-		</tbody>
-	</table>
-	`
-	window.document.getElementById( "renderInsightByTrad" ).innerHTML = _html
+		var chartData_buy = [];
+		var chartData_sell = [];
+		var chartData_pp = [];
+		var xAxisData = [];
+		
+		var _to = {}
+		var i = 0,iLen = d.length,io
+		for(;i<iLen;++i){
+			io = d[ i ];
+			xAxisData.push( io.nm );
+			var b  = io.total.b;
+			var s  = io.total.s;
+			var pp  = io.total.pp;
+			
+			if( b < 0 ) b = b * -1;
+			if( s < 0 ) b = s * -1;
+			if( pp < 0 ) b = pp * -1;
 
-	var trs = window.document.getElementsByClassName("traders");
-	var i = 0,iLen = trs.length,io
-	for(;i<iLen;++i){
-		io = trs[ i ];
-		io.addEventListener("click",function(e){
-			var nm = e.currentTarget.getAttribute("data-nm-value");
-			var sort_arr = window.document.getElementsByClassName("traders");
-			var i = 0,iLen = sort_arr.length,io;
-			for(;i<iLen;++i){
-				io = sort_arr[ i ];
-				io.style = {};
-				io.style.textAlign = "center"
-				io.style.cursor = "pointer"
+			chartData_buy( b );
+			chartData_sell( s );
+			chartData_pp( pp );
+		}
+		
+		var title = new Date() + "";
+		var title = '외국계증권사 거래현황';
+		var option = {
+			title : { text : title, subtext : subTitle, left : 'center',},
+			grid: { left: '3%', right: '7%', bottom: '10%', containLabel: true },
+			tooltip: {
+			// trigger: 'axis',
+			showDelay: 0,
+			formatter: function (params) {
+				if (params.value.length > 1) return ( params.seriesName + ' :<br/>' + params.value[0] + ' / ' + params.value[1] );
+				else return ( params.seriesName + ' :<br/>' + params.name + ' : ' +  params.value );
+			},
+			axisPointer: { show: true, type: 'cross', lineStyle: { type: 'dashed', width: 1 } }
+			},
+			toolbox: { feature: { dataZoom: {}, brush: { type: ['rect', 'polygon', 'clear'] }	} },
+			brush: {}, legend: { data: legendData,left: 'center',bottom: 10 },
+			xAxis: [
+				{
+				  type: 'category',
+				  data: xAxisData
+				}
+			  ],
+			  yAxis: [
+				{
+				  type: 'value'
+				}
+			  ],
+			series: [
+				{
+				  name: '매수',
+				  type: 'bar',
+				  stack: 'tradeValue',
+				  emphasis: {
+					focus: 'series'
+				  },
+				  data: chartData_buy
+				},
+				{
+				  name: '매도',
+				  type: 'bar',
+				  stack: 'tradeValue',
+				  emphasis: {
+					focus: 'series'
+				  },
+				  data: chartData_sell
+				},
+				{
+				  name: '순매수',
+				  type: 'bar',
+				  stack: 'tradeValue',
+				  emphasis: {
+					focus: 'series'
+				  },
+				  data: chartData_pp
+				},
+			]
+		};
 
-			}
-			e.currentTarget.style.backgroundColor = "red";
-			e.currentTarget.style.color = "#fff";
+		if (option && typeof option === 'object') {
+			window.charts.renderInsightByTradBarChart.setOption(option);
 
-			renderTreemapChart_buy( nm );
-			renderTreemapChart_sell( nm );
-	
-		})
-	}
-	window.addEventListener("resize",function(e){
-		window.charts.renderTreemapChart_buy.resize();
-		window.charts.renderTreemapChart_sell.resize();
-	})
+			window.charts.renderInsightByTradBarChart.resize();
+			window.charts.renderInsightByTradBarChart.hideLoading()
+		}
 }
 
 
@@ -373,7 +412,7 @@ window.onload = function(){
 	<div class="four wide column">
 		<div class="ui grid">
 			<div class="sixteen wide column">외국계증권사 매매 동향</div>
-			<div id="renderInsightByTrad" class="sixteen wide column" style=""></div>
+			<div id="renderInsightByTradBarChart" class="sixteen wide column" style=""></div>
 		</div>
 	</div>
 	<div class="twelve wide column">
