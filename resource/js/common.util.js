@@ -282,7 +282,7 @@ window.UTIL.Color.hex = function(c) {
  *
  */
 window.UTIL.Color.convertToHex = function(rgb) {
-  return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
+  return window.UTIL.Color.hex(rgb[0]) + window.UTIL.Color.hex(rgb[1]) + window.UTIL.Color.hex(rgb[2]);
 }
 /*
  *
