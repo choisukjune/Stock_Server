@@ -2910,7 +2910,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 		{
 			window.charts.renderAgcDailyTreemap_pp.on('click',function(d){
 			window.COMPONENT.renderAgcDailyTreemap_pp.cd = d.data.cd;
-			window.COMPONENT.renderAgcDailyTreemap_pp.Info = d.data;
+			window.COMPONENT.renderAgcDailyTreemap_pp.info = d.data;
 			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
 				window.COMPONENT.renderAgcDailyTreemap_pp.data.a = d;
 				window.COMPONENT.getAcgDataByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
