@@ -2399,7 +2399,12 @@ window.COMPONENT.renderTrs.curCd = null;
 
 
 window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
-	
+
+	var dom = document.getElementById("renderCandleChartByCdAndAcg");
+	window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
+
+	window.charts.renderCandleChartByCdAndAcg.showLoading();
+
 
 	var chartData00 = [];
 	var chartData01 = [];
@@ -2425,10 +2430,6 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		values.push( io[4] );
 		volumes.push([i, io[4], io[1] > io[4] ? 1 : -1]);
 	}
-
-
-	var dom = document.getElementById("renderCandleChartByCdAndAcg");
-	window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
 
 
 	var app = {};
@@ -2539,6 +2540,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 
 	if (option && typeof option === 'object') {
 		window.charts.renderCandleChartByCdAndAcg.setOption(option);
+		window.charts.renderCandleChartByCdAndAcg.hideLoading();
 	}
 }
 
