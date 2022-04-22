@@ -2407,7 +2407,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 	var i =0,iLen = data.b.length,io;
 	for(;i<iLen;++i){
 
-		io = d[ i ];
+		io = data.b[ i ];
 		
 		chartData00.push( io.b[ window.COMPONENT.renderTrs.curCd ] )
 		chartData01.push( io.s[ window.COMPONENT.renderTrs.curCd ] )
