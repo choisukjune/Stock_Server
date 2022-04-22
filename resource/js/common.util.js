@@ -2425,7 +2425,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 		
 		chartData00.push( io.b[ window.COMPONENT.renderTrs.curCd ] )
 		chartData01.push( io.s[ window.COMPONENT.renderTrs.curCd ] )
-		chartData02.push( io.pp[ window.COMPONENT.renderTrs.curCd ] )
+		chartData02.push( [ io.pp[ window.COMPONENT.renderTrs.curCd ], io[ io.pp[ window.COMPONENT.renderTrs.curCd ] > 0 ? 1 : -1 ] )
 	}
 
 	var categoryData = [];
@@ -2471,13 +2471,13 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 		}
 	  },
 	  brush: { xAxisIndex: 'all', brushLink: 'all', outOfBrush: { colorAlpha: 0.1 } },
-//	  visualMap: {
-//		show: false,seriesIndex: 1,dimension: 2,
-//		pieces: [
-//		  {value: 1,color: downColor},
-//		  {value: -1,color: upColor}
-//		]
-//	  },
+	  visualMap: {
+		show: false,seriesIndex: 3,dimension: 1,
+		pieces: [
+		  {value: 1,color: downColor},
+		  {value: -1,color: upColor}
+		]
+	  },
 	  grid: [
 		{ left: '4%', right: '4%', height: '50%' },
 		{ left: '4%', right: '4%', top: '70%', height: '20%'   }
