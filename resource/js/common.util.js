@@ -600,9 +600,11 @@ window.COMPONENT.renderTradeValueByCd = function( d ){
 			trigger: 'axis', axisPointer: { type: 'cross' }, borderWidth: 1, borderColor: '#ccc', padding: 10,
 			formatter : function(d){
 				var r = ""
-				r += d[0].name + "<br>"
-				r += "거래대금갭 :" + window.UTIL.Number.longNumberAddString( d[0].value[1] ) + "<br>"
-				r += "주가 :" + window.UTIL.Number.numberWithCommas( d[1].value ) + "<br>"
+
+				r += `<span style="font-size : 13px;">거래대금갭 :${window.UTIL.Number.longNumberAddString( d[0].value[1] )}</span><br>`;
+				r += `<span style="font-size : 12px;">주가 : ${window.UTIL.Number.numberWithCommas( d[1].value )}</span><br>`;
+				r += `<span style="font-size : 11px;">${d[0].name}</span><br>`;
+
 				return r;
 			},
 			//grid:[{	left : "10%"},{ left : "40%" }],
