@@ -2400,16 +2400,18 @@ window.COMPONENT.renderTrs.curCd = null;
 
 window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 
-	var dom = document.getElementById("renderCandleChartByCdAndAcg");
+
 
 	if( !window.charts ) window.charts = {}
 	if( !window.charts.renderCandleChartByCdAndAcg )
-	{	
+	{
+		var dom = document.getElementById("renderCandleChartByCdAndAcg");
 		window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
 		window.charts.renderCandleChartByCdAndAcg.isEvent = 0;
+		window.charts.renderCandleChartByCdAndAcg.showLoading();
 	}
 
-	window.charts.renderCandleChartByCdAndAcg.showLoading();
+	
 
 
 	var chartData00 = [];
@@ -2909,6 +2911,17 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 		if( !window.charts.renderAgcDailyTreemap_pp.isEvent )
 		{
 			window.charts.renderAgcDailyTreemap_pp.on('click',function(d){
+
+
+			if( !window.charts ) window.charts = {}
+			if( !window.charts.renderCandleChartByCdAndAcg )
+			{
+				var dom = document.getElementById("renderCandleChartByCdAndAcg");
+				window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
+				window.charts.renderCandleChartByCdAndAcg.isEvent = 0;
+				window.charts.renderCandleChartByCdAndAcg.showLoading();
+			}
+
 			window.COMPONENT.renderAgcDailyTreemap_pp.cd = d.data.cd;
 			window.COMPONENT.renderAgcDailyTreemap_pp.info = d.data;
 			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
