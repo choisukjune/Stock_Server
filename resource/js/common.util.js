@@ -2450,7 +2450,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 
 	window.charts.renderCandleChartByCdAndAcg.setOption(
 	(option = {
-	title : { text : info.nm + " ( " + info.cd + " )"  , subtext : "주가대비 순매수 추이" , left : 'center',},
+	title : { text : info.name + " ( " + info.cd + " )"  , subtext : "주가대비 순매수 추이" , left : 'center',},
 	  animation: false,
 	  //legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
 	  tooltip: {
