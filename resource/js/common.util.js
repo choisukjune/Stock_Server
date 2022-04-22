@@ -2494,7 +2494,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	  series: [
 		{
 		  name: '일봉',
-		  type: 'candlestick',
+		  type: 'line',
 		  data: data.values,
 		  itemStyle: { color: upColor, color0: downColor, borderColor: undefined,  borderColor0: undefined },
 		  tooltip: {
