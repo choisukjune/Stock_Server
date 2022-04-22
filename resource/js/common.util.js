@@ -2398,7 +2398,7 @@ window.COMPONENT.renderTrs = function(){
 window.COMPONENT.renderTrs.curCd = null;
 
 
-window.COMPONENT.renderCandleChartByCdAndAcg = function(d,nm){
+window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 
 	var dom = document.getElementById("renderCandleChartByCdAndAcg");
 
@@ -2450,7 +2450,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d,nm){
 
 	window.charts.renderCandleChartByCdAndAcg.setOption(
 	(option = {
-	title : { text : "주가대비 순매수 추이", subtext : nm , left : 'center',},
+	title : { text : info.nm + " ( " + info.cd + " )"  , subtext : "주가대비 순매수 추이" , left : 'center',},
 	  animation: false,
 	  //legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
 	  tooltip: {
@@ -2910,7 +2910,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 		{
 			window.charts.renderAgcDailyTreemap_pp.on('click',function(d){
 			window.COMPONENT.renderAgcDailyTreemap_pp.cd = d.data.cd;
-			window.COMPONENT.renderAgcDailyTreemap_pp.curNm = d.name;
+			window.COMPONENT.renderAgcDailyTreemap_pp.Info = d.data;
 			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
 				window.COMPONENT.renderAgcDailyTreemap_pp.data.a = d;
 				window.COMPONENT.getAcgDataByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
