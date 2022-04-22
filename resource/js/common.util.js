@@ -2470,7 +2470,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 //	  },
 	  grid: [
 		{ left: '4%', right: '4%', height: '68%' },
-		{ left: '4%', right: '4%', top: '80%', height: '15%'   }
+		{ left: '4%', right: '4%', top: '80%', height: '25%'   }
 	  ],
 	  xAxis: [
 		{
@@ -2491,9 +2491,9 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		  data: categoryData,
 		  //boundaryGap: false,
 		  //axisLine: { onZero: false },
-		  axisTick: { show: false },
-		  splitLine: { show: false },
-		  axisLabel: { show: false },
+		  //axisTick: { show: false },
+		  //splitLine: { show: false },
+		  //axisLabel: { show: false },
 		  min: 'dataMin',
 		  max: 'dataMax'
 		}
