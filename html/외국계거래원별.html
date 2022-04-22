@@ -51,8 +51,8 @@ var renderTreemapChart_buy = function( nm ){
 						let arr = [ 
 							`{title|${ params.name }}`, 
 							`{hr|}`,
-							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
-							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
+							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
+							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
 							`{hr|}`,
 							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.value)}}`
 
@@ -126,8 +126,8 @@ var renderTreemapChart_sell = function( nm ){
 						let arr = [ 
 							`{title|${ params.name }}`, 
 							`{hr|}`,
-							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
-							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
+							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
+							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
 							`{hr|}`,
 							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.value)}}`
 
@@ -240,7 +240,7 @@ var renderScatterChart = function( d,nm ){
 					var d = data[ 1 ];
 					if( d < 0 ) d = d * -1;
 					var r = ( d / _max ) * 70;
-
+					if( r < 10 ) r = 10;
 					return r
 				},
 				//markPoint: { data: [ { type: 'max', name: 'Max' }, { type: 'min', name: 'Min' } ] },
@@ -373,7 +373,7 @@ var getInsightByTrad = function( cbFunction ){
 }
 
 var renderInsightByTradBarChart = function(d){
-var domId = "renderInsightByTradBarChart";
+		var domId = "renderInsightByTradBarChart";
 		var dom = document.getElementById( domId );
 		
 		window.charts.renderInsightByTradBarChart = echarts.init(dom);
