@@ -99,7 +99,7 @@ var renderInterestStockByDate = function( d ){
 
 		new_el.addEventListener( "click",function(e){
 			
-/			var cd = e.currentTarget.getAttribute("data-cd-value");
+			var cd = e.currentTarget.getAttribute("data-cd-value");
 
 			window.Info.renderTradeValueByCd.curCd = cd;
 			window.COMPONENT.getTradeValueByCd();
