@@ -2028,7 +2028,7 @@ window.COMPONENT.renderCandleChartByCd = function(data){
 window.COMPONENT.renderCandleChartByCdnoneAcg = function(data){
 	
 
-	if( !window.charts ) window.charts = {];
+	if( !window.charts ) window.charts = {};
 
 
 	var dom = document.getElementById("renderCandleChartByCdnoneAcg");
