@@ -2397,17 +2397,17 @@ window.COMPONENT.renderTrs = function(){
 window.COMPONENT.renderTrs.curCd = null;
 
 
-window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
+window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	
 
 	var chartData00 = [];
 	var chartData01 = [];
 	var chartData02 = [];
 
-	var i =0,iLen = data.b.length,io;
+	var i =0,iLen = d.b.length,io;
 	for(;i<iLen;++i){
 
-		io = data.b[ i ];
+		io = d.b[ i ];
 		
 		chartData00.push( io.b[ window.COMPONENT.renderTrs.curCd ] )
 		chartData01.push( io.s[ window.COMPONENT.renderTrs.curCd ] )
@@ -2425,7 +2425,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 	var downColor = 'skyblue';
 
 	//var rawData = window.socketData.renderCandleChartByCd;
-	var rawData = data;
+	var rawData = d.a;
 	var data = splitData(rawData);
 
 	window.charts.candle00.setOption(
@@ -2462,7 +2462,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 	  xAxis: [
 		{
 		  type: 'category',
-		  data: data.a.categoryData,
+		  data: data.categoryData,
 		  boundaryGap: false,
 		  axisLine: { onZero: true },
 		  //splitLine: { show: true },
@@ -2475,7 +2475,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 		{
 		  type: 'category',
 		  gridIndex: 1,
-		  data: data.a.categoryData,
+		  data: data.categoryData,
 		  //boundaryGap: false,
 		  //axisLine: { onZero: false },
 		  axisTick: { show: false },
@@ -2510,11 +2510,11 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 			}
 		  }
 		},
-		{ name: 'Volume', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: data.a.volumes },
-		{ name: 'MA5', type: 'line', data: calculateMA(5, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: 'MA20', type: 'line', data: calculateMA(20, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: 'MA60', type: 'line', data: calculateMA(60, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: 'MA120', type: 'line', data: calculateMA(120, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'Volume', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: data.volumes },
+		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 		{ name: '개인', type: 'line', data: chartData00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
 		{ name: '외국인', type: 'line', data: chartData01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
 		{ name: '기관', type: 'line', data: chartData02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
