@@ -2411,7 +2411,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		
 		chartData00.push( io.b[ window.COMPONENT.renderTrs.curCd ] )
 		chartData01.push( io.s[ window.COMPONENT.renderTrs.curCd ] )
-		chartData02.push( io.pp[ window.COMPONENT.renderTrs.curCd ] )
+		chartData02.push( io.pp[ window.COMPONENT.renderTrs.curCd ] * 1000000 )
 	}
 
 	var dom = document.getElementById("renderCandleChartByCdAndAcg");
@@ -2511,13 +2511,14 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		  }
 		},
 		{ name: 'Volume', type: 'bar',stack: 'tradeValue00', xAxisIndex: 1, yAxisIndex: 1, data: data.volumes },
+		{ name: '순매수', type: 'bar',stack: 'tradeValue00', data: chartData02,  xAxisIndex: 1, yAxisIndex: 1,},
 //		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 		{ name: '매수', type: 'bar', stack: 'tradeValue',data: chartData00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
 		{ name: '매도', type: 'bar', stack: 'tradeValue',data: chartData01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
-		{ name: '순매수', type: 'bar',stack: 'tradeValue', data: chartData02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
+		
 
 		
 	  ]
