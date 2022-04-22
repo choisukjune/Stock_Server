@@ -99,18 +99,22 @@ var renderInterestStockByDate = function( d ){
 
 		new_el.addEventListener( "click",function(e){
 			
-//			var cd = e.currentTarget.getAttribute("data-cd-value");
-//			
-//			var a = window.document.createElement( "a" );
-//			a.target = "_blank";
-//			a.href = "/html/candle.html?cd=" + cd
-//			a.click();
-//			a = null;
+/			var cd = e.currentTarget.getAttribute("data-cd-value");
+
+			window.Info.renderTradeValueByCd.curCd = cd;
+			window.COMPONENT.getTradeValueByCd();
+
+			window.COMPONENT.getCandleChartByCd( cd, window.date.curBefore3month ,window.date.cur, function(d){
+				window.COMPONENT.renderCandleChartByCdnoneAcg(d);
+			});
 
 		})
 
 	}
-	debugger;
+
+	window.Info.renderTradeValueByCd.curCd = d[0].cd;
+	window.COMPONENT.getTradeValueByCd();
+
 	window.COMPONENT.getCandleChartByCd( d[0].cd, window.date.curBefore3month ,window.date.cur, function(d){
 		window.COMPONENT.renderCandleChartByCdnoneAcg(d);
 	} );
@@ -194,7 +198,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );							}, 15000 );
 	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] } ) );	}, 15000 );
 	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );							}, 15000 );
-
+	window.intervals.getTradeValueByCd			= setInterval(function(){ window.COMPONENT.getTradeValueByCd(); },7000)
 	
 })
 </script>
@@ -223,10 +227,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		</div>
 		<div class="ten wide column">
 			<div class="ui grid">
-				<div class="sixteen wide column" id="market_index_title" style="">
-				관심종목 - 개인매도,외인매수 종목
-				</div>
 				<div class="sixteen wide column" id="renderCandleChartByCdnoneAcg" style="height:400px;"></div>
+				<div class="sixteen wide column" id="tradeValueByCd" style="height:400px;"></div>
 			</div>
 		</div>
 		<div class="three wide column">
