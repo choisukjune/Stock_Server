@@ -2425,7 +2425,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 		
 		chartData00.push( io.b[ window.COMPONENT.renderTrs.curCd ] )
 		chartData01.push( io.s[ window.COMPONENT.renderTrs.curCd ] )
-		chartData02.push( [ io.pp[ window.COMPONENT.renderTrs.curCd ], io[ io.pp[ window.COMPONENT.renderTrs.curCd ] > 0 ? 1 : -1 ] )
+		chartData02.push( [ io.pp[ window.COMPONENT.renderTrs.curCd ], io.pp[ window.COMPONENT.renderTrs.curCd ] > 0 ? 1 : -1 ] )
 	}
 
 	var categoryData = [];
