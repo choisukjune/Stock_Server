@@ -2540,7 +2540,9 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 
 	if (option && typeof option === 'object') {
 		window.charts.renderCandleChartByCdAndAcg.setOption(option);
-		window.charts.renderCandleChartByCdAndAcg.hideLoading();
+		setTimeout(function(){
+			window.charts.renderCandleChartByCdAndAcg.hideLoading();
+		},1000);
 	}
 }
 
