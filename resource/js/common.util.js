@@ -2028,6 +2028,9 @@ window.COMPONENT.renderCandleChartByCd = function(data){
 window.COMPONENT.renderCandleChartByCdnoneAcg = function(data){
 	
 
+	if( !window.charts ) window.charts = {];
+
+
 	var dom = document.getElementById("renderCandleChartByCdnoneAcg");
 	window.charts.renderCandleChartByCdnoneAcg = echarts.init(dom);
 
