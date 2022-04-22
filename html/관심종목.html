@@ -152,6 +152,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		window.ws.send( _d );			
 	}
 	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_object" } )
+	wsReqData( { type : "execFunc", funcNm : "MarketIndex" } )
+	wsReqData( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] } )
+	wsReqData( { type : "execFunc", funcNm : "ExchangeIndex" } )
+
 	getInterestStockByDate( renderInterestStockByDate );
 
 
@@ -159,8 +163,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.intervals.MarketIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndex" } ) );							}, 15000 );
 	window.intervals.MarketIndexGlobal			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MarketIndexGlobal", param : [ "USA" ] } ) );	}, 15000 );
 	window.intervals.ExchangeIndex				= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "ExchangeIndex" } ) );							}, 15000 );
-	window.intervals.MetalIndex					= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "MetalIndex" } ) );								}, 15000 );
-	window.intervals.AgriculturalIndex			= setInterval(function(){ window.ws.send( JSON.stringify( { type : "execFunc", funcNm : "AgriculturalIndex" } ) );						}, 15000 );
+
 	
 })
 </script>
