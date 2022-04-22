@@ -99,9 +99,10 @@ var renderInterestStockByDate = function( d ){
 		//})
 
 	}
-	window._el.id_interest.innerHTML = _html
+	var _tDom = window.document.getElementById( "interest" );
+	_tDom.innerHTML = _html
 	
-	window._el.id_interest.addEventListener( "click",function(e){
+	_tDom.addEventListener( "click",function(e){
 		debugger;
 		var cd = e.currentTarget.getAttribute( "data-cd-value" );
 		var a = window.document.createElement( "a" );
@@ -112,9 +113,6 @@ var renderInterestStockByDate = function( d ){
 
 	})
 	
-	console.log( "[ E ] - window.wsFns.renderMassTransList_buy" )
-
-
 }
 
 
@@ -127,63 +125,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 	//-------------------------------------------------------;
 
-	window._el = {}
-	window._el.id_mass_b_rank = window.document.getElementById( "mass_b_rank")
-	window._el.id_mass_s_rank = window.document.getElementById( "mass_s_rank")
-	window._el.id_mass_s = window.document.getElementById("mass_s");
-	window._el.id_mass_b = window.document.getElementById("mass_b");
-	window._el.id_FtrData = window.document.getElementById("FtrData");
-	window._el.id_AgcData = window.document.getElementById("AgcData");
-	window._el.id_news = window.document.getElementById("news");
-	window._el.id_chart00 = window.document.getElementById("chart00");
-	window._el.id_mass_b_s = window.document.getElementById("mass_b_s");
-	window._el.id_trd_data = window.document.getElementById("trd_data");
-	window._el.id_realTimeChart = window.document.getElementById("realTimeChart");
-	window._el.id_totalTradPrice = window.document.getElementById("totalTradPrice");
-	window._el.id_search = window.document.getElementById("search");
-	window._el.id_searchResult = window.document.getElementById("searchResult");
-	window._el.id_stockInfo = window.document.getElementById("stockInfo");
-	window._el.id_search_wrap = window.document.getElementById("search_wrap");
-	window._el.id_tree_wics = window.document.getElementById( "tree_wics" )
-	window._el.id_wics_stocks = window.document.getElementById( "wics_stocks" )
-	window._el.id_market_index = window.document.getElementById( "market_index" )
-	window._el.id_market_index_1 = window.document.getElementById( "market_index_1" )
-	window._el.id_rank_rt = window.document.getElementById( "rank_rt" )
-	window._el.id_interest = window.document.getElementById( "interest" )
-
-	window._el.id_menu_00 = window.document.getElementById("menu_00");
-	window._el.id_menu_01 = window.document.getElementById("menu_01");
-	window._el.id_menu_02 = window.document.getElementById("menu_02");
-	window._el.id_menu_03 = window.document.getElementById("menu_03");
-
-	//-------------------------------------------------------;
-	//-------------------------------------------------------;
-	//-------------------------------------------------------;
-	//-------------------------------------------------------;
-	//-------------------------------------------------------;
 
 
-	window.MassData = {};
-	window.MassData.b = {};
-	window.MassData.s = {};
-
-	window.MassDataRank = [];
-
-	window.socketData = {}
-	window._data = {};
-	window._data.b = [];
-	window._data.s = [];
-
-	window.MassDataInfo = {}
-	window.MassDataInfo.b = 0
-	window.MassDataInfo.s = 0
-
-	window.stock = {};
-	window.stock_arr = [];
-
-	window.date = {}
-	window.date.curDate = getTimeTo__YYYYMMDD();
-	window.date.curDateWidhDash = getTimeTo__YYYY_MM_DD();
 
 
 	//-------------------------------------------------------;
@@ -194,7 +137,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-	//getInterestStockByDate();
+	getInterestStockByDate();
 
 
 	//-------------------------------------------------------;
