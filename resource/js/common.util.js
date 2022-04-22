@@ -2398,7 +2398,7 @@ window.COMPONENT.renderTrs = function(){
 window.COMPONENT.renderTrs.curCd = null;
 
 
-window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
+window.COMPONENT.renderCandleChartByCdAndAcg = function(d,nm){
 
 	var dom = document.getElementById("renderCandleChartByCdAndAcg");
 
@@ -2450,6 +2450,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 
 	window.charts.renderCandleChartByCdAndAcg.setOption(
 	(option = {
+		title : { text : nm },
 	  animation: false,
 	  //legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
 	  tooltip: {
@@ -2914,7 +2915,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 				window.COMPONENT.getAcgDataByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
 					window.COMPONENT.renderAgcDailyTreemap_pp.data.b = d;
 					debugger;
-					window.COMPONENT.renderCandleChartByCdAndAcg( window.COMPONENT.renderAgcDailyTreemap_pp.data )
+					window.COMPONENT.renderCandleChartByCdAndAcg( window.COMPONENT.renderAgcDailyTreemap_pp.data, d.name )
 				})		
 			});
 
