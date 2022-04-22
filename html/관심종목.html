@@ -35,18 +35,18 @@ var getInterestStockByDate = function( cbFunction ){
 
 }
 
-var renderInterestStockByDate = function( _d ){
+var renderInterestStockByDate = function( d ){
 	
 	console.log( "[ S ] - renderInterestStockByDate" );
 
-	var d = JSON.parse( window.socketData.renderTradeValueInfo_object );
+	var d00 = JSON.parse( window.socketData.renderTradeValueInfo_object );
 
 	var _html = "";
 //	var i = 0,iLen = d.length,io;
 	var i = 0,iLen = 100,io;
 	for(;i<iLen;++i){
 		io = d[ i ]
-		var curData = d[ io.cd ]
+		var curData = d00[ io.cd ]
 		var color00 = "red"
 		var symbol = "▲"
 		if( curData.rt < 0 ) 
