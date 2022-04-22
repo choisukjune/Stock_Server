@@ -2517,7 +2517,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 		{ name: '매수', type: 'bar', stack: 'tradeValue',data: chartData00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
 		{ name: '매도', type: 'bar', stack: 'tradeValue',data: chartData01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
-		{ name: '순매수', type: 'bar',stack: 'tradeValue00', data: chartData02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
+		{ name: '순매수', type: 'bar',stack: 'tradeValue00', data: chartData02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, xAxisIndex: 1, yAxisIndex: 1, areaStyle : { opacity: 0.2 }},
 
 		
 	  ]
