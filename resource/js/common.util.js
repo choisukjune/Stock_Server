@@ -1721,7 +1721,7 @@ window.COMPONENT.renderNewsFromNaver = function( cd ){
 }
 
 
-window.COMPONENT.getAcgDataByCd = function( cd, start, end ){
+window.COMPONENT.getAcgDataByCd = function( cd, start, end, cbFunction ){
 		
 	var xhr = new XMLHttpRequest();
 
@@ -1731,97 +1731,100 @@ window.COMPONENT.getAcgDataByCd = function( cd, start, end ){
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			var _d = JSON.parse( xhr.responseText )
-			var d = _d.reverse()	
-			if( d == null ) return;
-			var _htmlTxt = ""
-			var _htmlTxt = `
-			<div style="color:#666;font-size:12px;">
-			일자별 투자자 누적순매수 ( 단위 : 백만 )
-			</div>
-			<table class="ui celled table compact">
-				<thead>
-					<tr>
-						<th> 일자   </th>
-						<th> 현재가격 </th>
-						<th> 거래량  </th>
-						<!--th> "cd"   </th-->
-						<th> 전일비  </th>
-						<th> 등락률   </th>
-						<th> 개인  </th>
-						<th> 외국인  </th>
-						<th> 기관계  </th>
-						<th> 금융투자  </th>
-						<th> 보험  </th>
-						<th> 투신  </th>
-						<th> 기타금융  </th>
-						<th> 은행  </th>
-						<th> 연기금등  </th>
-						<th> 사모펀드 </th>
-						<!--th> 국가 </th-->
-						<th> 기타법인 </th>
-						<th> 내외국인 </th>
-					</tr>
-				</thead>
-				<tbody>
-			`
-			var i =0,iLen = _d.length,io,io00;
-			for(;i<iLen;++i){
-				io00 = d[ i ];
-				io = d[ i ].pp;
-				
-				window.data.d00.push( io.tr1 )
-				window.data.d01.push( io.tr2 )
-				window.data.d02.push( io.tr3 )
-				window.data.d99.push( io )
-			}
-			window.data.d00 = window.data.d00.reverse();
-			window.data.d01 = window.data.d01.reverse();
-			window.data.d02 = window.data.d02.reverse();
-			//window.data.d99.push( io )
-			//var i =0,iLen = d.length,io,io00;
-			var i =0,iLen = 15,io,io00;
-
-			for(;i<iLen;++i){
-				io00 = d[ i ];
-				io = d[ i ].pp;
-
-				_htmlTxt += "<tr>"
-				_htmlTxt += "<td>" + io00._t + "</td>"  
-				_htmlTxt += "<td>" + io00.price + "</td>"  
-				_htmlTxt += "<td>" + io00.amt  + "</td>"  
-				//_htmlTxt += "<td>" + io.cd  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io00.rt )};'>`  + io00.rt  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr1 )};'>`	  + longNumberAddString( io.tr1  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr2 )};'>`	  + longNumberAddString( io.tr2  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr3 )};'>`	  + longNumberAddString( io.tr3  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr4 )};'>`	  + longNumberAddString( io.tr4  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr5 )};'>`	  + longNumberAddString( io.tr5  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr6 )};'>`	  + longNumberAddString( io.tr6  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr7 )};'>`	  + longNumberAddString( io.tr7  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr8 )};'>`	  + longNumberAddString( io.tr8  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr9 )};'>`	  + longNumberAddString( io.tr9  )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr10 )};'>`  + longNumberAddString( io.tr10 )  + "</td>"  
-				//_htmlTxt += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr12 )};'>`  + longNumberAddString( io.tr12 )  + "</td>"  
-				_htmlTxt += `<td style='color:${_html_updateStock( io.tr13 )};'>`  + longNumberAddString( io.tr13 )  + "</td>"  
-
-				_htmlTxt += "</tr>"
-			}
-			
-			_htmlTxt += `</tbody></table>`
-				
-			
-			var _target_dom = document.getElementById( "AgcData" );
-			_target_dom.innerHTML = _htmlTxt
-		}
-
+			cbFunction( _d );
 	}
 
 	xhr.send();
 
 }
 
+window.COMPONENT.renderAcgDataByCd = function( d ){
+	
+	var d = _d.reverse()	
+	if( d == null ) return;
+	
+	var _htmlTxt = `
+	<div style="color:#666;font-size:12px;">
+	일자별 투자자 누적순매수 ( 단위 : 백만 )
+	</div>
+	<table class="ui celled table compact">
+		<thead>
+			<tr>
+				<th> 일자   </th>
+				<th> 현재가격 </th>
+				<th> 거래량  </th>
+				<!--th> "cd"   </th-->
+				<th> 전일비  </th>
+				<th> 등락률   </th>
+				<th> 개인  </th>
+				<th> 외국인  </th>
+				<th> 기관계  </th>
+				<th> 금융투자  </th>
+				<th> 보험  </th>
+				<th> 투신  </th>
+				<th> 기타금융  </th>
+				<th> 은행  </th>
+				<th> 연기금등  </th>
+				<th> 사모펀드 </th>
+				<!--th> 국가 </th-->
+				<th> 기타법인 </th>
+				<th> 내외국인 </th>
+			</tr>
+		</thead>
+		<tbody>
+	`
+	var i =0,iLen = _d.length,io,io00;
+	for(;i<iLen;++i){
+		io00 = d[ i ];
+		io = d[ i ].pp;
+		
+		window.data.d00.push( io.tr1 )
+		window.data.d01.push( io.tr2 )
+		window.data.d02.push( io.tr3 )
+		window.data.d99.push( io )
+	}
+	window.data.d00 = window.data.d00.reverse();
+	window.data.d01 = window.data.d01.reverse();
+	window.data.d02 = window.data.d02.reverse();
+	//window.data.d99.push( io )
+	//var i =0,iLen = d.length,io,io00;
+	var i =0,iLen = 15,io,io00;
+
+	for(;i<iLen;++i){
+		io00 = d[ i ];
+		io = d[ i ].pp;
+
+		_htmlTxt += "<tr>"
+		_htmlTxt += "<td>" + io00._t + "</td>"  
+		_htmlTxt += "<td>" + io00.price + "</td>"  
+		_htmlTxt += "<td>" + io00.amt  + "</td>"  
+		//_htmlTxt += "<td>" + io.cd  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io00.ydt )};'>` + io00.ydt + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io00.rt )};'>`  + io00.rt  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr1 )};'>`	  + longNumberAddString( io.tr1  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr2 )};'>`	  + longNumberAddString( io.tr2  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr3 )};'>`	  + longNumberAddString( io.tr3  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr4 )};'>`	  + longNumberAddString( io.tr4  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr5 )};'>`	  + longNumberAddString( io.tr5  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr6 )};'>`	  + longNumberAddString( io.tr6  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr7 )};'>`	  + longNumberAddString( io.tr7  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr8 )};'>`	  + longNumberAddString( io.tr8  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr9 )};'>`	  + longNumberAddString( io.tr9  )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr10 )};'>`  + longNumberAddString( io.tr10 )  + "</td>"  
+		//_htmlTxt += `<td style='color:${_html_updateStock( io.tr11 )};'>`  + longNumberAddString( io.tr11 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr12 )};'>`  + longNumberAddString( io.tr12 )  + "</td>"  
+		_htmlTxt += `<td style='color:${_html_updateStock( io.tr13 )};'>`  + longNumberAddString( io.tr13 )  + "</td>"  
+
+		_htmlTxt += "</tr>"
+	}
+	
+	_htmlTxt += `</tbody></table>`
+		
+	var _target_dom = document.getElementById( "AgcData" );
+	_target_dom.innerHTML = _htmlTxt
+
+
+}
 
 
 window.COMPONENT.getCandleChartByCd = function(cd,startTime,endTime,cbFunction){

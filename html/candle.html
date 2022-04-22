@@ -1377,7 +1377,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.COMPONENT.stockSearch_global();
 
 
-	window.COMPONENT.getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
+	window.COMPONENT.getAcgDataByCd( window.params.cd, window.date.curBefore3month ,window.date.cur, function(d){
+		window.COMPONENT.renderAcgDataByCd( d );
+	} );
 	window.COMPONENT.getCandleChartByCd( window.params.cd, window.date.curBefore3month ,window.date.cur );
 	window.COMPONENT.getAcgDataByCd_50();
 
