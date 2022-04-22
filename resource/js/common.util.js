@@ -2470,7 +2470,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 //	  },
 	  grid: [
 		{ left: '4%', right: '4%', height: '50%' },
-		{ left: '4%', right: '4%', top: '70%', height: '30%'   }
+		{ left: '4%', right: '4%', top: '70%', height: '20%'   }
 	  ],
 	  xAxis: [
 		{
