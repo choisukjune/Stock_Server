@@ -2495,12 +2495,13 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		  //splitLine: { show: false },
 		  //axisLabel: { show: false },
 		  min: 'dataMin',
-		  max: 'dataMax'
+		  max: 'dataMax', 
+			axisLabel : { fontSize : 9 }
 		}
 	  ],
 	  yAxis: [
 		{ scale: true, splitArea: {show: false },splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
-		{ scale: true, gridIndex: 1,splitNumber: 2,axisLabel: { show: true,fontSize : 9 },axisLine: { show: true },axisTick: { show: true },splitLine: { show: true }},
+		{ scale: true, gridIndex: 1,splitNumber: 2,axisLabel: { show: true,fontSize : 9 },axisLine: { show: true },axisTick: { show: true },splitLine: { show: false }},
 		{ scale: true, type:"value",splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
 	  ],
 	  //dataZoom: [{ type: 'inside', xAxisIndex: [0, 1], start: 98, end: 100 }, { show: true, xAxisIndex: [0, 1], type: 'slider', top: '85%', start: 98, end: 100 } ],
