@@ -2389,31 +2389,30 @@ window.COMPONENT.renderTrs = function(){
 		})
 	}
 
-	
-	var _target_dom =	window.document.getElementById( "btn_tr9" );
+	window.COMPONENT.renderTrs.curCd = "tr9";
+	var _target_dom =	window.document.getElementById( "btn_" + window.COMPONENT.renderTrs.curCd );
 	_target_dom.click();
 	
 }
+window.COMPONENT.renderTrs.curCd = null;
 
 
 window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 	
 
-	var i =0,iLen = data.length,io,io00;
+	var chartData00 = [];
+	var chartData01 = [];
+	var chartData02 = [];
+
+	var i =0,iLen = data.b.length,io;
 	for(;i<iLen;++i){
 
-		io = d[ i ].pp;
+		io = d[ i ];
 		
-		window.data.d00.push( io.tr1 )
-		window.data.d01.push( io.tr2 )
-		window.data.d02.push( io.tr3 )
-		window.data.d99.push( io )
+		chartData00.push( io.b[ window.COMPONENT.renderTrs.curCd ] )
+		chartData01.push( io.s[ window.COMPONENT.renderTrs.curCd ] )
+		chartData02.push( io.pp[ window.COMPONENT.renderTrs.curCd ] )
 	}
-
-
-	if( window.data.d00.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
-//	if( window.data.d01.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
-//	if( window.data.d02.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
 
 	var dom = document.getElementById("renderCandleChartByCdAndAcg");
 	window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
@@ -2463,7 +2462,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 	  xAxis: [
 		{
 		  type: 'category',
-		  data: data.categoryData,
+		  data: data.a.categoryData,
 		  boundaryGap: false,
 		  axisLine: { onZero: true },
 		  //splitLine: { show: true },
@@ -2476,7 +2475,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 		{
 		  type: 'category',
 		  gridIndex: 1,
-		  data: data.categoryData,
+		  data: data.a.categoryData,
 		  //boundaryGap: false,
 		  //axisLine: { onZero: false },
 		  axisTick: { show: false },
@@ -2496,7 +2495,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 		{
 		  name: '일봉',
 		  type: 'candlestick',
-		  data: data.values,
+		  data: data.a.values,
 		  itemStyle: { color: upColor, color0: downColor, borderColor: undefined,  borderColor0: undefined },
 		  tooltip: {
 			formatter: function (param) {
@@ -2511,14 +2510,14 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 			}
 		  }
 		},
-		{ name: 'Volume', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: data.volumes },
-		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-		{ name: '개인', type: 'line', data: window.data.d00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
-		{ name: '외국인', type: 'line', data: window.data.d01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
-		{ name: '기관', type: 'line', data: window.data.d02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
+		{ name: 'Volume', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: data.a.volumes },
+		{ name: 'MA5', type: 'line', data: calculateMA(5, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA20', type: 'line', data: calculateMA(20, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA60', type: 'line', data: calculateMA(60, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA120', type: 'line', data: calculateMA(120, data.a), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: '개인', type: 'line', data: chartData00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
+		{ name: '외국인', type: 'line', data: chartData01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
+		{ name: '기관', type: 'line', data: chartData02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
 
 		
 	  ]
