@@ -2487,7 +2487,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		{
 		  type: 'category',
 		  gridIndex: 1,
-		  data: data.categoryData,
+		  data: categoryData,
 		  //boundaryGap: false,
 		  //axisLine: { onZero: false },
 		  axisTick: { show: false },
