@@ -2073,8 +2073,8 @@ window.COMPONENT.renderCandleChartByCdnoneAcg = function(data){
 		]
 	  },
 	  grid: [
-		{ left: '4%', right: '4%', height: '68%' },
-		{ left: '4%', right: '4%', top: '80%', height: '15%'   }
+		{ left: '4%', right: '2%', height: '68%' },
+		{ left: '4%', right: '2%', top: '80%', height: '15%'   }
 	  ],
 	  xAxis: [
 		{
