@@ -2417,9 +2417,9 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	var categoryData = [];
 	var values = [];
 	var volumes = [];
-	var i = 0,iLen = data.a.length,io;
+	var i = 0,iLen = d.a.length,io;
 	for (; i < iLen;++i) {
-		io = data.a[ i ]
+		io = d.a[ i ]
 		categoryData.push( io[0]);
 		values.push( io[4] );
 		volumes.push([i, io[4], io[1] > io[4] ? 1 : -1]);
