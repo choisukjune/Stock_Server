@@ -2469,8 +2469,8 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 //		]
 //	  },
 	  grid: [
-		{ left: '4%', right: '4%', height: '68%' },
-		{ left: '4%', right: '4%', top: '80%', height: '25%'   }
+		{ left: '4%', right: '4%', height: '50%' },
+		{ left: '4%', right: '4%', top: '50%', height: '50%'   }
 	  ],
 	  xAxis: [
 		{
