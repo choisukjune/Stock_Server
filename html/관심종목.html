@@ -60,7 +60,7 @@ var renderInterestStockByDate = function( d ){
 			var symbol = "-"
 		}
 
-		var color = generateColor('#FF0000','#cccccc',io.gap)				
+		var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',io.gap)				
 		 _html += `
 		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">
 			
