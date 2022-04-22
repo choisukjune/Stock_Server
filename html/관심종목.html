@@ -69,7 +69,9 @@ var renderInterestStockByDate = function( d ){
 		var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',io.gap)				
 		 var _html = `
 		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="interest_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">
-			
+			<span class="right floated" style="padding: 5px;background-color: #fff;min-height:35px;">
+				<img src="https://ssl.pstatic.net/imgfinance/chart/mobile/mini/${io.cd}_interest.png?${Date.now()}" load="lazy" style="height:35px">
+			</span>
 			<div class="">
 
 			<!--div class="right floated meta" style="position: relative;color: #${color};padding: 5px;min-width: 30px;text-align: center;font-size:15px;font-weight:bold;">${curData.price}( ${ ( curData.rt ).toFixed(2)}</div-->
