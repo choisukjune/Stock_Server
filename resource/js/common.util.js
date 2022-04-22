@@ -2910,12 +2910,13 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 		{
 			window.charts.renderAgcDailyTreemap_pp.on('click',function(d){
 			window.COMPONENT.renderAgcDailyTreemap_pp.cd = d.data.cd;
+			window.COMPONENT.renderAgcDailyTreemap_pp.curNm = d.name;
 			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
 				window.COMPONENT.renderAgcDailyTreemap_pp.data.a = d;
 				window.COMPONENT.getAcgDataByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
 					window.COMPONENT.renderAgcDailyTreemap_pp.data.b = d;
 					debugger;
-					window.COMPONENT.renderCandleChartByCdAndAcg( window.COMPONENT.renderAgcDailyTreemap_pp.data, d.name )
+					window.COMPONENT.renderCandleChartByCdAndAcg( window.COMPONENT.renderAgcDailyTreemap_pp.data, window.COMPONENT.renderAgcDailyTreemap_pp.curNm )
 				})		
 			});
 
@@ -2929,6 +2930,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 }
 window.COMPONENT.renderAgcDailyTreemap_pp.data = {}
 window.COMPONENT.renderAgcDailyTreemap_pp.cd = null
+window.COMPONENT.renderAgcDailyTreemap_pp.curNm = null;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
