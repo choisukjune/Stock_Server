@@ -48,8 +48,28 @@ var renderTreemapChart_buy = function( nm ){
 			{ type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
 				data: window.chartData.renderTreemapChart_buy[ nm ],label : {
 					formatter: function (params) {
-						let arr = [ params.name, echarts.format.addCommas(params.value) ];
+						let arr = [ 
+							`{title|${ params.name }}`, 
+							`{hr|}`,
+							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
+							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
+							`{hr|}`,
+							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.value)}}`
+
+						];
 						return arr.join('\n');
+					}, 
+					rich : {
+						title : { fontSize: 14 },
+						a : { fontSize: 9 },
+						b : { fontSize: 12 },
+						hr : { 
+							width : "100%",
+							borderColor : "rgba(255,255,255,0.0)",
+							borderWidth : 0.5,
+							height : 0,
+							lineHeight : 10,
+						}
 					}
 				},
 				levels: [
@@ -103,8 +123,28 @@ var renderTreemapChart_sell = function( nm ){
 				type: 'treemap', leafDepth: null, roam: false, nodeClick: false, breadcrumb : { show : false,	}, width :"100%", height :"100%",
 				data: window.chartData.renderTreemapChart_sell[ nm ],label : {
 					formatter: function (params) {
-						let arr = [ params.name, echarts.format.addCommas(params.value) ];
+						let arr = [ 
+							`{title|${ params.name }}`, 
+							`{hr|}`,
+							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
+							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
+							`{hr|}`,
+							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.value)}}`
+
+						];
 						return arr.join('\n');
+					}, 
+					rich : {
+						title : { fontSize: 14 },
+						a : { fontSize: 9 },
+						b : { fontSize: 12 },
+						hr : { 
+							width : "100%",
+							borderColor : "rgba(255,255,255,0.0)",
+							borderWidth : 0.5,
+							height : 0,
+							lineHeight : 10,
+						}
 					}
 				},
 				levels: [
@@ -305,12 +345,16 @@ var getInsightByTrad = function( cbFunction ){
 					ko = io.stocks[ k ];
 					var _chart_o = {
 						name: ko.nm,
+						s : ko.s,
+						b : ko.b,
 						cd : ko.cd,
 						value: ko.b,
 						children: []
 					}
 					var _chart_o00 = {
 						name: ko.nm,
+						s : ko.s,
+						b : ko.b,
 						cd : ko.cd,
 						value: ko.s * -1,
 						children: []
