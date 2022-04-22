@@ -2444,7 +2444,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	window.charts.renderCandleChartByCdAndAcg.setOption(
 	(option = {
 	  animation: false,
-	  legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
+	  //legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
 	  tooltip: {
 		trigger: 'axis',axisPointer: { type: 'cross' }, borderWidth: 1,	borderColor: '#ccc', padding: 10, textStyle: { color: '#000'  }, 
 		position: function (pos, params, el, elRect, size) {
@@ -2489,13 +2489,14 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		  type: 'category',
 		  gridIndex: 1,
 		  data: categoryData,
-		  //boundaryGap: false,
-		  //axisLine: { onZero: false },
-		  //axisTick: { show: false },
-		  //splitLine: { show: false },
-		  //axisLabel: { show: false },
+		  boundaryGap: false,
+		  axisLine: { onZero: true },
+		  //splitLine: { show: true },
 		  min: 'dataMin',
-		  max: 'dataMax'
+		  max: 'dataMax',
+		  axisPointer: {
+			z: 100
+		  }, axisLabel : { fontSize : 9 }
 		}
 	  ],
 	  yAxis: [
