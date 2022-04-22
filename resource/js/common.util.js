@@ -1839,7 +1839,7 @@ window.COMPONENT.getCandleChartByCd = function(cd,startTime,endTime,cbFunction){
 		if(xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText );
-			window.COMPONENT.renderCandleChartByCd(d)	
+			cbFunction(d);
 		}
 
 	}
@@ -2360,8 +2360,8 @@ window.COMPONENT.renderTrs = function(){
 				e.currentTarget.style.color = "#fff";
 
 				window.COMPONENT.getTrdData_pp( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_pp( d, cd ); });
-				window.COMPONENT.getTrdData_buy( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_buy( d, cd ); });
-				window.COMPONENT.getTrdData_sell( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_sell( d, cd ); });
+				//window.COMPONENT.getTrdData_buy( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_buy( d, cd ); });
+				//window.COMPONENT.getTrdData_sell( window.url.params.date,cd, function(d){ window.COMPONENT.renderAgcDailyTreemap_sell( d, cd ); });
 		
 		})
 	}
@@ -2371,6 +2371,129 @@ window.COMPONENT.renderTrs = function(){
 	_target_dom.click();
 	
 }
+
+
+window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
+	
+
+	if( window.data.d00.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+	if( window.data.d01.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+	if( window.data.d02.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+
+	var dom = document.getElementById("renderCandleChartByCdAndAcg");
+	window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
+
+
+	var app = {};
+	var option;
+
+	var upColor = 'red';
+	var downColor = 'skyblue';
+
+	//var rawData = window.socketData.renderCandleChartByCd;
+	var rawData = data;
+	var data = splitData(rawData);
+
+	window.charts.candle00.setOption(
+	(option = {
+	  animation: false,
+	  legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
+	  tooltip: {
+		trigger: 'axis',axisPointer: { type: 'cross' }, borderWidth: 1,	borderColor: '#ccc', padding: 10, textStyle: { color: '#000'  }, 
+		position: function (pos, params, el, elRect, size) {
+		  const obj = { top: 10  };
+		  obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+		  return obj;
+		}
+		// extraCssText: 'width: 170px'
+	  },
+	  axisPointer: { link: [ { xAxisIndex: '0' } ], label: { backgroundColor: '#777' } },
+	  toolbox: { feature: { 
+			dataZoom: { yAxisIndex: false },
+			//brush: {   type: ['lineX', 'clear'] }
+		}
+	  },
+	  brush: { xAxisIndex: 'all', brushLink: 'all', outOfBrush: { colorAlpha: 0.1 } },
+	  visualMap: {
+		show: false,seriesIndex: 1,dimension: 2,
+		pieces: [
+		  {value: 1,color: downColor},
+		  {value: -1,color: upColor}
+		]
+	  },
+	  grid: [
+		{ left: '4%', right: '4%', height: '68%' },
+		{ left: '4%', right: '4%', top: '80%', height: '15%'   }
+	  ],
+	  xAxis: [
+		{
+		  type: 'category',
+		  data: data.categoryData,
+		  boundaryGap: false,
+		  axisLine: { onZero: true },
+		  //splitLine: { show: true },
+		  min: 'dataMin',
+		  max: 'dataMax',
+		  axisPointer: {
+			z: 100
+		  }, axisLabel : { fontSize : 9 }
+		},
+		{
+		  type: 'category',
+		  gridIndex: 1,
+		  data: data.categoryData,
+		  //boundaryGap: false,
+		  //axisLine: { onZero: false },
+		  axisTick: { show: false },
+		  splitLine: { show: false },
+		  axisLabel: { show: false },
+		  min: 'dataMin',
+		  max: 'dataMax'
+		}
+	  ],
+	  yAxis: [
+		{ scale: true, splitArea: {show: false },splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
+		{ scale: true, gridIndex: 1,splitNumber: 2,axisLabel: { show: false,fontSize : 9 },axisLine: { show: false },axisTick: { show: false },splitLine: { show: false }},
+		{ scale: true, type:"value",splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
+	  ],
+	  //dataZoom: [{ type: 'inside', xAxisIndex: [0, 1], start: 98, end: 100 }, { show: true, xAxisIndex: [0, 1], type: 'slider', top: '85%', start: 98, end: 100 } ],
+	  series: [
+		{
+		  name: '일봉',
+		  type: 'candlestick',
+		  data: data.values,
+		  itemStyle: { color: upColor, color0: downColor, borderColor: undefined,  borderColor0: undefined },
+		  tooltip: {
+			formatter: function (param) {
+			  param = param[0];
+			  return [
+				'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+				'Open: ' + param.data[0] + '<br/>',
+				'Close: ' + param.data[1] + '<br/>',
+				'Lowest: ' + param.data[2] + '<br/>',
+				'Highest: ' + param.data[3] + '<br/>'
+			  ].join('');
+			}
+		  }
+		},
+		{ name: 'Volume', type: 'bar', xAxisIndex: 1, yAxisIndex: 1, data: data.volumes },
+		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
+		{ name: '개인', type: 'line', data: window.data.d00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
+		{ name: '외국인', type: 'line', data: window.data.d01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
+		{ name: '기관', type: 'line', data: window.data.d02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
+
+		
+	  ]
+	}), true );
+
+	if (option && typeof option === 'object') {
+		window.charts.renderCandleChartByCdAndAcg.setOption(option);
+	}
+}
+
 
 
 window.COMPONENT.getTrdData_buy = function( date, sort, cbFunction ){
