@@ -2875,9 +2875,15 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 		},1000)
 
 		window.charts.renderAgcDailyTreemap_pp.on('click',function(d){
-				window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
-					debugger;//window.COMPONENT.renderCandleChartByCd(d);
-			} );
+			window.charts.renderAgcDailyTreemap_pp.cd = d.data.cd;
+			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
+				window.charts.renderAgcDailyTreemap_pp.data.a = d;
+				window.COMPONENT.getAcgDataByCd( window.charts.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
+					window.charts.renderAgcDailyTreemap_pp.data.b = d;
+					debugger;
+					window.COMPONENT.renderCandleChartByCdAndAcg()
+				})		
+			});
 
 //			var eventUlr = '../html/candle.html?cd=';
 //			window.UTIL.Link.a( eventUlr + d.data.cd, "_blank")	
@@ -2886,7 +2892,8 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 	}
 
 }
-
+window.charts.renderAgcDailyTreemap_pp.data = {}
+window.charts.renderAgcDailyTreemap_pp.cd = null
 //-------------------------------------------------------;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
