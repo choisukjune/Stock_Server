@@ -2428,7 +2428,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	var rawData = d.a;
 	var data = splitData(rawData);
 
-	window.charts.candle00.setOption(
+	window.charts.renderCandleChartByCdAndAcg.setOption(
 	(option = {
 	  animation: false,
 	  legend: { top: 10, left: 'left',data: ['일봉', 'MA5', 'MA20', 'MA60', 'MA120', "개인", "외국인", "기관"]  },
