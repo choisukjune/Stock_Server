@@ -11,7 +11,12 @@
 
 var getInterestStockByDate = function( cbFunction ){
 
-	if( !window.socketData.renderTradeValueInfo_object ) return;
+	if( !window.socketData.renderTradeValueInfo_object )
+	{
+		return setTimeout(function(){
+			getInterestStockByDate( cbFunction );
+		},1000)
+	}
 
 	var params = window.UTIL.Url.paramToObject();
 	var xhr = new XMLHttpRequest();
