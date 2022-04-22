@@ -99,19 +99,22 @@ var renderInterestStockByDate = function( d ){
 
 		new_el.addEventListener( "click",function(e){
 			
-			var cd = e.currentTarget.getAttribute("data-cd-value");
-			
-			var cd = e.currentTarget.getAttribute( "data-cd-value" );
-			var a = window.document.createElement( "a" );
-			a.target = "_blank";
-			a.href = "/html/candle.html?cd=" + cd
-			a.click();
-			a = null;
+//			var cd = e.currentTarget.getAttribute("data-cd-value");
+//			
+//			var a = window.document.createElement( "a" );
+//			a.target = "_blank";
+//			a.href = "/html/candle.html?cd=" + cd
+//			a.click();
+//			a = null;
 
 		})
 
 	}
-		
+	
+	window.COMPONENT.getCandleChartByCd( d[0].cd, window.date.curBefore3month ,window.date.cur, function(d){
+		window.COMPONENT.renderCandleChartByCdnoneAcg(d);
+	} );
+	
 }
 
 
@@ -135,6 +138,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	//-------------------------------------------------------;
 
 
+	window.date = {}
+	window.date.curDateWidhDash = window.UTIL.Date.getTimeTo__YYYY_MM_DD();	
+	window.date.yesterday = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+
+	var _date = new Date();
+	var _hour = _date.getHours();
+	if( _hour < 9 )
+	{
+		window.date.cur = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day(null,1)
+		window.date.curBefore3month = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_month( new Date( getTimeTo__YYYY_MM_DD_berfore_day( null, 1) ), 9 )
+		window.date.curDate = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day(null,1);
+	}
+	else
+	{
+		window.date.curBefore3month = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_month( null, 9 )
+		window.date.cur = window.UTIL.Date.getTimeTo__YYYYMMDD();
+		window.date.curDate = window.UTIL.Date.getTimeTo__YYYYMMDD();
+	}
 
 
 
@@ -147,6 +168,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.Websocket.init();
 	window.COMPONENT.gnb();
 	window.COMPONENT.stockSearch_global();
+
+
+
+	window.COMPONENT.getCandleChartByCd()
 	var wsReqData = function( d ){
 		if( !window.ws || window.ws.readyState != 1 )
 		{
@@ -203,9 +228,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				<div class="sixteen wide column" id="market_index_title" style="">
 				관심종목 - 개인매도,외인매수 종목
 				</div>
-				<div class="sixteen wide column" id="" style="">
-					<div class="ui six cards" id=""></div>
-				</div>
+				<div class="sixteen wide column" id="renderCandleChartByCdnoneAcg" style="height:400px;"></div>
 			</div>
 		</div>
 		<div class="three wide column">
