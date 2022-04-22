@@ -2878,7 +2878,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 			window.COMPONENT.renderAgcDailyTreemap_pp.cd = d.data.cd;
 			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
 				window.COMPONENT.renderAgcDailyTreemap_pp.data.a = d;
-				window.COMPONENT.getAcgDataByCd( window.charts.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
+				window.COMPONENT.getAcgDataByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
 					window.COMPONENT.renderAgcDailyTreemap_pp.data.b = d;
 					debugger;
 					window.COMPONENT.renderCandleChartByCdAndAcg()
