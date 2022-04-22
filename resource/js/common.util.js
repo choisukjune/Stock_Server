@@ -2945,6 +2945,12 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 window.COMPONENT.renderAgcDailyTreemap_pp.data = {}
 window.COMPONENT.renderAgcDailyTreemap_pp.cd = null
 window.COMPONENT.renderAgcDailyTreemap_pp.info = null;
+
+
+window.COMPONENT.renderTradeValueInfo_object = function(){
+	console.log( "renderTradeValueInfo_object - loaded!" );
+}
+
 //-------------------------------------------------------;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
