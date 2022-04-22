@@ -39,6 +39,13 @@ var renderInterestStockByDate = function( d ){
 	
 	console.log( "[ S ] - renderInterestStockByDate" );
 
+	window.Info.renderTradeValueByCd.curCd = d[0].cd;
+	window.COMPONENT.getTradeValueByCd();
+
+	window.COMPONENT.getCandleChartByCd( d[0].cd, window.date.curBefore3month ,window.date.cur, function(d){
+		window.COMPONENT.renderCandleChartByCdnoneAcg(d);
+	} );
+
 	var d00 = JSON.parse( window.socketData.renderTradeValueInfo_object );
 
 //	var i = 0,iLen = d.length,io;
@@ -111,13 +118,6 @@ var renderInterestStockByDate = function( d ){
 		})
 
 	}
-
-	window.Info.renderTradeValueByCd.curCd = d[0].cd;
-	window.COMPONENT.getTradeValueByCd();
-
-	window.COMPONENT.getCandleChartByCd( d[0].cd, window.date.curBefore3month ,window.date.cur, function(d){
-		window.COMPONENT.renderCandleChartByCdnoneAcg(d);
-	} );
 	
 }
 
