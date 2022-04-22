@@ -615,12 +615,13 @@ window.COMPONENT.renderTradeValueByCd = function( d ){
 		},
 		//toolbox: { feature: { dataZoom: { yAxisIndex: 'none' }, restore: {}, saveAsImage: {} } },
 		xAxis: [ 
-			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true }	}
+			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true, fontSize : 9 }	}
 		],
 		yAxis: [
-			{ scale: true, splitArea: {show: true },splitLine: { show: false } },
-			{ scale: true, splitArea: {show: false },splitLine: { show: false } }
+			{ scale: true, splitArea: {show: true },splitLine: { show: false } , axisLabel: { show: false,fontSize : 9 } },
+			{ scale: true, splitArea: {show: false },splitLine: { show: false }, axisLabel: { show: false,fontSize : 9 } }
 		],
+
 		dataZoom: [
 			{ show: true, realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] },
 			{ type: 'inside', realtime: true, start: 0, end: 100, xAxisIndex: [0, 1] }
