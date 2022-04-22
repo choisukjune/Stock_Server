@@ -1774,7 +1774,7 @@ window.COMPONENT.renderAcgDataByCd = function( d ){
 		</thead>
 		<tbody>
 	`
-	var i =0,iLen = _d.length,io,io00;
+	var i =0,iLen = d.length,io,io00;
 	for(;i<iLen;++i){
 		io00 = d[ i ];
 		io = d[ i ].pp;
