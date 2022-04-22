@@ -2075,8 +2075,8 @@ window.COMPONENT.renderCandleChartByCdnoneAcg = function(data){
 		]
 	  },
 	  grid: [
-		{ left: '4%', right: '2%', height: '68%' },
-		{ left: '4%', right: '2%', top: '90%', height: '20%'   }
+		{ left: '4%', right: '2%', height: '50%' },
+		{ left: '4%', right: '2%', top: '60%', height: '30%'   }
 	  ],
 	  xAxis: [
 		{
@@ -2105,7 +2105,7 @@ window.COMPONENT.renderCandleChartByCdnoneAcg = function(data){
 		}
 	  ],
 	  yAxis: [
-		{ scale: true, splitArea: {show: false },splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
+		{ scale: true, splitArea: {show: false },splitLine: { show: true },axisLine: { show: false }, axisLabel : { fontSize : 9 } },
 		{ scale: true, gridIndex: 1,splitNumber: 2,axisLabel: { show: false,fontSize : 9 },axisLine: { show: false },axisTick: { show: false },splitLine: { show: false }},
 		{ scale: true, type:"value",splitLine: { show: false },axisLine: { show: true }, axisLabel : { fontSize : 9 } },
 	  ],
