@@ -323,7 +323,7 @@ window.UTIL.Color.generateColor = function(colorStart,colorEnd,value){
 	c[1] = start[1] * alpha + (1 - alpha) * end[1];
 	c[2] = start[2] * alpha + (1 - alpha) * end[2];
 
-	return convertToHex (c);
+	return window.UTIL.Color.convertToHex (c);
 	
 }
 
