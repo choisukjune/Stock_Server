@@ -2930,7 +2930,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 }
 window.COMPONENT.renderAgcDailyTreemap_pp.data = {}
 window.COMPONENT.renderAgcDailyTreemap_pp.cd = null
-window.COMPONENT.renderAgcDailyTreemap_pp.curNm = null;
+window.COMPONENT.renderAgcDailyTreemap_pp.info = null;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
 //-------------------------------------------------------;
