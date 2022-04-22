@@ -203,13 +203,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 })
 </script>
 
-<body style="padding:10px;">
+<body style="padding:5px;overflow-y:hidden;">
 	<div class="ui stackable grid">
 		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
 		<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
 
 
-		<div class="three wide column">
+		<div class="three wide column" style="overflow-y:auto;height:95%;">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="exchange_index_title" style="">
 				환율지표
@@ -225,13 +225,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
-		<div class="ten wide column">
+		<div class="ten wide column" style="overflow-y:auto;height:95%;">
 			<div class="ui grid">
-				<div class="sixteen wide column" id="renderCandleChartByCdnoneAcg" style="height:400px;"></div>
-				<div class="sixteen wide column" id="tradeValueByCd" style="height:400px;"></div>
+				<div class="sixteen wide column" id="tradeValueByCd" style="height:450px;"></div>
+				<div class="sixteen wide column" id="renderCandleChartByCdnoneAcg" style="height:450px;"></div>
+
 			</div>
 		</div>
-		<div class="three wide column">
+		<div class="three wide column" style="overflow-y:auto;height:95%;">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="market_index_title" style="">
 				관심종목 - 개인매도,외인매수 종목

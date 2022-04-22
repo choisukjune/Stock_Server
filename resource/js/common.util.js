@@ -618,8 +618,8 @@ window.COMPONENT.renderTradeValueByCd = function( d ){
 			{ type: 'category', data: xAis, boundaryGap: true,	axisLine: { onZero: true }, axisTick: { show: true }, splitLine: { show: true }, axisLabel: { show: true, fontSize : 9 }	}
 		],
 		yAxis: [
-			{ scale: true, splitArea: {show: true },splitLine: { show: false } , axisLabel: { show: false,fontSize : 9 } },
-			{ scale: true, splitArea: {show: false },splitLine: { show: false }, axisLabel: { show: false,fontSize : 9 } }
+			{ scale: true, splitArea: {show: true },splitLine: { show: false } , axisLabel: { show: true,fontSize : 9 } },
+			{ scale: true, splitArea: {show: false },splitLine: { show: false }, axisLabel: { show: true,fontSize : 9 } }
 		],
 
 		dataZoom: [
