@@ -2919,9 +2919,10 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 				var dom = document.getElementById("renderCandleChartByCdAndAcg");
 				window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
 				window.charts.renderCandleChartByCdAndAcg.isEvent = 0;
-				window.charts.renderCandleChartByCdAndAcg.showLoading();
 			}
 
+			window.charts.renderCandleChartByCdAndAcg.showLoading();
+			
 			window.COMPONENT.renderAgcDailyTreemap_pp.cd = d.data.cd;
 			window.COMPONENT.renderAgcDailyTreemap_pp.info = d.data;
 			window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
