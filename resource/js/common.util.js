@@ -535,6 +535,7 @@ window.COMPONENT.stockSearch_global = function(){
 
 window.COMPONENT.getTradeValueByCd = function(){
 	
+	if( !window.charts ) window.charts = {};
 	if( window.Info.renderTradeValueByCd.curCd == null ) return;
 	if( !window.charts.renderTradeValueByCd ) window.charts.renderTradeValueByCd = {};
 
