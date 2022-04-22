@@ -204,7 +204,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 </script>
 
 <body style="padding:5px;overflow-y:hidden;">
-	<div class="ui stackable grid">
+	<div class="ui stackable grid" style="padding: 10px;height: 100%;" id="wrap">
 		<div id="gnb" class="eight wide column" style="padding: 20px;"></div>
 		<div id="search_wrap" class="eight wide column" style="padding: 20px;"></div>
 
@@ -225,6 +225,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				</div>
 			</div>
 		</div>
+
 		<div class="ten wide column" style="overflow-y:auto;height:95%;">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="tradeValueByCd" style="height:450px;"></div>
@@ -232,6 +233,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 			</div>
 		</div>
+
 		<div class="three wide column" style="overflow-y:auto;height:95%;">
 			<div class="ui grid">
 				<div class="sixteen wide column" id="market_index_title" style="">
