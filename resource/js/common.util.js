@@ -1741,7 +1741,7 @@ window.COMPONENT.getAcgDataByCd = function( cd, start, end, cbFunction ){
 
 window.COMPONENT.renderAcgDataByCd = function( d ){
 	
-	var d = _d.reverse()	
+	var d = d.reverse()	
 	if( d == null ) return;
 	
 	var _htmlTxt = `
