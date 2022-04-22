@@ -2414,6 +2414,18 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		chartData02.push( io.pp[ window.COMPONENT.renderTrs.curCd ] )
 	}
 
+	var categoryData = [];
+	var values = [];
+	var volumes = [];
+	var i = 0,iLen = data.a.length,io;
+	for (; i < iLen;++i) {
+		io = data.a[ i ]
+		categoryData.push( io[0]);
+		values.push( io[4] );
+		volumes.push([i, io[4], io[1] > io[4] ? 1 : -1]);
+	}
+
+
 	var dom = document.getElementById("renderCandleChartByCdAndAcg");
 	window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
 
@@ -2425,8 +2437,8 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	var downColor = 'skyblue';
 
 	//var rawData = window.socketData.renderCandleChartByCd;
-	var rawData = d.a;
-	var data = splitData(rawData);
+//	var rawData = d.a;
+//	var data = splitData(rawData);
 
 	window.charts.renderCandleChartByCdAndAcg.setOption(
 	(option = {
@@ -2462,7 +2474,7 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 	  xAxis: [
 		{
 		  type: 'category',
-		  data: data.categoryData,
+		  data: categoryData,
 		  boundaryGap: false,
 		  axisLine: { onZero: true },
 		  //splitLine: { show: true },
@@ -2495,22 +2507,22 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		{
 		  name: '일봉',
 		  type: 'line',
-		  data: data.values,
-		  itemStyle: { color: upColor, color0: downColor, borderColor: undefined,  borderColor0: undefined },
-		  tooltip: {
-			formatter: function (param) {
-			  param = param[0];
-			  return [
-				'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
-				'Open: ' + param.data[0] + '<br/>',
-				'Close: ' + param.data[1] + '<br/>',
-				'Lowest: ' + param.data[2] + '<br/>',
-				'Highest: ' + param.data[3] + '<br/>'
-			  ].join('');
-			}
-		  }
+		  data: values,
+//		  itemStyle: { color: upColor, color0: downColor, borderColor: undefined,  borderColor0: undefined },
+//		  tooltip: {
+//			formatter: function (param) {
+//			  param = param[0];
+//			  return [
+//				'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+//				'Open: ' + param.data[0] + '<br/>',
+//				'Close: ' + param.data[1] + '<br/>',
+//				'Lowest: ' + param.data[2] + '<br/>',
+//				'Highest: ' + param.data[3] + '<br/>'
+//			  ].join('');
+//			}
+//		  }
 		},
-		{ name: 'Volume', type: 'bar',stack: 'tradeValue00', xAxisIndex: 1, yAxisIndex: 1, data: data.volumes },
+		{ name: 'Volume', type: 'bar',stack: 'tradeValue00', xAxisIndex: 1, yAxisIndex: 1, data: volumes },
 //		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
