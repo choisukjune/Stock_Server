@@ -62,7 +62,7 @@ var renderInterestStockByDate = function( d ){
 
 		var color = window.UTIL.Color.generateColor('#FF0000','#cccccc',io.gap)				
 		 _html += `
-		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="mass_b_00_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">
+		 <div class="card" style="padding: 10px;box-shadow: 0 1px 1px 0 #ccc, 0 0 0 1px #ccc !important;border-radius: 0rem !important;display:block;cursor:pointer;" id="interest_${io.cd}" data-cd-value="${io.cd}" data-nm-value="${io.nm}">
 			
 			<div class="">
 
@@ -89,21 +89,36 @@ var renderInterestStockByDate = function( d ){
 			
 		 </div>
 		`
-	}
-	var _tDom = window.document.getElementById( "interest" );
-	_tDom.innerHTML = _html
-	
-	_tDom.addEventListener( "click",function(e){
-		debugger;
-		var cd = e.currentTarget.getAttribute( "data-cd-value" );
-		var a = window.document.createElement( "a" );
-		a.target = "_blank";
-		a.href = "/html/candle.html?cd=" + cd
-		a.click();
-		a = null;
 
-	})
-	
+		var _tDom = window.document.getElementById( "interest" );
+		var new_el = window.UTIL.Html.htmlToElement( _html )
+		var target_el = window.document.getElementById( "interest" + io.cd )
+		if( target_el )
+		{
+			_tDom.lastElementChild.parentNode.removeChild( target_el )
+			_tDom.insertBefore( new_el,_tDom.firstChild )			
+			
+		}
+		else
+		{
+			_tDom.insertBefore( new_el,_tDom.firstChild )	
+		}
+
+		new_el.addEventListener( "click",function(e){
+			
+			var cd = e.currentTarget.getAttribute("data-cd-value");
+			
+			var cd = e.currentTarget.getAttribute( "data-cd-value" );
+			var a = window.document.createElement( "a" );
+			a.target = "_blank";
+			a.href = "/html/candle.html?cd=" + cd
+			a.click();
+			a = null;
+
+		})
+
+	}
+		
 }
 
 
