@@ -304,10 +304,10 @@ window.UTIL.Color.convertToRGB = function(hex) {
 window.UTIL.Color.generateColor = function(colorStart,colorEnd,value){
 
 	// The beginning of your gradient
-	var start = convertToRGB (colorStart);    
+	var start = window.UTIL.Color.convertToRGB (colorStart);    
 
 	// The end of your gradient
-	var end   = convertToRGB (colorEnd);    
+	var end   = window.UTIL.Color.convertToRGB (colorEnd);    
 
 	// The number of colors to compute
 	//var len = colorCount;
