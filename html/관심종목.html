@@ -94,13 +94,14 @@ var renderInterestStockByDate = function( d ){
 		var target_el = window.document.getElementById( "interest" + io.cd )
 		if( target_el )
 		{
-			_tDom.lastElementChild.parentNode.removeChild( target_el )
-			_tDom.insertBefore( new_el,_tDom.firstChild )			
+			//_tDom.lastElementChild.parentNode.removeChild( target_el )
+			//_tDom.insertBefore( new_el,_tDom.firstChild )			
 			
 		}
 		else
 		{
-			_tDom.insertBefore( new_el,_tDom.firstChild )	
+			//_tDom.insertBefore( new_el,_tDom.firstChild )	
+			_tDom.appendChild( new_el )	
 		}
 
 		new_el.addEventListener( "click",function(e){
