@@ -2460,13 +2460,13 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 		}
 	  },
 	  brush: { xAxisIndex: 'all', brushLink: 'all', outOfBrush: { colorAlpha: 0.1 } },
-	  visualMap: {
-		show: false,seriesIndex: 1,dimension: 2,
-		pieces: [
-		  {value: 1,color: downColor},
-		  {value: -1,color: upColor}
-		]
-	  },
+//	  visualMap: {
+//		show: false,seriesIndex: 1,dimension: 2,
+//		pieces: [
+//		  {value: 1,color: downColor},
+//		  {value: -1,color: upColor}
+//		]
+//	  },
 	  grid: [
 		{ left: '4%', right: '4%', height: '68%' },
 		{ left: '4%', right: '4%', top: '80%', height: '15%'   }
@@ -2522,13 +2522,13 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d){
 //			}
 //		  }
 		},
-		{ name: 'Volume', type: 'bar',stack: 'tradeValue00', xAxisIndex: 1, yAxisIndex: 1, data: volumes },
+//		{ name: 'Volume', type: 'bar',stack: 'tradeValue00', xAxisIndex: 1, yAxisIndex: 1, data: volumes },
 //		{ name: 'MA5', type: 'line', data: calculateMA(5, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA20', type: 'line', data: calculateMA(20, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA60', type: 'line', data: calculateMA(60, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
 //		{ name: 'MA120', type: 'line', data: calculateMA(120, data), smooth: true, showSymbol: false, lineStyle: { opacity: 0.5 } },
-//		{ name: '매수', type: 'bar', stack: 'tradeValue',data: chartData00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 } },
-//		{ name: '매도', type: 'bar', stack: 'tradeValue',data: chartData01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex:2, areaStyle : { opacity: 0.2 }  },
+		{ name: '매수', type: 'bar', stack: 'tradeValue',data: chartData00, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, xAxisIndex: 1, yAxisIndex: 1, areaStyle : { opacity: 0.2 } },
+		{ name: '매도', type: 'bar', stack: 'tradeValue',data: chartData01, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, xAxisIndex: 1, yAxisIndex: 1, areaStyle : { opacity: 0.2 }  },
 		{ name: '순매수', type: 'bar', data: chartData02, smooth: true, showSymbol: false, lineStyle: { opacity: 0.2 }, yAxisIndex: 2, areaStyle : { opacity: 0.2 }},
 
 		
