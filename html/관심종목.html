@@ -9,8 +9,9 @@
 
 <script>
 
+var getInterestStockByDate = function( cbFunction ){
 
-var getInterestStockByDate = function(){
+	if( !window.socketData.renderTradeValueInfo_object ) return;
 
 	var params = window.UTIL.Url.paramToObject();
 	var xhr = new XMLHttpRequest();
@@ -21,7 +22,7 @@ var getInterestStockByDate = function(){
 		if( xhr.readyState == 4 && xhr.status == 200)
 		{
 			var d = JSON.parse( xhr.responseText )
-			renderInterestStockByDate( d.data )
+			cbFunction( d.data )
 		}
 	}
 
@@ -81,23 +82,6 @@ var renderInterestStockByDate = function( d ){
 			
 		 </div>
 		`
-		
-
-		//var new_el = htmlToElement( _html )
-		////window._el.id_interest.insertBefore( new_el,window._el.id_interest.firstChild )	
-		//window._el.id_interest.appendChild( new_el )	
-		
-		//new_el.addEventListener( "click",function(e){
-
-		//	var cd = e.currentTarget.getAttribute( "data-cd-value" );
-		//	var a = window.document.createElement( "a" );
-		//	a.target = "_blank";
-		//	a.href = "/html/candle.html?cd=" + cd
-		//	a.click();
-		//	a = null;
-		
-		//})
-
 	}
 	var _tDom = window.document.getElementById( "interest" );
 	_tDom.innerHTML = _html
@@ -137,7 +121,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-	getInterestStockByDate();
+
 
 
 	//-------------------------------------------------------;
@@ -148,7 +132,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	window.Websocket.init();
 	window.COMPONENT.gnb();
 	window.COMPONENT.stockSearch_global();
-
+	var wsReqData = function( d ){
+		if( !window.ws || window.ws.readyState != 1 )
+		{
+			console.log( "not yet window.ws" )
+			return setTimeout(function(){
+				wsReqData( d )
+			},2000)
+		}
+		var _d = JSON.stringify( d )
+		console.log( _d )
+		window.ws.send( _d );			
+	}
+	wsReqData( { type : "execFunc", funcNm : "renderTradeValueInfo_object" } )
+	getInterestStockByDate( renderInterestStockByDate );
 })
 </script>
 

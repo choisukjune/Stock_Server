@@ -853,6 +853,29 @@ global.wsFuns.renderTradeValueInfo = function( ws ){
 	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo" )
 }
 
+global.wsFuns.renderTradeValueInfo_object = function( ws ){
+	console.log( "[ S ] - global.wsFuns.renderTradeValueInfo_object" )
+	var curDate = getTimeTo__HHMMSS();
+
+	if( curDate > 153300 )
+	{
+		//global.ws.clearIntervals.renderTradeValueInfo_object()
+		//return;
+	}
+	var tForderPath = "./data/realTime/tradeValue/json/"
+	var _d = fs.readFileSync( tForderPath + "tradeValue.json" ).toString();
+
+	var r = {
+		type : "data",
+		nm : "renderTradeValueInfo_object",
+		func : "renderTradeValueInfo_object",
+		d : JSON.stringify( _d ),
+		p : null
+	}
+	ws.send( JSON.stringify( r ) , { binary : true } )
+	console.log( "[ E ] - global.wsFuns.renderTradeValueInfo_object" )
+}
+
 global.wsFuns.ExchangeIndex =function( ws ){
 	
 	console.log( "[ S ] - global.wsFuns.ExchangeIndex" )
