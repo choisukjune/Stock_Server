@@ -2968,7 +2968,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 			chartData.push( _chart_o )	
 		}
 
-	var MaxData = chartData.sort(function(a,b){ return a.pp - b.pp })[0];
+	var MaxData = chartData.sort(function(a,b){ return b.pp - a.pp })[0];
 	var domId = "renderAgcDailyTreemap_pp";
 	
 	var dom = document.getElementById( domId );
