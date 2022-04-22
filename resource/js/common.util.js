@@ -2968,7 +2968,7 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 			chartData.push( _chart_o )	
 		}
 
-
+	var MaxData = chartData.sort(function(a,b){ return a.pp - b.pp })[0];
 	var domId = "renderAgcDailyTreemap_pp";
 	
 	var dom = document.getElementById( domId );
@@ -3060,6 +3060,26 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 			window.charts.renderAgcDailyTreemap_pp.isEvent = 1;	
 		}
 	}
+	if( !window.charts ) window.charts = {}
+	if( !window.charts.renderCandleChartByCdAndAcg )
+	{
+		var dom = document.getElementById("renderCandleChartByCdAndAcg");
+		window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
+		window.charts.renderCandleChartByCdAndAcg.isEvent = 0;
+	}
+
+	window.charts.renderCandleChartByCdAndAcg.showLoading();
+
+	window.COMPONENT.renderAgcDailyTreemap_pp.cd = MaxData.cd;
+	window.COMPONENT.renderAgcDailyTreemap_pp.info = MaxData;
+	window.COMPONENT.getCandleChartByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month ,window.date.cur, function(d){
+	window.COMPONENT.renderAgcDailyTreemap_pp.data.a = d;
+	window.COMPONENT.getAcgDataByCd( window.COMPONENT.renderAgcDailyTreemap_pp.cd, window.date.curBefore3month, window.date.cur, function(d){
+		window.COMPONENT.renderAgcDailyTreemap_pp.data.b = d;
+		debugger;
+		window.COMPONENT.renderCandleChartByCdAndAcg( window.COMPONENT.renderAgcDailyTreemap_pp.data, window.COMPONENT.renderAgcDailyTreemap_pp.info )
+	})		
+	});
 
 }
 window.COMPONENT.renderAgcDailyTreemap_pp.data = {}
