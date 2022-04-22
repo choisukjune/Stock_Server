@@ -1732,6 +1732,7 @@ window.COMPONENT.getAcgDataByCd = function( cd, start, end, cbFunction ){
 		{
 			var _d = JSON.parse( xhr.responseText )
 			cbFunction( _d );
+		}
 	}
 
 	xhr.send();
