@@ -2376,9 +2376,21 @@ window.COMPONENT.renderTrs = function(){
 window.COMPONENT.renderCandleChartByCdAndAcg = function(data){
 	
 
+	var i =0,iLen = data.length,io,io00;
+	for(;i<iLen;++i){
+
+		io = d[ i ].pp;
+		
+		window.data.d00.push( io.tr1 )
+		window.data.d01.push( io.tr2 )
+		window.data.d02.push( io.tr3 )
+		window.data.d99.push( io )
+	}
+
+
 	if( window.data.d00.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
-	if( window.data.d01.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
-	if( window.data.d02.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+//	if( window.data.d01.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
+//	if( window.data.d02.length == 0 ) return setTimeout(function(){ window.COMPONENT.renderCandleChartByCd(data) },1000)
 
 	var dom = document.getElementById("renderCandleChartByCdAndAcg");
 	window.charts.renderCandleChartByCdAndAcg = echarts.init(dom);
