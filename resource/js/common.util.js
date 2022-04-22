@@ -2680,9 +2680,7 @@ window.COMPONENT.renderAgcDailyTreemap_buy = function( d, sort ){
 		},1000)
 
 		window.charts.renderAgcDailyTreemap_buy.on('click',function(d){
-				window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
-					debugger;//window.COMPONENT.renderCandleChartByCd(d);
-			} );
+
 //			var eventUlr = '../html/candle.html?cd=';
 //			window.UTIL.Link.a( eventUlr + d.data.cd, "_blank")	
 		})
@@ -2877,8 +2875,12 @@ window.COMPONENT.renderAgcDailyTreemap_pp = function( d, sort ){
 		},1000)
 
 		window.charts.renderAgcDailyTreemap_pp.on('click',function(d){
-			var eventUlr = '../html/candle.html?cd=';
-			window.UTIL.Link.a( eventUlr + d.data.cd, "_blank")	
+				window.COMPONENT.getCandleChartByCd( d.data.cd, window.date.curBefore3month ,window.date.cur, function(d){
+					debugger;//window.COMPONENT.renderCandleChartByCd(d);
+			} );
+
+//			var eventUlr = '../html/candle.html?cd=';
+//			window.UTIL.Link.a( eventUlr + d.data.cd, "_blank")	
 		})
 		window.charts.renderAgcDailyTreemap_pp.isEvent = 1;
 	}
