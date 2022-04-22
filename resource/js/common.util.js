@@ -2474,8 +2474,8 @@ window.COMPONENT.renderCandleChartByCdAndAcg = function(d,info){
 	  visualMap: {
 		show: false,seriesIndex: 3,dimension: 2,
 		pieces: [
-		  {value: 1,color: downColor},
-		  {value: -1,color: upColor}
+		  {value: -1,color: downColor},
+		  {value: 1,color: upColor}
 		]
 	  },
 	  grid: [
