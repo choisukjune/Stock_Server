@@ -356,6 +356,20 @@ window.COMPONENT.gnb = function(){
 		var p01 = yesterday
 		var p02 = yesterday
 		var p03 = yesterday
+
+		if( getDay == 6 )
+		{
+			p00 = p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+		}
+		else if( getDay == 7 )
+		{
+			p00 = p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 2 );
+		}
+		else if( getDay == 1 )
+		{
+			p00 = p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 3 );
+		}
+
 	}
 	else
 	{
@@ -369,15 +383,15 @@ window.COMPONENT.gnb = function(){
 
 			if( getDay == 6 )
 			{
-				p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+				p00 = p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
 			}
 			else if( getDay == 7 )
 			{
-				p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 2 );
+				p00 = p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 2 );
 			}
 			else if( getDay == 1 )
 			{
-				p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 3 );
+				p00 = p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 3 );
 			}
 
 	
