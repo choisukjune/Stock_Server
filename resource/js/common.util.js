@@ -348,7 +348,7 @@ window.COMPONENT.gnb = function(){
 	var yesterday = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
 	var nowTime = window.UTIL.Date.getTimeTo__HHMMSS();
 	
-	if( nowTime > 930000 )
+	if( nowTime > 93000 )
 	{
 		today = yesterday
 	}
