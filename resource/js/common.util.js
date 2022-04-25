@@ -351,17 +351,45 @@ window.COMPONENT.gnb = function(){
 
 	if( nowTime < 93000 )
 	{
-		today = yesterday
+		var p00 = yesterday
+		
+		var p01 = yesterday
+		var p02 = yesterday
+		var p03 = yesterday
 	}
+	else
+	{
+		var p00 = today
+		
+		if( nowTime > 160000 )
+		{
+			var p01 = today
+			var p02 = today
+			var p03 = yesterday		
 
-	if( getDay == 6 )
-	{
-		today = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+			if( getDay == 6 )
+			{
+				p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+			}
+			else if( getDay == 7 )
+			{
+				p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 2 );
+			}
+			else if( getDay == 1 )
+			{
+				p03 = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 3 );
+			}
+
+	
+		}
+
+
+
 	}
-	else if( getDay == 7 )
-	{
-		today = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 2 );
-	}
+	
+
+
+
 
 
 	var _target_el = window.document.getElementById( "gnb" );
@@ -384,11 +412,11 @@ window.COMPONENT.gnb = function(){
 
 	var urls = {
 		gnb_00 : `/html/실시간대량거래.html`,
-		gnb_01 : `/html/기관거래원별.html?date=${today}`,
-		gnb_02 : `/html/외국계거래원별.html?date=${today}`,
-		gnb_03 : `/html/외국계증권사매매동향.html?date=${today}`,
+		gnb_01 : `/html/기관거래원별.html?date=${p00}`,
+		gnb_02 : `/html/외국계거래원별.html?date=${p01}`,
+		gnb_03 : `/html/외국계증권사매매동향.html?date=${p02}`,
 		gnb_04 : `/html/wics업종별현황.html`,
-		gnb_05 : `/html/관심종목.html?date=${yesterday}`,
+		gnb_05 : `/html/관심종목.html?date=${p03}`,
 	};
 
 
