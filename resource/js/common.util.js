@@ -359,7 +359,7 @@ window.COMPONENT.gnb = function(){
 	}
 	else
 	{
-		var p00 = today
+		var p00 = yesterday
 		
 		if( nowTime > 160000 )
 		{
@@ -383,7 +383,10 @@ window.COMPONENT.gnb = function(){
 	
 		}
 
-
+		if( nowTime > 210000 )
+		{
+			p00 = today
+		}
 
 	}
 	
