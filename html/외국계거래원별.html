@@ -54,7 +54,7 @@ var renderTreemapChart_buy = function( nm ){
 							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
 							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
 							`{hr|}`,
-							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.value)}}`
+							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.pp)}}`
 
 						];
 						return arr.join('\n');
@@ -129,7 +129,7 @@ var renderTreemapChart_sell = function( nm ){
 							`{a|매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.b)}}`,
 							`{a|매도 ${window.UTIL.Number.longNumberAddStringFull(params.data.s)}}`,
 							`{hr|}`,
-							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.value)}}`
+							`{b|순매수 ${window.UTIL.Number.longNumberAddStringFull(params.data.pp)}}`
 
 						];
 						return arr.join('\n');
@@ -348,6 +348,7 @@ var getInsightByTrad = function( cbFunction ){
 						s : ko.s,
 						b : ko.b,
 						cd : ko.cd,
+						pp : ko.pp,
 						value: ko.b,
 						children: []
 					}
@@ -356,6 +357,7 @@ var getInsightByTrad = function( cbFunction ){
 						s : ko.s,
 						b : ko.b,
 						cd : ko.cd,
+						pp : ko.pp,
 						value: ko.s * -1,
 						children: []
 					}
