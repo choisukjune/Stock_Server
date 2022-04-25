@@ -344,8 +344,14 @@ window.COMPONENT = {};
  */
 window.COMPONENT.gnb = function(){
 	
-	var today = window.UTIL.Date.getTimeTo__YYYYMMDD()
+	var today = window.UTIL.Date.getTimeTo__YYYYMMDD();
 	var yesterday = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+	var nowTime = window.UTIL.Date.getTimeTo__HHMMSS();
+	
+	if( nowTime > 930000 )
+	{
+		today = yesterday
+	}
 
 	var _target_el = window.document.getElementById( "gnb" );
 
@@ -364,25 +370,17 @@ window.COMPONENT.gnb = function(){
 	_target_el.appendChild( new_el );
 
 	
-//
-//	var urls = {
-//		gnb_00 : `/html/실시간대량거래.html`,
-//		gnb_01 : `/html/기관거래원별.html?date=${today}`,
-//		gnb_02 : `/html/외국계거래원별.html?date=${today}`,
-//		gnb_03 : `/html/외국계증권사매매동향.html?date=${today}`,
-//		gnb_04 : `/html/wics업종별현황.html?date=${today}`,
-//		gnb_05 : `/html/관심종목.html?date=${yesterday}`,
-//	};
 
 	var urls = {
 		gnb_00 : `/html/실시간대량거래.html`,
-		gnb_01 : `/html/기관거래원별.html?date=20220420`,
-		gnb_02 : `/html/외국계거래원별.html?date=20220420`,
-		gnb_03 : `/html/외국계증권사매매동향.html?date=20220420`,
-		gnb_04 : `/html/wics업종별현황.html?date=20220420`,
-		gnb_05 : `/html/관심종목.html?date=20220419`,
-		gnb_06 : `/html/시장지표.html`,
+		gnb_01 : `/html/기관거래원별.html?date=${today}`,
+		gnb_02 : `/html/외국계거래원별.html?date=${today}`,
+		gnb_03 : `/html/외국계증권사매매동향.html?date=${today}`,
+		gnb_04 : `/html/wics업종별현황.html`,
+		gnb_05 : `/html/관심종목.html?date=${yesterday}`,
 	};
+
+
 
 	window.document.getElementById( "gnb_00").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_00,"_blank"); });
 	window.document.getElementById( "gnb_01").addEventListener('click',function(e){ window.UTIL.Link.a(urls.gnb_01,"_blank"); });
