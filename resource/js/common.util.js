@@ -347,11 +347,22 @@ window.COMPONENT.gnb = function(){
 	var today = window.UTIL.Date.getTimeTo__YYYYMMDD();
 	var yesterday = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
 	var nowTime = window.UTIL.Date.getTimeTo__HHMMSS();
-	
-	if( nowTime > 93000 )
+	var getDay = new Date().getDay();
+
+	if( nowTime < 93000 )
 	{
 		today = yesterday
 	}
+
+	if( getDay == 6 )
+	{
+		today = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 1 );
+	}
+	else if( getDay == 7 )
+	{
+		today = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day( null, 2 );
+	}
+
 
 	var _target_el = window.document.getElementById( "gnb" );
 
