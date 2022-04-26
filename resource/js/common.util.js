@@ -434,6 +434,7 @@ window.COMPONENT.gnb = function(){
 		gnb_03 : `/html/외국계증권사매매동향.html?date=${p02}`,
 		gnb_04 : `/html/wics업종별현황.html`,
 		gnb_05 : `/html/관심종목.html?date=${p03}`,
+		gnb_06 : `/html/시장지표.html`,
 	};
 
 
