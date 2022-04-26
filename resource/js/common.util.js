@@ -1326,8 +1326,8 @@ window.COMPONENT.renderTopRankVolume = function(){
 		})
 	}
 	
-	window.Info.renderTradeValueByCd.curCd = window.socketData.TopRankVolume[0].itemCode;
-	window.COMPONENT.getTradeValueByCd();
+	//window.Info.renderTradeValueByCd.curCd = window.socketData.TopRankVolume[0].itemCode;
+	//window.COMPONENT.getTradeValueByCd();
 
 }
 
