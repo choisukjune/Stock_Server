@@ -430,8 +430,8 @@ window.COMPONENT.gnb = function(){
 	var urls = {
 		gnb_00 : `/html/실시간대량거래.html`,
 		gnb_01 : `/html/기관거래원별.html?date=20220425`,
-		gnb_02 : `/html/외국계거래원별.html?date=20220425`,
-		gnb_03 : `/html/외국계증권사매매동향.html?date=20220425`,
+		gnb_02 : `/html/외국계거래원별.html?date=20220426`,
+		gnb_03 : `/html/외국계증권사매매동향.html?date=20220426`,
 		gnb_04 : `/html/wics업종별현황.html`,
 		gnb_05 : `/html/관심종목.html?date=20220425`,
 		gnb_06 : `/html/시장지표.html`,
