@@ -377,8 +377,8 @@ window.COMPONENT.gnb = function(){
 		
 		if( nowTime > 160000 )
 		{
-			var p01 = today
-			var p02 = today
+			var p01 = yesterday
+			var p02 = yesterday
 			var p03 = yesterday		
 
 			if( getDay == 6 )
