@@ -27,7 +27,7 @@ window.onload = function(){
 	if( _hour < 9 )
 	{
 		window.date.cur = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day(null,1)
-		window.date.curBefore3month = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_month( new Date( getTimeTo__YYYY_MM_DD_berfore_day( null, 1) ), 9 )
+		window.date.curBefore3month = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_month( new Date( window.UTIL.Date.getTimeTo__YYYY_MM_DD_berfore_day( null, 1) ), 9 )
 		window.date.curDate = window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day(null,1);
 	}
 	else

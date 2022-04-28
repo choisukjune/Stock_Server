@@ -265,6 +265,28 @@ window.UTIL.Date.getTimeTo__YYYYMMDD_berfore_day = function(date,day){
 
 }
 
+window.UTIL.Date.getTimeTo__YYYY_MM_DD_berfore_day = function(date,day){
+	
+	date = date || new Date();
+	date.setDate( date.getDate() - day );
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+//	var hour = date.getHours();
+//	var minute = date.getMinutes();
+//	var second = date.getSeconds();
+
+	month = month >= 10 ? month : '0' + month;
+	day = day >= 10 ? day : '0' + day;
+	//hour = hour >= 10 ? hour : '0' + hour;
+	//minute = minute >= 10 ? minute : '0' + minute;
+	//second = second >= 10 ? second : '0' + second;
+	var r = year.toString() + "-" + month.toString() + "-" + day.toString()
+
+	return r
+
+}
+
 
 window.UTIL.Color = {};
 /*
