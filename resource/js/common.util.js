@@ -1110,7 +1110,7 @@ window.COMPONENT.renderEnergyIndex = function(){
 				<span style="font-size:13px;"> ${name}</span>${marketStatus}
 				<span class="right floated" style="font-size:12px;color:${status[ io.fluctuationsType.name ].color}">${window.UTIL.Number.numberWithCommas(io.closePrice)}   ${status[ io.fluctuationsType.name ].symbol} ${io.fluctuations}( ${ io.fluctuationsRatio}% )</span>
 			</div>
-			<div class="description">${io.description}</div>
+			<div class="ui pointing label">${io.description}</div>
 		`
 		var _html02 =`</div>`
 
