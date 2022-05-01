@@ -1385,7 +1385,7 @@ window.COMPONENT.renderTradeValueInfo = function(){
 		var _o = {
 			name : so.nm
 			,cd : so.cd
-			,value : [ so.amt, so.rt ]
+			,value : [ so.tradeValue, so.rt ]
 			,amt : so.amt
 			,price : so.price
 			,rt : so.rt
@@ -1397,7 +1397,7 @@ window.COMPONENT.renderTradeValueInfo = function(){
 		_chartData.push( _o )
 	}
 	var h = dom.style.height.replace("px") * 1 - 0
-	var chartData = _chartData.sort(function(a,b){ return a.rt - b.rt }).reverse();
+	var chartData = _chartData.sort(function(a,b){ return a.tradeValue - b.tradeValue }).reverse();
 	var app = {};
 
 	var option;
