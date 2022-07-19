@@ -93,7 +93,7 @@ var paramToObject = function( url ){
 		var _ta = io.split( "=" );
 		o[ _ta[0] ] = _ta[ 1 ];
 	}
-	console.log( o )
+	//console.log( o )
 	return o;
 };
 
