@@ -7,7 +7,7 @@ var iconv = require( "iconv-lite" );
 var spawn = require('child_process').spawn;
 
 //--------------------------------------------------;
-// VARIABLE;
+// VARIABLE - ;
 //--------------------------------------------------;
 
 global.CONST = {};
